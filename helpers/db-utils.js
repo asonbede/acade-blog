@@ -60,3 +60,25 @@ export function validateQuestionOptions(optionsArray) {
   }
   return true;
 }
+
+export async function updateDocument(client, collection, id, updateValue) {
+  const o_id = new ObjectId(id);
+  const db = client.db();
+
+  const document = await db
+    .collection(collection)
+    .updateMany({ _id: o_id }, { $set: { ...updateValue } });
+
+  return document;
+}
+
+export async function deleteDocument(client, collection, fieldValue, id) {
+  const o_id = new ObjectId(id);
+  const db = client.db();
+
+  const document = await db
+    .collection(collection)
+    .remove({ [fieldValue]: o_id });
+
+  return document;
+}

@@ -93,7 +93,7 @@ import {
 } from "../../../helpers/db-utils";
 function ShowQuestions(props) {
   const router = useRouter();
-  const blogId = router.query.questionBlog;
+  const blogId = router.query.questionsBlog;
   const { items } = props;
   return <Questions questions={items} blogId={blogId} />;
 }

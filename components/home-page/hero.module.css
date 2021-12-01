@@ -6,6 +6,8 @@
     var(--color-grey-800)
   );
   padding: var(--size-8) 0;
+
+  margin: 0 auto;
 }
 
 .image {
@@ -34,7 +36,7 @@
 .hero p {
   font-size: var(--size-6);
   color: var(--color-grey-200);
-  width: 90%;
+  width: 70%;
   max-width: 40rem;
-  margin: auto;
+  margin: 0 auto;
 }

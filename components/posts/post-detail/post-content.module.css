@@ -4,7 +4,7 @@
   margin: var(--size-8) auto;
   font-size: var(--size-5);
   line-height: var(--size-8);
-  background-color: var(--color-grey-100);
+  /* background-color: var(--color-grey-100); */
   border-radius: 6px;
   padding: var(--size-4);
 }
@@ -13,14 +13,114 @@
   color: var(--color-grey-800);
 }
 
-.content .image {
+/* .content .image {
   margin: var(--size-4) auto;
   width: 100%;
   max-width: 600px;
-}
+} */
 
 @media (min-width: 768px) {
   .content {
     padding: var(--size-8);
   }
+}
+
+.card {
+  overflow: hidden;
+  box-shadow: 0px 2px 20px #d7dfe2;
+  background: white;
+  border-radius: 0.5rem;
+  position: relative;
+  width: 75%;
+  margin: 1rem;
+  transition: 250ms all ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 2px 40px #d7dfe2;
+}
+
+.bannerimg {
+  /* position: absolute; */
+  object-fit: cover;
+  height: 14rem;
+  width: 100%;
+}
+
+.categorytag {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+  background: red;
+  padding: 0.5rem 1.3rem 0.5rem 1rem;
+  text-transform: uppercase;
+  position: absolute;
+  z-index: 1;
+  top: 1rem;
+  border-radius: 0 2rem 2rem 0;
+}
+
+.popular {
+  background: #ef257a;
+}
+
+.technology {
+  background: #651fff;
+}
+
+.psychology {
+  background: #e85808;
+}
+
+.cardbody {
+  margin: 5rem 1rem 1rem 1rem;
+}
+
+.bloghashtag {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4d97b2;
+}
+
+.blogtitle {
+  line-height: 1.5rem;
+  margin: 1rem 0 0.5rem;
+}
+.excerpt {
+  line-height: 1rem;
+  margin: 1rem 0 0.5rem;
+  font-size: 18px;
+}
+
+.blogdescription {
+  /* color: #616b74 !important;
+  font-size: 0.9rem !important; */
+  /* width: 100% !important; */
+}
+
+.cardprofile {
+  display: flex;
+  margin-top: 2rem;
+  align-items: center;
+}
+
+.profileimg {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.cardprofileinfo {
+  margin-left: 1rem;
+}
+
+.profilename {
+  font-size: 1rem;
+}
+
+.profilefollowers {
+  color: #616b74;
+  font-size: 0.9rem;
 }

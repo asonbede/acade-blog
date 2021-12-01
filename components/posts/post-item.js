@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import classes from "./post-item.module.css";
-
+import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 function PostItem(props) {
   const { title, image, excerpt, date, slug, id } = props.post;
 
@@ -30,11 +30,26 @@ function PostItem(props) {
           </div>
           <div className={classes.content}>
             <h3>{title}</h3>
+
             <time>{formattedDate}</time>
+
             <p>{excerpt}</p>
           </div>
         </a>
       </Link>
+      <div className={classes.cardprofile}>
+        <img
+          className={classes.profileimg}
+          src="images/posts/post-profile3.jpg"
+          alt=""
+        />
+        <div className={classes.cardprofileinfo}>
+          <h3 className={classes.profilename}>Eleanor Pea</h3>
+          <p className={classes.profilefollowers}>5.2k followers</p>
+        </div>
+      </div>
+      <br />
+      <br />
     </li>
   );
 }

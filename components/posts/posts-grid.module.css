@@ -7,3 +7,11 @@
   gap: 1.5rem;
   align-content: center;
 }
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-left: 1rem;
+  list-style: none;
+}

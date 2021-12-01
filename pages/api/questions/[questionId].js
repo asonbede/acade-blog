@@ -8,7 +8,7 @@ import {
 
 async function handler(req, res) {
   const blogId = req.query.questionId;
-
+  console.log({ blogId }, "in api");
   let client;
 
   try {

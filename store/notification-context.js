@@ -5,13 +5,14 @@ const NotificationContext = createContext({
   showNotification: function (notificationData) {},
   hideNotification: function () {},
   reviewQuestion: {},
-  reviewQuestionsHandler: function (reviewQuestionsData) {},
+  reviewQuestionsHandler: function (reviewQuestionsData) { },
+  blogUpdateHandler:function (updateBlogData) { },
 });
 
 export function NotificationContextProvider(props) {
   const [activeNotification, setActiveNotification] = useState();
   const [reviewQuestionsObj, setreviewQuestionsObj] = useState({});
-
+ const [blogUpdateObj, setblogUpdateObj] = useState({})
   useEffect(() => {
     if (
       activeNotification &&
@@ -20,7 +21,7 @@ export function NotificationContextProvider(props) {
     ) {
       const timer = setTimeout(() => {
         setActiveNotification(null);
-      }, 3000);
+      }, 12000);
 
       return () => {
         clearTimeout(timer);
@@ -38,13 +39,18 @@ export function NotificationContextProvider(props) {
   function hideNotificationHandler() {
     setActiveNotification(null);
   }
+   function blogUpdateHandler(blogUpdateData) {
+     setblogUpdateObj(blogUpdateData)
+   }
 
   const context = {
     reviewQuestion: reviewQuestionsObj,
     notification: activeNotification,
+    blogUpdate:blogUpdateObj,
     showNotification: showNotificationHandler,
     hideNotification: hideNotificationHandler,
     reviewQuestionsHandler: reviewQuestionsHandler,
+    blogUpdateHandler:blogUpdateHandler
   };
 
   return (

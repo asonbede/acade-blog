@@ -4,7 +4,11 @@
   max-width: 40rem;
   text-align: center;
 }
-
+.control {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+}
 .questions button {
   font: inherit;
   border-radius: 6px;

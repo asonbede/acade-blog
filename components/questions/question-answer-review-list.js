@@ -1,5 +1,5 @@
 import React from "react";
-
+import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 //import NotificationContext from "../../store/notification-context";
 import classes from "./questions-list.module.css";
 function QuestionAnswerReviewList(props) {
@@ -87,8 +87,14 @@ function QuestionAnswerReviewList(props) {
       )
     ) {
       return (
-        <p>
-          <span>{questionIndex + 1}</span> &nbsp;&nbsp;{item.question}{" "}
+        <p style={{ display: "flex" }}>
+          <span style={{ marginRight: "5px", marginTop: "14px" }}>
+            {questionIndex + 1}
+          </span>{" "}
+          <DisplayEditorContent
+            contentFromServer={item.question}
+            toolbarPresent={false}
+          />
           <span className={questionStatus(questionIndex + 1)}>
             {`---${questionStatus(questionIndex + 1)}`}
           </span>
@@ -155,7 +161,10 @@ function QuestionAnswerReviewList(props) {
         studentsChoice === correctOptionValue
       ) {
         return (
-          <div>
+          <div
+            style={{
+              display: "flex",
+            }}>
             <input
               type="radio"
               name={questionIndex}
@@ -164,12 +173,22 @@ function QuestionAnswerReviewList(props) {
               // onChange={handleRadioButtonChange}
               checked
               disabled
+              style={{
+                marginTop: "16px",
+              }}
             />
-            <label htmlFor={`${questionIndex}:${optionIndex}`}>
-              {optionsList[optionIndex]}.&nbsp;&nbsp;
-              {optionItem.option}
+            <label
+              htmlFor={`${questionIndex}:${optionIndex}`}
+              style={{
+                marginTop: "14px",
+              }}>
+              {optionsList[optionIndex]}.
             </label>
-            <span style={{ color: "green", fontSize: "20px" }}>
+            <DisplayEditorContent
+              contentFromServer={optionItem.option}
+              toolbarPresent={false}
+            />
+            <span style={{ color: "green", fontSize: "30px" }}>
               <i class="bi bi-check2"></i>
             </span>
           </div>
@@ -179,7 +198,10 @@ function QuestionAnswerReviewList(props) {
         studentsChoice !== correctOptionValue
       ) {
         return (
-          <div>
+          <div
+            style={{
+              display: "flex",
+            }}>
             <input
               type="radio"
               name={questionIndex}
@@ -188,14 +210,24 @@ function QuestionAnswerReviewList(props) {
               // onChange={handleRadioButtonChange}
               checked
               disabled
+              style={{
+                marginTop: "16px",
+              }}
             />
-            <label htmlFor={`${questionIndex}:${optionIndex}`}>
-              {optionsList[optionIndex]}.&nbsp;&nbsp;
-              {optionItem.option}
+            <label
+              htmlFor={`${questionIndex}:${optionIndex}`}
+              style={{
+                marginTop: "14px",
+              }}>
+              {optionsList[optionIndex]}.
             </label>
+            <DisplayEditorContent
+              contentFromServer={optionItem.option}
+              toolbarPresent={false}
+            />
             <span>
               {" "}
-              <span style={{ color: "red", fontSize: "20px" }}>
+              <span style={{ color: "red", fontSize: "30px" }}>
                 <i class="bi bi-x"></i>
               </span>
             </span>
@@ -206,7 +238,10 @@ function QuestionAnswerReviewList(props) {
         optionItem.option.trim() === correctOptionValue
       ) {
         return (
-          <div>
+          <div
+            style={{
+              display: "flex",
+            }}>
             <input
               type="radio"
               name={questionIndex}
@@ -214,19 +249,32 @@ function QuestionAnswerReviewList(props) {
               id={`${questionIndex}:${optionIndex}`}
               // onChange={handleRadioButtonChange}
               disabled
+              style={{
+                marginTop: "16px",
+              }}
             />
-            <label htmlFor={`${questionIndex}:${optionIndex}`}>
-              {optionsList[optionIndex]}.&nbsp;&nbsp;
-              {optionItem.option}
+            <label
+              htmlFor={`${questionIndex}:${optionIndex}`}
+              style={{
+                marginTop: "14px",
+              }}>
+              {optionsList[optionIndex]}.
             </label>
-            <span style={{ color: "blue", fontSize: "20px" }}>
+            <DisplayEditorContent
+              contentFromServer={optionItem.option}
+              toolbarPresent={false}
+            />
+            <span style={{ color: "blue", fontSize: "30px" }}>
               <i class="bi bi-check2"></i>
             </span>
           </div>
         );
       } else {
         return (
-          <div>
+          <div
+            style={{
+              display: "flex",
+            }}>
             <input
               type="radio"
               name={questionIndex}
@@ -235,11 +283,21 @@ function QuestionAnswerReviewList(props) {
               // onChange={handleRadioButtonChange}
 
               disabled
+              style={{
+                marginTop: "16px",
+              }}
             />
-            <label htmlFor={`${questionIndex}:${optionIndex}`}>
-              {optionsList[optionIndex]}.&nbsp;&nbsp;
-              {optionItem.option}
+            <label
+              htmlFor={`${questionIndex}:${optionIndex}`}
+              style={{
+                marginTop: "14px",
+              }}>
+              {optionsList[optionIndex]}.
             </label>
+            <DisplayEditorContent
+              contentFromServer={optionItem.option}
+              toolbarPresent={false}
+            />
           </div>
         );
       }
@@ -247,7 +305,7 @@ function QuestionAnswerReviewList(props) {
   }
 
   return (
-    <ul className={classes.questions}>
+    <ul className={classes.form}>
       {/* <button onClick={markScript}>check score: {score}</button> */}
       {items.map((item, questionIndex) => (
         <li key={item._id}>
@@ -276,6 +334,13 @@ function QuestionAnswerReviewList(props) {
                 </div> */}
               </>
             ))}
+          </div>
+          <div>
+            <p>Explanation</p>
+            <DisplayEditorContent
+              contentFromServer={item.explanation}
+              toolbarPresent={false}
+            />
           </div>
         </li>
       ))}

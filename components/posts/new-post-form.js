@@ -1,8 +1,14 @@
 import { useState, useEffect, useContext } from "react";
-
+import { useRouter } from "next/router";
 import classes from "./new-post-form.module.css";
 import Notification from "../ui/notification";
 import NotificationContext from "../../store/notification-context";
+import MyRichEditor from "../rich-text-editor/myrich-text-editor";
+import {
+  useField,
+  useEditor,
+  handleImageInsert,
+} from "../../hooks/input-editor-hooks";
 async function sendBlogData(blogDetails) {
   const response = await fetch("/api/blog-content", {
     method: "POST",
@@ -20,11 +26,11 @@ async function sendBlogData(blogDetails) {
 }
 
 function NewPostForm() {
-  const [enteredTitle, setEnteredTitle] = useState("");
-  const [enteredDate, setEnteredDate] = useState("");
-  const [enteredImage, setEnteredImage] = useState("");
-  const [enteredExcerpt, setenteredExcerpt] = useState(""); // 'pending', 'success', 'error'
-  const [enteredContent, setEnteredContent] = useState("");
+  //const [enteredTitle, setEnteredTitle] = useState("");
+  //const [enteredDate, setEnteredDate] = useState("");
+  //const [enteredImage, setEnteredImage] = useState("");
+  //const [enteredExcerpt, setenteredExcerpt] = useState(""); // 'pending', 'success', 'error'
+  //const [enteredContent, setEnteredContent] = useState("");
   const [isFeatured, setisFeatured] = useState(false);
   //const [requestStatus, setRequestStatus] = useState(null);
   //const [requestError, setRequestError] = useState(null);
@@ -39,6 +45,27 @@ function NewPostForm() {
   //     return () => clearTimeout(timer);
   //   }
   // }, [requestStatus]);
+  const router = useRouter();
+  const useFieldDate = useField("text");
+  const useFieldImage = useField("text");
+
+  const useFieldTitle = useField("text");
+  // const useEditorImage= useEditor();
+  const useFieldExcept = useField("text");
+  const useEditorContent = useEditor();
+
+  const { value: enteredTitle } = useFieldTitle;
+  // const { url: enteredImage } = useEditorImage;
+  const { value: enteredExcerpt } = useFieldExcept;
+  const {
+    url: enteredContent,
+    editorState,
+    onEditorStateChange,
+  } = useEditorContent;
+
+  const { value: enteredImage } = useFieldImage;
+  const { value: enteredDate } = useFieldDate;
+
   console.log({ isFeatured });
   async function sendMessageHandler(event) {
     event.preventDefault();
@@ -62,16 +89,17 @@ function NewPostForm() {
         isFeatured: isFeatured,
       });
       //setRequestStatus("success");
-      setEnteredContent("");
-      setEnteredTitle("");
-      setEnteredDate("");
-      setEnteredImage("");
-      setenteredExcerpt("");
+      // setEnteredContent("");
+      // setEnteredTitle("");
+      // setEnteredDate("");
+      // setEnteredImage("");
+      // setenteredExcerpt("");
       notificationCtx.showNotification({
         title: "Success!",
         message: "Your blog was saved!",
         status: "success",
       });
+      router.push("/");
     } catch (error) {
       //setRequestError(error.message);
       //setRequestStatus("error");
@@ -82,7 +110,6 @@ function NewPostForm() {
       });
     }
   }
-
   // let notification;
 
   // if (requestStatus === "pending") {
@@ -127,51 +154,78 @@ function NewPostForm() {
               id="title"
               required
               value={enteredTitle}
-              onChange={(event) => setEnteredTitle(event.target.value)}
+              onChange={useFieldTitle.onChange}
             />
+            {/* <MyRichEditor
+              useEditorMainBlog={useEditorTitle}
+              readOnly={false}
+              toolbarOnFocus={false}
+              toolbarPresent={true}
+              // smallHeight={false}
+            /> */}
           </div>
           <div className={classes.control}>
             <label htmlFor="date">Enter Date</label>
             <input
-              type="text"
+              // type="text"
               id="date"
               required
               value={enteredDate}
-              onChange={(event) => setEnteredDate(event.target.value)}
+              onChange={useFieldDate.onChange}
             />
           </div>
           <div className={classes.control}>
             <label htmlFor="image">Enter Image Url</label>
             <input
-              type="text"
+              // type="text"
               id="image"
               required
               value={enteredImage}
-              onChange={(event) => setEnteredImage(event.target.value)}
+              onChange={useFieldImage.onChange}
             />
           </div>
 
           <div className={classes.control}>
             <label htmlFor="excerpt">Enter Excerpt</label>
-            <input
+            {/* <input
               type="text"
               id="excerpt"
               required
               value={enteredExcerpt}
               onChange={(event) => setenteredExcerpt(event.target.value)}
-            />
+            /> */}
+            {/* <MyRichEditor
+              useEditorMainBlog={useEditorExcept}
+              readOnly={false}
+              toolbarOnFocus={false}
+              toolbarPresent={true}
+              // smallHeight={false}
+            /> */}
+            <textarea
+              id="content"
+              rows="5"
+              required
+              value={enteredExcerpt}
+              onChange={useFieldExcept.onChange}></textarea>
           </div>
         </div>
         <div className={classes.control}>
           <label htmlFor="content">Your Content</label>
-          <textarea
+          {/* <textarea
             id="content"
             rows="5"
             required
             value={enteredContent}
             onChange={(event) =>
               setEnteredContent(event.target.value)
-            }></textarea>
+            }></textarea> */}
+          <MyRichEditor
+            useEditorMainBlog={useEditorContent}
+            readOnly={false}
+            toolbarOnFocus={false}
+            toolbarPresent={true}
+            // smallHeight={false}
+          />
         </div>
         {/* <div className={classes.control}> */}
         <span htmlFor="isFeatured" className="featured">

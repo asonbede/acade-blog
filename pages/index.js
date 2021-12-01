@@ -3,8 +3,40 @@ import Head from "next/head";
 
 import FeaturedPosts from "../components/home-page/featured-posts";
 import Hero from "../components/home-page/hero";
-//import { getFeaturedPosts } from "../lib/posts-util";
+
 import { getAllFeaturedDocuments, connectDatabase } from "../helpers/db-utils";
+// const posts = [
+//   {
+//     title: "First post of this post",
+//     date: "2021-7-10",
+//     image: "post-1-photo.jpg",
+//     excerpt:
+//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.",
+//     content:
+//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.",
+//     id: "1",
+//   },
+//   {
+//     title: "Second post of this post",
+//     date: "2022-8-11",
+//     image: "post-2-photo.jpg",
+//     excerpt:
+//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.",
+//     content:
+//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.",
+//     id: "2",
+//   },
+//   {
+//     title: "Third post of this post",
+//     date: "2021-8-12",
+//     image: "post-3-photo.jpg",
+//     excerpt:
+//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.",
+//     content:
+//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.",
+//     id: "2",
+//   },
+// ];
 
 function HomePage(props) {
   return (
@@ -23,18 +55,10 @@ function HomePage(props) {
 }
 
 export async function getStaticProps() {
-  //const featuredPosts = getFeaturedPosts();
-
   let client;
 
-  // try {
   client = await connectDatabase();
-  // } catch (error) {
-  //   res.status(500).json({ message: "Connecting to the database failed!" });
-  //   return;
-  // }
 
-  // try {
   const documents = await getAllFeaturedDocuments(
     client,
     "postTable",
@@ -44,10 +68,6 @@ export async function getStaticProps() {
     { isFeatured: true }
   );
   console.log(documents);
-  //res.status(200).json({ post: documents });
-  // } catch (error) {
-  //   res.status(500).json({ message: "Getting comments failed." });
-  // }
 
   client.close();
 
@@ -65,12 +85,6 @@ export async function getStaticProps() {
       }),
     },
   };
-
-  // return {
-  //   props: {
-  //     posts: featuredPosts,
-  //   },
-  // };
 }
 
 export default HomePage;

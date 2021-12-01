@@ -10,6 +10,12 @@ function PostsGrid(props) {
         <PostItem key={post.id} post={post} />
       ))}
     </ul>
+
+    // <ul className={classes.wrapper}>
+    //   {posts.map((post) => (
+    //     <PostItem key={post.id} post={post} />
+    //   ))}
+    // </ul>
   );
 }
 
