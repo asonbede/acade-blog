@@ -105,9 +105,7 @@ async function handler(req, res) {
     try {
       const documents = await getAllDocuments(client, "postTable", { _id: -1 });
       res.status(200).json({ post: documents });
-    } catch (error) {
-      res.status(500).json({ message: "Getting comments failed." });
-    }
+    } catch (error) {}
   }
   if (req.method === "DELETE") {
     const { blogId } = req.body;

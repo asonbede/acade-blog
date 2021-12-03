@@ -1,11 +1,63 @@
+import { useContext } from "react";
 import classes from "./questions-list.module.css";
 import DisplayEditorContent from "../rich-text-editor/display-editor-content";
-function QuestionsList({ items, handleRadioButtonChange }) {
+import NotificationContext from "../../store/notification-context";
+import { useRouter } from "next/router";
+function QuestionsList({ items, handleRadioButtonChange, blogId }) {
+  const notificationCtx = useContext(NotificationContext);
   const optionsList = ["A", "B", "C", "D", "E"];
+  //const linkPathForUpdate = `/posts/updates/${post.id}`;
+  const router = useRouter();
+  const deleteQuestionHandler = async (questionId) => {
+    notificationCtx.showNotification({
+      title: "Deletind question...",
+      message: "Your question is currently being deleted from the database.",
+      status: "pending",
+    });
+    try {
+      const response = await fetch(`/api/questions/${questionId}`, {
+        method: "DELETE",
+        body: JSON.stringify({ questionId }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
+      notificationCtx.showNotification({
+        title: "Success!",
+        message: "Your question was deleted!",
+        status: "success",
+      });
+      router.push(`/posts/questions/${blogId}`);
+    } catch (error) {
+      //setRequestError(error.message);
+      //setRequestStatus("error");
+      notificationCtx.showNotification({
+        title: "Error!",
+        message: error.message || "Something went wrong!",
+        status: "error",
+      });
+    }
+  };
+
+  const deleteConfirm = (id) => {
+    const responseValue = confirm(
+      "Are you really sure that you want to delete this question?"
+    );
+    if (responseValue) {
+      deleteQuestionHandler(id);
+    }
+  };
+  const handleQuestionUpdateData = (questionItem) => {
+    console.log("from handle update");
+    notificationCtx.questionUpdateHandler({
+      questionItem,
+      blogId,
+    });
+    router.push(`/posts/questions/updates/${questionItem._id}`);
+  };
   return (
     <ul className={classes.form}>
-      {/* <button onClick={markScript}>submit script: {score} </button> */}
       {/* <button onClick={checkScore}>check score: {score}</button> */}
       {/* <Link href={linkPath}>
         <a onClick={() => console.log("in link")}>Review Result</a>
@@ -54,6 +106,10 @@ function QuestionsList({ items, handleRadioButtonChange }) {
               </>
             ))}
           </div>
+          <button onClick={() => handleQuestionUpdateData(item)}>Update</button>{" "}
+          <button onClick={() => deleteConfirm(item._id.toString())}>
+            Delete
+          </button>
         </li>
       ))}
     </ul>

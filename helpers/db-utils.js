@@ -64,7 +64,7 @@ export function validateQuestionOptions(optionsArray) {
 export async function updateDocument(client, collection, id, updateValue) {
   const o_id = new ObjectId(id);
   const db = client.db();
-
+  console.log("inside-update");
   const document = await db
     .collection(collection)
     .updateMany({ _id: o_id }, { $set: { ...updateValue } });

@@ -5,14 +5,16 @@ const NotificationContext = createContext({
   showNotification: function (notificationData) {},
   hideNotification: function () {},
   reviewQuestion: {},
-  reviewQuestionsHandler: function (reviewQuestionsData) { },
-  blogUpdateHandler:function (updateBlogData) { },
+  reviewQuestionsHandler: function (reviewQuestionsData) {},
+  blogUpdateHandler: function (updateBlogData) {},
+  questionUpdateHandler: function (UpdateQuestionDatas) {},
 });
 
 export function NotificationContextProvider(props) {
   const [activeNotification, setActiveNotification] = useState();
   const [reviewQuestionsObj, setreviewQuestionsObj] = useState({});
- const [blogUpdateObj, setblogUpdateObj] = useState({})
+  const [blogUpdateObj, setblogUpdateObj] = useState({});
+  const [questionUpdateObj, setquestionUpdateObj] = useState({});
   useEffect(() => {
     if (
       activeNotification &&
@@ -39,18 +41,24 @@ export function NotificationContextProvider(props) {
   function hideNotificationHandler() {
     setActiveNotification(null);
   }
-   function blogUpdateHandler(blogUpdateData) {
-     setblogUpdateObj(blogUpdateData)
-   }
+  function blogUpdateHandler(blogUpdateData) {
+    setblogUpdateObj(blogUpdateData);
+  }
+
+  function questionUpdateHandler(questionUpdateData) {
+    setquestionUpdateObj(questionUpdateData);
+  }
 
   const context = {
     reviewQuestion: reviewQuestionsObj,
     notification: activeNotification,
-    blogUpdate:blogUpdateObj,
+    blogUpdate: blogUpdateObj,
+    questionUpdate: questionUpdateObj,
     showNotification: showNotificationHandler,
     hideNotification: hideNotificationHandler,
     reviewQuestionsHandler: reviewQuestionsHandler,
-    blogUpdateHandler:blogUpdateHandler
+    blogUpdateHandler: blogUpdateHandler,
+    questionUpdateHandler: questionUpdateHandler,
   };
 
   return (

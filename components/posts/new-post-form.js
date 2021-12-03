@@ -24,7 +24,6 @@ async function sendBlogData(blogDetails) {
     throw new Error(data.message || "Something went wrong!");
   }
 }
-
 function NewPostForm() {
   //const [enteredTitle, setEnteredTitle] = useState("");
   //const [enteredDate, setEnteredDate] = useState("");
@@ -88,12 +87,7 @@ function NewPostForm() {
         content: enteredContent,
         isFeatured: isFeatured,
       });
-      //setRequestStatus("success");
-      // setEnteredContent("");
-      // setEnteredTitle("");
-      // setEnteredDate("");
-      // setEnteredImage("");
-      // setenteredExcerpt("");
+
       notificationCtx.showNotification({
         title: "Success!",
         message: "Your blog was saved!",
@@ -101,8 +95,6 @@ function NewPostForm() {
       });
       router.push("/");
     } catch (error) {
-      //setRequestError(error.message);
-      //setRequestStatus("error");
       notificationCtx.showNotification({
         title: "Error!",
         message: error.message || "Something went wrong!",

@@ -283,6 +283,7 @@ function Questions(props) {
         <QuestionsList
           items={items}
           handleRadioButtonChange={handleRadioButtonChange}
+          blogId={blogId}
         />
       )}
       {showQuestions && isFetchingQuestions && <p>Loading questions...</p>}
