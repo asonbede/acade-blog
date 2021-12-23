@@ -88,7 +88,7 @@ function AuthForm() {
           message: "Registration was successful!",
           status: "success",
         });
-        router.push("/profile");
+        router.push("/");
       } catch (error) {
         console.log(error);
         notificationCtx.showNotification({
