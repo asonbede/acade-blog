@@ -17,27 +17,30 @@ export default NextAuth({
 
         const usersCollection = client.db().collection("users");
 
-        const user = await usersCollection.findOne({
+        const userEmailCheck = await usersCollection.findOne({
           email: credentials.email,
         });
 
-        if (!user) {
+        if (!userEmailCheck) {
           client.close();
-          throw new Error("No user found!");
+          throw new Error("No user with that email found!");
         }
 
         const isValid = await verifyPassword(
           credentials.password,
-          user.password
+          userEmailCheck.password
         );
 
         if (!isValid) {
           client.close();
-          throw new Error("Could not log you in!");
+          throw new Error("Incorrect password. Could not log you in!");
         }
 
         client.close();
-        return { email: user.email };
+        return {
+          email: userEmailCheck.email,
+          name: userEmailCheck.name,
+        };
       },
     }),
   ],

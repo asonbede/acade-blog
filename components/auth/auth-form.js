@@ -5,10 +5,10 @@ import { useRouter } from "next/router";
 import NotificationContext from "../../store/notification-context";
 import classes from "./auth-form.module.css";
 
-async function createUser(email, password) {
+async function createUser(email, password, name, interest) {
   const response = await fetch("/api/auth/signup", {
     method: "POST",
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email, password, name, interest }),
     headers: {
       "Content-Type": "application/json",
     },
@@ -27,6 +27,9 @@ function AuthForm() {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
+  const nameInputRef = useRef();
+  const interestInputRef = useRef();
+
   const [isLogin, setIsLogin] = useState(true);
   const router = useRouter();
 
@@ -35,10 +38,18 @@ function AuthForm() {
   }
   const notificationCtx = useContext(NotificationContext);
   async function submitHandler(event) {
+    let enteredName;
+    let enteredInterest;
     event.preventDefault();
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
+
+    if (!isLogin) {
+      enteredName = nameInputRef.current.value;
+      enteredInterest = interestInputRef.current.value;
+    }
+
     if (isLogin) {
       notificationCtx.showNotification({
         title: "Sending login...",
@@ -80,15 +91,23 @@ function AuthForm() {
       }
     } else {
       try {
-        const result = await createUser(enteredEmail, enteredPassword);
+        const result = await createUser(
+          enteredEmail,
+          enteredPassword,
+          enteredName,
+          enteredInterest
+        );
         console.log(result);
 
         notificationCtx.showNotification({
           title: "Success!",
-          message: "Registration was successful!",
+          message:
+            "Registration was successful! You can now login with your password and email",
           status: "success",
         });
-        router.push("/");
+        setIsLogin(true);
+        passwordInputRef.current.value = "";
+        // router.push("/");
       } catch (error) {
         console.log(error);
         notificationCtx.showNotification({
@@ -104,6 +123,16 @@ function AuthForm() {
     <section className={classes.auth}>
       <h1>{isLogin ? "Login" : "Sign Up"}</h1>
       <form onSubmit={submitHandler}>
+        {/* <div className={classes.control}>
+          <label htmlFor="username">Your Username</label>
+          <input type="text" id="username" required ref={usernameInputRef} />
+        </div> */}
+        {!isLogin && (
+          <div className={classes.control}>
+            <label htmlFor="name">Your Name</label>
+            <input type="text" id="name" required ref={nameInputRef} />
+          </div>
+        )}
         <div className={classes.control}>
           <label htmlFor="email">Your Email</label>
           <input type="email" id="email" required ref={emailInputRef} />
@@ -117,6 +146,23 @@ function AuthForm() {
             ref={passwordInputRef}
           />
         </div>
+        {!isLogin && (
+          <div className={classes.control}>
+            <label htmlFor="interest">Your Area Of Specialization</label>
+            <textarea
+              type="text"
+              id="interest"
+              required
+              ref={interestInputRef}
+              rows={10}
+              cols={20}
+              placeholder="Introduce yourself. Briefly Describe what you like writing about.
+               What you like reading about.
+               For instance, My name is Bede 
+              and i blog about the sciences and programming"
+            ></textarea>
+          </div>
+        )}
         <div className={classes.actions}>
           <button>{isLogin ? "Login" : "Create Account"}</button>
           <button

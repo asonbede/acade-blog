@@ -6,7 +6,7 @@ import { useSession, signOut } from "next-auth/client";
 
 function MainNavigation() {
   const [session, loading] = useSession();
-
+  console.log({ session });
   function logoutHandler() {
     signOut();
   }
@@ -44,6 +44,9 @@ function MainNavigation() {
             <li>
               <button onClick={logoutHandler}>Logout</button>
             </li>
+          )}
+          {session && (
+            <li style={{ color: "white" }}>Welcome {session.user.name}</li>
           )}
         </ul>
       </nav>

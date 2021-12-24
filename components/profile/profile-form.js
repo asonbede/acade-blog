@@ -1,12 +1,22 @@
-import { useRef } from "react";
-
+import { useRef, useContext } from "react";
+import { useRouter } from "next/router";
 import classes from "./profile-form.module.css";
+//import NotificationContext from "../../store/notification-context";
+import NotificationContext from "../../store/notification-context";
+
+import { useSession, signOut } from "next-auth/client";
 
 function ProfileForm(props) {
   const oldPasswordRef = useRef();
   const newPasswordRef = useRef();
-
-  function submitHandler(event) {
+  const notificationCtx = useContext(NotificationContext);
+  const [session, loading] = useSession();
+  const router = useRouter();
+  console.log({ session });
+  function logoutHandler() {
+    signOut();
+  }
+  async function submitHandler(event) {
     event.preventDefault();
 
     const enteredOldPassword = oldPasswordRef.current.value;
@@ -14,10 +24,33 @@ function ProfileForm(props) {
 
     // optional: Add validation
 
-    props.onChangePassword({
-      oldPassword: enteredOldPassword,
-      newPassword: enteredNewPassword,
+    notificationCtx.showNotification({
+      title: "Changing password...",
+      message: "Your password is currently being changed, please wait...",
+      status: "pending",
     });
+
+    try {
+      await props.onChangePassword({
+        oldPassword: enteredOldPassword,
+        newPassword: enteredNewPassword,
+      });
+
+      notificationCtx.showNotification({
+        title: "Success!",
+        message: "Your password was successfully changed!",
+        status: "success",
+      });
+      // router.push("/");
+      logoutHandler();
+      // router.push("/auth");
+    } catch (error) {
+      notificationCtx.showNotification({
+        title: "Error!",
+        message: error.message || "Something went wrong!",
+        status: "error",
+      });
+    }
   }
 
   return (
