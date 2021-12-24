@@ -6,6 +6,8 @@ import {
   deleteDocument,
 } from "../../helpers/db-utils";
 // import {connectDatabase} from  "../../helpers/db-utils"
+import { getSession } from "next-auth/client";
+const ObjectId = require("mongodb").ObjectID;
 
 async function handler(req, res) {
   //const eventId = req.query.eventId;
@@ -127,7 +129,28 @@ async function handler(req, res) {
       res.status(500).json({ message: "Deleting blog failed." });
     }
   }
-  //deleteDocument(client, collection, id, )
+  if (req.method === "PATCH") {
+    const { id, likes } = req.body;
+    const o_id = new ObjectId(id);
+    const session = await getSession({ req: req });
+
+    if (!session) {
+      res.status(401).json({ message: "Not authenticated!" });
+      return;
+    }
+
+    const client = await connectDatabase();
+
+    const usersCollection = client.db().collection("postTable");
+
+    const result = await usersCollection.updateOne(
+      { _id: o_id },
+      { $set: { likes: likes } }
+    );
+
+    client.close();
+    res.status(200).json({ message: "like updated!" });
+  }
 
   client.close();
 }

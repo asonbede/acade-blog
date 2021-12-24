@@ -17,12 +17,33 @@ function Comments(props) {
   useEffect(() => {
     if (showComments) {
       setIsFetchingComments(true);
+      notificationCtx.showNotification({
+        title: "Fetching comment...",
+        message: "Your comment is currently being fetched please wait.",
+        status: "pending",
+      });
       fetch("/api/comments/" + blogId)
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
           setComments(data.comments);
           setIsFetchingComments(false);
+          notificationCtx.showNotification({
+            title: "Success!",
+            message: `${
+              data.comments.length === 0
+                ? "but no comment found"
+                : "Comments were fetched"
+            } `,
+            status: "success",
+          });
+        })
+        .catch((error) => {
+          notificationCtx.showNotification({
+            title: "Error!",
+            message: error.message || "Something went wrong!",
+            status: "error",
+          });
         });
     }
   }, [showComments]);

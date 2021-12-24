@@ -1,0 +1,58 @@
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  margin-bottom: 4px;
+  border-radius: 3px;
+  background-color: rgb(196, 193, 188);
+  padding: 8px;
+}
+
+.header {
+  display: flex;
+  margin: 9px;
+}
+
+.header img {
+  width: 40%;
+  border-radius: 50%;
+  margin-right: 9px;
+}
+
+.content {
+  color: grey;
+  font-size: 18px;
+  margin: 5px;
+  border-bottom: 1px solid #c0974b;
+  padding: 8px;
+}
+.action {
+  margin: 2px;
+  display: flex;
+  justify-content: space-around;
+}
+.action button {
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+
+  text-align: center;
+  cursor: pointer;
+
+  font-size: 18px !important;
+
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  /*optional*/
+  font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  color: #069;
+  opacity: 0.6;
+}
+
+.action button:hover {
+  opacity: 1;
+}

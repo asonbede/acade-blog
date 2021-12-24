@@ -7,7 +7,8 @@
 .comments li {
   text-align: left;
   padding: 0.5rem 0;
-  border-bottom: 2px solid #ccc;
+  /* border-bottom: 2px solid #ccc; */
+  list-style-type: none;
 }
 
 .comments p {
@@ -16,7 +17,7 @@
 
 .comments li div {
   text-align: right;
-  font-style: italic;
+  /* font-style: italic; */
 }
 
 .comments address {

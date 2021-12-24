@@ -14,6 +14,25 @@ import { useRouter } from "next/router";
 // SyntaxHighlighter.registerLanguage("css", css);
 //import NotificationContext from "../../store/notification-context";
 import NotificationContext from "../../../store/notification-context";
+import { useSession, signOut } from "next-auth/client";
+
+async function changeLikeHandler(likedData) {
+  const response = await fetch("/api/blog-content/", {
+    method: "PATCH",
+    body: JSON.stringify(likedData),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+
+  console.log(data);
+  if (!response.ok) {
+    throw new Error(data.message || "Something went wrong!");
+  }
+}
+
 function PostContent(props) {
   const { post } = props;
   const notificationCtx = useContext(NotificationContext);
@@ -23,6 +42,7 @@ function PostContent(props) {
   const linkPathForUpdate = `/posts/updates/${post.id}`;
   const linkPathForComment = `/comments/${post.id}`;
   console.log({ linkPathForUpdate });
+  const [session, loading] = useSession();
   const handleUpdateData = () => {
     console.log("from handle update");
     notificationCtx.blogUpdateHandler({
@@ -34,7 +54,7 @@ function PostContent(props) {
 
   const deletePostHandler = async () => {
     notificationCtx.showNotification({
-      title: "Deletind blog...",
+      title: "Deleting blog...",
       message: "Your blog is currently being deleted from the database.",
       status: "pending",
     });
@@ -73,6 +93,78 @@ function PostContent(props) {
     }
   };
 
+  const checkLikeObject = (likeObj, usernameValue) => {
+    let newLikeObj = {};
+    for (const key in likeObj) {
+      if (Object.hasOwnProperty.call(likeObj, key)) {
+        const element = likeObj[key];
+        if (element === usernameValue) {
+          continue;
+        }
+        newLikeObj[key] = element;
+      }
+    }
+    newLikeObj = { ...newLikeObj, likes: newLikeObj.likeValue - 1 };
+    return newLikeObj;
+  };
+  const handleLikeBlog = async () => {
+    //check whether the blog has likes field
+    //if it has not put the like field
+    //if it has, check whether the user has likeed it before
+    //if he has liked it before remove him and decrease the liked
+    //else increase the liked.
+
+    let newPost;
+    if (!session) {
+      notificationCtx.showNotification({
+        title: "Liking blog operation aborted...",
+        message: "Your have to login to like blogs.",
+        status: "pending",
+      });
+      return;
+    }
+    notificationCtx.showNotification({
+      title: "Liking blog...",
+      message: "Your blog like request is being executed please wait.",
+      status: "pending",
+    });
+    if (post.likes) {
+      //has the current user already liked
+      const hasAlreadyLiked =
+        Object.values(post.likes).indexOf(session.user.name) > -1;
+      if (hasAlreadyLiked) {
+        newPost = checkLikeObject(post.likes, session.user.name);
+      } else {
+        newPost = {
+          ...post,
+          likes: {
+            ...post.likes,
+            username: sessionStorage.user.name,
+            likeValue: post.likes.likeValue + 1,
+          },
+        };
+      }
+    } else {
+      newPost = {
+        ...post,
+        likes: { username: session.user.name, likeValue: 1 },
+      };
+    }
+    try {
+      await changeLikeHandler(newPost);
+      notificationCtx.showNotification({
+        title: "Success!",
+        message: "Your blog like operation was successfull!",
+        status: "success",
+      });
+    } catch (error) {
+      notificationCtx.showNotification({
+        title: "Error!",
+        message: error.message || "Something went wrong!",
+        status: "error",
+      });
+    }
+  };
   return (
     <article className={classes.content}>
       <div className={classes.card}>
@@ -119,7 +211,7 @@ function PostContent(props) {
                 <a> comments</a>
               </Link>
               <button onClick={handleUpdateData}>Update</button>
-              <button>like</button>
+              <button onClick={handleLikeBlog}>like</button>
               <button>dislike</button>
               <button onClick={deleteConfirm}>Delete</button>
             </div>
