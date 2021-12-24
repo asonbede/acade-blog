@@ -21,6 +21,7 @@ function PostContent(props) {
   const imagePath = `/images/posts/${post.image}`;
   const linkPath = `/posts/questions/${post.id}`;
   const linkPathForUpdate = `/posts/updates/${post.id}`;
+  const linkPathForComment = `/comments/${post.id}`;
   console.log({ linkPathForUpdate });
   const handleUpdateData = () => {
     console.log("from handle update");
@@ -90,7 +91,8 @@ function PostContent(props) {
           />
           <div
             className={classes.cardprofileinfo}
-            style={{ marginTop: "2rem" }}>
+            style={{ marginTop: "2rem" }}
+          >
             <h3 className={classes.profilename} style={{ margin: "0" }}>
               Darrell Steward
             </h3>
@@ -113,7 +115,7 @@ function PostContent(props) {
               <a>Review Questions</a>
             </Link>
             <div className={classes.cardprofileinfo}>
-              <Link href="#">
+              <Link href={linkPathForComment}>
                 <a> comments</a>
               </Link>
               <button onClick={handleUpdateData}>Update</button>
