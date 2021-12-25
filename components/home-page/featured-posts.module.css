@@ -8,7 +8,9 @@
 .latest h2 {
   font-size: var(--size-8);
   color: var(--color-grey-800);
-  text-align: center;
+  /* text-align: center; */
+  width: 50%;
+  margin: 4px auto;
 }
 
 @media (min-width: 768px) {

@@ -62,8 +62,17 @@ async function handler(req, res) {
   }
 
   if (req.method === "PUT") {
-    const { title, date, image, excerpt, content, isFeatured, blogId } =
-      req.body;
+    const {
+      title,
+      date,
+      image,
+      excerpt,
+      content,
+      isFeatured,
+      blogId,
+      author,
+      authorId,
+    } = req.body;
 
     if (
       !title ||
@@ -89,6 +98,8 @@ async function handler(req, res) {
       excerpt,
       content,
       isFeatured,
+      author,
+      authorId,
     };
 
     let result;

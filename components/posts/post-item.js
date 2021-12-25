@@ -23,8 +23,8 @@ function PostItem(props) {
             <Image
               src={imagePath}
               alt={title}
-              width={300}
-              height={200}
+              width={400}
+              height={300}
               layout="responsive"
             />
           </div>
@@ -40,11 +40,11 @@ function PostItem(props) {
       <div className={classes.cardprofile}>
         <img
           className={classes.profileimg}
-          src="images/posts/post-profile3.jpg"
-          alt=""
+          src="/images/posts/bede-profile.jpg"
+          alt="bede image"
         />
         <div className={classes.cardprofileinfo}>
-          <h3 className={classes.profilename}>Eleanor Pea</h3>
+          <h3 className={classes.profilename}>Bede Asonye</h3>
           <p className={classes.profilefollowers}>5.2k followers</p>
         </div>
       </div>

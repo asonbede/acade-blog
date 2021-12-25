@@ -19,12 +19,17 @@
 
 .image {
   width: 100%;
-  max-height: 20rem;
+  max-height: 25rem;
   overflow: hidden;
+  background-color: blanchedalmond;
+  margin-right: 36px;
 }
 
 .image img {
   object-fit: cover;
+
+  width: 80%;
+  margin: 0 auto;
 }
 
 .content {
@@ -147,6 +152,7 @@ another
   display: flex;
   margin-top: 2rem;
   align-items: center;
+  margin-left: 1rem;
 }
 
 .profileimg {
@@ -162,6 +168,7 @@ another
 
 .profilename {
   font-size: 1rem;
+  color: #616b74;
 }
 
 .profilefollowers {

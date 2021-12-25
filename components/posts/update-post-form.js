@@ -4,6 +4,9 @@ import classes from "./new-post-form.module.css";
 import Notification from "../ui/notification";
 import NotificationContext from "../../store/notification-context";
 import MyRichEditor from "../rich-text-editor/myrich-text-editor";
+
+import { useSession } from "next-auth/client";
+
 import {
   useField,
   useEditor,
@@ -34,7 +37,7 @@ function UpdatePostForm({ updateId }) {
   // const [isFeaturedInit, setisFeaturedInit] = useState(false);
   const [isFeatured, setisFeatured] = useState(false);
   const notificationCtx = useContext(NotificationContext);
-
+  const [session, loading] = useSession();
   const router = useRouter();
   const useFieldDate = useField("text");
   const useFieldImage = useField("text");
@@ -99,6 +102,8 @@ function UpdatePostForm({ updateId }) {
         content: enteredContent,
         isFeatured: isFeatured,
         blogId: idValue,
+        author: session.name,
+        authorId: session.email,
       });
       //setRequestStatus("success");
       // setEnteredContent("");
@@ -188,7 +193,8 @@ function UpdatePostForm({ updateId }) {
               rows="5"
               required
               value={useFieldExcept.value}
-              onChange={useFieldExcept.onChange}></textarea>
+              onChange={useFieldExcept.onChange}
+            ></textarea>
           </div>
         </div>
         <div className={classes.control}>

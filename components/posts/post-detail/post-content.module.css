@@ -1,12 +1,16 @@
 .content {
   width: 95%;
-  max-width: 70rem;
+  max-width: 75rem;
   margin: var(--size-8) auto;
   font-size: var(--size-5);
   line-height: var(--size-8);
   /* background-color: var(--color-grey-100); */
   border-radius: 6px;
   padding: var(--size-4);
+}
+.cardbanner {
+  width: 100%;
+  margin: 50px;
 }
 
 .content p {
@@ -44,7 +48,7 @@
 .bannerimg {
   /* position: absolute; */
   object-fit: cover;
-  height: 14rem;
+  height: 23rem;
   width: 100%;
 }
 
@@ -88,9 +92,10 @@
   margin: 1rem 0 0.5rem;
 }
 .excerpt {
-  line-height: 1rem;
+  line-height: 1.5rem;
   margin: 1rem 0 0.5rem;
-  font-size: 18px;
+  font-size: 20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .blogdescription {
@@ -106,8 +111,8 @@
 }
 
 .profileimg {
-  width: 60px;
-  height: 60px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   border-radius: 50%;
 }
@@ -126,6 +131,7 @@
 .profilefollowers {
   color: #616b74;
   font-size: 0.9rem;
+  margin-left: 6px;
 }
 
 /* .action {
@@ -141,7 +147,8 @@
   margin: 8px;
 } */
 .buttonAction button,
-.buttonAction a {
+.buttonAction a,
+.excerpt button {
   outline: 0;
   display: inline-block;
   padding: 8px;
@@ -158,9 +165,11 @@
   font-family: arial, sans-serif;
   margin: 8px;
   color: #069;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
-.action button:hover {
+.buttonAction button:hover,
+.buttonAction a:hover,
+.excerpt button:hover {
   opacity: 1;
 }

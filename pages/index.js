@@ -82,6 +82,8 @@ export async function getStaticProps() {
           content: document.content,
           id: document._id.toString(),
           likes: document.likes ? document.likes : {},
+          author: document.author,
+          authorId: document.authorId,
         };
       }),
     },

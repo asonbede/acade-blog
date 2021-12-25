@@ -78,17 +78,19 @@ button {
 .wrapper-class {
   padding: 0.2rem;
   /* border: 1px solid #ccc; */
-  width: 60%;
+  width: 70%;
   height: 100%;
   border-radius: 6px;
+  border: 7px solid purple;
   /* overflow: auto; */
 }
 .wrapper-class-big {
   padding: 0.2rem;
   /* border: 1px solid #ccc; */
-  width: 100%;
+  width: 100% !important;
   height: 100%;
   border-radius: 6px;
+  /* border: 7px solid purple; */
 }
 .editor-class {
   background-color: white;
@@ -125,6 +127,6 @@ button {
 @media screen and (max-width: 1140px) {
   .editor-class img {
     /* background-color: blue; */
-    width: 100% !important;
+    width: 95% !important;
   }
 }

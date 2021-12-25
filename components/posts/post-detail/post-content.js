@@ -1,6 +1,6 @@
 //import ReactMarkdown from "react-markdown";
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 //import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 //import atomDark from "react-syntax-highlighter/dist/cjs/styles/prism/atom-dark";
 //import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
@@ -43,6 +43,8 @@ function PostContent(props) {
   const linkPathForComment = `/comments/${post.id}`;
   console.log({ linkPathForUpdate });
   const [session, loading] = useSession();
+  const [isContentOpen, setisContentOpen] = useState(false);
+  const [contenButText, setcontenButText] = useState("Read More");
   let likeNo;
   console.log({ post }, "content");
   const handleUpdateData = () => {
@@ -179,6 +181,14 @@ function PostContent(props) {
       });
     }
   };
+  const handleContenButText = () => {
+    setisContentOpen(!isContentOpen);
+    if (contenButText === "Read More") {
+      setcontenButText("Read Less");
+    } else {
+      setcontenButText("Read More");
+    }
+  };
   return (
     <article className={classes.content}>
       <div className={classes.card}>
@@ -188,21 +198,21 @@ function PostContent(props) {
             src="/images/posts/post-profile2.jpg "
             alt=""
           /> */}
-          <Image
+          <img
             className={classes.profileimg}
-            src="/images/posts/post-profile2.jpg"
+            src="/images/posts/bede-profile.jpg"
             alt={post.title}
-            width={250}
-            height={200}
+            width={150}
+            height={150}
           />
           <div
             className={classes.cardprofileinfo}
             style={{ marginTop: "2rem" }}
           >
             <h3 className={classes.profilename} style={{ margin: "0" }}>
-              Darrell Steward
+              Bede Asonye
             </h3>
-            <span className={classes.profilefollowers}>15.7k followers</span>
+            <span className={classes.profilefollowers}>(Msc Biochemistry)</span>
           </div>
         </div>
         <div className={classes.cardbanner}>
@@ -210,9 +220,9 @@ function PostContent(props) {
           <Image
             className={classes.bannerimg}
             src={imagePath}
-            alt=""
-            width={700}
-            height={300}
+            alt="banner"
+            width={900}
+            height={800}
           />
         </div>
         <div className={classes.cardbody}>
@@ -225,21 +235,25 @@ function PostContent(props) {
               <a> comments</a>
             </Link>
 
-            <button onClick={handleUpdateData}>Update</button>
             <button onClick={handleLikeBlog}>
               <span>{likeNo}</span> like
             </button>
-
+            <button onClick={handleUpdateData}>Update</button>
             <button onClick={deleteConfirm}>Delete</button>
           </div>
           {/* <p className={classes.bloghashtag}>#Biryani #Food</p> */}
           <h2 className={classes.blogtitle}>{post.title}</h2>
-          <h3 className={classes.excerpt}>{post.excerpt}</h3>
+          <h3 className={classes.excerpt}>
+            {post.excerpt}{" "}
+            <button onClick={handleContenButText}>{contenButText}</button>
+          </h3>
           <div className={classes.blogdescription} style={{ width: "100%" }}>
-            <DisplayEditorContent
-              contentFromServer={post.content}
-              toolbarPresent={false}
-            />
+            {isContentOpen && (
+              <DisplayEditorContent
+                contentFromServer={post.content}
+                toolbarPresent={false}
+              />
+            )}
           </div>
         </div>
       </div>
