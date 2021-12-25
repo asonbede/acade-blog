@@ -43,6 +43,8 @@ function PostContent(props) {
   const linkPathForComment = `/comments/${post.id}`;
   console.log({ linkPathForUpdate });
   const [session, loading] = useSession();
+  let likeNo;
+  console.log({ post }, "content");
   const handleUpdateData = () => {
     console.log("from handle update");
     notificationCtx.blogUpdateHandler({
@@ -51,6 +53,11 @@ function PostContent(props) {
     });
     router.push(linkPathForUpdate);
   };
+  if (post.likes) {
+    likeNo = post.likes.likeValue;
+  } else {
+    likeNo = 0;
+  }
 
   const deletePostHandler = async () => {
     notificationCtx.showNotification({
@@ -104,7 +111,7 @@ function PostContent(props) {
         newLikeObj[key] = element;
       }
     }
-    newLikeObj = { ...newLikeObj, likes: newLikeObj.likeValue - 1 };
+    newLikeObj = { ...newLikeObj, likeValue: newLikeObj.likeValue - 1 };
     return newLikeObj;
   };
   const handleLikeBlog = async () => {
@@ -133,13 +140,18 @@ function PostContent(props) {
       const hasAlreadyLiked =
         Object.values(post.likes).indexOf(session.user.name) > -1;
       if (hasAlreadyLiked) {
-        newPost = checkLikeObject(post.likes, session.user.name);
+        //newPost = checkLikeObject(post.likes, session.user.name);
+        newPost = {
+          ...post,
+          likes: checkLikeObject(post.likes, session.user.name),
+        };
+        console.log({ newPost }, "ONE");
       } else {
         newPost = {
           ...post,
           likes: {
             ...post.likes,
-            username: sessionStorage.user.name,
+            username: session.user.name,
             likeValue: post.likes.likeValue + 1,
           },
         };
@@ -150,6 +162,7 @@ function PostContent(props) {
         likes: { username: session.user.name, likeValue: 1 },
       };
     }
+    console.log({ newPost }, "TWO");
     try {
       await changeLikeHandler(newPost);
       notificationCtx.showNotification({
@@ -157,6 +170,7 @@ function PostContent(props) {
         message: "Your blog like operation was successfull!",
         status: "success",
       });
+      router.push(`/posts/${post.id}`);
     } catch (error) {
       notificationCtx.showNotification({
         title: "Error!",
@@ -211,7 +225,9 @@ function PostContent(props) {
                 <a> comments</a>
               </Link>
               <button onClick={handleUpdateData}>Update</button>
-              <button onClick={handleLikeBlog}>like</button>
+              <button onClick={handleLikeBlog}>
+                <span>{likeNo}</span> like
+              </button>
               <button>dislike</button>
               <button onClick={deleteConfirm}>Delete</button>
             </div>

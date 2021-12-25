@@ -81,6 +81,7 @@ export async function getStaticProps() {
           excerpt: document.excerpt,
           content: document.content,
           id: document._id.toString(),
+          likes: document.likes ? document.likes : {},
         };
       }),
     },

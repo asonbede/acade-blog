@@ -65,6 +65,7 @@ export async function getStaticProps(context) {
     image: document.image,
     excerpt: document.excerpt,
     content: document.content,
+    likes: document.likes ? document.likes : {},
     id: document._id.toString(),
   };
 
