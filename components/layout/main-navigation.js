@@ -3,12 +3,14 @@ import Link from "next/link";
 import Logo from "./logo";
 import classes from "./main-navigation.module.css";
 import { useSession, signOut } from "next-auth/client";
-
+import { useRouter } from "next/router";
 function MainNavigation() {
   const [session, loading] = useSession();
+  const router = useRouter();
   console.log({ session });
   function logoutHandler() {
     signOut();
+    router.replace("/");
   }
   return (
     <header className={classes.header}>

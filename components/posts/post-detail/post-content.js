@@ -151,7 +151,7 @@ function PostContent(props) {
           ...post,
           likes: {
             ...post.likes,
-            username: session.user.name,
+            [session.user.email]: session.user.name,
             likeValue: post.likes.likeValue + 1,
           },
         };
@@ -159,7 +159,7 @@ function PostContent(props) {
     } else {
       newPost = {
         ...post,
-        likes: { username: session.user.name, likeValue: 1 },
+        likes: { [session.user.email]: session.user.name, likeValue: 1 },
       };
     }
     console.log({ newPost }, "TWO");
