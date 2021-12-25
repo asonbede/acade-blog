@@ -91,16 +91,16 @@ button {
   border-radius: 6px;
 }
 .editor-class {
-  background-color: rgb(223, 215, 215);
-  padding: 0.1rem;
-  border: 1px solid #ccc;
+  background-color: white;
+  padding: 1rem;
+  border: 1px solid rgb(197, 71, 71);
   /* min-height: 1vh; */
   margin-top: 1px;
   width: 100% !important;
   border-radius: 6px;
 }
 .editor-small-class {
-  background-color: lightgray;
+  background-color: #d3d3d3;
   padding: 0.1rem;
   border: 1px solid #ccc;
   min-height: 0vh;
@@ -122,3 +122,9 @@ button {
   margin-top: 1rem;
   width: 100%;
 } */
+@media screen and (max-width: 1140px) {
+  .editor-class img {
+    /* background-color: blue; */
+    width: 100% !important;
+  }
+}

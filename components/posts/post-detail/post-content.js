@@ -216,23 +216,23 @@ function PostContent(props) {
           />
         </div>
         <div className={classes.cardbody}>
-          <div className={classes.cardprofile}>
+          <div className={classes.buttonAction}>
             <Link href={linkPath}>
               <a>Review Questions</a>
             </Link>
-            <div className={classes.cardprofileinfo}>
-              <Link href={linkPathForComment}>
-                <a> comments</a>
-              </Link>
-              <button onClick={handleUpdateData}>Update</button>
-              <button onClick={handleLikeBlog}>
-                <span>{likeNo}</span> like
-              </button>
-              <button>dislike</button>
-              <button onClick={deleteConfirm}>Delete</button>
-            </div>
+
+            <Link href={linkPathForComment}>
+              <a> comments</a>
+            </Link>
+
+            <button onClick={handleUpdateData}>Update</button>
+            <button onClick={handleLikeBlog}>
+              <span>{likeNo}</span> like
+            </button>
+
+            <button onClick={deleteConfirm}>Delete</button>
           </div>
-          <p className={classes.bloghashtag}>#Biryani #Food</p>
+          {/* <p className={classes.bloghashtag}>#Biryani #Food</p> */}
           <h2 className={classes.blogtitle}>{post.title}</h2>
           <h3 className={classes.excerpt}>{post.excerpt}</h3>
           <div className={classes.blogdescription} style={{ width: "100%" }}>
