@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 //import NotificationContext from "../../store/notification-context";
 import NotificationContext from "../../../store/notification-context";
 import { useSession, signOut } from "next-auth/client";
+import { getDomainLocale } from "next/dist/next-server/lib/router/router";
 
 async function changeLikeHandler(likedData) {
   const response = await fetch("/api/blog-content/", {
@@ -46,6 +47,7 @@ function PostContent(props) {
   const [isContentOpen, setisContentOpen] = useState(false);
   const [contenButText, setcontenButText] = useState("Read More");
   let likeNo;
+  const adminArray = ["donald@gmail.com", "asonbede@gmail.com"];
   console.log({ post }, "content");
   const handleUpdateData = () => {
     console.log("from handle update");
@@ -238,8 +240,15 @@ function PostContent(props) {
             <button onClick={handleLikeBlog}>
               <span>{likeNo}</span> like
             </button>
-            <button onClick={handleUpdateData}>Update</button>
-            <button onClick={deleteConfirm}>Delete</button>
+
+            {(session && session.user.email === post.authorId) ||
+            (session && adminArray.includes(session.user.email)) ? (
+              <button onClick={handleUpdateData}>Update</button>
+            ) : null}
+            {(session && session.user.email === post.authorId) ||
+            (session && adminArray.includes(session.user.email)) ? (
+              <button onClick={deleteConfirm}>Delete</button>
+            ) : null}
           </div>
           {/* <p className={classes.bloghashtag}>#Biryani #Food</p> */}
           <h2 className={classes.blogtitle}>{post.title}</h2>
