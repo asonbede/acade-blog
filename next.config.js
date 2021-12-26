@@ -8,6 +8,8 @@ module.exports = (phase) => {
         mongodb_password: "bede1974",
         mongodb_clustername: "cluster0",
         mongodb_database: "my-blog-site-dev",
+        admin_1: "asonbede@gmail.com",
+        admin_2: "donald@gmail.com",
         env_watch: "dev",
       },
     };
@@ -19,6 +21,8 @@ module.exports = (phase) => {
       mongodb_password: "bede1974",
       mongodb_clustername: "cluster0",
       mongodb_database: "my-blog-site-prod",
+      admin_1: "asonbede@gmail.com",
+      admin_2: "donald@gmail.com",
       env_watch: "prod",
     },
   };

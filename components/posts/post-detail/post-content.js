@@ -47,7 +47,7 @@ function PostContent(props) {
   const [isContentOpen, setisContentOpen] = useState(false);
   const [contenButText, setcontenButText] = useState("Read More");
   let likeNo;
-  const adminArray = ["donald@gmail.com", "asonbede@gmail.com"];
+  const adminArray = [process.env.admin_1, process.env.admin_2];
   console.log({ post }, "content");
   const handleUpdateData = () => {
     console.log("from handle update");
