@@ -10,7 +10,7 @@ function MainNavigation() {
   console.log({ session });
   function logoutHandler() {
     signOut();
-    router.replace("/");
+    // router.replace("/");
   }
   return (
     <header className={classes.header}>

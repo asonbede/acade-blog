@@ -1,6 +1,6 @@
 //import ReactMarkdown from "react-markdown";
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 //import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 //import atomDark from "react-syntax-highlighter/dist/cjs/styles/prism/atom-dark";
 //import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
@@ -34,6 +34,25 @@ async function changeLikeHandler(likedData) {
   }
 }
 
+async function sendAuthData(authDetails, setFunc) {
+  const response = await fetch("/api/restrict-route", {
+    method: "POST",
+    body: JSON.stringify(authDetails),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  console.log({ data }, "authDetails");
+  if (!response.ok) {
+    // throw new Error(data.message || "Something went wrong!");
+    setFunc(false);
+  } else {
+    setFunc(data.message);
+  }
+}
+
 function PostContent(props) {
   const { post } = props;
   const notificationCtx = useContext(NotificationContext);
@@ -47,9 +66,21 @@ function PostContent(props) {
   const [session, loading] = useSession();
   const [isContentOpen, setisContentOpen] = useState(false);
   const [contenButText, setcontenButText] = useState("Read More");
+  const [authValue, setauthValue] = useState();
   let likeNo;
-  const adminArray = [process.env.admin_1, process.env.admin_2];
+  //const adminArray = [process.env.admin_1, process.env.admin_2];
   console.log({ post }, "content");
+  const { authorId } = post;
+  useEffect(() => {
+    const result = sendAuthData(authorId, setauthValue);
+
+    setauthValue(result.message);
+    console.log({ result }, "postContent");
+    // return () => {
+    //   cleanup
+    // }
+  }, [session, authorId]);
+
   const handleUpdateData = () => {
     console.log("from handle update");
     notificationCtx.blogUpdateHandler({
@@ -241,15 +272,16 @@ function PostContent(props) {
             <button onClick={handleLikeBlog}>
               <span>{likeNo}</span> like
             </button>
-
-            {(session && session.user.email === post.authorId) ||
+            {authValue && <button onClick={handleUpdateData}>Update</button>}
+            {authValue && <button onClick={deleteConfirm}>Delete</button>}
+            {/* {(session && session.user.email === post.authorId) ||
             (session && adminArray.includes(session.user.email)) ? (
               <button onClick={handleUpdateData}>Update</button>
-            ) : null}
-            {(session && session.user.email === post.authorId) ||
+            ) : null} */}
+            {/* {(session && session.user.email === post.authorId) ||
             (session && adminArray.includes(session.user.email)) ? (
               <button onClick={deleteConfirm}>Delete</button>
-            ) : null}
+            ) : null} */}
           </div>
           {/* <p className={classes.bloghashtag}>#Biryani #Food</p> */}
           <h2 className={classes.blogtitle}>{post.title}</h2>
