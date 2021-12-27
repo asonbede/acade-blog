@@ -15,8 +15,8 @@ import { useRouter } from "next/router";
 //import NotificationContext from "../../store/notification-context";
 import NotificationContext from "../../../store/notification-context";
 import { useSession, signOut } from "next-auth/client";
-import { getDomainLocale } from "next/dist/next-server/lib/router/router";
-
+//import { getDomainLocale } from "next/dist/next-server/lib/router/router";
+//import { adminArray } from "../../../helpers/db-utils";
 async function changeLikeHandler(likedData) {
   const response = await fetch("/api/blog-content/", {
     method: "PATCH",
@@ -42,6 +42,7 @@ function PostContent(props) {
   const linkPath = `/posts/questions/${post.id}`;
   const linkPathForUpdate = `/posts/updates/${post.id}`;
   const linkPathForComment = `/comments/${post.id}`;
+
   console.log({ linkPathForUpdate });
   const [session, loading] = useSession();
   const [isContentOpen, setisContentOpen] = useState(false);

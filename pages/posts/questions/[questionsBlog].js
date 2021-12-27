@@ -124,7 +124,7 @@ export async function getStaticProps(context) {
   const questionsDoc = await getAllFeaturedDocuments(
     client,
     "questions",
-    { _id: -1 },
+    { _id: 1 },
     { blogId: questionsBlog }
   );
 
@@ -164,7 +164,7 @@ export async function getStaticPaths() {
   let client;
 
   client = await connectDatabase();
-  const documents = await getAllDocuments(client, "postTable", { _id: -1 });
+  const documents = await getAllDocuments(client, "postTable", { _id: 1 });
 
   client.close();
 

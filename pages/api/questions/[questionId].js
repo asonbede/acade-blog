@@ -67,7 +67,7 @@ async function handler(req, res) {
       const questions = await getAllFeaturedDocuments(
         client,
         "questions",
-        { _id: -1 },
+        { _id: 1 },
         { blogId: blogId }
       );
       res.status(200).json({ questions: questions });

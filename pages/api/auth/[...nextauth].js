@@ -40,6 +40,7 @@ export default NextAuth({
         return {
           email: userEmailCheck.email,
           name: userEmailCheck.name,
+          image: userEmailCheck.interest,
         };
       },
     }),

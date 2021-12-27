@@ -1,8 +1,9 @@
 import Image from "next/image";
 
 import classes from "./hero.module.css";
-
-function Hero() {
+import { useRouter } from "next/router";
+function Hero(props) {
+  const router = useRouter();
   return (
     <section className={classes.hero}>
       <div className={classes.image}>
@@ -13,10 +14,15 @@ function Hero() {
           height={300}
         />
       </div>
-      <h1>Hi, I'm Max</h1>
+      <h1>
+        {router.pathname === "/" || router.pathname === "/posts"
+          ? "Hi,  i am Bede Asonye."
+          : `Hi,  i am ${props.name}`}
+      </h1>
       <p>
-        I blog about web development - especially frontend frameworks like
-        Angular or React.
+        {router.pathname === "/" || router.pathname === "/posts"
+          ? "I blog about the sciences especially Chemistry, Biology, Physics and Programming"
+          : props.description}
       </p>
     </section>
   );

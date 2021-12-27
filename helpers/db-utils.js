@@ -82,3 +82,5 @@ export async function deleteDocument(client, collection, fieldValue, id) {
 
   return document;
 }
+
+//export const adminArray = [process.env.admin_1, process.env.admin_2];

@@ -102,8 +102,8 @@ function UpdatePostForm({ updateId }) {
         content: enteredContent,
         isFeatured: isFeatured,
         blogId: idValue,
-        author: session.name,
-        authorId: session.email,
+        author: session.user.name,
+        authorId: session.user.email,
       });
       //setRequestStatus("success");
       // setEnteredContent("");

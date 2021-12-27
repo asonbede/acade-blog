@@ -4,6 +4,7 @@ import classes from "./new-post-form.module.css";
 import Notification from "../ui/notification";
 import NotificationContext from "../../store/notification-context";
 import MyRichEditor from "../rich-text-editor/myrich-text-editor";
+import { useSession } from "next-auth/client";
 import {
   useField,
   useEditor,
@@ -19,7 +20,7 @@ async function sendBlogData(blogDetails) {
   });
 
   const data = await response.json();
-
+  console.log({ data }, "new posttt");
   if (!response.ok) {
     throw new Error(data.message || "Something went wrong!");
   }
@@ -44,6 +45,7 @@ function NewPostForm() {
   //     return () => clearTimeout(timer);
   //   }
   // }, [requestStatus]);
+  const [session, loading] = useSession();
   const router = useRouter();
   const useFieldDate = useField("text");
   const useFieldImage = useField("text");
@@ -86,6 +88,9 @@ function NewPostForm() {
         excerpt: enteredExcerpt,
         content: enteredContent,
         isFeatured: isFeatured,
+
+        author: session.user.name,
+        authorId: session.user.email,
       });
 
       notificationCtx.showNotification({
@@ -198,7 +203,8 @@ function NewPostForm() {
               rows="5"
               required
               value={enteredExcerpt}
-              onChange={useFieldExcept.onChange}></textarea>
+              onChange={useFieldExcept.onChange}
+            ></textarea>
           </div>
         </div>
         <div className={classes.control}>

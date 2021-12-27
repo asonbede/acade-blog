@@ -22,7 +22,16 @@ async function handler(req, res) {
   }
 
   if (req.method === "POST") {
-    const { title, date, image, excerpt, content, isFeatured } = req.body;
+    const {
+      title,
+      date,
+      image,
+      excerpt,
+      content,
+      isFeatured,
+      author,
+      authorId,
+    } = req.body;
 
     if (
       !title ||
@@ -48,6 +57,8 @@ async function handler(req, res) {
       excerpt,
       content,
       isFeatured,
+      author,
+      authorId,
     };
 
     let result;
