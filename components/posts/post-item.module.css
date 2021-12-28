@@ -176,6 +176,14 @@ another
   font-size: 0.9rem;
 }
 
+.showItem {
+  display: "block";
+}
+
+.hideItem {
+  display: none;
+}
+
 /* alternative card */
 /* .card {
   overflow: hidden;

@@ -173,3 +173,10 @@
 .excerpt button:hover {
   opacity: 1;
 }
+.showItem {
+  display: "block";
+}
+
+.hideItem {
+  display: none;
+}

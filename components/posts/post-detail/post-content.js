@@ -35,7 +35,28 @@ async function changeLikeHandler(likedData) {
 }
 
 async function sendAuthData(authDetails, setFunc) {
+  console.log({ authDetails });
   const response = await fetch("/api/restrict-route", {
+    method: "POST",
+    body: JSON.stringify(authDetails),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  console.log({ data }, "authDetails");
+  console.log({ data }, "authDetails");
+  if (!response.ok) {
+    setFunc(false);
+    //throw new Error(data.message || "Something went wrong!");
+  } else {
+    setFunc(data.message);
+  }
+}
+
+async function sendAuthDataModerate(authDetails, setFunc) {
+  const response = await fetch("/api/moderating-post", {
     method: "POST",
     body: JSON.stringify(authDetails),
     headers: {
@@ -67,19 +88,32 @@ function PostContent(props) {
   const [isContentOpen, setisContentOpen] = useState(false);
   const [contenButText, setcontenButText] = useState("Read More");
   const [authValue, setauthValue] = useState();
+  const [moderatedValue, setmoderatedValue] = useState();
   let likeNo;
   //const adminArray = [process.env.admin_1, process.env.admin_2];
-  console.log({ post }, "content");
-  const { authorId } = post;
+  //console.log({ post }, "content");
+  const { authorId, moderated } = post;
   useEffect(() => {
-    const result = sendAuthData(authorId, setauthValue);
-
-    setauthValue(result.message);
-    console.log({ result }, "postContent");
+    const result = sendAuthData({ authorId }, setauthValue);
+    console.log({ result });
+    //setauthValue(result.message);
+    //console.log({ result }, "postContent");
     // return () => {
     //   cleanup
     // }
   }, [session, authorId]);
+
+  useEffect(() => {
+    const result = sendAuthDataModerate(
+      { authorId, moderated },
+      setmoderatedValue
+    );
+
+    //console.log({ result }, "postContent");
+    // return () => {
+    //   cleanup
+    // }
+  }, [authorId, moderated]);
 
   const handleUpdateData = () => {
     console.log("from handle update");
@@ -224,82 +258,97 @@ function PostContent(props) {
     }
   };
   return (
-    <article className={classes.content}>
-      <div className={classes.card}>
-        <div className={classes.cardprofile}>
-          {/* <img
+    <div className={moderatedValue ? classes.showItem : classes.hideItem}>
+      {!moderated && (
+        <span style={{ color: "red" }}>
+          {" "}
+          Moderation in progressing, this may take a while, until this action is
+          complete only you can see this post, newly created or updated post are
+          examined by the admin before it is shown to the public.This message
+          will be removed as soon as the process is complete. You may continue
+          to work on your post while this process is on...
+        </span>
+      )}
+
+      <article className={classes.content}>
+        <div className={classes.card}>
+          <div className={classes.cardprofile}>
+            {/* <img
             className={classes.profileimg}
             src="/images/posts/post-profile2.jpg "
             alt=""
           /> */}
-          <img
-            className={classes.profileimg}
-            src="/images/posts/bede-profile.jpg"
-            alt={post.title}
-            width={150}
-            height={150}
-          />
-          <div
-            className={classes.cardprofileinfo}
-            style={{ marginTop: "2rem" }}
-          >
-            <h3 className={classes.profilename} style={{ margin: "0" }}>
-              Bede Asonye
-            </h3>
-            <span className={classes.profilefollowers}>(Msc Biochemistry)</span>
+            <img
+              className={classes.profileimg}
+              src="/images/posts/bede-profile.jpg"
+              alt={post.title}
+              width={150}
+              height={150}
+            />
+            <div
+              className={classes.cardprofileinfo}
+              style={{ marginTop: "2rem" }}
+            >
+              <h3 className={classes.profilename} style={{ margin: "0" }}>
+                Bede Asonye
+              </h3>
+              <span className={classes.profilefollowers}>
+                (Msc Biochemistry)
+              </span>
+            </div>
           </div>
-        </div>
-        <div className={classes.cardbanner}>
-          {/* <p class="category-tag technology">Biryani</p>  */}
-          <Image
-            className={classes.bannerimg}
-            src={imagePath}
-            alt="banner"
-            width={900}
-            height={800}
-          />
-        </div>
-        <div className={classes.cardbody}>
-          <div className={classes.buttonAction}>
-            <Link href={linkPath}>
-              <a>Review Questions</a>
-            </Link>
+          <div className={classes.cardbanner}>
+            {/* <p class="category-tag technology">Biryani</p>  */}
+            <Image
+              className={classes.bannerimg}
+              src={imagePath}
+              alt="banner"
+              width={900}
+              height={800}
+            />
+          </div>
+          <div className={classes.cardbody}>
+            <div className={classes.buttonAction}>
+              <Link href={linkPath}>
+                <a>Review Questions</a>
+              </Link>
 
-            <Link href={linkPathForComment}>
-              <a> comments</a>
-            </Link>
+              <Link href={linkPathForComment}>
+                <a> comments</a>
+              </Link>
 
-            <button onClick={handleLikeBlog}>
-              <span>{likeNo}</span> like
-            </button>
-            {authValue && <button onClick={handleUpdateData}>Update</button>}
-            {authValue && <button onClick={deleteConfirm}>Delete</button>}
-            {/* {(session && session.user.email === post.authorId) ||
+              <button onClick={handleLikeBlog}>
+                <span>{likeNo}</span> like
+              </button>
+              {authValue && <button onClick={handleUpdateData}>Update</button>}
+              {authValue && <button onClick={deleteConfirm}>Delete</button>}
+              {/* {(session && session.user.email === post.authorId) ||
             (session && adminArray.includes(session.user.email)) ? (
               <button onClick={handleUpdateData}>Update</button>
             ) : null} */}
-            {/* {(session && session.user.email === post.authorId) ||
+              {/* {(session && session.user.email === post.authorId) ||
             (session && adminArray.includes(session.user.email)) ? (
               <button onClick={deleteConfirm}>Delete</button>
             ) : null} */}
-          </div>
-          {/* <p className={classes.bloghashtag}>#Biryani #Food</p> */}
-          <h2 className={classes.blogtitle}>{post.title}</h2>
-          <h3 className={classes.excerpt}>
-            {post.excerpt}{" "}
-            <button onClick={handleContenButText}>{contenButText}</button>
-          </h3>
-          <div className={classes.blogdescription} style={{ width: "100%" }}>
-            {isContentOpen && (
-              <DisplayEditorContent
-                contentFromServer={post.content}
-                toolbarPresent={false}
-              />
-            )}
+            </div>
+            {/* <p className={classes.bloghashtag}>#Biryani #Food</p> */}
+            <h2 className={classes.blogtitle}>{post.title}</h2>
+            <h3 className={classes.excerpt}>
+              {post.excerpt}{" "}
+              <button onClick={handleContenButText}>{contenButText}</button>
+            </h3>
+            <div className={classes.blogdescription} style={{ width: "100%" }}>
+              {isContentOpen && (
+                <DisplayEditorContent
+                  contentFromServer={post.content}
+                  toolbarPresent={false}
+                />
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </div>
   );
 }
 

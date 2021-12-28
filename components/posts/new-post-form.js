@@ -91,6 +91,7 @@ function NewPostForm() {
 
         author: session.user.name,
         authorId: session.user.email,
+        moderated: false,
       });
 
       notificationCtx.showNotification({
@@ -98,7 +99,7 @@ function NewPostForm() {
         message: "Your blog was saved!",
         status: "success",
       });
-      router.push("/");
+      router.push("/profile");
     } catch (error) {
       notificationCtx.showNotification({
         title: "Error!",

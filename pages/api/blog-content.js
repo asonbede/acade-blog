@@ -31,6 +31,7 @@ async function handler(req, res) {
       isFeatured,
       author,
       authorId,
+      moderated,
     } = req.body;
 
     if (
@@ -59,6 +60,7 @@ async function handler(req, res) {
       isFeatured,
       author,
       authorId,
+      moderated,
     };
 
     let result;
@@ -83,6 +85,7 @@ async function handler(req, res) {
       blogId,
       author,
       authorId,
+      moderated,
     } = req.body;
 
     if (
@@ -111,6 +114,7 @@ async function handler(req, res) {
       isFeatured,
       author,
       authorId,
+      moderated,
     };
 
     let result;

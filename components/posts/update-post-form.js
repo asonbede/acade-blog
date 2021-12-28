@@ -36,6 +36,8 @@ function UpdatePostForm({ updateId }) {
   // const [dateValue, setdateValue] = useState("");
   // const [isFeaturedInit, setisFeaturedInit] = useState(false);
   const [isFeatured, setisFeatured] = useState(false);
+  const [isModerated, setisModerated] = useState(false);
+  const [checkBoxShow, setcheckBoxShow] = useState(false);
   const notificationCtx = useContext(NotificationContext);
   const [session, loading] = useSession();
   const router = useRouter();
@@ -61,6 +63,7 @@ function UpdatePostForm({ updateId }) {
   const { value: enteredDate } = useFieldDate;
   // const { value: isFeatured } = useFieldIsFeatured;
   console.log({ isFeatured });
+  console.log({ isModerated });
   const blogUpdateObj = notificationCtx.blogUpdate;
   const { post, idValue } = blogUpdateObj;
   // if (post) {
@@ -84,6 +87,37 @@ function UpdatePostForm({ updateId }) {
   //   }
   // }, [post]);
 
+  useEffect(() => {
+    // notificationCtx.showNotification({
+    //   title: "Fetching comment...",
+    //   message: "Your comment is currently being fetched please wait.",
+    //   status: "pending",
+    // });
+    fetch("/api/restrict-route/")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setcheckBoxShow(data.message);
+
+        // notificationCtx.showNotification({
+        //   title: "Success!",
+        //   message: `${
+        //     data.comments.length === 0
+        //       ? "but no comment found"
+        //       : "Comments were fetched"
+        //   } `,
+        //   status: "success",
+        // });
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Error!",
+          message: error.message || "Something went wrong!",
+          status: "error",
+        });
+      });
+  }, [post]);
+
   async function sendMessageHandler(event) {
     event.preventDefault();
 
@@ -104,6 +138,7 @@ function UpdatePostForm({ updateId }) {
         blogId: idValue,
         author: session.user.name,
         authorId: session.user.email,
+        moderated: isModerated,
       });
       //setRequestStatus("success");
       // setEnteredContent("");
@@ -220,17 +255,6 @@ function UpdatePostForm({ updateId }) {
           Feature This Post
         </span>
 
-        {/* <input
-          type="checkbox"
-          id="isFeatured"
-          name="isfeatured"
-          value={useFieldIsFeatured.value}
-          checked={useFieldIsFeatured.value}
-          onChange={useFieldIsFeatured.onChange}
-          style={{ width: "7%" }}
-        /> */}
-        {/* </div> */}
-
         <input
           type="checkbox"
           id="isFeatured"
@@ -240,6 +264,23 @@ function UpdatePostForm({ updateId }) {
           onChange={() => setisFeatured(!isFeatured)}
           style={{ width: "7%" }}
         />
+        {checkBoxShow && (
+          <div>
+            <span htmlFor="isAprovedred" className="featured">
+              Approve This Post
+            </span>
+
+            <input
+              type="checkbox"
+              id="isAprovedred"
+              name="isApproveded"
+              value={isModerated}
+              checked={isModerated}
+              onChange={() => setisModerated(!isModerated)}
+              style={{ width: "7%" }}
+            />
+          </div>
+        )}
 
         <div className={classes.actions}>
           <button>Send Content</button>

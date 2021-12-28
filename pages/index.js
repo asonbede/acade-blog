@@ -67,7 +67,7 @@ export async function getStaticProps() {
     },
     { isFeatured: true }
   );
-  console.log(documents);
+  //console.log(documents);
 
   client.close();
 
@@ -84,6 +84,7 @@ export async function getStaticProps() {
           likes: document.likes ? document.likes : {},
           author: document.author,
           authorId: document.authorId,
+          moderated: document.moderated ? document.moderated : false,
         };
       }),
     },

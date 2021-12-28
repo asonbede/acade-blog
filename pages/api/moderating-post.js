@@ -5,38 +5,32 @@ async function handler(req, res) {
   const adminArray = [process.env.admin_1, process.env.admin_2];
 
   if (req.method === "POST") {
-    const { authorId } = req.body;
+    const { authorId, moderated } = req.body;
 
     const session = await getSession({ req: req });
 
-    if (!session) {
-      res.status(201).json({ message: false });
-      return;
-    }
-    if (
-      session.user.email === authorId ||
-      adminArray.includes(session.user.email)
-    ) {
+    if (moderated) {
       res.status(201).json({ message: true });
       return;
     }
-  }
-  if (req.method === "GET") {
-    const session = await getSession({ req: req });
 
-    if (!session) {
-      res.status(201).json({ message: false });
-      return;
-    }
-    try {
-      if (adminArray.includes(session.user.email)) {
+    // if (!session && !moderated) {
+    //   res.status(201).json({ message: false });
+    //   return;
+    // }
+
+    if (!moderated && session) {
+      if (
+        session.user.email === authorId ||
+        adminArray.includes(session.user.email)
+      ) {
         res.status(201).json({ message: true });
         return;
       } else {
         res.status(201).json({ message: false });
         return;
       }
-    } catch (error) {
+    } else {
       res.status(201).json({ message: false });
       return;
     }

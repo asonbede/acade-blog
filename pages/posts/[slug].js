@@ -58,7 +58,7 @@ export async function getStaticProps(context) {
   //       };
   //  }),
   //const postData= trimedDocuments.find(trimedDocument=>trimedDocument.id===slug)
-  console.log("coome", { document });
+  //console.log("coome", { document });
   const postData = {
     title: document.title,
     date: document.date,
@@ -69,13 +69,14 @@ export async function getStaticProps(context) {
     author: document.author,
     authorId: document.authorId,
     id: document._id.toString(),
+    moderated: document.moderated ? document.moderated : false,
   };
 
   return {
     props: {
       post: postData,
     },
-    revalidate: 600,
+    // revalidate: 600,
   };
 }
 
