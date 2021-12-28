@@ -1,16 +1,25 @@
+import { useContext } from "react";
 import ProfileForm from "./profile-form";
 import classes from "./user-profile.module.css";
 import Hero from "../home-page/hero";
 import FeaturedPosts from "../home-page/featured-posts";
 import Head from "next/head";
 // import { getAllFeaturedDocuments, connectDatabase } from "../helpers/db-utils";
-
+import ProfileMenu from "../auth/profile-menu";
 import { useSession, signOut } from "next-auth/client";
-
+//import NotificationContext from "../../../store/notification-context";
+import NotificationContext from "../../store/notification-context";
 function UserProfile(props) {
   const [session, loading] = useSession();
   // const [isLoading, setIsLoading] = useState(true);
-
+  const notificationCtx = useContext(NotificationContext);
+  console.log("from handle update");
+  const { menuBtn } = notificationCtx.profileData;
+  console.log({ menuBtn });
+  // profileData.blogUpdateHandler({
+  //   post,
+  //   idValue: post.id,
+  // });
   // useEffect(() => {
   //   getSession().then((session) => {
   //     if (!session) {
@@ -49,6 +58,7 @@ function UserProfile(props) {
         <meta name="description" content={`${props.description}`} />
       </Head>
       {/* <h1>Your User Profile</h1> */}
+      {menuBtn ? null : <ProfileMenu />}
       <Hero name={props.name} description={props.description} />
       <FeaturedPosts posts={props.posts} />
       <ProfileForm onChangePassword={changePasswordHandler} />

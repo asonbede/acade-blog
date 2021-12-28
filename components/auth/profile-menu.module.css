@@ -1,0 +1,52 @@
+.verticalmenu {
+  width: 300px;
+  /* border: 2px solid red; */
+  background-color: #414244;
+  border-radius: 4px;
+}
+
+.displaybox {
+  position: absolute;
+  top: 12%;
+  right: 1%;
+}
+/* .verticalmenu a {
+  background-color: #eee;
+  color: black;
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+} */
+
+/* .verticalmenu button:hover {
+  background-color: #ccc;
+} */
+
+/* .vertical-menu a.active {
+  background-color: #04aa6d;
+  color: white;
+} */
+
+.verticalmenu button {
+  outline: 0;
+  display: block;
+  padding: 2px;
+
+  text-align: center;
+  cursor: pointer;
+
+  font-size: 20px !important;
+
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+
+  font-family: arial, sans-serif;
+  margin: 8px;
+  color: white;
+  opacity: 0.6;
+}
+
+.verticalmenu button:hover {
+  opacity: 1;
+}

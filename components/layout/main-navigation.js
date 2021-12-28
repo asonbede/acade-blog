@@ -4,6 +4,7 @@ import Logo from "./logo";
 import classes from "./main-navigation.module.css";
 import { useSession, signOut } from "next-auth/client";
 import { useRouter } from "next/router";
+import MenuButton from "../auth/menu-button";
 function MainNavigation() {
   const [session, loading] = useSession();
   const router = useRouter();
@@ -50,6 +51,11 @@ function MainNavigation() {
           {session && (
             <li style={{ color: "white" }}>Welcome {session.user.name}</li>
           )}
+          {session && router.pathname === "/profile" ? (
+            <li style={{ color: "white" }}>
+              <MenuButton />
+            </li>
+          ) : null}
         </ul>
       </nav>
     </header>

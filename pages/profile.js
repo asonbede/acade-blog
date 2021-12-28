@@ -54,6 +54,7 @@ export async function getServerSideProps(context) {
       likes: document.likes ? document.likes : {},
       author: document.author,
       authorId: document.authorId,
+      moderated: document.moderated ? document.moderated : false,
     };
   });
 
