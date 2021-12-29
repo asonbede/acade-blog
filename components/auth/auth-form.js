@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 import { signIn } from "next-auth/client";
 import { useRouter } from "next/router";
 //import NotificationContext from "../../store/notification-context";
@@ -31,12 +31,32 @@ function AuthForm() {
   const interestInputRef = useRef();
 
   const [isLogin, setIsLogin] = useState(true);
+  const [regValue, setregValue] = useState(false);
   const router = useRouter();
+  const notificationCtx = useContext(NotificationContext);
+  //const { menuBtn, passOpen, regDetailsOpen } = notificationCtx.profileData;
+
+  // useEffect(() => {
+  //   if (router.pathname === "/profile") {
+  //     setIsLogin(false);
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   notificationCtx.profileDataHandler({
+  //     menuBtn: menuBtn,
+  //     passOpen: passOpen,
+  //     regDetailsOpen: regValue,
+  //   });
+  // return () => {
+  //   cleanup;
+  // };
+  // }, [regDetailsOpen]);
 
   function switchAuthModeHandler() {
     setIsLogin((prevState) => !prevState);
   }
-  const notificationCtx = useContext(NotificationContext);
+
   async function submitHandler(event) {
     let enteredName;
     let enteredInterest;
@@ -119,9 +139,17 @@ function AuthForm() {
     }
   }
 
+  // const handleUpdateFormClose = () => {
+  //   setregValue(!regDetailsOpen);
+  // return () => {
+  //   cleanup
+  // }
+  // };
+
   return (
-    <section className={classes.auth}>
+    <section className={`${classes.auth}`}>
       <h1>{isLogin ? "Login" : "Sign Up"}</h1>
+
       <form onSubmit={submitHandler}>
         {/* <div className={classes.control}>
           <label htmlFor="username">Your Username</label>
@@ -165,6 +193,7 @@ function AuthForm() {
         )}
         <div className={classes.actions}>
           <button>{isLogin ? "Login" : "Create Account"}</button>
+
           <button
             type="button"
             className={classes.toggle}

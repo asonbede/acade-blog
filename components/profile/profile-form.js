@@ -52,21 +52,45 @@ function ProfileForm(props) {
       });
     }
   }
+  const { menuBtn, passOpen, updateOpen } = notificationCtx.profileData;
+
+  const handlePasswordFormClose = () => {
+    notificationCtx.profileDataHandler({
+      menuBtn: menuBtn,
+      passOpen: !passOpen,
+      updateOpen: updateOpen,
+    });
+    // return () => {
+    //   cleanup
+    // }
+  };
 
   return (
-    <form className={classes.form} onSubmit={submitHandler}>
-      <div className={classes.control}>
-        <label htmlFor="new-password">New Password</label>
-        <input type="password" id="new-password" ref={newPasswordRef} />
-      </div>
-      <div className={classes.control}>
-        <label htmlFor="old-password">Old Password</label>
-        <input type="password" id="old-password" ref={oldPasswordRef} />
-      </div>
-      <div className={classes.action}>
-        <button>Change Password</button>
-      </div>
-    </form>
+    <>
+      <form
+        className={`${classes.form} ${classes.displaybox}`}
+        onSubmit={submitHandler}
+      >
+        <span
+          onClick={handlePasswordFormClose}
+          className={classes.displayTopRight}
+          title="close"
+        >
+          &times;
+        </span>
+        <div className={classes.control}>
+          <label htmlFor="new-password">New Password</label>
+          <input type="password" id="new-password" ref={newPasswordRef} />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor="old-password">Old Password</label>
+          <input type="password" id="old-password" ref={oldPasswordRef} />
+        </div>
+        <div className={classes.action}>
+          <button>Change Password</button>
+        </div>
+      </form>
+    </>
   );
 }
 

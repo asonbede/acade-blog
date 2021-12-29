@@ -42,7 +42,7 @@ export async function getServerSideProps(context) {
     },
     { authorId: session.user.email }
   );
-  console.log(documents);
+  //console.log(documents);
   const posts = documents.map((document) => {
     return {
       title: document.title,

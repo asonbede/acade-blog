@@ -3,18 +3,22 @@ import classes from "./menu-button.module.css";
 import NotificationContext from "../../store/notification-context";
 export default function MenuButton() {
   const [classPresent, setclassPresent] = useState(true);
+  const notificationCtx = useContext(NotificationContext);
+  const { passOpen, updateOpen } = notificationCtx.profileData;
   const addClassHandler = () => {
     setclassPresent(!classPresent);
-    notificationCtx.profileDataHandler({
-      menuBtn: classPresent,
-    });
+    // notificationCtx.profileDataHandler({
+    //   menuBtn: classPresent,
+    // });
   };
 
-  const notificationCtx = useContext(NotificationContext);
   console.log({ classPresent });
   useEffect(() => {
+    // setclassPresent(true);
     notificationCtx.profileDataHandler({
       menuBtn: classPresent,
+      passOpen: passOpen,
+      updateOpen: updateOpen,
     });
     // return () => {
     //   cleanup

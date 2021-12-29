@@ -8,7 +8,7 @@ import MenuButton from "../auth/menu-button";
 function MainNavigation() {
   const [session, loading] = useSession();
   const router = useRouter();
-  console.log({ session });
+  //console.log({ session });
   function logoutHandler() {
     signOut();
     // router.replace("/");

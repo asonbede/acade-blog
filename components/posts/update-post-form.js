@@ -62,8 +62,8 @@ function UpdatePostForm({ updateId }) {
   const { value: enteredImage } = useFieldImage;
   const { value: enteredDate } = useFieldDate;
   // const { value: isFeatured } = useFieldIsFeatured;
-  console.log({ isFeatured });
-  console.log({ isModerated });
+  //console.log({ isFeatured });
+  //console.log({ isModerated });
   const blogUpdateObj = notificationCtx.blogUpdate;
   const { post, idValue } = blogUpdateObj;
   // if (post) {
@@ -76,7 +76,7 @@ function UpdatePostForm({ updateId }) {
   useFieldImage.serverContentInputHandler(post.image);
   useFieldDate.serverContentInputHandler(post.date);
   useFieldIsFeatured.serverContentInputHandler(post.isFeatured);
-  console.log({ post }, "post444");
+  //console.log({ post }, "post444");
   // useEffect(() => {
   //   if (post) {
   //     settitle(post.title);
@@ -96,7 +96,7 @@ function UpdatePostForm({ updateId }) {
     fetch("/api/restrict-route/")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        //console.log(data);
         setcheckBoxShow(data.message);
 
         // notificationCtx.showNotification({

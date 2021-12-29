@@ -28,14 +28,14 @@ async function changeLikeHandler(likedData) {
 
   const data = await response.json();
 
-  console.log(data);
+  // console.log(data);
   if (!response.ok) {
     throw new Error(data.message || "Something went wrong!");
   }
 }
 
 async function sendAuthData(authDetails, setFunc) {
-  console.log({ authDetails });
+  //console.log({ authDetails });
   const response = await fetch("/api/restrict-route", {
     method: "POST",
     body: JSON.stringify(authDetails),

@@ -2,8 +2,25 @@
   width: 95%;
   max-width: 25rem;
   margin: 2rem auto;
+  border: 1px solid #d8caca;
+  position: relative;
+}
+.displayTopRight {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: red;
+  font-size: 20px;
+  cursor: pointer;
+  margin-bottom: 4px;
+  display: inline-block;
 }
 
+.displaybox {
+  position: absolute;
+  top: 25%;
+  right: 6%;
+}
 .control {
   margin-bottom: 0.5rem;
 }
@@ -11,7 +28,7 @@
 .control label {
   font-weight: bold;
   margin-bottom: 0.5rem;
-  color: #353336;
+  color: #f7f1f1;
   display: block;
 }
 

@@ -6,16 +6,25 @@ import FeaturedPosts from "../home-page/featured-posts";
 import Head from "next/head";
 // import { getAllFeaturedDocuments, connectDatabase } from "../helpers/db-utils";
 import ProfileMenu from "../auth/profile-menu";
+import AuthForm from "../auth/auth-form";
 import { useSession, signOut } from "next-auth/client";
 //import NotificationContext from "../../../store/notification-context";
 import NotificationContext from "../../store/notification-context";
+import UpdateAuthForm from "../auth/auth-update-form";
 function UserProfile(props) {
   const [session, loading] = useSession();
   // const [isLoading, setIsLoading] = useState(true);
   const notificationCtx = useContext(NotificationContext);
   console.log("from handle update");
-  const { menuBtn } = notificationCtx.profileData;
-  console.log({ menuBtn });
+  const { menuBtn, passOpen, updateOpen } = notificationCtx.profileData;
+  console.log({ menuBtn, passOpen });
+  console.log(notificationCtx.profileData);
+  // useEffect(() => {
+  //   effect
+  //   return () => {
+  //     cleanup
+  //   }
+  // }, [input])
   // profileData.blogUpdateHandler({
   //   post,
   //   idValue: post.id,
@@ -45,7 +54,7 @@ function UserProfile(props) {
 
     const data = await response.json();
 
-    console.log(data);
+    //console.log(data);
     if (!response.ok) {
       throw new Error(data.message || "Something went wrong!");
     }
@@ -59,9 +68,12 @@ function UserProfile(props) {
       </Head>
       {/* <h1>Your User Profile</h1> */}
       {menuBtn ? null : <ProfileMenu />}
+
       <Hero name={props.name} description={props.description} />
       <FeaturedPosts posts={props.posts} />
-      <ProfileForm onChangePassword={changePasswordHandler} />
+      {passOpen && <ProfileForm onChangePassword={changePasswordHandler} />}
+
+      {updateOpen && <UpdateAuthForm />}
     </>
   );
 }

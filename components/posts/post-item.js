@@ -13,7 +13,7 @@ async function sendAuthData(authDetails, setFunc) {
   });
 
   const data = await response.json();
-  console.log({ data }, "authDetails");
+  //console.log({ data }, "authDetails");
   if (!response.ok) {
     // throw new Error(data.message || "Something went wrong!");
     setFunc(false);
@@ -29,12 +29,12 @@ function PostItem(props) {
   const [moderatedValue, setmoderatedValue] = useState();
 
   //const adminArray = [process.env.admin_1, process.env.admin_2];
-  console.log(props.post, "content333");
+  //console.log(props.post, "content333");
   // const { authorId } = post;
   useEffect(() => {
     const result = sendAuthData({ authorId, moderated }, setmoderatedValue);
 
-    console.log({ result }, "postContent");
+    //console.log({ result }, "postContent");
     // return () => {
     //   cleanup
     // }
