@@ -13,7 +13,8 @@ export default function ProfileMenu() {
   const [updateOpenValue, setregDetailsOpen] = useState(false);
   // const [regDetailsOpen, setregDetailsOpen] = useState(regDetailsOpenValue);
 
-  const { menuBtn, passOpen, updateOpen } = notificationCtx.profileData;
+  const { menuBtn, passOpen, updateOpen, uploadOpen } =
+    notificationCtx.profileData;
   const handlePasswordChange = () => {
     setpassOpenValue(!passOpen);
     // setregDetailsOpen(!updateOpenValue);
@@ -21,6 +22,7 @@ export default function ProfileMenu() {
       menuBtn: menuBtn,
       passOpen: !passOpen,
       updateOpen: updateOpen,
+      uploadOpen: uploadOpen,
     });
   };
 
@@ -31,6 +33,18 @@ export default function ProfileMenu() {
       menuBtn: menuBtn,
       passOpen: passOpen,
       updateOpen: !updateOpen,
+      uploadOpen: uploadOpen,
+    });
+  };
+
+  const handleProfileImageUpload = () => {
+    // setpassOpenValue(!passOpenValue);
+    // setregDetailsOpen(!updateOpen);
+    notificationCtx.profileDataHandler({
+      menuBtn: menuBtn,
+      passOpen: passOpen,
+      updateOpen: updateOpen,
+      uploadOpen: !uploadOpen,
     });
   };
 
@@ -48,7 +62,7 @@ export default function ProfileMenu() {
       <button onClick={handleUpdateRegDetails}>
         Update Registration details
       </button>
-      <button>Upload Profile Image</button>
+      <button onClick={handleProfileImageUpload}>Upload Profile Image</button>
     </div>
   );
 }

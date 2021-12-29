@@ -4,7 +4,7 @@ import NotificationContext from "../../store/notification-context";
 export default function MenuButton() {
   const [classPresent, setclassPresent] = useState(true);
   const notificationCtx = useContext(NotificationContext);
-  const { passOpen, updateOpen } = notificationCtx.profileData;
+  const { passOpen, updateOpen, uploadOpen } = notificationCtx.profileData;
   const addClassHandler = () => {
     setclassPresent(!classPresent);
     // notificationCtx.profileDataHandler({
@@ -19,6 +19,7 @@ export default function MenuButton() {
       menuBtn: classPresent,
       passOpen: passOpen,
       updateOpen: updateOpen,
+      uploadOpen: uploadOpen,
     });
     // return () => {
     //   cleanup

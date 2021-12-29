@@ -11,12 +11,14 @@ import { useSession, signOut } from "next-auth/client";
 //import NotificationContext from "../../../store/notification-context";
 import NotificationContext from "../../store/notification-context";
 import UpdateAuthForm from "../auth/auth-update-form";
+import ProfileImageUploadform from "./profile-image-upload-form";
 function UserProfile(props) {
   const [session, loading] = useSession();
   // const [isLoading, setIsLoading] = useState(true);
   const notificationCtx = useContext(NotificationContext);
   console.log("from handle update");
-  const { menuBtn, passOpen, updateOpen } = notificationCtx.profileData;
+  const { menuBtn, passOpen, updateOpen, uploadOpen } =
+    notificationCtx.profileData;
   console.log({ menuBtn, passOpen });
   console.log(notificationCtx.profileData);
   // useEffect(() => {
@@ -74,6 +76,7 @@ function UserProfile(props) {
       {passOpen && <ProfileForm onChangePassword={changePasswordHandler} />}
 
       {updateOpen && <UpdateAuthForm />}
+      {uploadOpen && <ProfileImageUploadform />}
     </>
   );
 }
