@@ -21,8 +21,8 @@ export default function ProfileMenu() {
     notificationCtx.profileDataHandler({
       menuBtn: menuBtn,
       passOpen: !passOpen,
-      updateOpen: updateOpen,
-      uploadOpen: uploadOpen,
+      updateOpen: updateOpen ? !updateOpen : updateOpen,
+      uploadOpen: uploadOpen ? !uploadOpen : uploadOpen,
     });
   };
 
@@ -31,9 +31,9 @@ export default function ProfileMenu() {
     // setregDetailsOpen(!updateOpen);
     notificationCtx.profileDataHandler({
       menuBtn: menuBtn,
-      passOpen: passOpen,
+      passOpen: passOpen ? !passOpen : passOpen,
       updateOpen: !updateOpen,
-      uploadOpen: uploadOpen,
+      uploadOpen: uploadOpen ? !updateOpen : updateOpen,
     });
   };
 
@@ -42,8 +42,8 @@ export default function ProfileMenu() {
     // setregDetailsOpen(!updateOpen);
     notificationCtx.profileDataHandler({
       menuBtn: menuBtn,
-      passOpen: passOpen,
-      updateOpen: updateOpen,
+      passOpen: passOpen ? !passOpen : passOpen,
+      updateOpen: updateOpen ? !updateOpen : updateOpen,
       uploadOpen: !uploadOpen,
     });
   };

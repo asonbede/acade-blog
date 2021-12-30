@@ -11,6 +11,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "bootstrap-icons": "^1.7.0",
+    "crypto": "^1.0.1",
     "draft-js": "^0.11.7",
     "gray-matter": "^4.0.2",
     "mongodb": "^3.6.4",
@@ -20,6 +21,7 @@
     "react-dom": "17.0.1",
     "react-draft-wysiwyg": "^1.14.7",
     "react-markdown": "^5.0.3",
-    "react-syntax-highlighter": "^15.4.3"
+    "react-syntax-highlighter": "^15.4.3",
+    "util": "^0.12.4"
   }
 }
