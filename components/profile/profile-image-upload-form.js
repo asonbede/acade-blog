@@ -6,10 +6,10 @@ import NotificationContext from "../../store/notification-context";
 async function sendImageData(blogDetails) {
   const response = await fetch("/api/images/profile-image", {
     method: "POST",
-    body: JSON.stringify(blogDetails),
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
+    body: blogDetails,
+    // headers: {
+    //   "Content-Type": "multipart/form-data",
+    // },
   });
 
   const data = await response.json();
@@ -23,6 +23,7 @@ export default function ProfileImageUploadform() {
   const [file, setfile] = useState();
   const [fileName, setfileName] = useState();
   const [fileType, setfileType] = useState();
+  const [urlfileUploaded, setUrlfileUploaded] = useState();
   const notificationCtx = useContext(NotificationContext);
   const { menuBtn, passOpen, updateOpen, uploadOpen } =
     notificationCtx.profileData;
@@ -92,30 +93,45 @@ export default function ProfileImageUploadform() {
   //     );
   //     const { url, fields } = await res.json();
   //     console.log({ url });
-
+  //     // const formDataItems = { acl: "public-read", ...fields, file };
+  //     // console.log({ formDataItems });
   //     let formData = new FormData();
   //     //formData.append("acl", "public-read");
+  //     console.log({ file });
+  //     formData.append("acl", "public-read");
+  //     Object.entries({ ...fields, file }).forEach(([key, value]) => {
+  //       //console.log({ key, value });
+  //       formData.append(key, value);
+  //     });
+  //     console.log({ formData });
+  //     // for (var key of formData.entries()) {
+  //     //   console.log(key[0] + ", " + key[1]);
+  //     // }
 
-  //     Object.entries({ acl: "public-read", ...fields, file }).forEach(
-  //       ([key, value]) => {
-  //         formData.append(key, value);
-  //       }
-  //     );
-
+  //     // Object.keys(fields).forEach((key) => {
+  //     //   formData.append(key, fields[key]);
+  //     // });
+  //     // Actual file has to be appended last.
+  //     formData.append("file", file);
   //     const upload = await fetch(url, {
   //       method: "POST",
-  //       body: formData,
-  //       headers: { "Content-Type": "multipart/form-data" },
+  //       body: file,
+  //       headers: {
+  //         "Content-Type": false,
+  //         "Content-Length": formData.entries().length,
+  //       },
   //     });
-
+  //     setUrlfileUploaded(`${upload.url}/${file.name}`);
   //     if (upload.ok) {
   //       console.log("Uploaded successfully");
+  //       console.log({ urlfileUploaded });
   //     } else {
   //       console.error("Upload failed");
   //     }
   //   } catch (error) {
   //     console.log("something went wrong");
   //   }
+  // };
 
   // const { url } = await fetch("/api/images/profile-image").then((res) =>
   //   res.json()
@@ -185,8 +201,8 @@ export default function ProfileImageUploadform() {
           <input
             type="file"
             id="myFile"
-            name="filename"
-            accept="image/png, image/jpeg"
+            name="image"
+            accept="image/*"
             onChange={handleChange}
           />
         </div>

@@ -58,6 +58,7 @@ function getFileStream(fileKey) {
 const storage = multer.diskStorage({
   destination: "public/upload",
   filename: function (req, file, cb) {
+    console.log(file.originalname, "inside-uploadddMimimtypeDistkstr---");
     cb(
       null,
       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
@@ -76,12 +77,15 @@ function checkFileType(file, cb) {
   //Check mimetype
   const mimeType = fileTypes.test(file.mimetype);
   if (isRightExtention && mimeType) {
+    console.log("inside-uploadddMimimtypetrrrrrtruuuee---");
     return cb(null, true);
   } else {
+    console.log("inside-uploadddMimimtype---");
     cb({ error: "images only" });
   }
 }
 function uploadFunc(fileSize) {
+  console.log("inside-uploaddd---");
   const upload = multer({
     storage: storage,
     limits: { fileSize: fileSize },
@@ -89,6 +93,7 @@ function uploadFunc(fileSize) {
       checkFileType(file, cb);
     },
   }).single("image");
+  console.log("outside-uploaddd---");
   return upload;
 }
 exports.uploadFile = uploadFile;

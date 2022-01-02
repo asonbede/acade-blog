@@ -36,7 +36,7 @@ const aws = require("aws-sdk");
 // const region = process.env.s3_bucket_region;
 // const bucketaName = process.env.s3_bucket_name;
 // const accessKeyId = process.env.s3_access_key;
-// const secretAccesskey = process.env.s3_secrete_access_key;
+// const secretAccessKey = process.env.s3_secrete_access_key;
 
 const apiRoute = nextConnect({
   onError(error, req, res) {
@@ -49,13 +49,20 @@ const apiRoute = nextConnect({
   },
 });
 
-apiRoute.post((req, res) => {
+apiRoute.post(async (req, res) => {
+  const session = await getSession({ req: req });
+  if (!session) {
+    res.status(401).json({ message: "Not authenticated!" });
+    return;
+  }
+
   const upload = uploadFunc(9000000);
-  console.log("started....");
+  console.log("started....apiRoute");
 
   upload(req, res, async (err) => {
     if (err) {
       //res.json({ msg: err });
+      console.log("started....big error");
       return res.status(401).json({ error: err });
     } else {
       if (req.file == undefined) {
@@ -82,11 +89,11 @@ apiRoute.post((req, res) => {
 
           const usersCollection = client.db().collection("users");
 
-          const result = await usersCollection.updateOne(
+          const resultOfUpdate = await usersCollection.updateOne(
             { email: session.user.email },
             { $set: { imageLink: imageid } }
           );
-
+          console.log("started....okay multer");
           client.close();
           res.status(200).json({ message: "upload was successful!" });
 
@@ -105,7 +112,7 @@ apiRoute.post((req, res) => {
   });
 });
 
-///get user image from s3
+//get user image from s3
 apiRoute.get((req, res) => {
   console.log("inside get");
   const key = req.query.file;
@@ -124,7 +131,7 @@ export const config = {
 // const s3 = new aws.S3({
 //   region,
 //   accessKeyId,
-//   secretAccesskey,
+//   secretAccessKey,
 //   signatureVersion: "v4",
 // });
 
@@ -144,56 +151,57 @@ export const config = {
 //   return uploadURL;
 // }
 
-//async function handler(req, res) {
-//const eventId = req.query.eventId;
-//console.log("running post01");
-// let client;
-// console.log({ region, accessKeyId, secretAccesskey, bucketaName });
-// try {
-//   client = await connectDatabase();
-// } catch (error) {
-//   res.status(500).json({ message: "Connecting to the database failed!" });
-//   return;
-// }
+// async function handler(req, res) {
+//   // const eventId = req.query.eventId;
+//   console.log("running post01");
+//   //let client;
+//   console.log({ region, accessKeyId, secretAccessKey, bucketaName });
+//   // try {
+//   //   client = await connectDatabase();
+//   // } catch (error) {
+//   //   res.status(500).json({ message: "Connecting to the database failed!" });
+//   //   return;
+//   // }
 
-// if (req.method === "GET") {
-//   console.log("running post1");
-//   const session = await getSession({ req: req });
+//   if (req.method === "GET") {
+//     console.log("running post1");
+//     const session = await getSession({ req: req });
 
-//   if (!session) {
-//     res.status(401).json({ message: "Not authenticated!" });
-//     return;
-//   }
-//   aws.config.update({
-//     signatureVersion: "v4",
-//     region: "us-east-1",
-//     accessKeyId,
-//     secretAccesskey,
-//   });
-//   console.log("post345detect");
-//   const s3 = new aws.S3();
-//   console.log(req.query.file, "param");
-//   try {
-//     const post = await s3.createPresignedPost({
-//       ACL: "public-read",
-//       Bucket: bucketaName,
-//       Fields: {
-//         key: req.query.file,
-//       },
-//       //Key: req.query.file,
-//       Expires: 120,
-
-//       Conditions: [
-//         ["acl", "public-read"],
-//         ["content-length-range", 0, 104857667885],
-//       ],
+//     if (!session) {
+//       res.status(401).json({ message: "Not authenticated!" });
+//       return;
+//     }
+//     aws.config.update({
+//       signatureVersion: "v4",
+//       region: "us-east-1",
+//       accessKeyId,
+//       secretAccessKey,
 //     });
-//     console.log({ post });
-//     console.log("running post3");
-//     res.status(200).json(post);
-//   } catch (error) {
-//     console.log("running post3ERROR");
-//     res.status(501).json({ message: `error occured ${error}` });
+//     console.log("post345detect");
+//     const s3 = new aws.S3();
+//     console.log(req.query.file, "param");
+//     try {
+//       const post = await s3.createPresignedPost({
+//         ACL: "public-read",
+//         Bucket: bucketaName,
+//         Fields: {
+//           key: req.query.file,
+//         },
+//         //Key: req.query.file,
+//         Expires: 720,
+
+//         Conditions: [
+//           ["acl", "public-read"],
+//           ["content-length-range", 0, 104857665],
+//         ],
+//       });
+//       console.log({ post });
+//       console.log("running post3");
+//       res.status(200).json(post);
+//     } catch (error) {
+//       console.log("running post3ERROR");
+//       res.status(501).json({ message: `error occured ${error}` });
+//     }
 //   }
 // }
 
