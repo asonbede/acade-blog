@@ -12,7 +12,7 @@ export default function MenuButton() {
     // });
   };
 
-  console.log({ classPresent });
+  //console.log({ classPresent });
   useEffect(() => {
     // setclassPresent(true);
     notificationCtx.profileDataHandler({

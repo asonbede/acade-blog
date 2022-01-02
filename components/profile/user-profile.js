@@ -16,11 +16,11 @@ function UserProfile(props) {
   const [session, loading] = useSession();
   // const [isLoading, setIsLoading] = useState(true);
   const notificationCtx = useContext(NotificationContext);
-  console.log("from handle update");
+  //console.log("from handle update");
   const { menuBtn, passOpen, updateOpen, uploadOpen } =
     notificationCtx.profileData;
-  console.log({ menuBtn, passOpen });
-  console.log(notificationCtx.profileData);
+  //console.log({ menuBtn, passOpen });
+  //console.log(notificationCtx.profileData);
   // useEffect(() => {
   //   effect
   //   return () => {

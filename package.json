@@ -9,14 +9,17 @@
     "export": "next export"
   },
   "dependencies": {
+    "aws-sdk": "^2.1048.0",
     "bcryptjs": "^2.4.3",
     "bootstrap-icons": "^1.7.0",
     "crypto": "^1.0.1",
     "draft-js": "^0.11.7",
     "gray-matter": "^4.0.2",
     "mongodb": "^3.6.4",
+    "multer": "^1.4.4",
     "next": "10.0.6",
     "next-auth": "3.29.0",
+    "next-connect": "^0.11.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-draft-wysiwyg": "^1.14.7",
