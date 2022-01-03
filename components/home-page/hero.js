@@ -3,6 +3,7 @@ import Image from "next/image";
 import classes from "./hero.module.css";
 import { useRouter } from "next/router";
 function Hero(props) {
+  console.log(props.imageUrl, "profile-photo");
   const router = useRouter();
   const fixHerosImageSrc = () => {
     let srcString = "";
@@ -21,7 +22,7 @@ function Hero(props) {
   return (
     <section className={classes.hero}>
       <div className={classes.image}>
-        <Image
+        <img
           src={fixHerosImageSrc()}
           alt="An image showing bede"
           width={300}

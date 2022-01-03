@@ -47,6 +47,7 @@ function uploadFile(file) {
 
 //download a file  from s3
 function getFileStream(fileKey) {
+  console.log("inside getFileStream1");
   const downloadParams = {
     Key: fileKey,
     Bucket: bucketName,

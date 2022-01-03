@@ -116,9 +116,19 @@ apiRoute.post(async (req, res) => {
 apiRoute.get((req, res) => {
   console.log("inside get");
   const key = req.query.file;
+  console.log({ key }, "inside get");
   //const key = req.params.key;
-  const readStream = getFileStream(key);
-  readStream.pipe(res);
+  // res.set("Content-Type", "image/jpeg");
+  // res.set("Content-Type", "image/jpg");
+  // res.set("Content-Type", "image/png");
+  console.log({ getFileStream });
+  const stream = getFileStream(key);
+  console.log("inside getFileStream2");
+  stream.on("error", (err) => {
+    logger.log({ level: "error", messsage: "stream error", error: `${err}` });
+  });
+  stream.pipe(res);
+  //readStream.pipe(res);
 });
 
 export default apiRoute;

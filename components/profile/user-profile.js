@@ -71,7 +71,11 @@ function UserProfile(props) {
       {/* <h1>Your User Profile</h1> */}
       {menuBtn ? null : <ProfileMenu />}
 
-      <Hero name={props.name} description={props.description} />
+      <Hero
+        name={props.name}
+        description={props.description}
+        imageUrl={props.imageUrl}
+      />
       <FeaturedPosts posts={props.posts} />
       {passOpen && <ProfileForm onChangePassword={changePasswordHandler} />}
 
