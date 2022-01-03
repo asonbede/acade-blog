@@ -4,11 +4,25 @@ import classes from "./hero.module.css";
 import { useRouter } from "next/router";
 function Hero(props) {
   const router = useRouter();
+  const fixHerosImageSrc = () => {
+    let srcString = "";
+    if (router.pathname === "/" || router.pathname === "/posts") {
+      srcString = "/images/posts/bede-profile.jpg";
+    } else if (router.pathname === "/profile") {
+      srcString = props.imageUrl
+        ? props.imageUrl
+        : "/images/posts/default-profile-pic.jpg";
+    } else {
+      srcString = "/images/posts/bede-profile.jpg";
+    }
+    return srcString;
+  };
+
   return (
     <section className={classes.hero}>
       <div className={classes.image}>
         <Image
-          src="/images/posts/bede-profile.jpg"
+          src={fixHerosImageSrc()}
           alt="An image showing bede"
           width={300}
           height={300}

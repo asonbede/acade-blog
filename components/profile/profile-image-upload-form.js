@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import classes from "./profile-image-upload-form.module.css";
 //import NotificationContext from "../../store/notification-context";
 import NotificationContext from "../../store/notification-context";
-
+import { useRouter } from "next/router";
 async function sendImageData(blogDetails) {
   const response = await fetch("/api/images/profile-image", {
     method: "POST",
@@ -25,6 +25,7 @@ export default function ProfileImageUploadform() {
   const [fileType, setfileType] = useState();
   const [urlfileUploaded, setUrlfileUploaded] = useState();
   const notificationCtx = useContext(NotificationContext);
+  const router = useRouter();
   const { menuBtn, passOpen, updateOpen, uploadOpen } =
     notificationCtx.profileData;
   const handleUploadImageFormClose = () => {

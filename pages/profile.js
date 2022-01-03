@@ -6,15 +6,14 @@ import { getAllFeaturedDocuments, connectDatabase } from "../helpers/db-utils";
 // import { getAllFeaturedDocuments, connectDatabase } from "../helpers/db-utils";
 function ProfilePage(props) {
   const [session, loading] = useSession();
+  const description = props.session.user.image.split("??")[1];
+  const imageUrl = props.session.user.image.split("??")[0];
   return (
     <UserProfile
       posts={props.posts}
       name={props.session.user.name}
-      description={
-        props.session.user.image
-          ? props.session.user.image
-          : "No description yet"
-      }
+      description={description}
+      imageUrl={imageUrl}
     />
   );
 }
