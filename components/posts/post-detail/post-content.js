@@ -332,11 +332,11 @@ function PostContent(props) {
             ) : null} */}
             </div>
             {/* <p className={classes.bloghashtag}>#Biryani #Food</p> */}
-            <h2 className={classes.blogtitle}>{post.title}</h2>
-            <h3 className={classes.excerpt}>
+            <h3 className={classes.blogtitle}>{post.title}</h3>
+            <h5 className={classes.excerpt}>
               {post.excerpt}{" "}
               <button onClick={handleContenButText}>{contenButText}</button>
-            </h3>
+            </h5>
             <div className={classes.blogdescription} style={{ width: "100%" }}>
               {isContentOpen && (
                 <DisplayEditorContent

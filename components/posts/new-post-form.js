@@ -32,6 +32,7 @@ function NewPostForm() {
   //const [enteredExcerpt, setenteredExcerpt] = useState(""); // 'pending', 'success', 'error'
   //const [enteredContent, setEnteredContent] = useState("");
   const [isFeatured, setisFeatured] = useState(false);
+  const [orderValue, setorderValue] = useState(1);
   //const [requestStatus, setRequestStatus] = useState(null);
   //const [requestError, setRequestError] = useState(null);
   const notificationCtx = useContext(NotificationContext);
@@ -49,6 +50,7 @@ function NewPostForm() {
   const router = useRouter();
   const useFieldDate = useField("text");
   const useFieldImage = useField("text");
+  const useFieldCategory = useField("text");
 
   const useFieldTitle = useField("text");
   // const useEditorImage= useEditor();
@@ -58,6 +60,7 @@ function NewPostForm() {
   const { value: enteredTitle } = useFieldTitle;
   // const { url: enteredImage } = useEditorImage;
   const { value: enteredExcerpt } = useFieldExcept;
+  const { value: enteredCategory } = useFieldCategory;
   const {
     url: enteredContent,
     editorState,
@@ -92,6 +95,8 @@ function NewPostForm() {
         author: session.user.name,
         authorId: session.user.email,
         moderated: false,
+        category: enteredCategory,
+        orderValue: orderValue,
       });
 
       notificationCtx.showNotification({
@@ -108,6 +113,9 @@ function NewPostForm() {
       });
     }
   }
+  const onChangeNumber = (e) => {
+    setorderValue(e.target.value);
+  };
   // let notification;
 
   // if (requestStatus === "pending") {
@@ -226,7 +234,32 @@ function NewPostForm() {
             // smallHeight={false}
           />
         </div>
+
+        <div className={classes.control}>
+          <label htmlFor="category">Enter Category</label>
+
+          <input
+            // type="text"
+            id="category"
+            required
+            value={enteredCategory}
+            onChange={useFieldCategory.onChange}
+          />
+        </div>
+
+        <div className={classes.control}>
+          <label htmlFor="order">Enter Order Number</label>
+
+          <input
+            type="number"
+            id="order"
+            required
+            value={orderValue}
+            onChange={onChangeNumber}
+          />
+        </div>
         {/* <div className={classes.control}> */}
+
         <span htmlFor="isFeatured" className="featured">
           Feature This Post
         </span>

@@ -2,7 +2,18 @@
   width: 80%;
   max-width: 80rem;
   margin: var(--size-8) auto;
-  margin-right: 1.5%;
+  /* margin-right: 0.5%; */
+}
+
+.displayProfile {
+  display: flex;
+  /* flex-wrap: wrap; */
+  justify-content: space-around;
+  /* margin-left: 5px; */
+  list-style: none;
+  /* margin-right: 0.5%; */
+  /* margin-right: 6%; */
+  margin: 10px !important;
 }
 
 .latest h2 {

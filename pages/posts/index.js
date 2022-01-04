@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { Fragment } from "react";
-
+import Hero from "../../components/home-page/hero";
 import AllPosts from "../../components/posts/all-posts";
 //import { getAllPosts } from "../../lib/posts-util";
 import { connectDatabase, getAllDocuments } from "../../helpers/db-utils";
@@ -14,6 +14,7 @@ function AllPostsPage(props) {
           content="A list of all programming-related tutorials and posts!"
         />
       </Head>
+      <Hero />
       <AllPosts posts={props.posts} />
     </Fragment>
   );
@@ -54,6 +55,8 @@ export async function getStaticProps() {
           author: document.author,
           authorId: document.authorId,
           moderated: document.moderated ? document.moderated : false,
+          category: document.category ? document.category : "Chemistry",
+          orderValue: document.orderValue ? document.orderValue : 1,
         };
       }),
     },

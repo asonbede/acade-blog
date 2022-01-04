@@ -38,6 +38,7 @@ function UpdatePostForm({ updateId }) {
   const [isFeatured, setisFeatured] = useState(false);
   const [isModerated, setisModerated] = useState(false);
   const [checkBoxShow, setcheckBoxShow] = useState(false);
+  const [orderValue, setorderValue] = useState(1);
   const notificationCtx = useContext(NotificationContext);
   const [session, loading] = useSession();
   const router = useRouter();
@@ -49,7 +50,7 @@ function UpdatePostForm({ updateId }) {
   const useFieldExcept = useField("text");
   const useFieldIsFeatured = useField("text");
   const useEditorContent = useEditor();
-
+  const useFieldCategory = useField("text");
   const { value: enteredTitle } = useFieldTitle;
   // const { url: enteredImage } = useEditorImage;
   const { value: enteredExcerpt } = useFieldExcept;
@@ -61,6 +62,7 @@ function UpdatePostForm({ updateId }) {
 
   const { value: enteredImage } = useFieldImage;
   const { value: enteredDate } = useFieldDate;
+  const { value: enteredCategory } = useFieldCategory;
   // const { value: isFeatured } = useFieldIsFeatured;
   //console.log({ isFeatured });
   //console.log({ isModerated });
@@ -76,6 +78,8 @@ function UpdatePostForm({ updateId }) {
   useFieldImage.serverContentInputHandler(post.image);
   useFieldDate.serverContentInputHandler(post.date);
   useFieldIsFeatured.serverContentInputHandler(post.isFeatured);
+
+  useFieldCategory.serverContentInputHandler(post.category);
   //console.log({ post }, "post444");
   // useEffect(() => {
   //   if (post) {
@@ -139,6 +143,8 @@ function UpdatePostForm({ updateId }) {
         author: session.user.name,
         authorId: session.user.email,
         moderated: isModerated,
+        category: enteredCategory,
+        orderValue: orderValue,
       });
       //setRequestStatus("success");
       // setEnteredContent("");
@@ -162,6 +168,10 @@ function UpdatePostForm({ updateId }) {
       });
     }
   }
+
+  const onChangeNumber = (e) => {
+    setorderValue(e.target.value);
+  };
 
   // if (idValue === updateId) {
   return (
@@ -248,6 +258,30 @@ function UpdatePostForm({ updateId }) {
             toolbarOnFocus={false}
             toolbarPresent={true}
             // smallHeight={false}
+          />
+        </div>
+
+        <div className={classes.control}>
+          <label htmlFor="category">Enter Category</label>
+
+          <input
+            // type="text"
+            id="category"
+            required
+            value={useFieldCategory.value}
+            onChange={useFieldCategory.onChange}
+          />
+        </div>
+
+        <div className={classes.control}>
+          <label htmlFor="order">Enter Order Number</label>
+
+          <input
+            type="number"
+            id="order"
+            required
+            value={orderValue}
+            onChange={onChangeNumber}
           />
         </div>
         {/* <div className={classes.control}> */}

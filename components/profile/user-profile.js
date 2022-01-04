@@ -12,6 +12,7 @@ import { useSession, signOut } from "next-auth/client";
 import NotificationContext from "../../store/notification-context";
 import UpdateAuthForm from "../auth/auth-update-form";
 import ProfileImageUploadform from "./profile-image-upload-form";
+//import PostContent from "../posts/post-detail/post-content";
 function UserProfile(props) {
   const [session, loading] = useSession();
   // const [isLoading, setIsLoading] = useState(true);

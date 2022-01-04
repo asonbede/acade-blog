@@ -30,12 +30,12 @@ function Hero(props) {
         />
       </div>
       <h1>
-        {router.pathname === "/" || router.pathname === "/posts"
+        {router.pathname === "/" || router.pathname === "/posts/"
           ? "Hi,  i am Bede Asonye."
           : `Hi,  i am ${props.name}`}
       </h1>
       <p>
-        {router.pathname === "/" || router.pathname === "/posts"
+        {router.pathname === "/" || router.pathname === "/posts/"
           ? "I blog about the sciences especially Chemistry, Biology, Physics and Programming"
           : props.description}
       </p>

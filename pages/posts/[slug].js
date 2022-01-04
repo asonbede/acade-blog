@@ -70,6 +70,8 @@ export async function getStaticProps(context) {
     authorId: document.authorId,
     id: document._id.toString(),
     moderated: document.moderated ? document.moderated : false,
+    category: document.category ? document.category : "Chemistry",
+    orderValue: document.orderValue ? document.orderValue : 1,
   };
 
   return {

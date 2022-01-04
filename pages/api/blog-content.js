@@ -32,6 +32,8 @@ async function handler(req, res) {
       author,
       authorId,
       moderated,
+      category,
+      orderValue,
     } = req.body;
 
     if (
@@ -44,7 +46,9 @@ async function handler(req, res) {
       !excerpt ||
       excerpt.trim() === "" ||
       !content ||
-      content.trim() === ""
+      content.trim() === "" ||
+      !category ||
+      category.trim() === ""
     ) {
       res.status(422).json({ message: "Invalid input." });
       client.close();
@@ -61,6 +65,8 @@ async function handler(req, res) {
       author,
       authorId,
       moderated,
+      category,
+      orderValue,
     };
 
     let result;
@@ -86,6 +92,8 @@ async function handler(req, res) {
       author,
       authorId,
       moderated,
+      category,
+      orderValue,
     } = req.body;
 
     if (
@@ -98,7 +106,9 @@ async function handler(req, res) {
       !excerpt ||
       excerpt.trim() === "" ||
       !content ||
-      content.trim() === ""
+      content.trim() === "" ||
+      !category ||
+      category.trim() === ""
     ) {
       res.status(422).json({ message: "Invalid input." });
       client.close();
@@ -115,6 +125,8 @@ async function handler(req, res) {
       author,
       authorId,
       moderated,
+      category,
+      orderValue,
     };
 
     let result;
