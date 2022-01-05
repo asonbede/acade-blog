@@ -63,7 +63,7 @@ export async function getStaticProps() {
     client,
     "postTable",
     {
-      _id: -1,
+      orderValue: 1,
     },
     { isFeatured: true }
   );

@@ -72,6 +72,11 @@ function UpdatePostForm({ updateId }) {
   //   useEditorContent.useServerContent(post.content);
   //   //useEditorMainBlogTitle.useServerContent(post.title);
   // }
+  useEffect(() => {
+    if (post) {
+      setorderValue(post.orderValue);
+    }
+  }, [post]);
   useEditorContent.serverContentHandler(post.content);
   useFieldTitle.serverContentInputHandler(post.title);
   useFieldExcept.serverContentInputHandler(post.excerpt);

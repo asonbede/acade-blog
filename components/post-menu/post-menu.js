@@ -9,6 +9,7 @@ export default function ProfileMenu(props) {
 
   const [selectValue, setselectValue] = useState();
   const router = useRouter();
+  const idFromRoute = router.query;
   const arrangePostByCategory = () => {
     const newPosts = [];
     const catArray = [];
@@ -38,11 +39,11 @@ export default function ProfileMenu(props) {
   //   }
   // };
   // useEffect(() => {
-  //   if (selectValue) {
-
-  //     props.onSelectMenu(selectValue);
+  //   if (idFromRoute) {
+  //     setselectValue(idFromRoute);
+  //     // props.onSelectMenu(selectValue);
   //   }
-  // }, [selectValue]);
+  // }, [idFromRoute]);
   const onselectChange = (e) => {
     const optionValue = e.target.value;
     // setselectValue(optionValue);
@@ -71,6 +72,7 @@ export default function ProfileMenu(props) {
         size={6}
         className={classes.menuSelect}
         onChange={onselectChange}
+        value={selectValue}
       >
         {arrangePostByCategory().map((post) => (
           <optgroup label={post.category}>

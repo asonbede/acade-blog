@@ -32,7 +32,9 @@ export async function getStaticProps() {
   // }
 
   // try {
-  const documents = await getAllDocuments(client, "postTable", { _id: -1 });
+  const documents = await getAllDocuments(client, "postTable", {
+    orderValue: 1,
+  });
   //   res.status(200).json({ post: documents });
   // } catch (error) {
   //   res.status(500).json({ message: "Getting comments failed." });

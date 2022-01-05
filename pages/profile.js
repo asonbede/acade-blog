@@ -37,7 +37,7 @@ export async function getServerSideProps(context) {
     client,
     "postTable",
     {
-      _id: -1,
+      orderValue: 1,
     },
     { authorId: session.user.email }
   );
