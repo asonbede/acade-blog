@@ -5,38 +5,6 @@ import FeaturedPosts from "../components/home-page/featured-posts";
 import Hero from "../components/home-page/hero";
 
 import { getAllFeaturedDocuments, connectDatabase } from "../helpers/db-utils";
-// const posts = [
-//   {
-//     title: "First post of this post",
-//     date: "2021-7-10",
-//     image: "post-1-photo.jpg",
-//     excerpt:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.",
-//     content:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.",
-//     id: "1",
-//   },
-//   {
-//     title: "Second post of this post",
-//     date: "2022-8-11",
-//     image: "post-2-photo.jpg",
-//     excerpt:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.",
-//     content:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.",
-//     id: "2",
-//   },
-//   {
-//     title: "Third post of this post",
-//     date: "2021-8-12",
-//     image: "post-3-photo.jpg",
-//     excerpt:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.",
-//     content:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente omnis corrupti laudantium! Iure ad tempora soluta similique obcaecati consectetur animi rerum nisi dolores modi quasi, harum ipsa iusto quae? Libero.",
-//     id: "2",
-//   },
-// ];
 
 function HomePage(props) {
   return (
@@ -67,7 +35,6 @@ export async function getStaticProps() {
     },
     { isFeatured: true }
   );
-  //console.log(documents);
 
   client.close();
 
@@ -87,6 +54,9 @@ export async function getStaticProps() {
           moderated: document.moderated ? document.moderated : false,
           category: document.category ? document.category : "Chemistry",
           orderValue: document.orderValue ? document.orderValue : 1,
+          imageProfileUrl: document.imageProfileUrl
+            ? document.imageProfileUrl
+            : "/images/posts/default-profile-pic.jpg",
         };
       }),
     },

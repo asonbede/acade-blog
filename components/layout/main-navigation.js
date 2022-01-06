@@ -25,6 +25,9 @@ function MainNavigation() {
           <li>
             <Link href="/posts">Posts</Link>
           </li>
+          <li>
+            <Link href="/authors">Authors</Link>
+          </li>
           {session && (
             <li>
               <Link href="/posts/create-post">Create Post</Link>

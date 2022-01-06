@@ -1,7 +1,8 @@
 import Head from "next/head";
 import { Fragment } from "react";
-import Hero from "../../components/home-page/hero";
-import AllPosts from "../../components/posts/all-posts";
+//import Hero from "../../components/home-page/hero";
+//import AllPosts from "../../components/posts/all-posts";
+import AllPosts from "../components/posts/all-posts";
 //import { getAllPosts } from "../../lib/posts-util";
 import { connectDatabase, getAllDocuments } from "../../helpers/db-utils";
 function AllPostsPage(props) {
@@ -14,7 +15,7 @@ function AllPostsPage(props) {
           content="A list of all programming-related tutorials and posts!"
         />
       </Head>
-      <Hero />
+      {/* <Hero /> */}
       <AllPosts posts={props.posts} />
     </Fragment>
   );
@@ -32,8 +33,8 @@ export async function getStaticProps() {
   // }
 
   // try {
-  const documents = await getAllDocuments(client, "postTable", {
-    orderValue: 1,
+  const documents = await getAllDocuments(client, "users", {
+    _id: 1,
   });
   //   res.status(200).json({ post: documents });
   // } catch (error) {
@@ -46,28 +47,19 @@ export async function getStaticProps() {
     props: {
       posts: documents.map((document) => {
         return {
-          title: document.title,
-          date: document.date,
-
-          image: document.image,
-          excerpt: document.excerpt,
-          content: document.content,
           id: document._id.toString(),
-          likes: document.likes ? document.likes : {},
-          author: document.author,
-          authorId: document.authorId,
-          moderated: document.moderated ? document.moderated : false,
-          category: document.category ? document.category : "Chemistry",
-          orderValue: document.orderValue ? document.orderValue : 1,
-          imageProfileUrl: document.imageProfileUrl
-            ? document.imageProfileUrl
-            : "/images/posts/default-profile-pic.jpg",
+          email: document.email,
+          name: document.name,
+          interest: document.interest,
+          imageLink: document.imageLink
+            ? document.imageLink
+            : "images/posts/bede-profile.jpg",
         };
       }),
     },
   };
 }
-
+//email, password, name, interest
 export default AllPostsPage;
 
 // const client = await MongoClient.connect(

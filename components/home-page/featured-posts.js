@@ -24,7 +24,6 @@ function FeaturedPosts(props) {
         router.pathname === "/profile" ? classes.displayProfile : ""
       }`}
     >
-      {/* <h2>Featured Posts</h2> */}
       <div>
         {router.pathname === "/profile" ? (
           <PostMenu

@@ -1,0 +1,281 @@
+.post {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  background-color: var(--color-grey-800);
+  text-align: center;
+  overflow: hidden;
+  box-shadow: 0px 2px 20px #d7dfe2;
+  transition: 250ms all ease-in-out;
+  border-radius: 0.5rem;
+  /* margin: 1rem; */
+}
+
+.post a {
+  color: var(--color-grey-100);
+}
+.post:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 2px 40px #d7dfe2;
+}
+
+.image {
+  width: 100%;
+  max-height: 25rem;
+  overflow: hidden;
+  background-color: blanchedalmond;
+  margin-right: 36px;
+}
+
+.image img {
+  object-fit: cover;
+
+  width: 80%;
+  margin: 0 auto;
+}
+
+.content {
+  padding: var(--size-4);
+}
+
+.content h3 {
+  margin: var(--size-2) 0;
+  font-size: var(--size-6);
+}
+
+.content time {
+  font-style: italic;
+  color: var(--color-grey-300);
+}
+
+.content p {
+  line-height: var(--size-6);
+}
+
+.cardprofile {
+  display: flex;
+  margin-top: 2rem;
+  align-items: center;
+}
+
+.profileimg {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.cardprofileinfo {
+  margin-left: 1rem;
+}
+
+.profilename {
+  font-size: 1rem;
+}
+
+.profilefollowers {
+  color: #616b74;
+  font-size: 0.9rem;
+}
+
+/* 
+  another
+  */
+.card {
+  overflow: hidden;
+  box-shadow: 0px 2px 20px #d7dfe2;
+  background: white;
+  border-radius: 0.5rem;
+  position: relative;
+  width: 350px;
+  margin: 1rem;
+  transition: 250ms all ease-in-out;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 2px 40px #d7dfe2;
+}
+
+.bannerimg {
+  position: absolute;
+  object-fit: cover;
+  height: 14rem;
+  width: 100%;
+}
+
+.categorytag {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+  background: red;
+  padding: 0.5rem 1.3rem 0.5rem 1rem;
+  text-transform: uppercase;
+  position: absolute;
+  z-index: 1;
+  top: 1rem;
+  border-radius: 0 2rem 2rem 0;
+}
+
+.popular {
+  background: #ef257a;
+}
+
+.technology {
+  background: #651fff;
+}
+
+.psychology {
+  background: #e85808;
+}
+
+.cardbody {
+  margin: 15rem 1rem 1rem 1rem;
+}
+
+.bloghashtag {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4d97b2;
+}
+
+.blogtitle {
+  line-height: 1.5rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.blogdescription {
+  color: #616b74;
+  font-size: 0.9rem;
+}
+
+.cardprofile {
+  display: flex;
+  margin-top: 2rem;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.profileimg {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.cardprofileinfo {
+  margin-left: 1rem;
+}
+
+.profilename {
+  font-size: 1rem;
+  color: #616b74;
+}
+
+.profilefollowers {
+  color: #616b74;
+  font-size: 0.9rem;
+}
+
+.showItem {
+  display: "block";
+}
+
+.hideItem {
+  display: none;
+}
+
+/* alternative card */
+/* .card {
+    overflow: hidden;
+    box-shadow: 0px 2px 20px #d7dfe2;
+    background: white;
+    border-radius: 0.5rem;
+    position: relative;
+    width: 350px;
+    margin: 1rem;
+    transition: 250ms all ease-in-out;
+    cursor: pointer;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 2px 40px #d7dfe2;
+  }
+  
+  .bannerImg {
+    position: absolute;
+    object-fit: cover;
+    height: 14rem;
+    width: 100%;
+  }
+  
+  .categoryTag {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+    background: red;
+    padding: 0.5rem 1.3rem 0.5rem 1rem;
+    text-transform: uppercase;
+    position: absolute;
+    z-index: 1;
+    top: 1rem;
+    border-radius: 0 2rem 2rem 0;
+  }
+  
+  .popular {
+    background: #ef257a;
+  }
+  
+  .technology {
+    background: #651fff;
+  }
+  
+  .psychology {
+    background: #e85808;
+  }
+  
+  .cardBody {
+    margin: 15rem 1rem 1rem 1rem;
+  }
+  
+  .blogHashtag {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #4d97b2;
+  }
+  
+  .blogTitle {
+    line-height: 1.5rem;
+    margin: 1rem 0 0.5rem;
+  }
+  
+  .blogDescription {
+    color: #616b74;
+    font-size: 0.9rem;
+  }
+  
+  .cardProfile {
+    display: flex;
+    margin-top: 2rem;
+    align-items: center;
+  }
+  
+  .profileImg {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  .cardProfileInfo {
+    margin-left: 1rem;
+  }
+  
+  .profileName {
+    font-size: 1rem;
+  }
+  
+  .profileFollowers {
+    color: #616b74;
+    font-size: 0.9rem;
+  } */

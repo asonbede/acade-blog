@@ -39,6 +39,13 @@ function UpdatePostForm({ updateId }) {
   const [isModerated, setisModerated] = useState(false);
   const [checkBoxShow, setcheckBoxShow] = useState(false);
   const [orderValue, setorderValue] = useState(1);
+  const [imageProfileUrl, setimageProfileUrlValue] = useState();
+  const [name, setname] = useState();
+  const [email, setemail] = useState();
+
+  // author: session.user.name,
+  // authorId: session.user.email,
+
   const notificationCtx = useContext(NotificationContext);
   const [session, loading] = useSession();
   const router = useRouter();
@@ -75,6 +82,9 @@ function UpdatePostForm({ updateId }) {
   useEffect(() => {
     if (post) {
       setorderValue(post.orderValue);
+      setimageProfileUrlValue(post.imageProfileUrl);
+      setname(post.author);
+      setemail(post.authorId);
     }
   }, [post]);
   useEditorContent.serverContentHandler(post.content);
@@ -145,11 +155,12 @@ function UpdatePostForm({ updateId }) {
         content: enteredContent,
         isFeatured: isFeatured,
         blogId: idValue,
-        author: session.user.name,
-        authorId: session.user.email,
+        author: name,
+        authorId: email,
         moderated: isModerated,
         category: enteredCategory,
         orderValue: orderValue,
+        imageProfileUrl: imageProfileUrl,
       });
       //setRequestStatus("success");
       // setEnteredContent("");

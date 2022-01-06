@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import classes from "./post-item.module.css";
+import classes from "./user-item.module.css";
 //import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 async function sendAuthData(authDetails, setFunc) {
   const response = await fetch("/api/moderating-post", {
@@ -22,36 +22,35 @@ async function sendAuthData(authDetails, setFunc) {
   }
 }
 
-function PostItem(props) {
-  const { title, image, excerpt, date, slug, id, moderated, authorId } =
-    props.post;
+function UserItem(props) {
+  const { id, email, name, interest, imageLink } = props.post;
 
   const [moderatedValue, setmoderatedValue] = useState();
 
   //const adminArray = [process.env.admin_1, process.env.admin_2];
   //console.log(props.post, "content333");
   // const { authorId } = post;
-  useEffect(() => {
-    const result = sendAuthData({ authorId, moderated }, setmoderatedValue);
+  //   useEffect(() => {
+  //     const result = sendAuthData({ authorId, moderated }, setmoderatedValue);
 
-    //console.log({ result }, "postContent");
-    // return () => {
-    //   cleanup
-    // }
-  }, [authorId, moderated]);
+  //     //console.log({ result }, "postContent");
+  //     // return () => {
+  //     //   cleanup
+  //     // }
+  //   }, [authorId, moderated]);
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  //   const formattedDate = new Date(date).toLocaleDateString("en-US", {
+  //     day: "numeric",
+  //     month: "long",
+  //     year: "numeric",
+  //   });
 
   const imagePath = `/images/posts/${image}`;
   const linkPath = `/posts/${id}`;
-
+  //className={moderatedValue ? classes.showItem : classes.hideItem}
   return (
-    <div className={moderatedValue ? classes.showItem : classes.hideItem}>
-      {!moderated && (
+    <div>
+      {/* {!moderated && (
         <span style={{ color: "red" }}>
           {" "}
           Post examination in progressing, this may take a while, until this
@@ -61,37 +60,37 @@ function PostItem(props) {
           complete. You may continue to work on your post while this process is
           on...
         </span>
-      )}
+      )} */}
       <li className={classes.post}>
-        <Link href={linkPath}>
-          <a>
-            <div className={classes.image}>
-              <img
-                src={props.post.imageProfileUrl}
-                alt={title}
-                width={200}
-                height={100}
-                layout="responsive"
-              />
-            </div>
-            <div className={classes.content}>
-              <h3>{title}</h3>
-
-              <time>{formattedDate}</time>
-
-              <p>{excerpt}</p>
-            </div>
-          </a>
-        </Link>
-        <div className={classes.cardprofile}>
+        <div className={classes.image}>
           <img
+            src={imageLink}
+            alt={title}
+            width={200}
+            height={100}
+            layout="responsive"
+          />
+        </div>
+        <div className={classes.content}>
+          {/* <h3>{title}</h3>
+
+              <time>{formattedDate}</time> */}
+          <p>{interest}</p>
+          {/* <p>{excerpt}</p> */}
+        </div>
+
+        <div className={classes.cardprofile}>
+          {/* <img
             className={classes.profileimg}
             src={props.post.imageProfileUrl}
             alt="bede image"
-          />
+          /> */}
           <div className={classes.cardprofileinfo}>
-            <h3 className={classes.profilename}>{props.post.author}</h3>
-            <p className={classes.profilefollowers}>5.2k followers</p>
+            <h3 className={classes.profilename}>{name}</h3>
+            <p className={classes.profilefollowers}>15 posts</p>
+            <button onClick={() => "author details clicked"}>
+              See More About This Author
+            </button>
           </div>
         </div>
         <br />
@@ -101,4 +100,4 @@ function PostItem(props) {
   );
 }
 
-export default PostItem;
+export default UserItem;

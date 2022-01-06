@@ -82,7 +82,7 @@ function PostContent(props) {
   const linkPath = `/posts/questions/${post.id}`;
   const linkPathForUpdate = `/posts/updates/${post.id}`;
   const linkPathForComment = `/comments/${post.id}`;
-
+  console.log(post.imageProfileUrl, "profile-image");
   console.log({ linkPathForUpdate });
   const [session, loading] = useSession();
   const [isContentOpen, setisContentOpen] = useState(false);
@@ -280,7 +280,7 @@ function PostContent(props) {
           /> */}
             <img
               className={classes.profileimg}
-              src="/images/posts/bede-profile.jpg"
+              src={post.imageProfileUrl}
               alt={post.title}
               width={150}
               height={150}
@@ -290,7 +290,7 @@ function PostContent(props) {
               style={{ marginTop: "2rem" }}
             >
               <h3 className={classes.profilename} style={{ margin: "0" }}>
-                Bede Asonye
+                {post.author}
               </h3>
               <span className={classes.profilefollowers}>
                 (Msc Biochemistry)

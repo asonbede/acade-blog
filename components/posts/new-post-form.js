@@ -97,6 +97,9 @@ function NewPostForm() {
         moderated: false,
         category: enteredCategory,
         orderValue: orderValue,
+        imageProfileUrl: session.user.image.split("??")[0]
+          ? session.user.image.split("??")[0]
+          : "/images/posts/default-profile-pic.jpg",
       });
 
       notificationCtx.showNotification({

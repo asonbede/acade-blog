@@ -34,6 +34,7 @@ async function handler(req, res) {
       moderated,
       category,
       orderValue,
+      imageProfileUrl,
     } = req.body;
 
     if (
@@ -67,6 +68,7 @@ async function handler(req, res) {
       moderated,
       category,
       orderValue,
+      imageProfileUrl,
     };
 
     let result;
@@ -94,6 +96,7 @@ async function handler(req, res) {
       moderated,
       category,
       orderValue,
+      imageProfileUrl,
     } = req.body;
 
     if (
@@ -127,6 +130,7 @@ async function handler(req, res) {
       moderated,
       category,
       orderValue,
+      imageProfileUrl,
     };
 
     let result;

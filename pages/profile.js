@@ -57,6 +57,9 @@ export async function getServerSideProps(context) {
 
       category: document.category ? document.category : "Chemistry",
       orderValue: document.orderValue ? document.orderValue : 1,
+      imageProfileUrl: document.imageProfileUrl
+        ? document.imageProfileUrl
+        : "/images/posts/default-profile-pic.jpg",
     };
   });
 
