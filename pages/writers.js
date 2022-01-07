@@ -4,8 +4,9 @@ import { Fragment } from "react";
 //import AllPosts from "../../components/posts/all-posts";
 import AllPosts from "../components/posts/all-posts";
 //import { getAllPosts } from "../../lib/posts-util";
-import { connectDatabase, getAllDocuments } from "../../helpers/db-utils";
+import { connectDatabase, getAllDocuments } from "../helpers/db-utils";
 function AllPostsPage(props) {
+  console.log("all-postttt");
   return (
     <Fragment>
       <Head>

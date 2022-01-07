@@ -13,6 +13,7 @@ function FeaturedPosts(props) {
   const onSelectMenu = (blogId) => {
     console.log("onselected called");
     console.log(blogId, "onselected called");
+    console.log(router.pathname, "profile called");
     //setgridControl(false);
     const postObj = props.posts.find((item) => item.id === blogId);
     setpost(postObj);
@@ -21,11 +22,11 @@ function FeaturedPosts(props) {
   return (
     <section
       className={`${classes.latest} ${
-        router.pathname === "/profile" ? classes.displayProfile : ""
+        router.pathname.indexOf("/profile") > -1 ? classes.displayProfile : ""
       }`}
     >
       <div>
-        {router.pathname === "/profile" ? (
+        {router.pathname.indexOf("/profile") > -1 ? (
           <PostMenu
             posts={props.posts}
             onSelectMenu={onSelectMenu}
@@ -35,7 +36,9 @@ function FeaturedPosts(props) {
       </div>
       <div
         className={`${
-          router.pathname === "/profile" ? classes.postcontandgridCont : ""
+          router.pathname.indexOf("/profile") > -1
+            ? classes.postcontandgridCont
+            : ""
         }`}
       >
         {!post && (

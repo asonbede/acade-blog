@@ -1,34 +1,50 @@
+import { useContext } from "react";
 import { getSession, session } from "next-auth/client";
 import { useSession } from "next-auth/client";
-import UserProfile from "../components/profile/user-profile";
-import { getAllFeaturedDocuments, connectDatabase } from "../helpers/db-utils";
+import UserProfile from "../../components/profile/user-profile";
+
+import {
+  getAllFeaturedDocuments,
+  connectDatabase,
+} from "../../helpers/db-utils";
 //import { connectDatabase } from "../helpers/db-utils";
 // import { getAllFeaturedDocuments, connectDatabase } from "../helpers/db-utils";
+
+import NotificationContext from "../../store/notification-context";
+
+//import DisplayEditorContent from "../rich-text-editor/display-editor-content";
+
 function ProfilePage(props) {
   const [session, loading] = useSession();
-  const description = props.session.user.image.split("??")[1];
-  const imageUrl = props.session.user.image.split("??")[0];
+  // const description = props.session.user.image.split("??")[1];
+  // const imageUrl = props.session.user.image.split("??")[0];
+  // const notificationCtx = useContext(NotificationContext);
   return (
     <UserProfile
       posts={props.posts}
-      name={props.session.user.name}
-      description={description}
-      imageUrl={imageUrl}
+      name={props.name}
+      description={props.description}
+      imageUrl={props.imageLink}
     />
   );
 }
 export default ProfilePage;
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
+  const paramValue = context.params.profileId;
+  const { name, description, imageLink } = context.query;
+  console.log({ paramValue }, "from profileID");
+  //const queryDescription = context.query.description;
   console.log({ session }, "in profile");
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/auth",
-        permanent: false,
-      },
-    };
-  }
+  // if (!session) {
+  //   return {
+  //     redirect: {
+  //       destination: "/auth",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
+
   let client;
 
   client = await connectDatabase();
@@ -39,7 +55,7 @@ export async function getServerSideProps(context) {
     {
       orderValue: 1,
     },
-    { authorId: session.user.email }
+    { authorId: paramValue }
   );
   //console.log(documents);
   const posts = documents.map((document) => {
@@ -66,6 +82,6 @@ export async function getServerSideProps(context) {
   client.close();
 
   return {
-    props: { session, posts },
+    props: { session, posts, name, description, imageLink },
   };
 }

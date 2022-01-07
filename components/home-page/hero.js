@@ -9,13 +9,14 @@ function Hero(props) {
     let srcString = "";
     if (router.pathname === "/" || router.pathname === "/posts") {
       srcString = "/images/posts/bede-profile.jpg";
-    } else if (router.pathname === "/profile") {
+    } else if (router.pathname.indexOf("/profile") > -1) {
       srcString = props.imageUrl
         ? props.imageUrl
         : "/images/posts/default-profile-pic.jpg";
     } else {
       srcString = "/images/posts/bede-profile.jpg";
     }
+
     return srcString;
   };
 

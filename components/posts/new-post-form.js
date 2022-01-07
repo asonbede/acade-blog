@@ -107,7 +107,7 @@ function NewPostForm() {
         message: "Your blog was saved!",
         status: "success",
       });
-      router.push("/profile");
+      router.push(`profile/${session.user.email}`);
     } catch (error) {
       notificationCtx.showNotification({
         title: "Error!",

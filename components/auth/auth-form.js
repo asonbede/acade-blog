@@ -4,11 +4,11 @@ import { useRouter } from "next/router";
 //import NotificationContext from "../../store/notification-context";
 import NotificationContext from "../../store/notification-context";
 import classes from "./auth-form.module.css";
-
+import { useSession, signOut } from "next-auth/client";
 async function createUser(email, password, name, interest) {
   const response = await fetch("/api/auth/signup", {
     method: "POST",
-    body: JSON.stringify({ email, password, name, interest }),
+    body: JSON.stringify({ email, password, name, interest, moderated: false }),
     headers: {
       "Content-Type": "application/json",
     },
@@ -33,6 +33,7 @@ function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
   const [regValue, setregValue] = useState(false);
   const router = useRouter();
+  const [session, loading] = useSession();
   const notificationCtx = useContext(NotificationContext);
   //const { menuBtn, passOpen, regDetailsOpen } = notificationCtx.profileData;
 
@@ -101,7 +102,7 @@ function AuthForm() {
           message: "Login was successful!",
           status: "success",
         });
-        router.replace("/profile");
+        router.push(`/writers`);
       } else {
         notificationCtx.showNotification({
           title: "Error!",

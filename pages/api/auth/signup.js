@@ -1,58 +1,203 @@
-import { hashPassword } from "../../../helpers/auth";
+import { hashPassword, verifyPassword } from "../../../helpers/auth";
 import { connectDatabase } from "../../../helpers/db-utils";
-
+import { getSession } from "next-auth/client";
 async function handler(req, res) {
-  if (req.method !== "POST") {
-    return;
+  if (req.method === "POST") {
+    const data = req.body;
+
+    const { email, password, name, interest, moderated } = data;
+
+    if (
+      !email ||
+      !email.includes("@") ||
+      email.trim() === "" ||
+      !password ||
+      password.trim().length < 7 ||
+      !name ||
+      name.trim() === "" ||
+      !interest ||
+      interest.trim() === ""
+    ) {
+      res.status(422).json({
+        message: "Invalid input - please check your input and try again.",
+      });
+      return;
+    }
+
+    const client = await connectDatabase();
+
+    const db = client.db();
+
+    const existingUserEmail = await db
+      .collection("users")
+      .findOne({ email: email });
+
+    if (existingUserEmail) {
+      res.status(422).json({ message: "User with that email exists already!" });
+      client.close();
+      return;
+    }
+
+    const hashedPassword = await hashPassword(password);
+
+    const result = await db.collection("users").insertOne({
+      email: email,
+      password: hashedPassword,
+
+      name: name,
+      interest: interest,
+      moderated: moderated,
+    });
+
+    res.status(201).json({ message: "Created user!" });
+    client.close();
   }
-
-  const data = req.body;
-
-  const { email, password, name, interest } = data;
 
   if (
-    !email ||
-    !email.includes("@") ||
-    email.trim() === "" ||
-    !password ||
-    password.trim().length < 7 ||
-    !name ||
-    name.trim() === "" ||
-    !interest ||
-    interest.trim() === ""
+    req.method === "PATCH" &&
+    req.body.actionType === "updateInterestAndName"
   ) {
-    res.status(422).json({
-      message: "Invalid input - please check your input and try again.",
-    });
-    return;
-  }
+    //}
+    console.log("isideeee patchhhhhh11");
+    const session = await getSession({ req: req });
 
-  const client = await connectDatabase();
+    if (!session) {
+      res.status(401).json({ message: "Not authenticated!" });
+      return;
+    }
 
-  const db = client.db();
+    const userEmail = session.user.email;
+    const enteredPassword = req.body.password;
+    const updatedInterest = req.body.interest;
+    const updatedName = req.body.name;
+    const moderated = req.body.moderated;
+    //const newPassword = req.body.newPassword;
 
-  const existingUserEmail = await db
-    .collection("users")
-    .findOne({ email: email });
+    const client = await connectDatabase();
 
-  if (existingUserEmail) {
-    res.status(422).json({ message: "User with that email exists already!" });
+    const usersCollection = client.db().collection("users");
+
+    const user = await usersCollection.findOne({ email: userEmail });
+    console.log("isideeee patchhhhhh2222");
+    if (!user) {
+      res.status(404).json({ message: "User not found." });
+      client.close();
+      return;
+    }
+
+    const currentPassword = user.password;
+    console.log("isideeee patchhhhhh333");
+    const passwordsAreEqual = await verifyPassword(
+      enteredPassword,
+      currentPassword
+    );
+
+    if (!passwordsAreEqual) {
+      res.status(403).json({ message: "Invalid password." });
+      client.close();
+      return;
+    }
+
+    //const hashedPassword = await hashPassword(newPassword);
+
+    const result = await usersCollection.updateOne(
+      { email: userEmail },
+      { $set: { interest: updatedInterest, name: updatedName, moderated } }
+    );
+    console.log("isideeee patchhhhhh4444");
     client.close();
-    return;
+    res.status(200).json({ message: "Password updated!" });
   }
-
-  const hashedPassword = await hashPassword(password);
-
-  const result = await db.collection("users").insertOne({
-    email: email,
-    password: hashedPassword,
-
-    name: name,
-    interest: interest,
-  });
-
-  res.status(201).json({ message: "Created user!" });
-  client.close();
 }
 
 export default handler;
+
+// if (req.method === "PUT") {
+//   const { email, password, name, interest, imageLink } = req.body;
+
+//   if (
+//     !email ||
+//     !email.includes("@") ||
+//     email.trim() === "" ||
+//     !password ||
+//     password.trim().length < 7 ||
+//     !name ||
+//     name.trim() === "" ||
+//     !interest ||
+//     interest.trim() === ""
+//   ) {
+//     res.status(422).json({ message: "Invalid input." });
+//     client.close();
+//     return;
+//   }
+
+//   const newPost = {
+//     email
+//     password: hashedPassword,
+
+//     name: name,
+//     interest: interest,
+//   };
+
+//   let result;
+
+//   try {
+//     //updateDocument(client, collection, queryValue,updateValue)
+//     result = await updateDocument(client, "postTable", blogId, newPost);
+//     // newPost._id = result.insertedId;
+//     res.status(201).json({ message: "Added contents.", post: newPost });
+//   } catch (error) {
+//     res.status(500).json({ message: "Inserting content failed!" });
+//   }
+// }
+
+// async function handler(req, res) {
+//   if (req.method === "PATCH"&&req.actionType==="updateInterest") {
+
+//   }
+
+//   const session = await getSession({ req: req });
+
+//   if (!session) {
+//     res.status(401).json({ message: "Not authenticated!" });
+//     return;
+//   }
+
+//   const userEmail = session.user.email;
+//   const oldPassword = req.body.oldPassword;
+//   const newPassword = req.body.newPassword;
+
+//   const client = await connectDatabase();
+
+//   const usersCollection = client.db().collection("users");
+
+//   const user = await usersCollection.findOne({ email: userEmail });
+
+//   if (!user) {
+//     res.status(404).json({ message: "User not found." });
+//     client.close();
+//     return;
+//   }
+
+//   const currentPassword = user.password;
+
+//   const passwordsAreEqual = await verifyPassword(oldPassword, currentPassword);
+
+//   if (!passwordsAreEqual) {
+//     res.status(403).json({ message: "Invalid password." });
+//     client.close();
+//     return;
+//   }
+
+//   const hashedPassword = await hashPassword(newPassword);
+
+//   const result = await usersCollection.updateOne(
+//     { email: userEmail },
+//     { $set: { password: hashedPassword } }
+//   );
+
+//   client.close();
+//   res.status(200).json({ message: "Password updated!" });
+// }
+
+// export default handler;

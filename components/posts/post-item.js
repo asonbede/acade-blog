@@ -65,7 +65,7 @@ function PostItem(props) {
       <li className={classes.post}>
         <Link href={linkPath}>
           <a>
-            <div className={classes.image}>
+            {/* <div className={classes.image}>
               <img
                 src={props.post.imageProfileUrl}
                 alt={title}
@@ -73,7 +73,7 @@ function PostItem(props) {
                 height={100}
                 layout="responsive"
               />
-            </div>
+            </div> */}
             <div className={classes.content}>
               <h3>{title}</h3>
 

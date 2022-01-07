@@ -9,6 +9,13 @@ function MainNavigation() {
   const [session, loading] = useSession();
   const router = useRouter();
   //console.log({ session });
+  let name, interest, imageLink, queryStr;
+  if (session) {
+    name = session.user.name;
+    interest = session.user.image.split("??")[1];
+    imageLink = session.user.image.split("??")[0];
+    queryStr = `?name=${name}&description=${interest}&imageLink=${imageLink}`;
+  }
   function logoutHandler() {
     signOut();
     // router.replace("/");
@@ -26,7 +33,7 @@ function MainNavigation() {
             <Link href="/posts">Posts</Link>
           </li>
           <li>
-            <Link href="/authors">Authors</Link>
+            <Link href="/writers">Authors</Link>
           </li>
           {session && (
             <li>
@@ -43,7 +50,9 @@ function MainNavigation() {
           )}
           {session && (
             <li>
-              <Link href="/profile">Profile</Link>
+              <Link href={`profile/${session.user.email}${queryStr}`}>
+                Profile
+              </Link>
             </li>
           )}
           {session && (
@@ -54,7 +63,7 @@ function MainNavigation() {
           {session && (
             <li style={{ color: "white" }}>Welcome {session.user.name}</li>
           )}
-          {session && router.pathname === "/profile" ? (
+          {session && router.pathname.indexOf("/profile") > -1 ? (
             <li style={{ color: "white" }}>
               <MenuButton />
             </li>
