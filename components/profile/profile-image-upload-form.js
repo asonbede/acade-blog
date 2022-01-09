@@ -76,10 +76,16 @@ export default function ProfileImageUploadform() {
 
       notificationCtx.showNotification({
         title: "Success!",
-        message: "Your image was saved!",
+        message: `${
+          radioButtonValue === "profile-image"
+            ? "Your image was saved!"
+            : "Your blog image url has been displayed"
+        }`,
         status: "success",
       });
-      router.push("/writers");
+      if (radioButtonValue === "profile-image") {
+        router.push("/writers");
+      }
     } catch (error) {
       notificationCtx.showNotification({
         title: "Error!",
