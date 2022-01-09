@@ -25,6 +25,7 @@ async function sendBlogData(blogDetails) {
     throw new Error(data.message || "Something went wrong!");
   }
 }
+
 function NewPostForm() {
   //const [enteredTitle, setEnteredTitle] = useState("");
   //const [enteredDate, setEnteredDate] = useState("");

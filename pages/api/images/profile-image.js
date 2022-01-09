@@ -25,9 +25,11 @@ import { getSession } from "next-auth/client";
 //import { connectDatabase } from "../../../helpers/db-utils";
 //   const ObjectId = require("mongodb").ObjectID;
 import nextConnect from "next-connect";
+
 import multer from "multer";
 //import aws from "aws-sdk";
 const aws = require("aws-sdk");
+//const clipb = require("copy-paste");
 //import { promisify } from "util";
 //import crypto from "crypto";
 //import { NextApiRequest, NextApiResponse } from "next";
@@ -55,7 +57,7 @@ apiRoute.post(async (req, res) => {
     res.status(401).json({ message: "Not authenticated!" });
     return;
   }
-
+  console.log(req.body, "from before date");
   const formattedDate = new Date().toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
@@ -104,10 +106,18 @@ apiRoute.post(async (req, res) => {
               { $set: { imageLink: imageid } }
             );
             console.log("started....okay multer");
+            //copy
+            //clipboardy.writeSync(imageid);
+            //paste
+            //clipboardy.readSync()
+            // clipb.copy(imageid, function () {
+            //   console.log("copied to clipboard");
+            // });
             client.close();
-            res.status(200).json({ message: "upload was successful!" });
+            //res.status(200).json({ message: "upload was successful!" });
+            res.status(200).json({ message: imageid });
 
-            res.status(200).json({ data: "success" });
+            // res.status(200).json({ data: "success" });
           } else {
             const user = await usersCollection.findOne({
               email: session.user.email,
@@ -119,10 +129,19 @@ apiRoute.post(async (req, res) => {
               { $set: { blogImageLink: [...blogImageLinkUpdate] } }
             );
             console.log("started....okay multer");
-            client.close();
-            res.status(200).json({ message: "upload was successful!" });
+            //copy
+            //clipboardy.writeSync(imageid);
+            //paste
+            //clipboardy.readSync()
 
-            res.status(200).json({ data: "success" });
+            client.close();
+
+            res.status(200).json({
+              message:
+                "upload was successful! and image url copied to the clip bord",
+            });
+
+            // res.status(200).json({ data: "success" });
           }
           // const resultOfUpdate = await usersCollection.updateOne(
           //   { email: session.user.email },

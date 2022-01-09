@@ -4,7 +4,7 @@ import classes from "./profile-image-upload-form.module.css";
 import NotificationContext from "../../store/notification-context";
 import { useRouter } from "next/router";
 import { useSession, signOut } from "next-auth/client";
-async function sendImageData(blogDetails) {
+async function sendImageData(blogDetails, setFunc) {
   const response = await fetch("/api/images/profile-image", {
     method: "POST",
     body: blogDetails,
@@ -14,17 +14,19 @@ async function sendImageData(blogDetails) {
   });
 
   const data = await response.json();
-  console.log({ data }, "new posttt");
+  console.log({ data }, "new uploadddd");
   if (!response.ok) {
     throw new Error(data.message || "Something went wrong!");
   }
+  setFunc(data.message);
 }
 
 export default function ProfileImageUploadform() {
   const [file, setfile] = useState();
   const [fileName, setfileName] = useState();
   const [fileType, setfileType] = useState();
-  const [urlfileUploaded, setUrlfileUploaded] = useState();
+  const [urlfileUploaded, setUrlfileUploaded] = useState("");
+  const [radioButtonValue, setradioButtonValue] = useState("profile-image");
   const notificationCtx = useContext(NotificationContext);
   const router = useRouter();
   const [session, loading] = useSession();
@@ -57,9 +59,10 @@ export default function ProfileImageUploadform() {
     //   value: `${session.user.email}-${session.user.name.replace(/" "/g, "-")}`,
     // });
     // optional: add client-side validation
+    setUrlfileUploaded("");
     const formData = new FormData();
     formData.append("image", file);
-    formData.append("actionType", "profile-image");
+    formData.append("actionType", radioButtonValue);
 
     //setRequestStatus("pending");
     notificationCtx.showNotification({
@@ -69,7 +72,7 @@ export default function ProfileImageUploadform() {
     });
 
     try {
-      await sendImageData(formData);
+      await sendImageData(formData, setUrlfileUploaded);
 
       notificationCtx.showNotification({
         title: "Success!",
@@ -192,6 +195,9 @@ export default function ProfileImageUploadform() {
   //   });
   // }
   //};
+  const handleRadioButtonChange = (e) => {
+    setradioButtonValue(e.target.value);
+  };
   return (
     <>
       <form
@@ -215,6 +221,39 @@ export default function ProfileImageUploadform() {
             onChange={handleChange}
           />
         </div>
+        <hr />
+        <div className={classes.control}>
+          <label htmlFor="blog-image-url-display">
+            Select File, Upload a .png or .jpg
+          </label>
+          <input
+            type="text"
+            id="blog-image-url-display"
+            value={urlfileUploaded}
+            onChange={() => console.log("input changed")}
+          />
+        </div>
+        <hr />
+        <div className={classes.control}>
+          <input
+            type="radio"
+            name="image-type"
+            value="profile-image"
+            id="profile-image-type"
+            selected
+            onChange={handleRadioButtonChange}
+          />
+          <label htmlFor="blog-image-type">Profile Image</label>
+          <input
+            type="radio"
+            name="image-type"
+            value="blog-image"
+            id="blog-image-type"
+            onChange={handleRadioButtonChange}
+          />
+          <label htmlFor="profile-image-type">Blog Image</label>
+        </div>
+
         <div className={classes.action}>
           <button type="submit">Submit</button>
         </div>
