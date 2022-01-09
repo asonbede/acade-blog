@@ -13,18 +13,22 @@ function Hero(props) {
       srcString = props.imageUrl
         ? props.imageUrl
         : "/images/posts/default-profile-pic.jpg";
+      console.log("one", "heros");
     } else {
       srcString = "/images/posts/bede-profile.jpg";
+      console.log("two", "heros");
     }
-
+    console.log({ srcString }, "from hero");
     return srcString;
   };
+  const imgUrl = fixHerosImageSrc();
+  console.log({ imgUrl });
 
   return (
     <section className={classes.hero}>
       <div className={classes.image}>
         <img
-          src={fixHerosImageSrc()}
+          src={imgUrl}
           alt="An image showing bede"
           width={300}
           height={300}

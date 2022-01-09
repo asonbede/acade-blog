@@ -14,7 +14,9 @@
   top: 30%;
   right: 6%;
 }
-
+.approveSpan {
+  color: #e5e8eb;
+}
 .displayTopRight {
   position: absolute;
   top: 5px;

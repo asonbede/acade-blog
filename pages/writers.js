@@ -10,14 +10,14 @@ function AllPostsPage(props) {
   return (
     <Fragment>
       <Head>
-        <title>All Posts</title>
+        <title>All Authors</title>
         <meta
           name="description"
           content="A list of all programming-related tutorials and posts!"
         />
       </Head>
       {/* <Hero /> */}
-      <AllPosts posts={props.posts} />
+      <AllPosts posts={props.posts} allAuthors={true} />
     </Fragment>
   );
 }
@@ -54,7 +54,8 @@ export async function getStaticProps() {
           interest: document.interest,
           imageLink: document.imageLink
             ? document.imageLink
-            : "images/posts/bede-profile.jpg",
+            : "/images/posts/default-profile-pic.jpg",
+          moderated: document.moderated ? document.moderated : false,
         };
       }),
     },

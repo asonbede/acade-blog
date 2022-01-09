@@ -25,6 +25,7 @@ function ProfilePage(props) {
       name={props.name}
       description={props.description}
       imageUrl={props.imageLink}
+      email={props.email}
     />
   );
 }
@@ -82,6 +83,6 @@ export async function getServerSideProps(context) {
   client.close();
 
   return {
-    props: { session, posts, name, description, imageLink },
+    props: { session, posts, name, description, imageLink, email: paramValue },
   };
 }

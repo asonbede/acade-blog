@@ -107,26 +107,11 @@ function UpdatePostForm({ updateId }) {
   // }, [post]);
 
   useEffect(() => {
-    // notificationCtx.showNotification({
-    //   title: "Fetching comment...",
-    //   message: "Your comment is currently being fetched please wait.",
-    //   status: "pending",
-    // });
     fetch("/api/restrict-route/")
       .then((response) => response.json())
       .then((data) => {
         //console.log(data);
         setcheckBoxShow(data.message);
-
-        // notificationCtx.showNotification({
-        //   title: "Success!",
-        //   message: `${
-        //     data.comments.length === 0
-        //       ? "but no comment found"
-        //       : "Comments were fetched"
-        //   } `,
-        //   status: "success",
-        // });
       })
       .catch((error) => {
         notificationCtx.showNotification({

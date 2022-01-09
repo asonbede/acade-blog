@@ -56,8 +56,16 @@ apiRoute.post(async (req, res) => {
     return;
   }
 
-  const upload = uploadFunc(9000000);
-  console.log("started....apiRoute");
+  const formattedDate = new Date().toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+  const identityStr = `${formattedDate}-${
+    session.user.email
+  }-${session.user.name.replace(/" "/g, "_")}`;
+  const upload = uploadFunc(9000000, identityStr);
 
   upload(req, res, async (err) => {
     if (err) {
@@ -73,7 +81,9 @@ apiRoute.post(async (req, res) => {
         //return res.status(401).json({ error: "Error-no file selected" });
       } else {
         const file = req.file;
-
+        const actionType = req.body.actionType;
+        console.log(req.body, "from image-profile");
+        console.log({ actionType });
         const dimensions = sizeOf(`public/upload/${file.filename}`); // replace with your image
         console.log(dimensions.width, dimensions.height, "demensions");
 
@@ -88,16 +98,36 @@ apiRoute.post(async (req, res) => {
           const client = await connectDatabase();
 
           const usersCollection = client.db().collection("users");
+          if (actionType === "profile-image") {
+            const resultOfUpdate = await usersCollection.updateOne(
+              { email: session.user.email },
+              { $set: { imageLink: imageid } }
+            );
+            console.log("started....okay multer");
+            client.close();
+            res.status(200).json({ message: "upload was successful!" });
 
-          const resultOfUpdate = await usersCollection.updateOne(
-            { email: session.user.email },
-            { $set: { imageLink: imageid } }
-          );
-          console.log("started....okay multer");
-          client.close();
-          res.status(200).json({ message: "upload was successful!" });
+            res.status(200).json({ data: "success" });
+          } else {
+            const resultOfUpdate = await usersCollection.updateOne(
+              { email: session.user.email },
+              { $set: { imageLink: imageid } }
+            );
+            console.log("started....okay multer");
+            client.close();
+            res.status(200).json({ message: "upload was successful!" });
 
-          res.status(200).json({ data: "success" });
+            res.status(200).json({ data: "success" });
+          }
+          // const resultOfUpdate = await usersCollection.updateOne(
+          //   { email: session.user.email },
+          //   { $set: { imageLink: imageid } }
+          // );
+          // console.log("started....okay multer");
+          // client.close();
+          // res.status(200).json({ message: "upload was successful!" });
+
+          // res.status(200).json({ data: "success" });
         } catch (error) {
           res
             .status(501)

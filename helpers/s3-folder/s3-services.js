@@ -5,10 +5,16 @@ const path = require("path");
 const multer = require("multer");
 // const bucketName = config.bucketName;
 
+//import { getSession } from "next-auth/client";
 // const region = config.region;
 // const accessKeyId = config.accessKeyId;
 // const secretAccessKey = config.secretAccessKey;
 
+// const retrieve = async () => {
+//   const session = await getSession({ req: req });
+//   return session.user.email;
+// };
+// console.log(retrieve(), "retrieveee");
 const region = process.env.s3_bucket_region;
 const bucketName = process.env.s3_bucket_name;
 const accessKeyId = process.env.s3_access_key;
@@ -56,16 +62,20 @@ function getFileStream(fileKey) {
 }
 
 //disk storage
-const storage = multer.diskStorage({
-  destination: "public/upload",
-  filename: function (req, file, cb) {
-    console.log(file.originalname, "inside-uploadddMimimtypeDistkstr---");
-    cb(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: "public/upload",
+//   filename: function (req, file, cb) {
+//     console.log(file.originalname, "inside-originalfilename---");
+//     console.log(file.fieldname, "inside-fieldname---");
+//     console.log({ req }, "reqqq");
+//     console.log(req.actionType, "from s3-services");
+
+//     cb(
+//       null,
+//       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+//     );
+//   },
+// });
 
 //check file type func
 function checkFileType(file, cb) {
@@ -85,10 +95,18 @@ function checkFileType(file, cb) {
     cb({ error: "images only" });
   }
 }
-function uploadFunc(fileSize) {
+function uploadFunc(fileSize, uniqueStr) {
   console.log("inside-uploaddd---");
   const upload = multer({
-    storage: storage,
+    storage: multer.diskStorage({
+      destination: "public/upload",
+      filename: function (req, file, cb) {
+        cb(
+          null,
+          file.fieldname + "-" + uniqueStr + path.extname(file.originalname)
+        );
+      },
+    }),
     limits: { fileSize: fileSize },
     fileFilter: function (req, file, cb) {
       checkFileType(file, cb);

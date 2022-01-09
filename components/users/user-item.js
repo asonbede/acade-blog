@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useContext } from "react";
 import classes from "./user-item.module.css";
-
+//import AuthUpdateForm from "../auth/auth-update-form";
 import { useRouter } from "next/router";
 
 import NotificationContext from "../../store/notification-context";
@@ -28,9 +28,18 @@ async function sendAuthData(authDetails, setFunc) {
 }
 
 function UserItem(props) {
-  const { id, email, name, interest, imageLink, moderated } = props.post;
-  console.log({ email });
+  const {
+    id,
+    email: authorId,
+    name,
+    interest,
+    imageLink,
+    moderated,
+  } = props.post;
+  console.log({ authorId });
   const [moderatedValue, setmoderatedValue] = useState();
+  const [isAdmin, setisAdmin] = useState(false);
+  const [isUpdate, setisUpdate] = useState(false);
   const notificationCtx = useContext(NotificationContext);
   const router = useRouter();
   // // const postAuthorDetails = () => {
@@ -45,13 +54,29 @@ function UserItem(props) {
   //console.log(props.post, "content333");
   // const { authorId } = post;
   useEffect(() => {
-    const result = sendAuthData({ email, moderated }, setmoderatedValue);
+    const result = sendAuthData({ authorId, moderated }, setmoderatedValue);
 
     //console.log({ result }, "postContent");
     // return () => {
     //   cleanup
     // }
-  }, [email, moderated]);
+  }, [authorId, moderated]);
+
+  useEffect(() => {
+    fetch("/api/restrict-route/")
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log(data);
+        setisAdmin(data.message);
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Error!",
+          message: error.message || "Something went wrong!",
+          status: "error",
+        });
+      });
+  }, [authorId, moderated]);
 
   //   const formattedDate = new Date(date).toLocaleDateString("en-US", {
   //     day: "numeric",
@@ -60,52 +85,62 @@ function UserItem(props) {
   //   });
 
   //const imagePath = `/images/posts/${image}`;
-  const linkPath = `/profile/${email}?name=${name}&description=${interest}&imageLink=${imageLink}`;
-
+  const linkPath = `/profile/${authorId}?name=${name}&description=${interest}&imageLink=${imageLink}`;
+  console.log({ moderated }, "from item");
   //className={moderatedValue ? classes.showItem : classes.hideItem}
   return (
-    <div className={moderatedValue ? classes.showItem : classes.hideItem}>
-      {!moderated && (
-        <span style={{ color: "red" }}>
-          {" "}
-          Your profile is under review, this may take a while, until this action
-          is complete only you can see your your profile, newly created or
-          updated profile are examined by the admin before it is shown to the
-          public. This message will be removed as soon as the process is
-          complete. You may continue to work on your post while this process is
-          on...
-        </span>
-      )}
-      <li className={classes.post}>
-        <div className={classes.image}>
-          <img src={imageLink} alt={name} width={400} height={300} />
-        </div>
-        <div className={classes.content}>
-          {/* <h3>{title}</h3>
+    <>
+      <div className={moderatedValue ? classes.showItem : classes.hideItem}>
+        {!moderated && (
+          <span style={{ color: "red" }}>
+            {" "}
+            Your profile is under review, this may take a while, until this
+            action is complete only you can see your your profile, newly created
+            or updated profile are examined by the admin before it is shown to
+            the public. This message will be removed as soon as the process is
+            complete. You may continue to work on your post while this process
+            is on...
+          </span>
+        )}
+        <li className={classes.post}>
+          <div className={classes.image}>
+            <img src={imageLink} alt={name} width={400} height={300} />
+          </div>
+          <div className={classes.content}>
+            {/* <h3>{title}</h3>
 
               <time>{formattedDate}</time> */}
-          <p>{interest}</p>
-          {/* <p>{excerpt}</p> */}
-        </div>
+            <p>{interest}</p>
+            {/* <p>{excerpt}</p> */}
+          </div>
 
-        <div className={classes.cardprofile}>
-          {/* <img
+          <div className={classes.cardprofile}>
+            {/* <img
             className={classes.profileimg}
             src={props.post.imageProfileUrl}
             alt="bede image"
           /> */}
-          <div className={classes.cardprofileinfo}>
-            <h3 className={classes.profilename}>{name}</h3>
-            <p className={classes.profilefollowers}>15 posts</p>
-            <Link href={linkPath}>
-              <a>See More About This Author</a>
-            </Link>
+            <div className={classes.cardprofileinfo}>
+              <h3 className={classes.profilename}>{name}</h3>
+              <p className={classes.profilefollowers}>15 posts</p>
+              <Link href={linkPath}>
+                <a>See More About This Author</a>
+              </Link>
+              {/* {isAdmin && (
+                <button onClick={() => setisUpdate(!isUpdate)}>approve</button>
+              )} */}
+            </div>
           </div>
-        </div>
-        <br />
-        <br />
-      </li>
-    </div>
+          <br />
+          <br />
+        </li>
+      </div>
+      {/* <div style={{ position: "absolute", top: "8px", right: "40px" }}>
+        {isAdmin && isUpdate ? (
+          <AuthUpdateForm email={email} name={name} interest={interest} />
+        ) : null}
+      </div> */}
+    </>
   );
 }
 

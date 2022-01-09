@@ -80,7 +80,13 @@ function UserProfile(props) {
       <FeaturedPosts posts={props.posts} />
       {passOpen && <ProfileForm onChangePassword={changePasswordHandler} />}
 
-      {updateOpen && <UpdateAuthForm />}
+      {updateOpen && (
+        <UpdateAuthForm
+          name={props.name}
+          description={props.description}
+          email={props.email}
+        />
+      )}
       {uploadOpen && <ProfileImageUploadform />}
     </>
   );

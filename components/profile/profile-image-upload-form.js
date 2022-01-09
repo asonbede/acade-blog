@@ -3,6 +3,7 @@ import classes from "./profile-image-upload-form.module.css";
 //import NotificationContext from "../../store/notification-context";
 import NotificationContext from "../../store/notification-context";
 import { useRouter } from "next/router";
+import { useSession, signOut } from "next-auth/client";
 async function sendImageData(blogDetails) {
   const response = await fetch("/api/images/profile-image", {
     method: "POST",
@@ -26,6 +27,7 @@ export default function ProfileImageUploadform() {
   const [urlfileUploaded, setUrlfileUploaded] = useState();
   const notificationCtx = useContext(NotificationContext);
   const router = useRouter();
+  const [session, loading] = useSession();
   const { menuBtn, passOpen, updateOpen, uploadOpen } =
     notificationCtx.profileData;
   const handleUploadImageFormClose = () => {
@@ -43,16 +45,22 @@ export default function ProfileImageUploadform() {
     const fileEle = e.target;
     setfileName(fileEle.files[0].name.split(".")[0]);
     setfileType(fileEle.files[0].name.split(".")[1]);
+    //const fileObj= fileEle.files[0]
 
     setfile(fileEle.files[0]);
   };
 
   async function handleUpload(event) {
     event.preventDefault();
-
+    // Object.defineProperty(file, "name", {
+    //   writable: true,
+    //   value: `${session.user.email}-${session.user.name.replace(/" "/g, "-")}`,
+    // });
     // optional: add client-side validation
     const formData = new FormData();
     formData.append("image", file);
+    formData.append("actionType", "profile-image");
+
     //setRequestStatus("pending");
     notificationCtx.showNotification({
       title: "Sending profile image...",
@@ -68,7 +76,7 @@ export default function ProfileImageUploadform() {
         message: "Your image was saved!",
         status: "success",
       });
-      router.push("/profile");
+      router.push("/writers");
     } catch (error) {
       notificationCtx.showNotification({
         title: "Error!",

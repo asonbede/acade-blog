@@ -5,12 +5,26 @@ import { useRouter } from "next/router";
 import NotificationContext from "../../store/notification-context";
 import classes from "./auth-update-form.module.css";
 import { useSession, signOut } from "next-auth/client";
-async function updateUser(password, name, interest, moderated, actionType) {
+async function updateUser(
+  password,
+  name,
+  interest,
+  moderated,
+  actionType,
+  email
+) {
   console.log("update rannnnnooooo000");
 
   const response = await fetch("/api/auth/signup", {
     method: "PATCH",
-    body: JSON.stringify({ password, name, interest, moderated, actionType }),
+    body: JSON.stringify({
+      password,
+      name,
+      interest,
+      moderated,
+      actionType,
+      email,
+    }),
     headers: {
       "Content-Type": "application/json",
     },
@@ -26,7 +40,7 @@ async function updateUser(password, name, interest, moderated, actionType) {
   return data;
 }
 
-function UpdateAuthForm() {
+function UpdateAuthForm(props) {
   // const emailInputRef = useRef();
   // const passwordInputRef = useRef();
 
@@ -39,7 +53,10 @@ function UpdateAuthForm() {
   const [interest, setinterest] = useState();
   const [moderated, setmoderated] = useState(false);
   const [password, setpassword] = useState();
-  const [actionType, setactionType] = useState("updateInterestAndName");
+  // const [actionType, setactionType] = useState("updateInterestAndName");
+  //const [isModerated, setisModerated] = useState(false);
+  const [checkBoxShow, setcheckBoxShow] = useState(false);
+  const [email, setemail] = useState();
   const router = useRouter();
 
   const [session, loading] = useSession();
@@ -50,16 +67,32 @@ function UpdateAuthForm() {
   //const { menuBtn, passOpen, regDetailsOpen } = notificationCtx.profileData;
 
   useEffect(() => {
-    if (session) {
-      nameValue = session.user.name;
-      setname(nameValue);
-      interestValue = session.user.image.split("??")[1];
-      setinterest(interestValue);
-      // imageLink = session.user.image.split("??")[0];
-      // queryStr = `?name=${name}&description=${interest}&imageLink=${imageLink}`;
-    }
-  }, [session]);
+    // imageLink = session.user.image.split("??")[0];
+    // queryStr = `?name=${name}&description=${interest}&imageLink=${imageLink}`;
 
+    setname(props.name);
+    setinterest(props.description);
+    if (moderated) {
+      setemail(props.email);
+    }
+  }, [session, moderated]);
+
+  useEffect(() => {
+    fetch("/api/restrict-route/")
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log(data);
+        setcheckBoxShow(data.message);
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Error!",
+          message: error.message || "Something went wrong!",
+          status: "error",
+        });
+      });
+  }, [session]);
+  console.log({ moderated });
   // useEffect(() => {
   //   notificationCtx.profileDataHandler({
   //     menuBtn: menuBtn,
@@ -75,13 +108,15 @@ function UpdateAuthForm() {
     // let enteredName;
     // let enteredInterest;
     event.preventDefault();
-
+    console.log({ moderated }, "twoo");
     // const enteredEmail = emailInputRef.current.value;
     // const enteredPassword = passwordInputRef.current.value;
 
     // enteredName = nameInputRef.current.value;
     // enteredInterest = interestInputRef.current.value;
-
+    // const email = moderated ? props.email : null;
+    console.log({ moderated });
+    const actionType = moderated ? "approve-profile" : "updateInterestAndName";
     notificationCtx.showNotification({
       title: "Sending Update details...",
       message:
@@ -95,7 +130,8 @@ function UpdateAuthForm() {
         name,
         interest,
         moderated,
-        actionType
+        actionType,
+        email
       );
       console.log(result);
 
@@ -105,10 +141,10 @@ function UpdateAuthForm() {
           "Registration Update was successful! You can now login with your password and email",
         status: "success",
       });
-      signOut();
+      //signOut();
       //setIsLogin(true);
       // passwordInputRef.current.value = "";
-      router.push("/auth");
+      router.push("/writers");
     } catch (error) {
       console.log(error);
       notificationCtx.showNotification({
@@ -186,6 +222,24 @@ function UpdateAuthForm() {
               and i blog about the sciences and programming"
           ></textarea>
         </div>
+
+        {checkBoxShow && (
+          <div className={classes.control}>
+            <span htmlFor="isAprovedred" className={classes.approveSpan}>
+              Approve This Profile
+            </span>
+
+            <input
+              type="checkbox"
+              id="isAprovedred"
+              name="isApproveded"
+              value={moderated}
+              checked={moderated}
+              onChange={() => setmoderated(!moderated)}
+              style={{ width: "7%" }}
+            />
+          </div>
+        )}
 
         <div className={classes.actions}>
           <button>Update Account</button>
