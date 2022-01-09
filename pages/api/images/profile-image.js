@@ -109,9 +109,14 @@ apiRoute.post(async (req, res) => {
 
             res.status(200).json({ data: "success" });
           } else {
+            const user = await usersCollection.findOne({
+              email: session.user.email,
+            });
+            const blogImageLinkUpdate = user.blogImageLink.push(imageid);
+            console.log({ user }, "from pro");
             const resultOfUpdate = await usersCollection.updateOne(
               { email: session.user.email },
-              { $set: { imageLink: imageid } }
+              { $set: { blogImageLink: [...blogImageLinkUpdate] } }
             );
             console.log("started....okay multer");
             client.close();
