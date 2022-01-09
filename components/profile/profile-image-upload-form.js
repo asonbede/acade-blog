@@ -51,7 +51,7 @@ export default function ProfileImageUploadform() {
 
     setfile(fileEle.files[0]);
   };
-
+  console.log({ radioButtonValue }, "off-upload");
   async function handleUpload(event) {
     event.preventDefault();
     // Object.defineProperty(file, "name", {
@@ -59,6 +59,7 @@ export default function ProfileImageUploadform() {
     //   value: `${session.user.email}-${session.user.name.replace(/" "/g, "-")}`,
     // });
     // optional: add client-side validation
+    console.log({ radioButtonValue }, "on-upload");
     setUrlfileUploaded("");
     const formData = new FormData();
     formData.append("image", file);
@@ -229,37 +230,41 @@ export default function ProfileImageUploadform() {
         </div>
         <hr />
         <div className={classes.control}>
-          <label htmlFor="blog-image-url-display">
-            Select File, Upload a .png or .jpg
-          </label>
+          <label htmlFor="blog-image-url-display">Url of selected image</label>
           <input
             type="text"
             id="blog-image-url-display"
             value={urlfileUploaded}
             onChange={() => console.log("input changed")}
           />
+
+          <hr />
+        </div>
+        <div>
+          <label htmlFor="profile-image-type">
+            <input
+              type="radio"
+              name="image-type"
+              value="profile-image"
+              id="profile-image-type"
+              defaultChecked
+              onChange={handleRadioButtonChange}
+            />
+            Profile Image
+          </label>
+
+          <label htmlFor="blog-image-type">
+            <input
+              type="radio"
+              name="image-type"
+              value="blog-image"
+              id="blog-image-type"
+              onChange={handleRadioButtonChange}
+            />
+            Blog Image
+          </label>
         </div>
         <hr />
-        <div className={classes.control}>
-          <input
-            type="radio"
-            name="image-type"
-            value="profile-image"
-            id="profile-image-type"
-            selected
-            onChange={handleRadioButtonChange}
-          />
-          <label htmlFor="blog-image-type">Profile Image</label>
-          <input
-            type="radio"
-            name="image-type"
-            value="blog-image"
-            id="blog-image-type"
-            onChange={handleRadioButtonChange}
-          />
-          <label htmlFor="profile-image-type">Blog Image</label>
-        </div>
-
         <div className={classes.action}>
           <button type="submit">Submit</button>
         </div>

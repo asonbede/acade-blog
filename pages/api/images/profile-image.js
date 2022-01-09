@@ -57,16 +57,19 @@ apiRoute.post(async (req, res) => {
     res.status(401).json({ message: "Not authenticated!" });
     return;
   }
-  console.log(req.body, "from before date");
+  console.log(req, "from before date");
   const formattedDate = new Date().toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
     year: "numeric",
   });
 
-  const identityStr = `${formattedDate}-${
+  // const formattedDate = new Date().toLocaleDateString();
+
+  const identityStr = `${formattedDate.replace(/ /g, "-")}-${
     session.user.email
-  }-${session.user.name.replace(/" "/g, "_")}`;
+  }-${session.user.name.replace(/ /g, "-")}`;
+  console.log("from after date");
   const upload = uploadFunc(9000000, identityStr);
 
   upload(req, res, async (err) => {
@@ -105,7 +108,7 @@ apiRoute.post(async (req, res) => {
               { email: session.user.email },
               { $set: { imageLink: imageid } }
             );
-            console.log("started....okay multer");
+            console.log("started in-profile");
             //copy
             //clipboardy.writeSync(imageid);
             //paste
@@ -122,7 +125,9 @@ apiRoute.post(async (req, res) => {
             const user = await usersCollection.findOne({
               email: session.user.email,
             });
-            const blogImageLinkUpdate = user.blogImageLink.push(imageid);
+            const blogImageLinkUpdate = user.blogImageLink
+              ? user.blogImageLink.push(imageid)
+              : [imageid];
             console.log({ user }, "from pro");
             const resultOfUpdate = await usersCollection.updateOne(
               { email: session.user.email },
@@ -133,7 +138,7 @@ apiRoute.post(async (req, res) => {
             //clipboardy.writeSync(imageid);
             //paste
             //clipboardy.readSync()
-
+            res.status(200).json({ message: imageid });
             client.close();
 
             res.status(200).json({

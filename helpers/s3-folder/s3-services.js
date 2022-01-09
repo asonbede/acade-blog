@@ -103,7 +103,12 @@ function uploadFunc(fileSize, uniqueStr) {
       filename: function (req, file, cb) {
         cb(
           null,
-          file.fieldname + "-" + uniqueStr + path.extname(file.originalname)
+          file.fieldname +
+            "-" +
+            uniqueStr +
+            "-" +
+            path.basename(file.originalname, path.extname(file.originalname)) +
+            path.extname(file.originalname)
         );
       },
     }),
