@@ -31,34 +31,29 @@ function MainNavigation() {
         <ul>
           <li>
             <Link href="/posts">
-              {" "}
               <a>Posts </a>
             </Link>
           </li>
           <li>
             <Link href="/writers">
-              {" "}
               <a>Authors </a>
             </Link>
           </li>
           {session && (
             <li>
               <Link href="/posts/create-post">
-                {" "}
                 <a>Create Post </a>
               </Link>
             </li>
           )}
           <li>
             <Link href="/contact">
-              {" "}
               <a>Contact </a>
             </Link>
           </li>
           {!session && !loading && (
             <li>
               <Link href="/auth">
-                {" "}
                 <a>Login </a>
               </Link>
             </li>
