@@ -78,7 +78,8 @@ function PostContent(props) {
   const { post } = props;
   const notificationCtx = useContext(NotificationContext);
   const router = useRouter();
-  const imagePath = `/images/posts/${post.image}`;
+  const imagePath = post.image;
+  console.log(imagePath, "post-content");
   const linkPath = `/posts/questions/${post.id}`;
   const linkPathForUpdate = `/posts/updates/${post.id}`;
   const linkPathForComment = `/comments/${post.id}`;
@@ -299,13 +300,23 @@ function PostContent(props) {
           </div>
           <div className={classes.cardbanner}>
             {/* <p class="category-tag technology">Biryani</p>  */}
-            <Image
+            <img
               className={classes.bannerimg}
               src={imagePath}
               alt="banner"
               width={900}
               height={800}
             />
+
+            {/* <div className={classes.blogdescription} style={{ width: "100%" }}> */}
+            {/* <div className={classes.mainImage}>
+              <DisplayEditorContent
+                contentFromServer={post.image}
+                toolbarPresent={false}
+              />
+            </div> */}
+
+            {/* </div> */}
           </div>
           <div className={classes.cardbody}>
             <div className={classes.buttonAction}>

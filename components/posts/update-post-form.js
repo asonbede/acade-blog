@@ -207,8 +207,20 @@ function UpdatePostForm({ updateId }) {
               onChange={useFieldDate.onChange}
             />
           </div>
+
+          {/* <div className={classes.control}>
+            <label htmlFor="image">Your Main Post Image</label>
+
+            <MyRichEditor
+              useEditorMainBlog={useEditorImage}
+              readOnly={false}
+              toolbarOnFocus={false}
+              toolbarPresent={true}
+              // smallHeight={false}
+            />
+          </div> */}
           <div className={classes.control}>
-            <label htmlFor="image">Enter Image Url</label>
+            <label htmlFor="image">Your Main Post Image</label>
             <input
               type="text"
               id="image"

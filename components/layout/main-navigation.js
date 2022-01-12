@@ -30,28 +30,43 @@ function MainNavigation() {
       <nav>
         <ul>
           <li>
-            <Link href="/posts">Posts</Link>
+            <Link href="/posts">
+              {" "}
+              <a>Posts </a>
+            </Link>
           </li>
           <li>
-            <Link href="/writers">Authors</Link>
+            <Link href="/writers">
+              {" "}
+              <a>Authors </a>
+            </Link>
           </li>
           {session && (
             <li>
-              <Link href="/posts/create-post">Create Post</Link>
+              <Link href="/posts/create-post">
+                {" "}
+                <a>Create Post </a>
+              </Link>
             </li>
           )}
           <li>
-            <Link href="/contact">Contact</Link>
+            <Link href="/contact">
+              {" "}
+              <a>Contact </a>
+            </Link>
           </li>
           {!session && !loading && (
             <li>
-              <Link href="/auth">Login</Link>
+              <Link href="/auth">
+                {" "}
+                <a>Login </a>
+              </Link>
             </li>
           )}
           {session && (
             <li>
               <Link href={`profile/${session.user.email}${queryStr}`}>
-                Profile
+                <a>Profile</a>
               </Link>
             </li>
           )}

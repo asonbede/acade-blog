@@ -70,7 +70,7 @@ apiRoute.post(async (req, res) => {
     session.user.email
   }-${session.user.name.replace(/ /g, "-")}`;
   console.log("from after date");
-  const upload = uploadFunc(9000000, identityStr);
+  const upload = uploadFunc(90000000, identityStr);
 
   upload(req, res, async (err) => {
     if (err) {
@@ -99,10 +99,19 @@ apiRoute.post(async (req, res) => {
           await unlinkFile(file.path);
           // const description = req.body.description;
           // console.log(description);
-          const imageid = `/api/images/profile-image?file=${result.key}`;
-          const client = await connectDatabase();
+          let imageid;
+          if (result.key) {
+            imageid = `/api/images/profile-image?file=${result.key}`;
+          }
 
+          const imageData = {
+            imageUrl: imageid,
+            imageSize: file.size,
+            imageDemension: [dimensions.width, dimensions.height],
+          };
+          const client = await connectDatabase();
           const usersCollection = client.db().collection("users");
+          console.log("connected to database");
           if (actionType === "profile-image") {
             const resultOfUpdate = await usersCollection.updateOne(
               { email: session.user.email },
@@ -122,17 +131,28 @@ apiRoute.post(async (req, res) => {
 
             // res.status(200).json({ data: "success" });
           } else {
+            console.log("from pro77777734");
             const user = await usersCollection.findOne({
               email: session.user.email,
             });
-            const blogImageLinkUpdate = user.blogImageLink
-              ? user.blogImageLink.push(imageid)
-              : [imageid];
-            console.log({ user }, "from pro");
-            const resultOfUpdate = await usersCollection.updateOne(
-              { email: session.user.email },
-              { $set: { blogImageLink: [...blogImageLinkUpdate] } }
-            );
+            // const blogImageLinkUpdate = user.blogImageLink
+            //   ? [...user.blogImageLink, imageData]
+            //   : [imageData];
+            //console.log({ user }, "from pro");
+
+            if (user.blogImageLink) {
+              console.log({ user }, "from pro33334");
+              const resultOfUpdate = await usersCollection.updateOne(
+                { email: session.user.email },
+                { $push: { blogImageLink: imageData } }
+              );
+            } else {
+              const resultOfUpdate = await usersCollection.updateOne(
+                { email: session.user.email },
+                { $set: { blogImageLink: [imageData] } }
+              );
+            }
+
             console.log("started....okay multer");
             //copy
             //clipboardy.writeSync(imageid);
@@ -141,10 +161,10 @@ apiRoute.post(async (req, res) => {
             res.status(200).json({ message: imageid });
             client.close();
 
-            res.status(200).json({
-              message:
-                "upload was successful! and image url copied to the clip bord",
-            });
+            // res.status(200).json({
+            //   message:
+            //     "upload was successful! and image url copied to the clip bord",
+            // });
 
             // res.status(200).json({ data: "success" });
           }

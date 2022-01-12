@@ -9,6 +9,7 @@ import {
   getAllDocuments,
 } from "../../helpers/db-utils";
 import Questions from "../../components/questions/questions";
+console.log("coome", "000000");
 function PostDetailPage(props) {
   return (
     <Fragment>
@@ -58,7 +59,7 @@ export async function getStaticProps(context) {
   //       };
   //  }),
   //const postData= trimedDocuments.find(trimedDocument=>trimedDocument.id===slug)
-  //console.log("coome", { document });
+  console.log("coome", "11111");
   const postData = {
     title: document.title,
     date: document.date,
@@ -76,6 +77,8 @@ export async function getStaticProps(context) {
       ? document.imageProfileUrl
       : "/images/posts/default-profile-pic.jpg",
   };
+
+  console.log("coome", "2222222");
 
   return {
     props: {

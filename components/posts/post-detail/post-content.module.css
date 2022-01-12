@@ -22,6 +22,14 @@
   width: 100%;
   max-width: 600px;
 } */
+.mainImage {
+  width: 100% !important;
+  background-color: red;
+}
+.mainImage > img {
+  width: 100% !important;
+  background-color: aquamarine !important;
+}
 
 @media (min-width: 768px) {
   .content {
@@ -48,7 +56,7 @@
 .bannerimg {
   /* position: absolute; */
   object-fit: cover;
-  height: 23rem;
+  height: 45rem;
   width: 100%;
 }
 

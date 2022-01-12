@@ -50,13 +50,14 @@ function NewPostForm() {
   const [session, loading] = useSession();
   const router = useRouter();
   const useFieldDate = useField("text");
-  const useFieldImage = useField("text");
+  //const useFieldImage = useField("text");
   const useFieldCategory = useField("text");
 
   const useFieldTitle = useField("text");
   // const useEditorImage= useEditor();
   const useFieldExcept = useField("text");
   const useEditorContent = useEditor();
+  const useFieldImage = useField("text");
 
   const { value: enteredTitle } = useFieldTitle;
   // const { url: enteredImage } = useEditorImage;
@@ -67,6 +68,8 @@ function NewPostForm() {
     editorState,
     onEditorStateChange,
   } = useEditorContent;
+
+  //const { value: enteredImage } = useFieldImage;
 
   const { value: enteredImage } = useFieldImage;
   const { value: enteredDate } = useFieldDate;
@@ -185,7 +188,7 @@ function NewPostForm() {
             />
           </div>
           <div className={classes.control}>
-            <label htmlFor="image">Enter Image Url</label>
+            <label htmlFor="image">Your Main Post Image</label>
             <input
               // type="text"
               id="image"
@@ -194,6 +197,17 @@ function NewPostForm() {
               onChange={useFieldImage.onChange}
             />
           </div>
+          {/* <div className={classes.control}>
+            <label htmlFor="content">Your Main Post Image</label>
+
+            <MyRichEditor
+              useEditorMainBlog={useEditorImage}
+              readOnly={false}
+              toolbarOnFocus={false}
+              toolbarPresent={true}
+              // smallHeight={false}
+            />
+          </div> */}
 
           <div className={classes.control}>
             <label htmlFor="excerpt">Enter Excerpt</label>
@@ -222,14 +236,7 @@ function NewPostForm() {
         </div>
         <div className={classes.control}>
           <label htmlFor="content">Your Content</label>
-          {/* <textarea
-            id="content"
-            rows="5"
-            required
-            value={enteredContent}
-            onChange={(event) =>
-              setEnteredContent(event.target.value)
-            }></textarea> */}
+
           <MyRichEditor
             useEditorMainBlog={useEditorContent}
             readOnly={false}
