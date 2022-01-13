@@ -25,13 +25,9 @@ function FeaturedPosts(props) {
         router.pathname.indexOf("/profile") > -1 ? classes.displayProfile : ""
       }`}
     >
-      <div>
+      <div className={classes.menuProfile}>
         {router.pathname.indexOf("/profile") > -1 ? (
-          <PostMenu
-            posts={props.posts}
-            onSelectMenu={onSelectMenu}
-            className={classes.menuProfile}
-          />
+          <PostMenu posts={props.posts} onSelectMenu={onSelectMenu} />
         ) : null}
       </div>
       <div

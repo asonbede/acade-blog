@@ -38,17 +38,15 @@ export default function ProfileMenu(props) {
   //     });
   //   }
   // };
-  // useEffect(() => {
-  //   if (idFromRoute) {
-  //     setselectValue(idFromRoute);
-  //     // props.onSelectMenu(selectValue);
-  //   }
-  // }, [idFromRoute]);
+  useEffect(() => {
+    props.onSelectMenu(selectValue);
+  }, [selectValue]);
+
   const onselectChange = (e) => {
     const optionValue = e.target.value;
-    // setselectValue(optionValue);
-    // console.log({ optionValue });
-    router.push(`/posts/${optionValue}`);
+    setselectValue(optionValue);
+    console.log({ optionValue });
+    // router.push(`/posts/${optionValue}`);
   };
 
   return (
