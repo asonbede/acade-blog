@@ -33,7 +33,8 @@ export default ProfilePage;
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
   const paramValue = context.params.profileId;
-  const { name, description, imageLink } = context.query;
+  //const { name, description, imageLink } = context.query;
+  //let name, description, imageLink ;
   console.log({ paramValue }, "from profileID");
   //const queryDescription = context.query.description;
   console.log({ session }, "in profile");
@@ -79,6 +80,14 @@ export async function getServerSideProps(context) {
         : "/images/posts/default-profile-pic.jpg",
     };
   });
+
+  console.log("from pro77777734");
+  const usersCollection = client.db().collection("users");
+  const user = await usersCollection.findOne({
+    email: paramValue,
+  });
+
+  const { name, interest: description, imageLink } = user;
 
   client.close();
 

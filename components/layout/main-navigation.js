@@ -14,7 +14,7 @@ function MainNavigation() {
     name = session.user.name;
     interest = session.user.image.split("??")[1];
     imageLink = session.user.image.split("??")[0];
-    queryStr = `?name=${name}&description=${interest}&imageLink=${imageLink}`;
+    //queryStr = `?name=${name}&description=${interest}&imageLink=${imageLink}`;
   }
   function logoutHandler() {
     signOut();
@@ -60,7 +60,7 @@ function MainNavigation() {
           )}
           {session && (
             <li>
-              <Link href={`profile/${session.user.email}${queryStr}`}>
+              <Link href={`/profile/${session.user.email}`}>
                 <a>Profile</a>
               </Link>
             </li>

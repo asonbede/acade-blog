@@ -1,11 +1,11 @@
 import Link from "next/link";
-import Image from "next/image";
+//import Image from "next/image";
 import { useState, useEffect, useContext } from "react";
 import classes from "./user-item.module.css";
 //import AuthUpdateForm from "../auth/auth-update-form";
-import { useRouter } from "next/router";
+//import { useRouter } from "next/router";
 
-import NotificationContext from "../../store/notification-context";
+//import NotificationContext from "../../store/notification-context";
 
 //import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 async function sendAuthData(authDetails, setFunc) {
@@ -38,10 +38,10 @@ function UserItem(props) {
   } = props.post;
   console.log({ authorId });
   const [moderatedValue, setmoderatedValue] = useState();
-  const [isAdmin, setisAdmin] = useState(false);
-  const [isUpdate, setisUpdate] = useState(false);
-  const notificationCtx = useContext(NotificationContext);
-  const router = useRouter();
+  // const [isAdmin, setisAdmin] = useState(false);
+  // const [isUpdate, setisUpdate] = useState(false);
+  // const notificationCtx = useContext(NotificationContext);
+  //const router = useRouter();
   // // const postAuthorDetails = () => {
   // //   console.log("from handle update");
   // //   notificationCtx.userUpIdHandler({
@@ -62,21 +62,21 @@ function UserItem(props) {
     // }
   }, [authorId, moderated]);
 
-  useEffect(() => {
-    fetch("/api/restrict-route/")
-      .then((response) => response.json())
-      .then((data) => {
-        //console.log(data);
-        setisAdmin(data.message);
-      })
-      .catch((error) => {
-        notificationCtx.showNotification({
-          title: "Error!",
-          message: error.message || "Something went wrong!",
-          status: "error",
-        });
-      });
-  }, [authorId, moderated]);
+  // useEffect(() => {
+  //   fetch("/api/restrict-route/")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       //console.log(data);
+  //       setisAdmin(data.message);
+  //     })
+  //     .catch((error) => {
+  //       notificationCtx.showNotification({
+  //         title: "Error!",
+  //         message: error.message || "Something went wrong!",
+  //         status: "error",
+  //       });
+  //     });
+  // }, [authorId, moderated]);
 
   //   const formattedDate = new Date(date).toLocaleDateString("en-US", {
   //     day: "numeric",
@@ -84,8 +84,11 @@ function UserItem(props) {
   //     year: "numeric",
   //   });
 
+  //Store credentials in local storage
+  useEffect(() => {}, [authorId, name, imageLink]);
+  //?name=${name}&description=${interest}&imageLink=${imageLink}
   //const imagePath = `/images/posts/${image}`;
-  const linkPath = `/profile/${authorId}?name=${name}&description=${interest}&imageLink=${imageLink}`;
+  const linkPath = `/profile/${authorId}`;
   console.log({ moderated }, "from item");
   //className={moderatedValue ? classes.showItem : classes.hideItem}
   return (
