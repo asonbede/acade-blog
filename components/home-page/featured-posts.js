@@ -7,9 +7,10 @@ import PostContent from "../posts/post-detail/post-content";
 function FeaturedPosts(props) {
   const [post, setpost] = useState();
   const [gridControl, setgridControl] = useState(true);
+  const [toggleMenu, settoggleMenu] = useState(false);
   console.log({ post }, "from-featured");
   const router = useRouter();
-
+  console.log({ toggleMenu });
   const onSelectMenu = (blogId) => {
     console.log("onselected called");
     console.log(blogId, "onselected called");
@@ -35,8 +36,11 @@ function FeaturedPosts(props) {
           router.pathname.indexOf("/profile") > -1
             ? classes.postcontandgridCont
             : ""
-        }`}
+        }  ${toggleMenu ? classes.showmenu : classes.hidemenu}`}
       >
+        {router.pathname.indexOf("/profile") > -1 && (
+          <button onClick={() => settoggleMenu(!toggleMenu)}>Show Menu</button>
+        )}
         {!post && (
           <section>
             {" "}
