@@ -70,7 +70,7 @@ function Questions(props) {
   }
   const handleRadioButtonChange = (event) => {
     const { name, value } = event.target;
-
+    console.log({ name, value });
     //get the student's choice and the correct option when radio button is selected
     setselectedValuesOfRadioButton({
       ...selectedValuesOfRadioButton,
@@ -81,6 +81,7 @@ function Questions(props) {
     if (controlSubBtn) {
       setcontrolSubBtn(false);
     }
+    console.log({ selectedValuesOfRadioButton });
   };
   function markScript() {
     notificationCtx.showNotification({
@@ -266,7 +267,8 @@ function Questions(props) {
           <button
             onClick={markScript}
             disabled={controlSubBtn}
-            title="attempt the questions before clicking this button">
+            title="attempt the questions before clicking this button"
+          >
             submit Script For Marking
           </button>
         )}

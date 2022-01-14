@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import classes from "./post-item.module.css";
+import { useRouter } from "next/router";
 //import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 async function sendAuthData(authDetails, setFunc) {
   const response = await fetch("/api/moderating-post", {
@@ -27,7 +28,8 @@ function PostItem(props) {
     props.post;
 
   const [moderatedValue, setmoderatedValue] = useState();
-
+  const [localStorageSet, setlocalStorageSet] = useState(false);
+  const router = useRouter();
   //const adminArray = [process.env.admin_1, process.env.admin_2];
   //console.log(props.post, "content333");
   // const { authorId } = post;
@@ -48,6 +50,14 @@ function PostItem(props) {
 
   const imagePath = `/images/posts/${image}`;
   const linkPath = `/posts/${id}`;
+  const handleLocalStorage = () => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("post", JSON.stringify(props.post));
+      window.localStorage.setItem("blogid", JSON.stringify(id));
+      setlocalStorageSet(!localStorageSet);
+      router.push(`/profile/${authorId}`);
+    }
+  };
 
   return (
     <div className={moderatedValue ? classes.showItem : classes.hideItem}>
@@ -63,9 +73,9 @@ function PostItem(props) {
         </span>
       )}
       <li className={classes.post}>
-        <Link href={linkPath}>
-          <a>
-            {/* <div className={classes.image}>
+        {/* <Link href={linkPath}> */}
+        <a>
+          {/* <div className={classes.image}>
               <img
                 src={props.post.imageProfileUrl}
                 alt={title}
@@ -74,15 +84,15 @@ function PostItem(props) {
                 layout="responsive"
               />
             </div> */}
-            <div className={classes.content}>
-              <h3>{title}</h3>
+          <div className={classes.content}>
+            <h3>{title}</h3>
 
-              <time>{formattedDate}</time>
+            <time>{formattedDate}</time>
 
-              <p>{excerpt}</p>
-            </div>
-          </a>
-        </Link>
+            <p>{excerpt}</p>
+          </div>
+        </a>
+        {/* </Link> */}
         <div className={classes.cardprofile}>
           <img
             className={classes.profileimg}
@@ -92,6 +102,12 @@ function PostItem(props) {
           <div className={classes.cardprofileinfo}>
             <h3 className={classes.profilename}>{props.post.author}</h3>
             <p className={classes.profilefollowers}>5.2k followers</p>
+            {router.pathname.indexOf("/profile") === -1 && (
+              <button onClick={handleLocalStorage}>Read More</button>
+            )}
+            {router.pathname.indexOf("/profile") > -1 && (
+              <button onClick={() => props.onSelectMenu(id)}>Read More</button>
+            )}
           </div>
         </div>
         <br />

@@ -70,12 +70,18 @@ export default function ProfileMenu(props) {
         size={6}
         className={classes.menuSelect}
         onChange={onselectChange}
-        value={selectValue}
+        // value={selectValue}
+        defaultValue={props.setselectId}
       >
         {arrangePostByCategory().map((post) => (
           <optgroup label={post.category}>
             {post.posts.map((item) => (
-              <option value={item.id}>{item.title}</option>
+              <option
+                value={item.id}
+                selected={item.id === props.setselectId ? true : false}
+              >
+                {item.title}
+              </option>
             ))}
           </optgroup>
         ))}

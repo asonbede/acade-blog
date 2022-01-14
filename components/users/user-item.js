@@ -85,7 +85,7 @@ function UserItem(props) {
   //   });
 
   //Store credentials in local storage
-  useEffect(() => {}, [authorId, name, imageLink]);
+  //useEffect(() => {}, [authorId, name, imageLink]);
   //?name=${name}&description=${interest}&imageLink=${imageLink}
   //const imagePath = `/images/posts/${image}`;
   const linkPath = `/profile/${authorId}`;
