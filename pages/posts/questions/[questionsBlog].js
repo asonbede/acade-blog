@@ -129,7 +129,7 @@ export async function getStaticProps(context) {
   );
 
   client.close();
-  console.log({ questionsDoc });
+  //console.log({ questionsDoc });
   //  const trimedDocuments=    documents.map((document) => {
   //       return {
   //         title: document.title,
@@ -156,7 +156,7 @@ export async function getStaticProps(context) {
     props: {
       items: JSON.parse(JSON.stringify(questionsDoc)),
     },
-    revalidate: 600,
+    // revalidate: 600,
   };
 }
 

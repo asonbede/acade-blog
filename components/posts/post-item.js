@@ -74,8 +74,9 @@ function PostItem(props) {
       )}
       <li className={classes.post}>
         {/* <Link href={linkPath}> */}
-        <a>
-          {/* <div className={classes.image}>
+        {/* <div> */}
+        {/* <a> */}
+        {/* <div className={classes.image}>
               <img
                 src={props.post.imageProfileUrl}
                 alt={title}
@@ -84,14 +85,15 @@ function PostItem(props) {
                 layout="responsive"
               />
             </div> */}
-          <div className={classes.content}>
-            <h3>{title}</h3>
+        <div className={classes.content}>
+          <h3>{title}</h3>
 
-            <time>{formattedDate}</time>
+          <time>{formattedDate}</time>
 
-            <p>{excerpt}</p>
-          </div>
-        </a>
+          <p>{excerpt}</p>
+        </div>
+        {/* </a> */}
+
         {/* </Link> */}
         <div className={classes.cardprofile}>
           <img

@@ -34,6 +34,7 @@
 
 .content {
   padding: var(--size-4);
+  color: #d7dfe2;
 }
 
 .content h3 {

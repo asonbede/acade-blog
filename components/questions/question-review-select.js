@@ -11,7 +11,7 @@ function QuestionReviewSelect(props) {
   const reviewQuestionObj = notificationCtx.reviewQuestion;
   const {
     selectedValuesOfRadioButton,
-    items,
+    currentArray,
     correctQuestions,
     inCorrectQuestions,
     skippedQuestions,
@@ -19,7 +19,7 @@ function QuestionReviewSelect(props) {
     score,
   } = reviewQuestionObj;
 
-  console.log({ items }, "jjhh");
+  // console.log({ items }, "jjhh");
   console.log({ correctQuestions }, "jjcc");
   console.log({ inCorrectQuestions }, "jjbbiiii");
   function handleChange(event) {
@@ -43,11 +43,11 @@ function QuestionReviewSelect(props) {
           </select>
         </div>
       </div>
-      <span>{`Score: ${score}/${items.length}`}</span>
+      <span>{`Score: ${score}/${currentArray.length}`}</span>
       {selectedReview === "all" ? (
         <QuestionAnswerReviewList
           selectedValuesOfRadioButton={selectedValuesOfRadioButton}
-          items={items}
+          items={currentArray}
           questionType="all"
           correctQuestions={correctQuestions}
           inCorrectQuestions={inCorrectQuestions}

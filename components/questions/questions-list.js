@@ -3,7 +3,15 @@ import classes from "./questions-list.module.css";
 import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 import NotificationContext from "../../store/notification-context";
 import { useRouter } from "next/router";
-function QuestionsList({ items, handleRadioButtonChange, blogId }) {
+function QuestionsList({
+  items,
+  handleRadioButtonChange,
+  blogId,
+  controlSubBtn,
+
+  markScript,
+  selectValue,
+}) {
   const notificationCtx = useContext(NotificationContext);
   const optionsList = ["A", "B", "C", "D", "E"];
   //const linkPathForUpdate = `/posts/updates/${post.id}`;
@@ -62,9 +70,15 @@ function QuestionsList({ items, handleRadioButtonChange, blogId }) {
       {/* <Link href={linkPath}>
         <a onClick={() => console.log("in link")}>Review Result</a>
       </Link> */}
+      {selectValue === "mult-choice-all" ? (
+        <button onClick={() => markScript(items)} disabled={controlSubBtn}>
+          Submit For Marking
+        </button>
+      ) : null}
+
       {items.map((item, questionIndex) => (
         <li key={item._id}>
-          <p style={{ display: "flex" }}>
+          <div style={{ display: "flex" }}>
             {/* &nbsp;&nbsp;{item.question} */}
             <span style={{ marginRight: "5px", marginTop: "14px" }}>
               {questionIndex + 1}
@@ -73,37 +87,38 @@ function QuestionsList({ items, handleRadioButtonChange, blogId }) {
               contentFromServer={item.question}
               toolbarPresent={false}
             />
-          </p>
+          </div>
           <div>
             {item.options.map((optionItem, optionIndex) => (
-              <>
-                <div
+              <div
+                key={`${optionIndex}key`}
+                style={{
+                  display: "flex",
+                }}
+              >
+                <input
+                  type="radio"
+                  name={questionIndex}
+                  value={optionItem.option}
+                  id={`${questionIndex}:${optionIndex}`}
+                  onChange={handleRadioButtonChange}
                   style={{
-                    display: "flex",
-                  }}>
-                  <input
-                    type="radio"
-                    name={questionIndex}
-                    value={optionItem.option}
-                    id={`${questionIndex}:${optionIndex}`}
-                    onChange={handleRadioButtonChange}
-                    style={{
-                      marginTop: "16px",
-                    }}
-                  />
-                  <label
-                    htmlFor={`${questionIndex}:${optionIndex}`}
-                    style={{
-                      marginTop: "14px",
-                    }}>
-                    {optionsList[optionIndex]}.{" "}
-                  </label>
-                  <DisplayEditorContent
-                    contentFromServer={optionItem.option}
-                    toolbarPresent={false}
-                  />
-                </div>
-              </>
+                    marginTop: "16px",
+                  }}
+                />
+                <label
+                  htmlFor={`${questionIndex}:${optionIndex}`}
+                  style={{
+                    marginTop: "14px",
+                  }}
+                >
+                  {optionsList[optionIndex]}.{" "}
+                </label>
+                <DisplayEditorContent
+                  contentFromServer={optionItem.option}
+                  toolbarPresent={false}
+                />
+              </div>
             ))}
           </div>
           <button onClick={() => handleQuestionUpdateData(item)}>Update</button>{" "}

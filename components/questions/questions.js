@@ -6,6 +6,7 @@ import classes from "./questions.module.css";
 import NotificationContext from "../../store/notification-context";
 import Link from "next/dist/client/link";
 import Togglable from "../togglable/togglable";
+import QuestionsListOne from "./question-list-one";
 function Questions(props) {
   const [selectedValuesOfRadioButton, setselectedValuesOfRadioButton] =
     useState([]);
@@ -19,16 +20,28 @@ function Questions(props) {
   const [isFetchingQuestions, setIsFetchingQuestions] = useState(false);
   const [controlSubBtn, setcontrolSubBtn] = useState(true);
   const [controlReviewLink, setcontrolReviewLink] = useState(false);
+  const [selectValue, setselectValue] = useState("mult-choice-all");
+  const [currentArray, setcurrentArray] = useState([]);
+
   const notificationCtx = useContext(NotificationContext);
   const { questions: items, blogId } = props;
   console.log({ blogId }, "in questionsjs");
   const noteFormRef = useRef(null);
   //const notificationCtx = useContext(NotificationContext);
+  function checkMessageScore() {
+    if (selectValue === "mult-choice-one" && score === 1) {
+      return "Success! Good Work";
+    } else if (selectValue === "mult-choice-one" && score !== 1) {
+      return "Incorrect! Please try again";
+    } else {
+      return "Success";
+    }
+  }
   useEffect(() => {
     console.log({ inCorrectQuestions }, "inUseffect");
     notificationCtx.reviewQuestionsHandler({
       selectedValuesOfRadioButton,
-      items,
+      currentArray,
       correctQuestions,
       inCorrectQuestions,
       skippedQuestions,
@@ -39,8 +52,8 @@ function Questions(props) {
   useEffect(() => {
     if (score !== null) {
       notificationCtx.showNotification({
-        title: "Success!",
-        message: `Your answer script was successfully assessed! You scored ${score}/${items.length}. Click the review button for details`,
+        title: `${checkMessageScore()}Success!`,
+        message: `Your answer script was successfully assessed! You scored ${score}/${currentArray.length}. Click the review button for details`,
         status: "success",
       });
     }
@@ -83,7 +96,8 @@ function Questions(props) {
     }
     console.log({ selectedValuesOfRadioButton });
   };
-  function markScript() {
+  function markScript(itemsValue) {
+    setcurrentArray(itemsValue);
     notificationCtx.showNotification({
       title: "questions is being marked...",
       message: "Your question is currently being assessed, please wait",
@@ -98,12 +112,12 @@ function Questions(props) {
     const allQuestionsList = [];
     let correctOptionValue;
     let scoreValue = 0;
-    for (let index = 0; index < items.length; index++) {
+    for (let index = 0; index < itemsValue.length; index++) {
       const studentsChoice =
         selectedValuesOfRadioButton[`studentChoiceForQuestion${index + 1}`];
       const correctOptionLetter =
         selectedValuesOfRadioButton[`correctOptionForQuestion${index + 1}`];
-      let questionObj = items[index];
+      let questionObj = itemsValue[index];
       //   questionObj = { ...questionObj, originalIndex: index };
       allQuestions.push(questionObj);
 
@@ -209,6 +223,13 @@ function Questions(props) {
   //   }
   // }, [showQuestions]);
 
+  const onselectChange = (e) => {
+    const optionValue = e.target.value;
+    setselectValue(optionValue);
+    console.log({ optionValue });
+    // router.push(`/posts/${optionValue}`);
+  };
+
   function toggleQuestionsHandler() {
     setShowQuestions((prevStatus) => !prevStatus);
   }
@@ -256,6 +277,43 @@ function Questions(props) {
     router.push(linkPath);
   }
 
+  function displayQuestions() {
+    console.log({ selectValue }, "all choice");
+    if (
+      showQuestions &&
+      !isFetchingQuestions &&
+      selectValue === "mult-choice-all"
+    ) {
+      return (
+        <QuestionsList
+          items={items}
+          handleRadioButtonChange={handleRadioButtonChange}
+          blogId={blogId}
+          controlSubBtn={controlSubBtn}
+          markScript={markScript}
+          selectValue={selectValue}
+        />
+      );
+    } else if (
+      showQuestions &&
+      !isFetchingQuestions &&
+      selectValue === "mult-choice-one"
+    ) {
+      console.log({ selectValue }, "one choice");
+      return (
+        <QuestionsListOne
+          items={items}
+          handleRadioButtonChange={handleRadioButtonChange}
+          blogId={blogId}
+          markScript={markScript}
+          controlSubBtn={controlSubBtn}
+        />
+      );
+    } else {
+      null;
+    }
+  }
+
   return (
     <section className={classes.questions}>
       <div className={classes.control}>
@@ -263,7 +321,7 @@ function Questions(props) {
           {showQuestions ? "Hide" : "Show"} Questions
         </button>
 
-        {showQuestions && !isFetchingQuestions && (
+        {/* {showQuestions && !isFetchingQuestions && (
           <button
             onClick={markScript}
             disabled={controlSubBtn}
@@ -271,23 +329,71 @@ function Questions(props) {
           >
             submit Script For Marking
           </button>
-        )}
+        )} */}
 
         {showQuestions && !isFetchingQuestions && controlReviewLink && (
-          // <Link href={linkPath} as="button">
-          //   <a>Review Result</a>
-          // </Link>
-          <button onClick={goToLinkHandler}>Review Result</button>
+          <Link href={linkPath}>
+            <a>Review Result</a>
+          </Link>
+          // <button onClick={goToLinkHandler}>Review Result</button>
+          // as="button"
         )}
+
+        <select
+          onChange={onselectChange}
+          // value={selectValue}
+          className={classes.selectEle}
+          // size={4}
+          defaultValue={selectValue}
+        >
+          <optgroup label="Multiple Choice">
+            <option value="mult-choice-all">All Multiple Choice</option>
+            <option value="mult-choice-one">
+              Multiple Choice - One By One
+            </option>
+          </optgroup>
+          <optgroup label="Essay Type">
+            <option value="essay-type">Essay Type</option>
+          </optgroup>
+        </select>
+
+        {/* <div>
+          <input
+            type="radio"
+            name="question-select"
+            value="mult-sel-all"
+            id="mult-sel-all"
+            // onChange={handleRadioSelect}
+          />
+          <label htmlFor="mult-sel-all">Show All</label>
+          <input
+            type="radio"
+            name="question-select"
+            value="mult-sel-one"
+            id="mult-sel-one"
+            // onChange={handleRadioSelect}
+          />
+          <label htmlFor="mult-sel-one">Show one </label>
+          <input
+            type="radio"
+            name="question-select"
+            value="essay"
+            id="essay-type"
+            // onChange={handleRadioSelect}
+          />
+          <label htmlFor="essay-type">Essay Type </label>
+        </div> */}
       </div>
 
-      {showQuestions && !isFetchingQuestions && (
+      {displayQuestions()}
+
+      {/* {showQuestions && !isFetchingQuestions && (
         <QuestionsList
           items={items}
           handleRadioButtonChange={handleRadioButtonChange}
           blogId={blogId}
         />
-      )}
+      )} */}
       {showQuestions && isFetchingQuestions && <p>Loading questions...</p>}
       <Togglable buttonLabel="create question" ref={noteFormRef}>
         <p>Create Question</p>

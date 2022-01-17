@@ -171,7 +171,9 @@ function NewQuestion(props) {
           <label htmlFor="correctOption">Correct Option</label>
           <input
             id="correctOption"
-            {...useFieldCorrectOption}
+            required
+            value={enteredCorrectOption}
+            onChange={useFieldCorrectOption.onChange}
             style={{ width: "80%", display: "block" }}
           />
         </div>

@@ -23,3 +23,8 @@
 .questions button:active {
   background-color: #dcfff9;
 }
+
+.selectEle {
+  background-color: white;
+  /* margin: 90px; */
+}
