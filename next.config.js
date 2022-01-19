@@ -31,3 +31,4 @@ module.exports = {
 //     },
 //   };
 // };
+//mongodb+srv://bede:<password>@cluster0.jjcpx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority

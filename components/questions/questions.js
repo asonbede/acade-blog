@@ -58,6 +58,22 @@ function Questions(props) {
       });
     }
   }, [score]);
+
+  useEffect(() => {
+    if (selectValue === "mult-choice-all") {
+      setcurrentArray(items);
+    }
+    // else {
+    //   // value="">All Multiple Choice</option>
+    //   // <option value="mult-choice-one
+
+    // }
+  }, [selectValue]);
+
+  function setCurrentArrayHandler(arrayCurrent) {
+    setcurrentArray(arrayCurrent);
+  }
+
   const router = useRouter();
   const optionsList = ["A", "B", "C", "D", "E"];
 
@@ -89,7 +105,7 @@ function Questions(props) {
       ...selectedValuesOfRadioButton,
       [`studentChoiceForQuestion${Number(name) + 1}`]: value,
       [`correctOptionForQuestion${Number(name) + 1}`]:
-        items[name].correctOption,
+        currentArray[name].correctOption,
     });
     if (controlSubBtn) {
       setcontrolSubBtn(false);
@@ -97,7 +113,7 @@ function Questions(props) {
     console.log({ selectedValuesOfRadioButton });
   };
   function markScript(itemsValue) {
-    setcurrentArray(itemsValue);
+    //setcurrentArray(itemsValue);
     notificationCtx.showNotification({
       title: "questions is being marked...",
       message: "Your question is currently being assessed, please wait",
@@ -112,12 +128,12 @@ function Questions(props) {
     const allQuestionsList = [];
     let correctOptionValue;
     let scoreValue = 0;
-    for (let index = 0; index < itemsValue.length; index++) {
+    for (let index = 0; index < currentArray.length; index++) {
       const studentsChoice =
         selectedValuesOfRadioButton[`studentChoiceForQuestion${index + 1}`];
       const correctOptionLetter =
         selectedValuesOfRadioButton[`correctOptionForQuestion${index + 1}`];
-      let questionObj = itemsValue[index];
+      let questionObj = currentArray[index];
       //   questionObj = { ...questionObj, originalIndex: index };
       allQuestions.push(questionObj);
 
@@ -292,6 +308,8 @@ function Questions(props) {
           controlSubBtn={controlSubBtn}
           markScript={markScript}
           selectValue={selectValue}
+          controlReviewLink={controlReviewLink}
+          setcontrolReviewLink={setcontrolReviewLink}
         />
       );
     } else if (
@@ -307,6 +325,10 @@ function Questions(props) {
           blogId={blogId}
           markScript={markScript}
           controlSubBtn={controlSubBtn}
+          selectValue={selectValue}
+          controlReviewLink={controlReviewLink}
+          setcontrolReviewLink={setcontrolReviewLink}
+          setCurrentArrayHandler={setCurrentArrayHandler}
         />
       );
     } else {
@@ -331,14 +353,6 @@ function Questions(props) {
           </button>
         )} */}
 
-        {showQuestions && !isFetchingQuestions && controlReviewLink && (
-          <Link href={linkPath}>
-            <a>Review Result</a>
-          </Link>
-          // <button onClick={goToLinkHandler}>Review Result</button>
-          // as="button"
-        )}
-
         <select
           onChange={onselectChange}
           // value={selectValue}
@@ -356,6 +370,17 @@ function Questions(props) {
             <option value="essay-type">Essay Type</option>
           </optgroup>
         </select>
+
+        {showQuestions &&
+          !isFetchingQuestions &&
+          controlReviewLink &&
+          selectValue === "mult-choice-all" && (
+            <Link href={linkPath}>
+              <a>Review Result</a>
+            </Link>
+            // <button onClick={goToLinkHandler}>Review Result</button>bbbbhhhhhhhhh
+            // as="button"
+          )}
 
         {/* <div>
           <input
@@ -407,3 +432,14 @@ function Questions(props) {
 }
 
 export default Questions;
+
+// # Download prebuilt binaries
+// npm i -D @swc/cli @swc/core
+
+// # Transpile JavaScript file and emit to stdout
+// npx swc ./file.js
+
+// {
+//   "presets": ["next/babel"]
+// }
+// .babelrc

@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import classes from "./question-list-one.module.css";
 import { FaChevronLeft, FaChevronRight, FaQuoteRight } from "react-icons/fa";
 import QuestionList from "./questions-list";
+import QuestionReviewSelect from "./question-review-select"
 const OneQuestion = ({
   markScript,
   items,
   handleRadioButtonChange,
   blogId,
   controlSubBtn,
+  controlReviewLink, setcontrolReviewLink, selectValue,setCurrentArrayHandler
 }) => {
   const [index, setIndex] = useState(0);
   //let itemObj;
@@ -23,12 +25,15 @@ const OneQuestion = ({
     if (items) {
       const itemObj = items[index];
       setitemArray([itemObj]);
+      if (selectValue==="mult-choice-one") {
+        setCurrentArrayHandler([itemObj])
+      }
     }
     // effect
     // return () => {
     //   cleanup
     // }
-  }, [index]);
+  }, [index,selectValue]);
   console.log({ itemArray }, "one-list");
 
   const checkNumber = (number) => {
@@ -64,8 +69,12 @@ const OneQuestion = ({
   };
 
   if (itemArray) {
+
     return (
-      <main className={classes.mainSection}>
+      <>
+      { selectValue==="mult-choice-one"&&controlReviewLink?(<button onClick={()=>setcontrolReviewLink(false)}>Show Question</button>):null}
+      
+      {!controlReviewLink?( <main className={classes.mainSection}>
         <section className={`${classes.container} ${classes.section}`}>
           <div className={classes.title}>
             <h2>our reviews</h2>
@@ -111,7 +120,10 @@ const OneQuestion = ({
             </button>
           </article>
         </section>
+        
       </main>
+):(<QuestionReviewSelect/>)}
+           </>
     );
   }
   return null;

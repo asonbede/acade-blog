@@ -204,7 +204,8 @@ apiRoute.get((req, res) => {
   const stream = getFileStream(key);
   console.log("inside getFileStream2");
   stream.on("error", (err) => {
-    logger.log({ level: "error", messsage: "stream error", error: `${err}` });
+    console.log({ level: "error", messsage: "stream error", error: `${err}` });
+   console.log("error occured")
   });
   stream.pipe(res);
   //readStream.pipe(res);

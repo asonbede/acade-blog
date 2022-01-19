@@ -19,11 +19,19 @@ const region = process.env.s3_bucket_region;
 const bucketName = process.env.s3_bucket_name;
 const accessKeyId = process.env.s3_access_key;
 const secretAccessKey = process.env.s3_secrete_access_key;
+console.log({region,bucketName,accessKeyId,secretAccessKey},"s3")
 const s3 = new S3({
   region,
   accessKeyId,
   secretAccessKey,
+  correctClockSkew: true
 });
+
+// AWS.config.update({
+//   accessKeyId: 'xxx',
+//   secretAccessKey: 'xxxx',
+//   correctClockSkew: true
+// });
 
 //delete a file from s3
 function deleteFile(file) {
