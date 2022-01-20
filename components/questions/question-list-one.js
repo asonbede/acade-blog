@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import classes from "./question-list-one.module.css";
 import { FaChevronLeft, FaChevronRight, FaQuoteRight } from "react-icons/fa";
 import QuestionList from "./questions-list";
-import QuestionReviewSelect from "./question-review-select"
+import QuestionReviewSelect from "./question-review-select";
 const OneQuestion = ({
   markScript,
   items,
   handleRadioButtonChange,
   blogId,
   controlSubBtn,
-  controlReviewLink, setcontrolReviewLink, selectValue,setCurrentArrayHandler
+  controlReviewLink,
+  setcontrolReviewLink,
+  selectValue,
+  setCurrentArrayHandler,
 }) => {
   const [index, setIndex] = useState(0);
   //let itemObj;
@@ -25,15 +28,15 @@ const OneQuestion = ({
     if (items) {
       const itemObj = items[index];
       setitemArray([itemObj]);
-      if (selectValue==="mult-choice-one") {
-        setCurrentArrayHandler([itemObj])
+      if (selectValue === "mult-choice-one") {
+        setCurrentArrayHandler([itemObj]);
       }
     }
     // effect
     // return () => {
     //   cleanup
     // }
-  }, [index,selectValue]);
+  }, [index, selectValue]);
   console.log({ itemArray }, "one-list");
 
   const checkNumber = (number) => {
@@ -69,61 +72,66 @@ const OneQuestion = ({
   };
 
   if (itemArray) {
-
     return (
       <>
-      { selectValue==="mult-choice-one"&&controlReviewLink?(<button onClick={()=>setcontrolReviewLink(false)}>Show Question</button>):null}
-      
-      {!controlReviewLink?( <main className={classes.mainSection}>
-        <section className={`${classes.container} ${classes.section}`}>
-          <div className={classes.title}>
-            <h2>our reviews</h2>
-            <button
-              onClick={() => markScript(itemArray)}
-              disabled={controlSubBtn}
-            >
-              Submit For Marking
-            </button>
-            <div className={classes.underline}></div>
-          </div>
-          <article className={classes.review}>
-            <div className={classes.imgcontainer}>
-              <img
-                src="/images/posts/post-profile3.jpg"
-                alt="bede"
-                className={classes.personimg}
-              />
-              <span className={classes.quoteicon}>
-                <FaQuoteRight />
-              </span>
-            </div>
-            <h4 className={classes.author}>Bede Asonye</h4>
-            <p className={classes.job}>My Job</p>
-            <div className={classes.info}>
-              <QuestionList
-                items={itemArray}
-                handleRadioButtonChange={handleRadioButtonChange}
-                blogId={blogId}
-              />
-            </div>
-            {/* <p className={classes.info}>{text}</p> */}
-            <div className={classes.buttoncontainer}>
-              <button className={classes.prevbtn} onClick={prevPerson}>
-                <FaChevronLeft />
-              </button>
-              <button className={classes.nextbtn} onClick={nextPerson}>
-                <FaChevronRight />
-              </button>
-            </div>
-            <button className={classes.randombtn} onClick={randomPerson}>
-              surprise me
-            </button>
-          </article>
-        </section>
-        
-      </main>
-):(<QuestionReviewSelect/>)}
-           </>
+        {selectValue === "mult-choice-one" && controlReviewLink ? (
+          <button onClick={() => setcontrolReviewLink(false)}>
+            Back To Question
+          </button>
+        ) : null}
+
+        {!controlReviewLink ? (
+          <main className={classes.mainSection}>
+            <section className={`${classes.container} ${classes.section}`}>
+              <div className={classes.title}>
+                <h2>our reviews</h2>
+                <button
+                  onClick={() => markScript(itemArray)}
+                  disabled={controlSubBtn}
+                >
+                  Submit For Marking
+                </button>
+                <div className={classes.underline}></div>
+              </div>
+              <article className={classes.review}>
+                <div className={classes.imgcontainer}>
+                  <img
+                    src="/images/posts/post-profile3.jpg"
+                    alt="bede"
+                    className={classes.personimg}
+                  />
+                  <span className={classes.quoteicon}>
+                    <FaQuoteRight />
+                  </span>
+                </div>
+                <h4 className={classes.author}>Bede Asonye</h4>
+                <p className={classes.job}>My Job</p>
+                <div className={classes.info}>
+                  <QuestionList
+                    items={itemArray}
+                    handleRadioButtonChange={handleRadioButtonChange}
+                    blogId={blogId}
+                  />
+                </div>
+                {/* <p className={classes.info}>{text}</p> */}
+                <div className={classes.buttoncontainer}>
+                  <button className={classes.prevbtn} onClick={prevPerson}>
+                    <FaChevronLeft />
+                  </button>
+                  <button className={classes.nextbtn} onClick={nextPerson}>
+                    <FaChevronRight />
+                  </button>
+                </div>
+                <button className={classes.randombtn} onClick={randomPerson}>
+                  surprise me
+                </button>
+              </article>
+            </section>
+          </main>
+        ) : (
+          <QuestionReviewSelect />
+        )}
+      </>
     );
   }
   return null;

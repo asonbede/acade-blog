@@ -34,9 +34,52 @@ function Questions(props) {
     } else if (selectValue === "mult-choice-one" && score !== 1) {
       return "Incorrect! Please try again";
     } else {
-      return "Success";
+      if (score < currentArray.length / 2) {
+        return "Poor Performance!";
+      } else if (
+        score > currentArray.length / 2 ||
+        score < (3 * currentArray.length) / 4
+      ) {
+        return "Good Work";
+      } else {
+        return "Greak. Excellent Porformance";
+      }
     }
   }
+
+  function showerPraises() {
+    if (selectValue === "mult-choice-all") {
+      if (score < currentArray.length / 2) {
+        return `You scored ${score}/${currentArray.length}. You have to read this topic again. You can begin by studying 
+        the explanation provided. Click the review button to see details of your performance`;
+      } else {
+        return `You scored ${score}/${currentArray.length}. Click the review button to see details of your performance`;
+      }
+    } else {
+      if (score === 1) {
+        return `You did very well on this one. To return to the questions and continue with your exploits, click the back to questions button above`;
+      } else {
+        return `You may need to study this topic again. To return to the questions, click the back to questions button above`;
+      }
+    }
+  }
+
+  function determineStatus() {
+    if (selectValue === "mult-choice-all") {
+      if (score > currentArray.length / 2) {
+        return `success`;
+      } else {
+        return `error`;
+      }
+    } else {
+      if (score === 1) {
+        return `success`;
+      } else {
+        return `error`;
+      }
+    }
+  }
+
   useEffect(() => {
     console.log({ inCorrectQuestions }, "inUseffect");
     notificationCtx.reviewQuestionsHandler({
@@ -52,9 +95,9 @@ function Questions(props) {
   useEffect(() => {
     if (score !== null) {
       notificationCtx.showNotification({
-        title: `${checkMessageScore()}Success!`,
-        message: `Your answer script was successfully assessed! You scored ${score}/${currentArray.length}. Click the review button for details`,
-        status: "success",
+        title: `${checkMessageScore()}!`,
+        message: `Your answer script was successfully assessed! ${showerPraises()}`,
+        status: `${determineStatus()}`,
       });
     }
   }, [score]);
@@ -114,11 +157,13 @@ function Questions(props) {
   };
   function markScript(itemsValue) {
     //setcurrentArray(itemsValue);
-    notificationCtx.showNotification({
-      title: "questions is being marked...",
-      message: "Your question is currently being assessed, please wait",
-      ststus: "pending",
-    });
+    if (!selectValue === "mult-choice-one") {
+      notificationCtx.showNotification({
+        title: "questions is being marked...",
+        message: "Your question is currently being assessed, please wait",
+        ststus: "pending",
+      });
+    }
 
     console.log("clickedMarkscript");
     const unanweredQuestionsList = [];
