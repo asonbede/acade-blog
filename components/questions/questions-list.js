@@ -71,7 +71,11 @@ function QuestionsList({
         <a onClick={() => console.log("in link")}>Review Result</a>
       </Link> */}
       {selectValue === "mult-choice-all" ? (
-        <button onClick={() => markScript(items)} disabled={controlSubBtn}>
+        <button
+          onClick={() => markScript(items)}
+          disabled={controlSubBtn}
+          title="You must answer at lest one question before this button will respond"
+        >
           Submit For Marking
         </button>
       ) : null}

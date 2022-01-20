@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
-import QuestionsList from "./questions-list";
+//import QuestionsList from "./questions-list";
 import NewQuestion from "./new-questions-form";
 import classes from "./questions.module.css";
 import NotificationContext from "../../store/notification-context";
 import Link from "next/dist/client/link";
 import Togglable from "../togglable/togglable";
 import QuestionsListOne from "./question-list-one";
+import MainQuestionList from "./question-main-list";
 function Questions(props) {
   const [selectedValuesOfRadioButton, setselectedValuesOfRadioButton] =
     useState([]);
@@ -29,10 +30,12 @@ function Questions(props) {
   const noteFormRef = useRef(null);
   //const notificationCtx = useContext(NotificationContext);
   function checkMessageScore() {
-    if (selectValue === "mult-choice-one" && score === 1) {
-      return "Success! Good Work";
-    } else if (selectValue === "mult-choice-one" && score !== 1) {
-      return "Incorrect! Please try again";
+    if (selectValue === "mult-choice-one") {
+      if (score === 1) {
+        return "Success! Good Work. Keep it up!";
+      } else {
+        return "Incorrect! Please try again";
+      }
     } else {
       if (score < currentArray.length / 2) {
         return "Poor Performance!";
@@ -40,9 +43,9 @@ function Questions(props) {
         score > currentArray.length / 2 ||
         score < (3 * currentArray.length) / 4
       ) {
-        return "Good Work";
+        return "Good Work. You are on the right track";
       } else {
-        return "Greak. Excellent Porformance";
+        return "Great. Excellent Porformance";
       }
     }
   }
@@ -346,7 +349,7 @@ function Questions(props) {
       selectValue === "mult-choice-all"
     ) {
       return (
-        <QuestionsList
+        <MainQuestionList
           items={items}
           handleRadioButtonChange={handleRadioButtonChange}
           blogId={blogId}
@@ -355,6 +358,15 @@ function Questions(props) {
           selectValue={selectValue}
           controlReviewLink={controlReviewLink}
           setcontrolReviewLink={setcontrolReviewLink}
+          setcontrolSubBtn={setcontrolSubBtn}
+          variablesForReseting={{
+            setskippedQuestions,
+            setcorrectQuestions,
+            setinCorrectQuestions,
+            setallQuestions,
+            setselectedValuesOfRadioButton,
+            setscore,
+          }}
         />
       );
     } else if (
@@ -416,7 +428,7 @@ function Questions(props) {
           </optgroup>
         </select>
 
-        {showQuestions &&
+        {/* {showQuestions &&
           !isFetchingQuestions &&
           controlReviewLink &&
           selectValue === "mult-choice-all" && (
@@ -425,7 +437,7 @@ function Questions(props) {
             </Link>
             // <button onClick={goToLinkHandler}>Review Result</button>bbbbhhhhhhhhh
             // as="button"
-          )}
+          )} */}
 
         {/* <div>
           <input
