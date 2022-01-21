@@ -27,7 +27,7 @@ function Questions(props) {
   const [currentArray, setcurrentArray] = useState([]);
 
   const notificationCtx = useContext(NotificationContext);
-  const { questions: items, blogId } = props;
+  const { questions: items, blogId, questionType } = props;
   console.log({ blogId }, "in questionsjs");
   const noteFormRef = useRef(null);
   //const notificationCtx = useContext(NotificationContext);
@@ -122,6 +122,10 @@ function Questions(props) {
 
     // }
   }, [selectValue]);
+
+  useEffect(() => {
+    setselectValue(questionType);
+  }, []);
 
   function setCurrentArrayHandler(arrayCurrent) {
     setcurrentArray(arrayCurrent);
@@ -305,7 +309,7 @@ function Questions(props) {
     setShowQuestions((prevStatus) => !prevStatus);
   }
 
-  function addQuestionHandler(questionData) {
+  function addQuestionHandler(questionData, typeOfQuestion) {
     notificationCtx.showNotification({
       title: "Sending questions...",
       message: "Your question is currently being stored into a database.",
@@ -334,7 +338,10 @@ function Questions(props) {
           message: "Your question was saved!",
           status: "success",
         });
-        router.push(`/posts/questions/${blogId}`);
+
+        router.push(
+          `/posts/questions/${blogId}?questiontype=${typeOfQuestion}`
+        );
       })
       .catch((error) => {
         notificationCtx.showNotification({

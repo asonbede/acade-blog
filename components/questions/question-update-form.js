@@ -63,7 +63,7 @@ function UpdateQuestionForm() {
   const { value: enteredCorrectOption } = useFieldCorrectOption;
 
   const questionUpdateObj = notificationCtx.questionUpdate;
-  const { questionItem, blogId } = questionUpdateObj;
+  const { questionItem, blogId, questionType } = questionUpdateObj;
 
   // if (post) {
   //   useEditorContent.useServerContent(post.content);
@@ -137,6 +137,8 @@ function UpdateQuestionForm() {
           explanation: enteredExplanation,
           correctOption: enteredCorrectOption,
           blogId,
+          questionType: "multi-choice",
+          authorId: questionItem.authorId,
         },
         questionItem._id
       );
@@ -146,7 +148,7 @@ function UpdateQuestionForm() {
         message: "Your question was updated!",
         status: "success",
       });
-      router.push(`/posts/questions/${blogId}`);
+      router.push(`/posts/questions/${blogId}?questionType=mult-choice`);
     } catch (error) {
       notificationCtx.showNotification({
         title: "Error!",

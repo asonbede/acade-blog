@@ -94,8 +94,11 @@ import {
 function ShowQuestions(props) {
   const router = useRouter();
   const blogId = router.query.questionsBlog;
+  const questionType = router.query.questionType;
   const { items } = props;
-  return <Questions questions={items} blogId={blogId} />;
+  return (
+    <Questions questions={items} blogId={blogId} questionType={questionType} />
+  );
 }
 
 export async function getStaticProps(context) {

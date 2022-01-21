@@ -18,7 +18,7 @@ function QuestionsList({
   const router = useRouter();
   const deleteQuestionHandler = async (questionId) => {
     notificationCtx.showNotification({
-      title: "Deletind question...",
+      title: "Deleting question...",
       message: "Your question is currently being deleted from the database.",
       status: "pending",
     });
@@ -61,6 +61,7 @@ function QuestionsList({
     notificationCtx.questionUpdateHandler({
       questionItem,
       blogId,
+      questionType: "multi-choice",
     });
     router.push(
       `/posts/questions/updates/${questionItem._id}?questionType=multi-choice`

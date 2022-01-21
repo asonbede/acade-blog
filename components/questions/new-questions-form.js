@@ -1,6 +1,9 @@
 import { useRef, useState } from "react";
 import classes from "./new-questions-form.module.css";
 import MyRichEditor from "../rich-text-editor/myrich-text-editor";
+
+import { useSession } from "next-auth/client";
+
 import {
   useField,
   useEditor,
@@ -8,6 +11,7 @@ import {
 } from "../../hooks/input-editor-hooks";
 function NewQuestion(props) {
   const [isInvalid, setIsInvalid] = useState(false);
+  const [session, loading] = useSession();
 
   //const useFieldTopic = useField("text");
   const useFieldCorrectOption = useField("text");
@@ -80,19 +84,24 @@ function NewQuestion(props) {
       return;
     }
 
-    props.onAddQuestion({
-      question: enteredQuestion,
-      options: [
-        { option: enteredOptionA },
-        { option: enteredOptionB },
-        { option: enteredOptionC },
-        { option: enteredOptionD },
-        { option: enteredOptionE },
-      ],
+    props.onAddQuestion(
+      {
+        question: enteredQuestion,
+        options: [
+          { option: enteredOptionA },
+          { option: enteredOptionB },
+          { option: enteredOptionC },
+          { option: enteredOptionD },
+          { option: enteredOptionE },
+        ],
 
-      explanation: enteredExplanation,
-      correctOption: enteredCorrectOption,
-    });
+        explanation: enteredExplanation,
+        correctOption: enteredCorrectOption,
+        authorId: session.user.email,
+        questionType: "multi-choice",
+      },
+      "mult-choice"
+    );
     props.noteFormRef.current.togglevisibility();
   }
 

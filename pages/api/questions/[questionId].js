@@ -20,8 +20,18 @@ async function handler(req, res) {
     return;
   }
 
-  if (req.method === "POST" && req.body.questType !== "essay-type") {
-    const { question, options, explanation, correctOption } = req.body;
+  //  authorId:session.user.email,
+  //     questionType:"multi-choice"
+
+  if (req.method === "POST" && req.body.questionType === "multi-choice") {
+    const {
+      question,
+      options,
+      explanation,
+      correctOption,
+      questionType,
+      authorId,
+    } = req.body;
 
     if (
       !question ||
@@ -47,6 +57,8 @@ async function handler(req, res) {
 
       correctOption,
       blogId,
+      questionType,
+      authorId,
     };
 
     let result;
@@ -60,8 +72,8 @@ async function handler(req, res) {
     } catch (error) {
       res.status(500).json({ message: "Inserting question failed!" });
     }
-  } else if (req.method === "POST" && req.body.questType === "essay-type") {
-    const { question, explanation, questType } = req.body;
+  } else if (req.method === "POST" && req.body.questionType === "essay-type") {
+    const { question, explanation, questionType, authorId } = req.body;
 
     if (
       !question ||
@@ -78,7 +90,8 @@ async function handler(req, res) {
       question,
 
       explanation,
-      questType,
+      questionType,
+      authorId,
 
       blogId,
     };
@@ -125,7 +138,7 @@ async function handler(req, res) {
     }
   }
 
-  if (req.method === "PUT") {
+  if (req.method === "PUT" && req.body.questionType === "multi-choice") {
     const questionIdForUpdate = req.query.questionId;
     console.log({ questionIdForUpdate });
     const {
@@ -135,6 +148,8 @@ async function handler(req, res) {
       explanation,
       correctOption,
       blogId,
+      authorId,
+      questionType,
     } = req.body;
 
     if (
@@ -157,6 +172,58 @@ async function handler(req, res) {
       explanation,
       correctOption,
       blogId,
+      authorId,
+      questionType,
+    };
+
+    let result;
+
+    try {
+      console.log("before update");
+      //updateDocument(client, collection, queryValue,updateValue)
+      result = await updateDocument(
+        client,
+        "questions",
+        questionIdForUpdate,
+        newPost
+      );
+      // newPost._id = result.insertedId;
+      res.status(201).json({ message: "Added contents.", post: newPost });
+    } catch (error) {
+      res.status(500).json({ message: "Inserting content failed!" });
+    }
+  } else if (req.method === "PUT" && req.body.questionType === "essay-type") {
+    const questionIdForUpdate = req.query.questionId;
+    console.log({ questionIdForUpdate });
+    const {
+      question,
+
+      explanation,
+
+      blogId,
+      authorId,
+      questionType,
+    } = req.body;
+
+    if (
+      !question ||
+      question.trim() === "" ||
+      !explanation ||
+      explanation.trim() === ""
+    ) {
+      res.status(422).json({ message: "Invalid input." });
+      client.close();
+      return;
+    }
+
+    const newPost = {
+      question,
+
+      explanation,
+
+      blogId,
+      authorId,
+      questionType,
     };
 
     let result;

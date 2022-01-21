@@ -61,13 +61,16 @@ function NewEssayQuestion(props) {
       return;
     }
 
-    props.onAddQuestion({
-      question: enteredQuestion,
+    props.onAddQuestion(
+      {
+        question: enteredQuestion,
 
-      explanation: enteredExplanation,
-      questType: "essay-type",
-      authorId: session.user.email,
-    });
+        explanation: enteredExplanation,
+        questionType: "essay-type",
+        authorId: session.user.email,
+      },
+      "essay-type"
+    );
     props.noteFormRef.current.togglevisibility();
   }
 

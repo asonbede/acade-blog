@@ -63,7 +63,7 @@ function EssayUpdateQuestionForm() {
   //const { value: enteredCorrectOption } = useFieldCorrectOption;
 
   const questionUpdateObj = notificationCtx.questionUpdate;
-  const { questionItem, blogId } = questionUpdateObj;
+  const { questionItem, blogId, questionType } = questionUpdateObj;
 
   // if (post) {
   //   useEditorContent.useServerContent(post.content);
@@ -119,6 +119,7 @@ function EssayUpdateQuestionForm() {
 
           blogId,
           authorId: questionItem.authorId,
+          questionType: "essay-type",
         },
         questionItem._id
       );
