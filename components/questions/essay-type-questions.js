@@ -60,7 +60,9 @@ function EssayTypeQuestions({
       blogId,
       questionType: "essay-type",
     });
-    router.push(`/posts/questions/updates/${questionItem._id}`);
+    router.push(
+      `/posts/questions/updates/${questionItem._id}?questionType=essay-type`
+    );
   };
   return (
     <ul className={classes.form}>

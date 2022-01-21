@@ -6,9 +6,12 @@ import {
   useEditor,
   handleImageInsert,
 } from "../../hooks/input-editor-hooks";
+
+import { useSession } from "next-auth/client";
+
 function NewEssayQuestion(props) {
   const [isInvalid, setIsInvalid] = useState(false);
-
+  const [session, loading] = useSession();
   //const useFieldTopic = useField("text");
 
   const useEditorQuestion = useEditor();
@@ -63,6 +66,7 @@ function NewEssayQuestion(props) {
 
       explanation: enteredExplanation,
       questType: "essay-type",
+      authorId: session.user.email,
     });
     props.noteFormRef.current.togglevisibility();
   }
