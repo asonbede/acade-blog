@@ -58,6 +58,7 @@ function EssayTypeQuestions({
     notificationCtx.questionUpdateHandler({
       questionItem,
       blogId,
+      questionType: "essay-type",
     });
     router.push(`/posts/questions/updates/${questionItem._id}`);
   };

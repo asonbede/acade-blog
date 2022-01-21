@@ -9,6 +9,7 @@ import Togglable from "../togglable/togglable";
 import QuestionsListOne from "./question-list-one";
 import MainQuestionList from "./question-main-list";
 import EssayTypeQuestions from "./essay-type-questions";
+import NewEssayQuestion from "./new-essay-question";
 function Questions(props) {
   const [selectedValuesOfRadioButton, setselectedValuesOfRadioButton] =
     useState([]);
@@ -109,11 +110,11 @@ function Questions(props) {
 
   useEffect(() => {
     if (selectValue === "mult-choice-all") {
-      setcurrentArray(items.filter((item) => (item.essayType ? null : item)));
+      setcurrentArray(items.filter((item) => (item.questType ? null : item)));
     } else if (selectValue === "essay-type") {
-      setcurrentArray(items.filter((item) => (item.essayType ? item : null)));
+      setcurrentArray(items.filter((item) => (item.questType ? item : null)));
     } else {
-      setcurrentArray(items.filter((item) => (item.essayType ? null : item)));
+      setcurrentArray(items.filter((item) => (item.questType ? null : item)));
     }
     // else {
     //   // value="">All Multiple Choice</option>
@@ -485,9 +486,7 @@ function Questions(props) {
           <label htmlFor="essay-type">Essay Type </label>
         </div> */}
       </div>
-
       {displayQuestions()}
-
       {/* {showQuestions && !isFetchingQuestions && (
         <QuestionsList
           items={items}
@@ -497,8 +496,15 @@ function Questions(props) {
       )} */}
       {showQuestions && isFetchingQuestions && <p>Loading questions...</p>}
       <Togglable buttonLabel="create question" ref={noteFormRef}>
-        <p>Create Question</p>
+        <p>Create Multi-Choice Questions</p>
         <NewQuestion
+          onAddQuestion={addQuestionHandler}
+          noteFormRef={noteFormRef}
+        />
+      </Togglable>
+      <Togglable buttonLabel="create question" ref={noteFormRef}>
+        <p>Create Essay-Type Questions</p>
+        <NewEssayQuestion
           onAddQuestion={addQuestionHandler}
           noteFormRef={noteFormRef}
         />

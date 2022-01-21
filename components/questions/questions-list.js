@@ -61,6 +61,7 @@ function QuestionsList({
     notificationCtx.questionUpdateHandler({
       questionItem,
       blogId,
+      questionType: "multi-choice",
     });
     router.push(`/posts/questions/updates/${questionItem._id}`);
   };
