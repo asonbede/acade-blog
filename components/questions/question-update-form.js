@@ -32,22 +32,20 @@ async function sendQuestionData(questionDetails, id) {
 }
 
 function UpdateQuestionForm() {
+  const [isInvalid, setIsInvalid] = useState(false);
   const notificationCtx = useContext(NotificationContext);
-  const questionUpdateObj = notificationCtx.questionUpdate;
-  const { questionItem, blogId, questionType } = questionUpdateObj;
 
   const router = useRouter();
 
-  const useFieldCorrectOption =
-    questionType === "multi-choice" ? useField("text") : null;
+  const useFieldCorrectOption = useField("text");
   // const useEditorImage= useEditor();
 
   const useEditorQuestion = useEditor();
-  const useEditorOptionA = questionType === "multi-choice" ? useEditor() : null;
-  const useEditorOptionB = questionType === "multi-choice" ? useEditor() : null;
-  const useEditorOptionC = questionType === "multi-choice" ? useEditor() : null;
-  const useEditorOptionD = questionType === "multi-choice" ? useEditor() : null;
-  const useEditorOptionE = questionType === "multi-choice" ? useEditor() : null;
+  const useEditorOptionA = useEditor();
+  const useEditorOptionB = useEditor();
+  const useEditorOptionC = useEditor();
+  const useEditorOptionD = useEditor();
+  const useEditorOptionE = useEditor();
   const useEditorExplanation = useEditor();
 
   const {
@@ -55,23 +53,23 @@ function UpdateQuestionForm() {
     editorState,
     onEditorStateChange,
   } = useEditorQuestion;
+  const { url: enteredOptionA } = useEditorOptionA;
+  const { url: enteredOptionB } = useEditorOptionB;
+  const { url: enteredOptionC } = useEditorOptionC;
+  const { url: enteredOptionD } = useEditorOptionD;
+  const { url: enteredOptionE } = useEditorOptionE;
   const { url: enteredExplanation } = useEditorExplanation;
-  if (questionType === "multi-choice") {
-    const { url: enteredOptionA } = useEditorOptionA;
-    const { url: enteredOptionB } = useEditorOptionB;
-    const { url: enteredOptionC } = useEditorOptionC;
-    const { url: enteredOptionD } = useEditorOptionD;
-    const { url: enteredOptionE } = useEditorOptionE;
+  // const { url: enteredImage } = useEditorImage;
+  const { value: enteredCorrectOption } = useFieldCorrectOption;
 
-    // const { url: enteredImage } = useEditorImage;
-    const { value: enteredCorrectOption } = useFieldCorrectOption;
-  }
+  const questionUpdateObj = notificationCtx.questionUpdate;
+  const { questionItem, blogId } = questionUpdateObj;
 
   // if (post) {
   //   useEditorContent.useServerContent(post.content);
   //   //useEditorMainBlogTitle.useServerContent(post.title);
   // }
-  if (questionItem && questionType === "multi-choice") {
+  if (questionItem) {
     console.log({ questionItem }, "update-question");
     useEditorQuestion.serverContentHandler(questionItem.question);
     useEditorOptionA.serverContentHandler(questionItem.options[0].option);
@@ -81,11 +79,6 @@ function UpdateQuestionForm() {
     useEditorOptionE.serverContentHandler(questionItem.options[4].option);
     useEditorExplanation.serverContentHandler(questionItem.explanation);
     useFieldCorrectOption.serverContentInputHandler(questionItem.correctOption);
-  } else {
-    console.log({ questionItem }, "update-question");
-    useEditorQuestion.serverContentHandler(questionItem.question);
-
-    useEditorExplanation.serverContentHandler(questionItem.explanation);
   }
   // useEffect(() => {
   //   if (post) {
