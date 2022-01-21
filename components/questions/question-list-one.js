@@ -13,6 +13,8 @@ const OneQuestion = ({
   setcontrolReviewLink,
   selectValue,
   setCurrentArrayHandler,
+  setcontrolSubBtn,
+  variablesForReseting,
 }) => {
   const [index, setIndex] = useState(0);
   //let itemObj;
@@ -71,13 +73,22 @@ const OneQuestion = ({
     setitemArray([]);
   };
 
+  function backToQuestionListHandler() {
+    setcontrolReviewLink(false);
+    setcontrolSubBtn(true);
+    variablesForReseting.setskippedQuestions([]);
+    variablesForReseting.setcorrectQuestions([]);
+    variablesForReseting.setinCorrectQuestions([]);
+    variablesForReseting.setallQuestions([]);
+    variablesForReseting.setselectedValuesOfRadioButton([]);
+    variablesForReseting.setscore(null);
+  }
+
   if (itemArray) {
     return (
       <>
         {selectValue === "mult-choice-one" && controlReviewLink ? (
-          <button onClick={() => setcontrolReviewLink(false)}>
-            Back To Question
-          </button>
+          <button onClick={backToQuestionListHandler}>Back To Question</button>
         ) : null}
 
         {!controlReviewLink ? (
@@ -105,12 +116,13 @@ const OneQuestion = ({
                   </span>
                 </div>
                 <h4 className={classes.author}>Bede Asonye</h4>
-                <p className={classes.job}>My Job</p>
+                <p className={classes.job}>{`Question  ${index + 1}`}</p>
                 <div className={classes.info}>
                   <QuestionList
                     items={itemArray}
                     handleRadioButtonChange={handleRadioButtonChange}
                     blogId={blogId}
+                    selectValue={selectValue}
                   />
                 </div>
                 {/* <p className={classes.info}>{text}</p> */}
@@ -123,13 +135,17 @@ const OneQuestion = ({
                   </button>
                 </div>
                 <button className={classes.randombtn} onClick={randomPerson}>
-                  surprise me
+                  random Question
                 </button>
               </article>
             </section>
           </main>
         ) : (
-          <QuestionReviewSelect />
+          <QuestionReviewSelect
+            index={index}
+            selectValue={selectValue}
+            controlReviewLink={controlReviewLink}
+          />
         )}
       </>
     );

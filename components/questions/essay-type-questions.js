@@ -3,18 +3,15 @@ import classes from "./questions-list.module.css";
 import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 import NotificationContext from "../../store/notification-context";
 import { useRouter } from "next/router";
-function QuestionsList({
+function EssayTypeQuestions({
   items,
-  handleRadioButtonChange,
-  blogId,
-  controlSubBtn,
 
-  markScript,
+  blogId,
+
   selectValue,
 }) {
   const notificationCtx = useContext(NotificationContext);
-  const optionsList = ["A", "B", "C", "D", "E"];
-  //const linkPathForUpdate = `/posts/updates/${post.id}`;
+
   const router = useRouter();
   const deleteQuestionHandler = async (questionId) => {
     notificationCtx.showNotification({
@@ -66,20 +63,6 @@ function QuestionsList({
   };
   return (
     <ul className={classes.form}>
-      {/* <button onClick={checkScore}>check score: {score}</button> */}
-      {/* <Link href={linkPath}>
-        <a onClick={() => console.log("in link")}>Review Result</a>
-      </Link> */}
-      {selectValue === "mult-choice-all" ? (
-        <button
-          onClick={() => markScript(items)}
-          disabled={controlSubBtn}
-          title="You must answer at lest one question before this button will respond"
-        >
-          Submit For Marking
-        </button>
-      ) : null}
-
       {items.map((item, questionIndex) => (
         <li key={item._id}>
           <div style={{ display: "flex" }}>
@@ -96,37 +79,10 @@ function QuestionsList({
             />
           </div>
           <div>
-            {item.options.map((optionItem, optionIndex) => (
-              <div
-                key={`${optionIndex}key`}
-                style={{
-                  display: "flex",
-                }}
-              >
-                <input
-                  type="radio"
-                  name={questionIndex}
-                  value={optionItem.option}
-                  id={`${questionIndex}:${optionIndex}`}
-                  onChange={handleRadioButtonChange}
-                  style={{
-                    marginTop: "16px",
-                  }}
-                />
-                <label
-                  htmlFor={`${questionIndex}:${optionIndex}`}
-                  style={{
-                    marginTop: "14px",
-                  }}
-                >
-                  {optionsList[optionIndex]}.{" "}
-                </label>
-                <DisplayEditorContent
-                  contentFromServer={optionItem.option}
-                  toolbarPresent={false}
-                />
-              </div>
-            ))}
+            <DisplayEditorContent
+              contentFromServer={optionItem.explanation}
+              toolbarPresent={false}
+            />
           </div>
           <button onClick={() => handleQuestionUpdateData(item)}>Update</button>{" "}
           <button onClick={() => deleteConfirm(item._id.toString())}>
@@ -138,4 +94,4 @@ function QuestionsList({
   );
 }
 
-export default QuestionsList;
+export default EssayTypeQuestions;

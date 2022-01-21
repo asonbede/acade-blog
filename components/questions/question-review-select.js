@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import classes from "./question-review-select.module.css";
 import QuestionAnswerReviewList from "./question-answer-review-list";
@@ -6,6 +6,8 @@ import NotificationContext from "../../store/notification-context";
 function QuestionReviewSelect(props) {
   const [selectedReview, setselectedReview] = useState("all");
 
+  const index = props.index;
+  const controlReviewLink = props.controlReviewLink;
   const notificationCtx = useContext(NotificationContext);
 
   const reviewQuestionObj = notificationCtx.reviewQuestion;
@@ -17,7 +19,39 @@ function QuestionReviewSelect(props) {
     skippedQuestions,
     allQuestions,
     score,
+    selectValue,
   } = reviewQuestionObj;
+  // let oneScoreValue = 0;
+  //const [oneScoreValue, setoneScoreValue] = useState(0);
+  // useEffect(() => {
+  //   console.log({ selectValue }, "effects");
+  //   if (selectValue === "mult-choice-one") {
+  //     console.log("scoreCalled bedebdeeeee......");
+  //     // const newScore = oneScoreValue + score;
+  //     // setoneScoreValue(newScore);
+  //     console.log(typeof score);
+  //     if (window) {
+  //       if (!index) {
+  //         window.localStorage.setItem("oneScoreValue", JSON.stringify(score));
+  //         const scoreArrayFromLoc = JSON.parse(
+  //           window.localStorage.getItem("oneScoreValue")
+  //         );
+
+  //         if (!scoreArrayFromLoc) {
+  //           window.localStorage.setItem("oneScoreValue", JSON.stringify(score));
+  //         }
+
+  //         window.localStorage.setItem(
+  //           "oneScoreValue",
+  //           JSON.stringify(scoreArrayFromLoc + score)
+  //         );
+  //       }
+  //     }
+
+  //     // setoneScoreValue(oneScoreValue + score);
+  //   }
+  //   console.log("scoreCalled bedebdeeeee444444......");
+  // }, [reviewQuestionObj]);
 
   // console.log({ items }, "jjhh");
   console.log({ correctQuestions }, "jjcc");
@@ -29,6 +63,27 @@ function QuestionReviewSelect(props) {
   //     if () {
 
   //     }
+  // }
+  //let oneScoreValue;
+
+  // function handleOneScoreFunc() {
+  //   //console.log({ oneScoreValue, score }, props.index);
+  //   // oneScoreValue = oneScoreValue + score;
+  //   //setoneScoreValue(oneScoreValue + score);
+  //   if (window) {
+  //     const scoreArrayFromValue = JSON.parse(
+  //       window.localStorage.getItem("oneScoreValue")
+  //     );
+  //     if (index === 0) {
+  //       return `${score}/ ${index + 1}`;
+  //     } else {
+  //       console.log({ scoreArrayFromValue });
+  //       // const sum = scoreArrayFromValue.reduce(
+  //       //   (total, amount) => total + amount
+  //       // );
+  //       return `${scoreArrayFromValue}/ ${index + 1}`;
+  //     }
+  //   }
   // }
   return (
     <div className={classes.form}>
@@ -43,7 +98,9 @@ function QuestionReviewSelect(props) {
           </select>
         </div>
       </div>
+
       <span>{`Score: ${score}/${currentArray.length}`}</span>
+
       {selectedReview === "all" ? (
         <QuestionAnswerReviewList
           selectedValuesOfRadioButton={selectedValuesOfRadioButton}
@@ -52,6 +109,7 @@ function QuestionReviewSelect(props) {
           correctQuestions={correctQuestions}
           inCorrectQuestions={inCorrectQuestions}
           skippedQuestions={skippedQuestions}
+          selectValue={selectValue}
         />
       ) : null}
       {selectedReview === "correct-questions" ? (
@@ -59,6 +117,7 @@ function QuestionReviewSelect(props) {
           selectedValuesOfRadioButton={selectedValuesOfRadioButton}
           items={correctQuestions}
           questionType="correct-questions"
+          selectValue={selectValue}
         />
       ) : null}
       {selectedReview === "incorrect-questions" ? (
@@ -66,6 +125,7 @@ function QuestionReviewSelect(props) {
           selectedValuesOfRadioButton={selectedValuesOfRadioButton}
           items={inCorrectQuestions}
           questionType="incorrect-questions"
+          selectValue={selectValue}
         />
       ) : null}
       {selectedReview === "skipped-questions" ? (
@@ -73,6 +133,7 @@ function QuestionReviewSelect(props) {
           selectedValuesOfRadioButton={selectedValuesOfRadioButton}
           items={skippedQuestions}
           questionType="skipped-questions"
+          selectValue={selectValue}
         />
       ) : null}
     </div>

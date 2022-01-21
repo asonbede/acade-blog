@@ -10,6 +10,7 @@ function QuestionAnswerReviewList(props) {
     inCorrectQuestions,
     skippedQuestions,
     questionType,
+    selectValue,
   } = props;
   console.log({ selectedValuesOfRadioButton, items }, "uuuhh");
   //console.log({ items }, "rrrtt");
@@ -88,9 +89,12 @@ function QuestionAnswerReviewList(props) {
     ) {
       return (
         <p style={{ display: "flex" }}>
-          <span style={{ marginRight: "5px", marginTop: "14px" }}>
-            {questionIndex + 1}
-          </span>{" "}
+          {selectValue === "mult-choice-one" ? null : (
+            <span style={{ marginRight: "5px", marginTop: "14px" }}>
+              {questionIndex + 1}
+            </span>
+          )}
+
           <DisplayEditorContent
             contentFromServer={item.question}
             toolbarPresent={false}
@@ -164,7 +168,8 @@ function QuestionAnswerReviewList(props) {
           <div
             style={{
               display: "flex",
-            }}>
+            }}
+          >
             <input
               type="radio"
               name={questionIndex}
@@ -181,7 +186,8 @@ function QuestionAnswerReviewList(props) {
               htmlFor={`${questionIndex}:${optionIndex}`}
               style={{
                 marginTop: "14px",
-              }}>
+              }}
+            >
               {optionsList[optionIndex]}.
             </label>
             <DisplayEditorContent
@@ -201,7 +207,8 @@ function QuestionAnswerReviewList(props) {
           <div
             style={{
               display: "flex",
-            }}>
+            }}
+          >
             <input
               type="radio"
               name={questionIndex}
@@ -218,7 +225,8 @@ function QuestionAnswerReviewList(props) {
               htmlFor={`${questionIndex}:${optionIndex}`}
               style={{
                 marginTop: "14px",
-              }}>
+              }}
+            >
               {optionsList[optionIndex]}.
             </label>
             <DisplayEditorContent
@@ -241,7 +249,8 @@ function QuestionAnswerReviewList(props) {
           <div
             style={{
               display: "flex",
-            }}>
+            }}
+          >
             <input
               type="radio"
               name={questionIndex}
@@ -257,7 +266,8 @@ function QuestionAnswerReviewList(props) {
               htmlFor={`${questionIndex}:${optionIndex}`}
               style={{
                 marginTop: "14px",
-              }}>
+              }}
+            >
               {optionsList[optionIndex]}.
             </label>
             <DisplayEditorContent
@@ -274,7 +284,8 @@ function QuestionAnswerReviewList(props) {
           <div
             style={{
               display: "flex",
-            }}>
+            }}
+          >
             <input
               type="radio"
               name={questionIndex}
@@ -291,7 +302,8 @@ function QuestionAnswerReviewList(props) {
               htmlFor={`${questionIndex}:${optionIndex}`}
               style={{
                 marginTop: "14px",
-              }}>
+              }}
+            >
               {optionsList[optionIndex]}.
             </label>
             <DisplayEditorContent

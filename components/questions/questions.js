@@ -8,6 +8,7 @@ import Link from "next/dist/client/link";
 import Togglable from "../togglable/togglable";
 import QuestionsListOne from "./question-list-one";
 import MainQuestionList from "./question-main-list";
+import EssayTypeQuestions from "./essay-type-questions";
 function Questions(props) {
   const [selectedValuesOfRadioButton, setselectedValuesOfRadioButton] =
     useState([]);
@@ -93,6 +94,7 @@ function Questions(props) {
       skippedQuestions,
       allQuestions,
       score,
+      selectValue,
     });
   }, [selectedValuesOfRadioButton, score, inCorrectQuestions]);
   useEffect(() => {
@@ -107,7 +109,11 @@ function Questions(props) {
 
   useEffect(() => {
     if (selectValue === "mult-choice-all") {
-      setcurrentArray(items);
+      setcurrentArray(items.filter((item) => (item.essayType ? null : item)));
+    } else if (selectValue === "essay-type") {
+      setcurrentArray(items.filter((item) => (item.essayType ? item : null)));
+    } else {
+      setcurrentArray(items.filter((item) => (item.essayType ? null : item)));
     }
     // else {
     //   // value="">All Multiple Choice</option>
@@ -350,7 +356,7 @@ function Questions(props) {
     ) {
       return (
         <MainQuestionList
-          items={items}
+          items={currentArray}
           handleRadioButtonChange={handleRadioButtonChange}
           blogId={blogId}
           controlSubBtn={controlSubBtn}
@@ -377,7 +383,7 @@ function Questions(props) {
       console.log({ selectValue }, "one choice");
       return (
         <QuestionsListOne
-          items={items}
+          items={currentArray}
           handleRadioButtonChange={handleRadioButtonChange}
           blogId={blogId}
           markScript={markScript}
@@ -386,10 +392,23 @@ function Questions(props) {
           controlReviewLink={controlReviewLink}
           setcontrolReviewLink={setcontrolReviewLink}
           setCurrentArrayHandler={setCurrentArrayHandler}
+          setcontrolSubBtn={setcontrolSubBtn}
+          variablesForReseting={{
+            setskippedQuestions,
+            setcorrectQuestions,
+            setinCorrectQuestions,
+            setallQuestions,
+            setselectedValuesOfRadioButton,
+            setscore,
+          }}
         />
       );
     } else {
-      null;
+      <EssayTypeQuestions
+        items={currentArray}
+        blogId={blogId}
+        selectValue={selectValue}
+      />;
     }
   }
 
