@@ -124,7 +124,9 @@ function Questions(props) {
   }, [selectValue]);
 
   useEffect(() => {
-    setselectValue(questionType);
+    if (questionType) {
+      setselectValue(questionType);
+    }
   }, []);
 
   function setCurrentArrayHandler(arrayCurrent) {
@@ -509,7 +511,7 @@ function Questions(props) {
           noteFormRef={noteFormRef}
         />
       </Togglable>
-      <Togglable buttonLabel="create question" ref={noteFormRef}>
+      <Togglable buttonLabel="create essay question" ref={noteFormRef}>
         <p>Create Essay-Type Questions</p>
         <NewEssayQuestion
           onAddQuestion={addQuestionHandler}

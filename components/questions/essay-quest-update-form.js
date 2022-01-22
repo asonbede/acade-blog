@@ -129,7 +129,7 @@ function EssayUpdateQuestionForm() {
         message: "Your question was updated!",
         status: "success",
       });
-      router.push(`/posts/questions/${blogId}`);
+      router.push(`/posts/questions/${blogId}?questionType=essay-type`);
     } catch (error) {
       notificationCtx.showNotification({
         title: "Error!",
