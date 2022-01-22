@@ -110,12 +110,20 @@ function Questions(props) {
 
   useEffect(() => {
     if (selectValue === "mult-choice-all") {
-      setcurrentArray(items.filter((item) => (item.questType ? null : item)));
+      setcurrentArray(
+        items.filter((item) => item.questionType !== "essay-type")
+      );
     } else if (selectValue === "essay-type") {
-      setcurrentArray(items.filter((item) => (item.questType ? item : null)));
-    } else {
-      setcurrentArray(items.filter((item) => (item.questType ? null : item)));
+      setcurrentArray(
+        items.filter((item) => item.questionType === "essay-type")
+      );
     }
+
+    // else {
+    //   setcurrentArray(
+    //     items.filter((item) => item.questionType !== "essay-type")
+    //   );
+    // }
     // else {
     //   // value="">All Multiple Choice</option>
     //   // <option value="mult-choice-one
@@ -123,13 +131,14 @@ function Questions(props) {
     // }
   }, [selectValue]);
 
-  useEffect(() => {
-    if (questionType) {
-      setselectValue(questionType);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (questionType) {
+  //     setselectValue(questionType);
+  //   }
+  // }, []);
 
   function setCurrentArrayHandler(arrayCurrent) {
+    console.log("in useeff question-one");
     setcurrentArray(arrayCurrent);
   }
 
@@ -181,7 +190,7 @@ function Questions(props) {
       });
     }
 
-    console.log("clickedMarkscript");
+    console.log({ currentArray }, "clickedMarkscript");
     const unanweredQuestionsList = [];
     const skippedQuestionsList = [];
     const correctQuestionsList = [];

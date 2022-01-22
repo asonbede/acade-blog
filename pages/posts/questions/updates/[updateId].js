@@ -6,11 +6,12 @@ import EssayUpdateQuestionForm from "../../../../components/questions/essay-ques
 import { useRouter } from "next/router";
 
 export default function ShowQuestionUpdate() {
-  const router = useRouter();
-  const { questionType } = router.query;
+  //const router = useRouter();
+  const { query } = useRouter();
+  //const { questionType } = router.query;
   return (
     <div>
-      {questionType === "multi-choice" ? (
+      {query.questionType === "multi-choice" ? (
         <UpdateQuestionForm />
       ) : (
         <EssayUpdateQuestionForm />

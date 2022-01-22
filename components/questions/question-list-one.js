@@ -31,6 +31,7 @@ const OneQuestion = ({
       const itemObj = items[index];
       setitemArray([itemObj]);
       if (selectValue === "mult-choice-one") {
+        console.log("in useeff-one");
         setCurrentArrayHandler([itemObj]);
       }
     }

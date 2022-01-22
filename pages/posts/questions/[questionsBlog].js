@@ -93,8 +93,10 @@ import {
 } from "../../../helpers/db-utils";
 function ShowQuestions(props) {
   const router = useRouter();
+
+  const { query } = useRouter();
   const blogId = router.query.questionsBlog;
-  const questionType = router.query.questionType;
+  const questionType = query.questionType;
   console.log({ questionType, blogId }, "from question route");
   const { items } = props;
   return (
