@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import classes from "./questions-list.module.css";
 import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 import NotificationContext from "../../store/notification-context";
@@ -12,6 +12,7 @@ function QuestionsList({
   markScript,
   selectValue,
 }) {
+  const [showQuestionSupport, setshowQuestionSupport] = useState(false);
   const notificationCtx = useContext(NotificationContext);
   const optionsList = ["A", "B", "C", "D", "E"];
   //const linkPathForUpdate = `/posts/updates/${post.id}`;
@@ -92,6 +93,14 @@ function QuestionsList({
               <span style={{ marginRight: "5px", marginTop: "14px" }}>
                 {questionIndex + 1}
               </span>
+            )}
+            {item.questionIntroText && (
+              <div>
+                <DisplayEditorContent
+                  contentFromServer={item.questionIntroText}
+                  toolbarPresent={false}
+                />
+              </div>
             )}
 
             <DisplayEditorContent

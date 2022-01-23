@@ -23,6 +23,7 @@ function NewQuestion(props) {
   const useEditorOptionD = useEditor();
   const useEditorOptionE = useEditor();
   const useEditorExplanation = useEditor();
+  const useEditorQuestionIntroText = useEditor();
 
   const {
     url: enteredQuestion,
@@ -35,6 +36,7 @@ function NewQuestion(props) {
   const { url: enteredOptionD } = useEditorOptionD;
   const { url: enteredOptionE } = useEditorOptionE;
   const { url: enteredExplanation } = useEditorExplanation;
+  const { url: enteredQuestionIntroText } = useEditorQuestionIntroText;
 
   const { value: enteredCorrectOption } = useFieldCorrectOption;
   // const { value: author } = useFieldAuthor;
@@ -69,12 +71,12 @@ function NewQuestion(props) {
       enteredOptionA.trim() === "" ||
       !enteredOptionB ||
       enteredOptionB.trim() === "" ||
-      !enteredOptionC ||
-      enteredOptionC.trim() === "" ||
-      !enteredOptionD ||
-      enteredOptionD.trim() === "" ||
-      !enteredOptionE ||
-      enteredOptionE.trim() === "" ||
+      // !enteredOptionC ||
+      // enteredOptionC.trim() === "" ||
+      // !enteredOptionD ||
+      // enteredOptionD.trim() === "" ||
+      // !enteredOptionE ||
+      // enteredOptionE.trim() === "" ||
       !enteredExplanation ||
       enteredExplanation.trim() === "" ||
       !enteredCorrectOption ||
@@ -84,21 +86,24 @@ function NewQuestion(props) {
       return;
     }
 
+    const filteredOptions = [
+      { option: enteredOptionA },
+      { option: enteredOptionB },
+      { option: enteredOptionC ? enteredOptionC.trim() : null },
+      { option: enteredOptionD ? enteredOptionD.trim() : null },
+      { option: enteredOptionE ? enteredOptionE.trim() : null },
+    ].filter((item) => item.option !== undefined || item.option !== null);
+
     props.onAddQuestion(
       {
         question: enteredQuestion,
-        options: [
-          { option: enteredOptionA },
-          { option: enteredOptionB },
-          { option: enteredOptionC },
-          { option: enteredOptionD },
-          { option: enteredOptionE },
-        ],
+        options: filteredOptions,
 
         explanation: enteredExplanation,
         correctOption: enteredCorrectOption,
         authorId: session.user.email,
         questionType: "multi-choice",
+        questionIntroText: questionIntroText ? questionIntroText.trim() : null,
       },
       "mult-choice"
     );
@@ -108,6 +113,18 @@ function NewQuestion(props) {
   return (
     <form className={classes.form} onSubmit={sendQuestionHandler}>
       <div className={classes.row}>
+        <div className={classes.control}>
+          <label htmlFor="questionIntro">Question Intro Text</label>
+          {/* <textarea id="question" rows="5" ref={questionInputRef}></textarea> */}
+
+          <MyRichEditor
+            useEditorMainBlog={useEditorQuestionIntroText}
+            readOnly={false}
+            toolbarOnFocus={false}
+            toolbarPresent={true}
+            // smallHeight={false}
+          />
+        </div>
         <div className={classes.control}>
           <label htmlFor="question">Your Questions</label>
           {/* <textarea id="question" rows="5" ref={questionInputRef}></textarea> */}

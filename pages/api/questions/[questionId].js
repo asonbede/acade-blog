@@ -39,13 +39,14 @@ async function handler(req, res) {
       correctOption,
       questionType,
       authorId,
+      questionIntroText,
     } = req.body;
 
     if (
       !question ||
       question.trim() === "" ||
       !options ||
-      !validateQuestionOptions ||
+      !validateQuestionOptions(options) ||
       !explanation ||
       explanation.trim() === "" ||
       !correctOption ||
@@ -67,6 +68,7 @@ async function handler(req, res) {
       blogId,
       questionType,
       authorId,
+      questionIntroText,
     };
 
     let result;
