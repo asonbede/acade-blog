@@ -23,7 +23,7 @@ function Questions(props) {
   const [isFetchingQuestions, setIsFetchingQuestions] = useState(false);
   const [controlSubBtn, setcontrolSubBtn] = useState(true);
   const [controlReviewLink, setcontrolReviewLink] = useState(false);
-  const [selectValue, setselectValue] = useState("mult-choice-all");
+  const [selectValue, setselectValue] = useState();
   const [currentArray, setcurrentArray] = useState([]);
   const [changerValue, setChangerValue] = useState(false);
   const [isLoading, setisLoading] = useState(false);
@@ -89,6 +89,24 @@ function Questions(props) {
   }
 
   useEffect(() => {
+    // if (questionType) {
+    //   setselectValue(questionType);
+    // }
+    if (typeof window !== "undefined") {
+      const userChoiceFromLocStorage =
+        window.localStorage.getItem("select-value");
+      if (userChoiceFromLocStorage) {
+        setselectValue(userChoiceFromLocStorage);
+      } else {
+        setselectValue("mult-choice-all");
+      }
+    }
+    //    return {
+    //      basket:
+    //        window.localStorage.getItem("basket") === null
+  }, []);
+
+  useEffect(() => {
     console.log({ inCorrectQuestions }, "inUseffect");
     notificationCtx.reviewQuestionsHandler({
       selectedValuesOfRadioButton,
@@ -145,11 +163,6 @@ function Questions(props) {
     // }
   }, [changerValue, selectValue]);
 
-  // useEffect(() => {
-  //   if (questionType) {
-  //     setselectValue(questionType);
-  //   }
-  // }, []);
   console.log({ currentArray }, "checking essay-type11111");
 
   function setCurrentArrayHandler(arrayCurrent) {
@@ -331,7 +344,21 @@ function Questions(props) {
     setChangerValue(!changerValue);
     console.log({ optionValue });
     // router.push(`/posts/${optionValue}`);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("select-value", optionValue);
+    }
   };
+
+  //  if (typeof window !== "undefined") {
+  //    return {
+  //      basket:
+  //        window.localStorage.getItem("basket") === null
+  //          ? []
+  //          : window.localStorage.getItem("basket"),
+  //      viwedItems: [],
+  //      saved: [],
+  //    };
+  //  }
 
   function toggleQuestionsHandler() {
     setShowQuestions((prevStatus) => !prevStatus);
@@ -367,9 +394,14 @@ function Questions(props) {
           status: "success",
         });
 
-        router.push(
-          `/posts/questions/${blogId}?questiontype=${typeOfQuestion}`
-        );
+        // router.push(
+        //   `/posts/questions/${blogId}?questionType=${typeOfQuestion}`
+        // );
+        router.reload(window.location.pathname);
+        // router.push({
+        //   pathname: `/posts/questions/${blogId}`,
+        //   query: { questionType: `${typeOfQuestion}` },
+        // });
       })
       .catch((error) => {
         notificationCtx.showNotification({
@@ -481,7 +513,8 @@ function Questions(props) {
           // value={selectValue}
           className={classes.selectEle}
           // size={4}
-          defaultValue={selectValue}
+          // defaultValue={selectValue}
+          value={selectValue}
         >
           <optgroup label="Multiple Choice">
             <option value="mult-choice-all">All Multiple Choice</option>
@@ -541,20 +574,23 @@ function Questions(props) {
         />
       )} */}
       {showQuestions && isFetchingQuestions && <p>Loading questions...</p>}
-      <Togglable buttonLabel="create question" ref={noteFormRef}>
-        <p>Create Multi-Choice Questions</p>
-        <NewQuestion
-          onAddQuestion={addQuestionHandler}
-          noteFormRef={noteFormRef}
-        />
-      </Togglable>
-      <Togglable buttonLabel="create essay question" ref={noteFormRef}>
-        <p>Create Essay-Type Questions</p>
-        <NewEssayQuestion
-          onAddQuestion={addQuestionHandler}
-          noteFormRef={noteFormRef}
-        />
-      </Togglable>
+      {selectValue === "essay-type" ? (
+        <Togglable buttonLabel="create essay question" ref={noteFormRef}>
+          <p>Create Essay-Type Questions</p>
+          <NewEssayQuestion
+            onAddQuestion={addQuestionHandler}
+            noteFormRef={noteFormRef}
+          />
+        </Togglable>
+      ) : (
+        <Togglable buttonLabel="create multi-choice question" ref={noteFormRef}>
+          <p>Create Multi-Choice Questions</p>
+          <NewQuestion
+            onAddQuestion={addQuestionHandler}
+            noteFormRef={noteFormRef}
+          />
+        </Togglable>
+      )}
     </section>
   );
 }

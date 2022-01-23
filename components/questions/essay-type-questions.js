@@ -3,15 +3,11 @@ import classes from "./questions-list.module.css";
 import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 import NotificationContext from "../../store/notification-context";
 import { useRouter } from "next/router";
-function EssayTypeQuestions({
-  items,
-
-  blogId,
-
-  selectValue,
-}) {
+import NewEssayQuestion from "./new-essay-question";
+//import Togglable from "../togglable/togglable";
+function EssayTypeQuestions({ items, blogId, selectValue }) {
   const notificationCtx = useContext(NotificationContext);
-
+  //const noteFormRef = useRef(null);
   const router = useRouter();
   const deleteQuestionHandler = async (questionId) => {
     notificationCtx.showNotification({
@@ -93,6 +89,14 @@ function EssayTypeQuestions({
           </button>
         </li>
       ))}
+      {/* <Togglable buttonLabel="create essay question" ref={noteFormRef}>
+        <p>Create Essay-Type Questions</p>
+        <NewEssayQuestion
+          onAddQuestion={addQuestionHandler}
+          noteFormRef={noteFormRef}
+          addQuestionHandler={addQuestionHandler}
+        />
+      </Togglable> */}
     </ul>
   );
 }
