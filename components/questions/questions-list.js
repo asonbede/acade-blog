@@ -36,7 +36,8 @@ function QuestionsList({
         message: "Your question was deleted!",
         status: "success",
       });
-      router.push(`/posts/questions/${blogId}`);
+      // router.push(`/posts/questions/${blogId}`);
+      router.reload(window.location.pathname);
     } catch (error) {
       //setRequestError(error.message);
       //setRequestStatus("error");

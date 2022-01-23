@@ -4,11 +4,13 @@ import classes from "./new-questions-form.module.css";
 //import Notification from "../ui/notification";
 import NotificationContext from "../../store/notification-context";
 import MyRichEditor from "../rich-text-editor/myrich-text-editor";
+import { useSession, signOut } from "next-auth/client";
 import {
   useField,
   useEditor,
   handleImageInsert,
 } from "../../hooks/input-editor-hooks";
+// import { session } from "next-auth/client";
 async function sendQuestionData(questionDetails, id) {
   console.log({ id }, "in send question");
   console.log("in send question");
@@ -34,7 +36,7 @@ async function sendQuestionData(questionDetails, id) {
 function UpdateQuestionForm() {
   const [isInvalid, setIsInvalid] = useState(false);
   const notificationCtx = useContext(NotificationContext);
-
+  const [session, loading] = useSession();
   const router = useRouter();
 
   const useFieldCorrectOption = useField("text");
@@ -138,7 +140,7 @@ function UpdateQuestionForm() {
           correctOption: enteredCorrectOption,
           blogId,
           questionType: "multi-choice",
-          authorId: questionItem.authorId,
+          authorId: session.user.email,
         },
         questionItem._id
       );
@@ -148,7 +150,7 @@ function UpdateQuestionForm() {
         message: "Your question was updated!",
         status: "success",
       });
-      router.push(`/posts/questions/${blogId}?questionType=mult-choice`);
+      router.push(`/posts/questions/${blogId}`);
     } catch (error) {
       notificationCtx.showNotification({
         title: "Error!",
