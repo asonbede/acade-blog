@@ -29,7 +29,8 @@ function EssayTypeQuestions({ items, blogId, selectValue }) {
         message: "Your question was deleted!",
         status: "success",
       });
-      router.push(`/posts/questions/${blogId}?questionType=essay-type`);
+      // router.push(`/posts/questions/${blogId}`);
+      router.reload(window.location.pathname);
     } catch (error) {
       //setRequestError(error.message);
       //setRequestStatus("error");

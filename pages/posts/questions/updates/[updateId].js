@@ -9,6 +9,7 @@ export default function ShowQuestionUpdate() {
   //const router = useRouter();
   const { query } = useRouter();
   //const { questionType } = router.query;
+  console.log(query.questionType, "update---page");
   return (
     <div>
       {query.questionType === "multi-choice" ? (
