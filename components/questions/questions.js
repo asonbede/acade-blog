@@ -25,9 +25,12 @@ function Questions(props) {
   const [controlReviewLink, setcontrolReviewLink] = useState(false);
   const [selectValue, setselectValue] = useState("mult-choice-all");
   const [currentArray, setcurrentArray] = useState([]);
+  const [changerValue, setChangerValue] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
 
   const notificationCtx = useContext(NotificationContext);
   const { questions: items, blogId, questionType } = props;
+  console.log({ items }, "fro,m questions");
   console.log({ blogId }, "in questionsjs");
   const noteFormRef = useRef(null);
   //const notificationCtx = useContext(NotificationContext);
@@ -109,17 +112,28 @@ function Questions(props) {
   }, [score]);
 
   useEffect(() => {
+    //"mult-choice-all";mult-choice-all
     if (selectValue === "mult-choice-all") {
+      console.log("multi-all called");
       setcurrentArray(
         items.filter((item) => item.questionType !== "essay-type")
       );
+      setisLoading(false);
     } else if (selectValue === "essay-type") {
+      console.log("inside essay type");
+      const arrayessay = items.filter(
+        (item) => item.questionType === "essay-type"
+      );
+      console.log({ arrayessay });
       setcurrentArray(
         items.filter((item) => item.questionType === "essay-type")
       );
+      setisLoading(false);
+    } else {
+      setisLoading(false);
     }
 
-    // else {
+    // else {`1
     //   setcurrentArray(
     //     items.filter((item) => item.questionType !== "essay-type")
     //   );
@@ -129,13 +143,14 @@ function Questions(props) {
     //   // <option value="mult-choice-one
 
     // }
-  }, [selectValue]);
+  }, [changerValue, selectValue]);
 
   // useEffect(() => {
   //   if (questionType) {
   //     setselectValue(questionType);
   //   }
   // }, []);
+  console.log({ currentArray }, "checking essay-type11111");
 
   function setCurrentArrayHandler(arrayCurrent) {
     console.log("in useeff question-one");
@@ -310,8 +325,10 @@ function Questions(props) {
   // }, [showQuestions]);
 
   const onselectChange = (e) => {
+    setisLoading(true);
     const optionValue = e.target.value;
     setselectValue(optionValue);
+    setChangerValue(!changerValue);
     console.log({ optionValue });
     // router.push(`/posts/${optionValue}`);
   };
@@ -402,7 +419,7 @@ function Questions(props) {
       console.log({ selectValue }, "one choice");
       return (
         <QuestionsListOne
-          items={currentArray}
+          items={items}
           handleRadioButtonChange={handleRadioButtonChange}
           blogId={blogId}
           markScript={markScript}
@@ -412,6 +429,7 @@ function Questions(props) {
           setcontrolReviewLink={setcontrolReviewLink}
           setCurrentArrayHandler={setCurrentArrayHandler}
           setcontrolSubBtn={setcontrolSubBtn}
+          setisLoading={setisLoading}
           variablesForReseting={{
             setskippedQuestions,
             setcorrectQuestions,
@@ -423,12 +441,22 @@ function Questions(props) {
         />
       );
     } else {
-      <EssayTypeQuestions
-        items={currentArray}
-        blogId={blogId}
-        selectValue={selectValue}
-      />;
+      console.log({ currentArray }, "checking essay-type22222");
+      return (
+        <EssayTypeQuestions
+          items={currentArray}
+          blogId={blogId}
+          selectValue={selectValue}
+        />
+      );
     }
+  }
+  if (isLoading) {
+    return (
+      <div style={{ fontSize: "30px", textAlign: "center", marginTop: "20%" }}>
+        Loading.....
+      </div>
+    );
   }
 
   return (

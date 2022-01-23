@@ -81,7 +81,7 @@ const MainQuestionList = ({
     variablesForReseting.setselectedValuesOfRadioButton([]);
     variablesForReseting.setscore(null);
   }
-
+  console.log({ items }, "ques-main-list");
   if (items) {
     return (
       <>

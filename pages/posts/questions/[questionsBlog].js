@@ -94,9 +94,9 @@ import {
 function ShowQuestions(props) {
   const router = useRouter();
 
-  const { query } = useRouter();
+  //const { query } = useRouter();
   const blogId = router.query.questionsBlog;
-  const questionType = query.questionType;
+  const questionType = router.query.questiontype;
   console.log({ questionType, blogId }, "from question route");
   const { items } = props;
   return (

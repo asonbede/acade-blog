@@ -83,7 +83,7 @@ function EssayTypeQuestions({
           </div>
           <div>
             <DisplayEditorContent
-              contentFromServer={optionItem.explanation}
+              contentFromServer={item.explanation}
               toolbarPresent={false}
             />
           </div>
