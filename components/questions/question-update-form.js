@@ -49,6 +49,7 @@ function UpdateQuestionForm() {
   const useEditorOptionD = useEditor();
   const useEditorOptionE = useEditor();
   const useEditorExplanation = useEditor();
+  const useEditorQuestionIntroText = useEditor();
 
   const {
     url: enteredQuestion,
@@ -57,16 +58,18 @@ function UpdateQuestionForm() {
   } = useEditorQuestion;
   const { url: enteredOptionA } = useEditorOptionA;
   const { url: enteredOptionB } = useEditorOptionB;
-  const { url: enteredOptionC } = useEditorOptionC;
-  const { url: enteredOptionD } = useEditorOptionD;
-  const { url: enteredOptionE } = useEditorOptionE;
+  const { url: enteredOptionC, editorState: optCdiState } = useEditorOptionC;
+  const { url: enteredOptionD, editorState: optDdiState } = useEditorOptionD;
+  const { url: enteredOptionE, editorState: optEdiState } = useEditorOptionE;
   const { url: enteredExplanation } = useEditorExplanation;
+  const { url: enteredQuestionIntroText, editorState: quesIntroEdiState } =
+    useEditorQuestionIntroText;
   // const { url: enteredImage } = useEditorImage;
   const { value: enteredCorrectOption } = useFieldCorrectOption;
 
   const questionUpdateObj = notificationCtx.questionUpdate;
   const { questionItem, blogId, questionType } = questionUpdateObj;
-
+  //editorState.getCurrentContent().getPlainText().trim().length;
   // if (post) {
   //   useEditorContent.useServerContent(post.content);
   //   //useEditorMainBlogTitle.useServerContent(post.title);
@@ -76,10 +79,28 @@ function UpdateQuestionForm() {
     useEditorQuestion.serverContentHandler(questionItem.question);
     useEditorOptionA.serverContentHandler(questionItem.options[0].option);
     useEditorOptionB.serverContentHandler(questionItem.options[1].option);
-    useEditorOptionC.serverContentHandler(questionItem.options[2].option);
-    useEditorOptionD.serverContentHandler(questionItem.options[3].option);
-    useEditorOptionE.serverContentHandler(questionItem.options[4].option);
+
+    if (questionItem.options[2]) {
+      useEditorOptionC.serverContentHandler(questionItem.options[2].option);
+    }
+
+    if (questionItem.options[3]) {
+      useEditorOptionD.serverContentHandler(questionItem.options[3].option);
+    }
+
+    if (questionItem.options[4]) {
+      useEditorOptionE.serverContentHandler(questionItem.options[4].option);
+    }
+
+    // useEditorOptionD.serverContentHandler(questionItem.options[3].option);
+    // useEditorOptionE.serverContentHandler(questionItem.options[4].option);
     useEditorExplanation.serverContentHandler(questionItem.explanation);
+    if (questionItem.questionIntroText) {
+      useEditorQuestionIntroText.serverContentHandler(
+        questionItem.questionIntroText
+      );
+    }
+
     useFieldCorrectOption.serverContentInputHandler(questionItem.correctOption);
   }
   // useEffect(() => {
@@ -91,6 +112,11 @@ function UpdateQuestionForm() {
   //     setdateValue(post.date);
   //   }
   // }, [post]);
+  function checkEditorText(editorStateValue) {
+    return (
+      editorStateValue.getCurrentContent().getPlainText().trim().length > 0
+    );
+  }
 
   async function sendQuestionHandler(event) {
     event.preventDefault();
@@ -107,12 +133,12 @@ function UpdateQuestionForm() {
       enteredOptionA.trim() === "" ||
       !enteredOptionB ||
       enteredOptionB.trim() === "" ||
-      !enteredOptionC ||
-      enteredOptionC.trim() === "" ||
-      !enteredOptionD ||
-      enteredOptionD.trim() === "" ||
-      !enteredOptionE ||
-      enteredOptionE.trim() === "" ||
+      // !enteredOptionC ||
+      // enteredOptionC.trim() === "" ||
+      // !enteredOptionD ||
+      // enteredOptionD.trim() === "" ||
+      // !enteredOptionE ||
+      // enteredOptionE.trim() === "" ||
       !enteredExplanation ||
       enteredExplanation.trim() === "" ||
       !enteredCorrectOption ||
@@ -122,25 +148,29 @@ function UpdateQuestionForm() {
       return;
     }
 
+    const filteredOptions = [
+      { option: enteredOptionA },
+      { option: enteredOptionB },
+      { option: checkEditorText(optCdiState) ? enteredOptionC.trim() : null },
+      { option: checkEditorText(optDdiState) ? enteredOptionD.trim() : null },
+      { option: checkEditorText(optEdiState) ? enteredOptionE.trim() : null },
+    ].filter((item) => item.option !== null);
     //props.noteFormRef.current.togglevisibility();
-
+    console.log({ filteredOptions }, "from-update");
     try {
       await sendQuestionData(
         {
           question: enteredQuestion,
-          options: [
-            { option: enteredOptionA },
-            { option: enteredOptionB },
-            { option: enteredOptionC },
-            { option: enteredOptionD },
-            { option: enteredOptionE },
-          ],
+          options: filteredOptions,
 
           explanation: enteredExplanation,
           correctOption: enteredCorrectOption,
           blogId,
           questionType: "multi-choice",
           authorId: session.user.email,
+          questionIntroText: checkEditorText(quesIntroEdiState)
+            ? enteredQuestionIntroText.trim()
+            : null,
         },
         questionItem._id
       );
@@ -164,6 +194,18 @@ function UpdateQuestionForm() {
     <form className={classes.form} onSubmit={sendQuestionHandler}>
       <h1 style={{ textAlign: "center" }}>Update Questions </h1>
       <div className={classes.row}>
+        <div className={classes.control}>
+          <label htmlFor="questionIntro">Question Intro Text</label>
+          {/* <textarea id="question" rows="5" ref={questionInputRef}></textarea> */}
+
+          <MyRichEditor
+            useEditorMainBlog={useEditorQuestionIntroText}
+            readOnly={false}
+            toolbarOnFocus={false}
+            toolbarPresent={true}
+            // smallHeight={false}
+          />
+        </div>
         <div className={classes.control}>
           <label htmlFor="question">Your Questions</label>
           {/* <textarea id="question" rows="5" ref={questionInputRef}></textarea> */}
@@ -236,7 +278,7 @@ function UpdateQuestionForm() {
           <label htmlFor="correctOption">Correct Option</label>
           <input
             id="correctOption"
-            {...useFieldCorrectOption}
+            // {...useFieldCorrectOption}
             // style={{ width: "80%", display: "block" }}
             value={useFieldCorrectOption.value}
             onChange={useFieldCorrectOption.onChange}

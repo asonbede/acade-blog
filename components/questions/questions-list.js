@@ -87,20 +87,18 @@ function QuestionsList({
 
       {items.map((item, questionIndex) => (
         <li key={item._id}>
+          {item.questionIntroText && (
+            <DisplayEditorContent
+              contentFromServer={item.questionIntroText}
+              toolbarPresent={false}
+            />
+          )}
           <div style={{ display: "flex" }}>
             {/* &nbsp;&nbsp;{item.question} */}
             {selectValue === "mult-choice-one" ? null : (
               <span style={{ marginRight: "5px", marginTop: "14px" }}>
                 {questionIndex + 1}
               </span>
-            )}
-            {item.questionIntroText && (
-              <div>
-                <DisplayEditorContent
-                  contentFromServer={item.questionIntroText}
-                  toolbarPresent={false}
-                />
-              </div>
             )}
 
             <DisplayEditorContent

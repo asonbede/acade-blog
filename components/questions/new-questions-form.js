@@ -103,7 +103,9 @@ function NewQuestion(props) {
         correctOption: enteredCorrectOption,
         authorId: session.user.email,
         questionType: "multi-choice",
-        questionIntroText: questionIntroText ? questionIntroText.trim() : null,
+        questionIntroText: enteredQuestionIntroText
+          ? enteredQuestionIntroText.trim()
+          : null,
       },
       "mult-choice"
     );

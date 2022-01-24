@@ -88,21 +88,29 @@ function QuestionAnswerReviewList(props) {
       )
     ) {
       return (
-        <p style={{ display: "flex" }}>
-          {selectValue === "mult-choice-one" ? null : (
-            <span style={{ marginRight: "5px", marginTop: "14px" }}>
-              {questionIndex + 1}
-            </span>
+        <>
+          {item.questionIntroText && (
+            <DisplayEditorContent
+              contentFromServer={item.questionIntroText}
+              toolbarPresent={false}
+            />
           )}
+          <div style={{ display: "flex" }}>
+            {selectValue === "mult-choice-one" ? null : (
+              <span style={{ marginRight: "5px", marginTop: "14px" }}>
+                {questionIndex + 1}
+              </span>
+            )}
 
-          <DisplayEditorContent
-            contentFromServer={item.question}
-            toolbarPresent={false}
-          />
-          <span className={questionStatus(questionIndex + 1)}>
-            {`---${questionStatus(questionIndex + 1)}`}
-          </span>
-        </p>
+            <DisplayEditorContent
+              contentFromServer={item.question}
+              toolbarPresent={false}
+            />
+            <span className={questionStatus(questionIndex + 1)}>
+              {`---${questionStatus(questionIndex + 1)}`}
+            </span>
+          </div>
+        </>
       );
     }
     return null;

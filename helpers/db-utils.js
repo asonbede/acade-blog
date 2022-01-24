@@ -53,7 +53,7 @@ export async function getOneDocument(client, collection, id) {
 }
 export function validateQuestionOptions(optionsArray) {
   for (let index = 0; index < optionsArray.length; index++) {
-    const element = array[index];
+    const element = optionsArray[index];
     if (element.option.trim === "") {
       return false;
     }

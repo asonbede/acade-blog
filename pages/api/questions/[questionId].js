@@ -160,13 +160,15 @@ async function handler(req, res) {
       blogId,
       authorId,
       questionType,
+      questionIntroText,
     } = req.body;
-
     if (
       !question ||
       question.trim() === "" ||
       !explanation ||
       explanation.trim() === "" ||
+      !options ||
+      !validateQuestionOptions(options) ||
       !correctOption ||
       correctOption.trim() === ""
     ) {
@@ -184,6 +186,7 @@ async function handler(req, res) {
       blogId,
       authorId,
       questionType,
+      questionIntroText,
     };
 
     let result;
