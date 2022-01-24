@@ -40,6 +40,7 @@ async function handler(req, res) {
       questionType,
       authorId,
       questionIntroText,
+      linkedTo,
     } = req.body;
 
     if (
@@ -69,6 +70,7 @@ async function handler(req, res) {
       questionType,
       authorId,
       questionIntroText,
+      linkedTo,
     };
 
     let result;
@@ -161,6 +163,7 @@ async function handler(req, res) {
       authorId,
       questionType,
       questionIntroText,
+      linkedTo,
     } = req.body;
     if (
       !question ||
@@ -187,6 +190,7 @@ async function handler(req, res) {
       authorId,
       questionType,
       questionIntroText,
+      linkedTo,
     };
 
     let result;

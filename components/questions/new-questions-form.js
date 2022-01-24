@@ -12,7 +12,7 @@ import {
 function NewQuestion(props) {
   const [isInvalid, setIsInvalid] = useState(false);
   const [session, loading] = useSession();
-
+  const [linkedValue, setlinkedValue] = useState(0);
   //const useFieldTopic = useField("text");
   const useFieldCorrectOption = useField("text");
 
@@ -113,6 +113,7 @@ function NewQuestion(props) {
 
         explanation: enteredExplanation,
         correctOption: enteredCorrectOption,
+        linkedTo: linkedValue,
         authorId: session.user.email,
         questionType: "multi-choice",
         questionIntroText: checkEditorText(quesIntroEdiState)
@@ -123,7 +124,9 @@ function NewQuestion(props) {
     );
     props.noteFormRef.current.togglevisibility();
   }
-
+  const onChangeNumber = (e) => {
+    setlinkedValue(e.target.value);
+  };
   return (
     <form className={classes.form} onSubmit={sendQuestionHandler}>
       <div className={classes.row}>
@@ -230,6 +233,19 @@ function NewQuestion(props) {
             toolbarOnFocus={false}
             toolbarPresent={true}
             // smallHeight={false}
+          />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor="linked">Linked To Which Question</label>
+
+          <input
+            type="number"
+            id="linked"
+            required
+            value={linkedValue}
+            onChange={onChangeNumber}
+            min="1"
+            max={items.length}
           />
         </div>
       </div>

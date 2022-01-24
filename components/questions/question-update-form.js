@@ -35,6 +35,7 @@ async function sendQuestionData(questionDetails, id) {
 
 function UpdateQuestionForm() {
   const [isInvalid, setIsInvalid] = useState(false);
+  const [linkedValue, setlinkedValue] = useState(0);
   const notificationCtx = useContext(NotificationContext);
   const [session, loading] = useSession();
   const router = useRouter();
@@ -166,6 +167,7 @@ function UpdateQuestionForm() {
           correctOption: enteredCorrectOption,
           blogId,
           questionType: "multi-choice",
+          linkedTo: linkedValue,
           authorId: session.user.email,
           questionIntroText: checkEditorText(quesIntroEdiState)
             ? enteredQuestionIntroText.trim()
@@ -188,6 +190,9 @@ function UpdateQuestionForm() {
       });
     }
   }
+  const onChangeNumber = (e) => {
+    setlinkedValue(e.target.value);
+  };
 
   return (
     <form className={classes.form} onSubmit={sendQuestionHandler}>
@@ -296,6 +301,19 @@ function UpdateQuestionForm() {
             toolbarOnFocus={false}
             toolbarPresent={true}
             // smallHeight={false}
+          />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor="linked">Linked To Which Question</label>
+
+          <input
+            type="number"
+            id="linked"
+            required
+            value={linkedValue}
+            onChange={onChangeNumber}
+            min="1"
+            max={items.length}
           />
         </div>
       </div>
