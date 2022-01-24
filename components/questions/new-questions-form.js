@@ -27,16 +27,20 @@ function NewQuestion(props) {
 
   const {
     url: enteredQuestion,
-    editorState,
+    editorState: questEditorState,
     onEditorStateChange,
   } = useEditorQuestion;
-  const { url: enteredOptionA } = useEditorOptionA;
-  const { url: enteredOptionB } = useEditorOptionB;
-  const { url: enteredOptionC } = useEditorOptionC;
-  const { url: enteredOptionD } = useEditorOptionD;
-  const { url: enteredOptionE } = useEditorOptionE;
-  const { url: enteredExplanation } = useEditorExplanation;
-  const { url: enteredQuestionIntroText } = useEditorQuestionIntroText;
+  const { url: enteredOptionA, editorState: optAEditorState } =
+    useEditorOptionA;
+  const { url: enteredOptionB, editorState: optBEditorState } =
+    useEditorOptionB;
+  const { url: enteredOptionC, editorState: optCdiState } = useEditorOptionC;
+  const { url: enteredOptionD, editorState: optDdiState } = useEditorOptionD;
+  const { url: enteredOptionE, editorState: optEdiState } = useEditorOptionE;
+  const { url: enteredExplanation, editorState: explanEditorState } =
+    useEditorExplanation;
+  const { url: enteredQuestionIntroText, editorState: quesIntroEdiState } =
+    useEditorQuestionIntroText;
 
   const { value: enteredCorrectOption } = useFieldCorrectOption;
   // const { value: author } = useFieldAuthor;
@@ -51,6 +55,11 @@ function NewQuestion(props) {
   // const optionEInputRef = useRef();
   // const explanationInputRef = useRef();
   // const correctOptionInputRef = useRef();
+  function checkEditorText(editorStateValue) {
+    return (
+      editorStateValue.getCurrentContent().getPlainText().trim().length > 0
+    );
+  }
 
   function sendQuestionHandler(event) {
     event.preventDefault();
@@ -65,20 +74,16 @@ function NewQuestion(props) {
     // const enteredExplanation = explanationInputRef.current.value;
 
     if (
-      !enteredQuestion ||
-      enteredQuestion.trim() === "" ||
-      !enteredOptionA ||
-      enteredOptionA.trim() === "" ||
-      !enteredOptionB ||
-      enteredOptionB.trim() === "" ||
+      !checkEditorText(questEditorState) ||
+      !checkEditorText(optAEditorState) ||
+      !checkEditorText(optBEditorState) ||
       // !enteredOptionC ||
       // enteredOptionC.trim() === "" ||
       // !enteredOptionD ||
       // enteredOptionD.trim() === "" ||
       // !enteredOptionE ||
       // enteredOptionE.trim() === "" ||
-      !enteredExplanation ||
-      enteredExplanation.trim() === "" ||
+      !checkEditorText(explanEditorState) ||
       !enteredCorrectOption ||
       enteredCorrectOption.trim() === ""
     ) {
@@ -87,12 +92,19 @@ function NewQuestion(props) {
     }
 
     const filteredOptions = [
-      { option: enteredOptionA },
-      { option: enteredOptionB },
-      { option: enteredOptionC ? enteredOptionC.trim() : null },
-      { option: enteredOptionD ? enteredOptionD.trim() : null },
-      { option: enteredOptionE ? enteredOptionE.trim() : null },
-    ].filter((item) => item.option !== undefined || item.option !== null);
+      { option: enteredOptionA.trim() },
+      { option: enteredOptionB.trim() },
+
+      {
+        option: checkEditorText(optCdiState) ? enteredOptionC.trim() : null,
+      },
+      {
+        option: checkEditorText(optDdiState) ? enteredOptionD.trim() : null,
+      },
+      {
+        option: checkEditorText(optEdiState) ? enteredOptionE.trim() : null,
+      },
+    ].filter((item) => item.option !== null);
 
     props.onAddQuestion(
       {
@@ -103,7 +115,7 @@ function NewQuestion(props) {
         correctOption: enteredCorrectOption,
         authorId: session.user.email,
         questionType: "multi-choice",
-        questionIntroText: enteredQuestionIntroText
+        questionIntroText: checkEditorText(quesIntroEdiState)
           ? enteredQuestionIntroText.trim()
           : null,
       },
