@@ -53,15 +53,18 @@ function UpdateQuestionForm() {
 
   const {
     url: enteredQuestion,
-    editorState,
+    editorState: questEditorState,
     onEditorStateChange,
   } = useEditorQuestion;
-  const { url: enteredOptionA } = useEditorOptionA;
-  const { url: enteredOptionB } = useEditorOptionB;
+  const { url: enteredOptionA, editorState: optAEditorState } =
+    useEditorOptionA;
+  const { url: enteredOptionB, editorState: optBEditorState } =
+    useEditorOptionB;
   const { url: enteredOptionC, editorState: optCdiState } = useEditorOptionC;
   const { url: enteredOptionD, editorState: optDdiState } = useEditorOptionD;
   const { url: enteredOptionE, editorState: optEdiState } = useEditorOptionE;
-  const { url: enteredExplanation } = useEditorExplanation;
+  const { url: enteredExplanation, editorState: explanEditorState } =
+    useEditorExplanation;
   const { url: enteredQuestionIntroText, editorState: quesIntroEdiState } =
     useEditorQuestionIntroText;
   // const { url: enteredImage } = useEditorImage;
@@ -127,20 +130,16 @@ function UpdateQuestionForm() {
     });
 
     if (
-      !enteredQuestion ||
-      enteredQuestion.trim() === "" ||
-      !enteredOptionA ||
-      enteredOptionA.trim() === "" ||
-      !enteredOptionB ||
-      enteredOptionB.trim() === "" ||
+      !checkEditorText(questEditorState) ||
+      !checkEditorText(optAEditorState) ||
+      !checkEditorText(optBEditorState) ||
       // !enteredOptionC ||
       // enteredOptionC.trim() === "" ||
       // !enteredOptionD ||
       // enteredOptionD.trim() === "" ||
       // !enteredOptionE ||
       // enteredOptionE.trim() === "" ||
-      !enteredExplanation ||
-      enteredExplanation.trim() === "" ||
+      !checkEditorText(explanEditorState) ||
       !enteredCorrectOption ||
       enteredCorrectOption.trim() === ""
     ) {
