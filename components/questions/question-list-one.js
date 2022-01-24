@@ -139,7 +139,7 @@ const OneQuestion = ({
               const filterArray = element.filter(
                 (item, index) => index !== indexOfSearch
               );
-              resultArray = [...resultArray, searchArray, ...filterArray];
+              resultArray = [...resultArray, searchArray, ...filterArray]; //
             } else {
               const getFromItems = items[Number(key) - 1];
               resultArray = [...resultArray, getFromItems, ...element.pop()];
