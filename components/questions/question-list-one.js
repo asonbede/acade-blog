@@ -23,6 +23,7 @@ const OneQuestion = ({
   //const{authorName,authorImage}= itemObj
   //questionArray.push(itemObj)
   const [itemArray, setitemArray] = useState();
+  const [orderValue, setorderValue] = useState(1);
   //  const [authorName, setauthorName] = useState();
   //  const [authorImage, setauthorImage] = useState();
 
@@ -57,6 +58,7 @@ const OneQuestion = ({
       return checkNumber(newIndex);
     });
     setitemArray([]);
+    setorderValue(1);
   };
   const prevPerson = () => {
     setIndex((index) => {
@@ -64,14 +66,90 @@ const OneQuestion = ({
       return checkNumber(newIndex);
     });
     setitemArray([]);
+    setorderValue(1);
   };
   const randomPerson = () => {
-    let randomNumber = Math.floor(Math.random() * items.length);
-    if (randomNumber === index) {
-      randomNumber = index + 1;
+    if (orderValue > items.length) {
+      return;
     }
-    setIndex(checkNumber(randomNumber));
-    setitemArray([]);
+    if (orderValue === 1) {
+      let randomNumber = Math.floor(Math.random() * items.length);
+      if (randomNumber === index) {
+        randomNumber = index + 1;
+      }
+      setIndex(checkNumber(randomNumber));
+      setitemArray([]);
+    } else {
+      console.log("started-random-two");
+      const randomArray = [];
+      let linkedObj = { unlinked: [] };
+      for (let i = 0; i < orderValue; i++) {
+        //const element = array[index];
+        let randomNumber = Math.floor(Math.random() * items.length);
+        if (randomNumber === index) {
+          randomNumber = index + 1;
+        }
+        const num = checkNumber(randomNumber);
+        randomArray.push(items[num]);
+      }
+      console.log({ randomArray });
+      setitemArray(randomArray);
+
+      for (let index = 0; index < randomArray.length; index++) {
+        const element = randomArray[index];
+        //is question linked
+        if (element.linkedTo) {
+          if (element.linkedTo in linkedObj) {
+            linkedObj = {
+              ...linkedObj,
+              [element.linkedTo]: [...linkedObj[element.linkedTo], element],
+            };
+          } else {
+            linkedObj = { ...linkedObj, [element.linkedTo]: [element] };
+          }
+        } else {
+          linkedObj = {
+            ...linkedObj,
+            unlinked: [...linkedObj[unlinked], element],
+          };
+        }
+      }
+
+      // for (let key in linkedObj) {
+      //   keyValue= linkedObj[x]
+      //   if (x) {
+
+      //   }
+      // }
+      resultArray = [];
+      for (const key in linkedObj) {
+        if (Object.hasOwnProperty.call(linkedObj, key)) {
+          if (key === "unlinked") {
+            const element = linkedObj[key];
+            resultArray = [...resultArray, element];
+          } else {
+            const element = linkedObj[key];
+            const searchArray = element.find(
+              (item) =>
+                item.questionIntroText !== null ||
+                item.questionIntroText !== undefined
+            );
+            if (searchArray) {
+              const indexOfSearch = element.indexOf(searchArray);
+              const filterArray = element.filter(
+                (item, index) => index !== indexOfSearch
+              );
+              resultArray = [...resultArray, searchArray, ...filterArray];
+            } else {
+              const getFromItems = items[Number(key) - 1];
+              resultArray = [...resultArray, getFromItems, ...element.pop()];
+            }
+          }
+        }
+      }
+
+      setCurrentArrayHandler(resultArray);
+    }
   };
 
   function backToQuestionListHandler() {
@@ -84,6 +162,10 @@ const OneQuestion = ({
     variablesForReseting.setselectedValuesOfRadioButton([]);
     variablesForReseting.setscore(null);
   }
+
+  const onChangeNumber = (e) => {
+    setorderValue(e.target.value);
+  };
 
   if (itemArray) {
     return (
@@ -106,7 +188,7 @@ const OneQuestion = ({
                 <div className={classes.underline}></div>
               </div>
               <article className={classes.review}>
-                <div className={classes.imgcontainer}>
+                {/* <div className={classes.imgcontainer}>
                   <img
                     src="/images/posts/post-profile3.jpg"
                     alt="bede"
@@ -115,9 +197,11 @@ const OneQuestion = ({
                   <span className={classes.quoteicon}>
                     <FaQuoteRight />
                   </span>
-                </div>
+                </div> */}
                 <h4 className={classes.author}>Bede Asonye</h4>
-                <p className={classes.job}>{`Question  ${index + 1}`}</p>
+                <p className={classes.job}>{`Question  ${index + 1} Of ${
+                  items.length
+                }`}</p>
                 <div className={classes.info}>
                   <QuestionList
                     items={itemArray}
@@ -136,8 +220,23 @@ const OneQuestion = ({
                   </button>
                 </div>
                 <button className={classes.randombtn} onClick={randomPerson}>
-                  random Question
+                  Give me random Questions
                 </button>
+                <br />
+                <label htmlFor="order">
+                  {" "}
+                  {`Quantity (between 1 and ${items.length}):`}
+                </label>
+
+                <input
+                  type="number"
+                  id="order"
+                  required
+                  value={orderValue}
+                  onChange={onChangeNumber}
+                  min="1"
+                  max={items.length}
+                />
               </article>
             </section>
           </main>
