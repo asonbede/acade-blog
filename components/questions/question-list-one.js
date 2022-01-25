@@ -24,16 +24,18 @@ const OneQuestion = ({
   //questionArray.push(itemObj)
   const [itemArray, setitemArray] = useState();
   const [orderValue, setorderValue] = useState(1);
+  const [workingArray, setworkingArray] = useState();
   //  const [authorName, setauthorName] = useState();
   //  const [authorImage, setauthorImage] = useState();
 
   useEffect(() => {
     if (items) {
-      const workinArray = items.filter(
+      const workingArrayValue = items.filter(
         (item) => item.questionType !== "essay-type"
       );
-      const itemObj = workinArray[index];
+      const itemObj = workingArrayValue[index];
       setitemArray([itemObj]);
+      setworkingArray(workingArrayValue);
       if (selectValue === "mult-choice-one") {
         console.log("in useeff-one");
         setCurrentArrayHandler([itemObj]);
@@ -72,10 +74,12 @@ const OneQuestion = ({
     setorderValue(1);
   };
   const randomPerson = () => {
-    if (orderValue > items.length) {
+    setitemArray([]);
+    if (Number(orderValue) > workingArray.length) {
       return;
     }
-    if (orderValue === 1) {
+    console.log({ orderValue }, typeof orderValue);
+    if (Number(orderValue) === 1) {
       let randomNumber = Math.floor(Math.random() * items.length);
       if (randomNumber === index) {
         randomNumber = index + 1;
@@ -216,7 +220,7 @@ const OneQuestion = ({
                 </div> */}
                 <h4 className={classes.author}>Bede Asonye</h4>
                 <p className={classes.job}>{`Question  ${index + 1} Of ${
-                  items.length
+                  workingArray.length
                 }`}</p>
                 <div className={classes.info}>
                   <QuestionList
@@ -241,7 +245,7 @@ const OneQuestion = ({
                 <br />
                 <label htmlFor="order">
                   {" "}
-                  {`Quantity (between 1 and ${items.length}):`}
+                  {`Quantity (between 1 and ${workingArray.length}):`}
                 </label>
 
                 <input
@@ -251,7 +255,7 @@ const OneQuestion = ({
                   value={orderValue}
                   onChange={onChangeNumber}
                   min="1"
-                  max={items.length}
+                  max={workingArray.length}
                 />
               </article>
             </section>
