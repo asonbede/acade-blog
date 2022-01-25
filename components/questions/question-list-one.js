@@ -29,7 +29,10 @@ const OneQuestion = ({
 
   useEffect(() => {
     if (items) {
-      const itemObj = items[index];
+      const workinArray = items.filter(
+        (item) => item.questionType !== "essay-type"
+      );
+      const itemObj = workinArray[index];
       setitemArray([itemObj]);
       if (selectValue === "mult-choice-one") {
         console.log("in useeff-one");
@@ -83,20 +86,25 @@ const OneQuestion = ({
       console.log("started-random-two");
       const randomArray = [];
       let linkedObj = { unlinked: [] };
+      let resultArray = [];
+      const workinArray = items.filter(
+        (item) => item.questionType !== "essay-type"
+      );
+      //fill randArray with random elements
       for (let i = 0; i < orderValue; i++) {
         //const element = array[index];
-        let randomNumber = Math.floor(Math.random() * items.length);
+        let randomNumber = Math.floor(Math.random() * workinArray.length);
         if (randomNumber === index) {
           randomNumber = index + 1;
         }
         const num = checkNumber(randomNumber);
-        randomArray.push(items[num]);
+        randomArray.push(workinArray[num]);
       }
       console.log({ randomArray });
-      setitemArray(randomArray);
+      //setitemArray(randomArray);
 
-      for (let index = 0; index < randomArray.length; index++) {
-        const element = randomArray[index];
+      for (let randex = 0; randex < randomArray.length; randex++) {
+        const element = randomArray[randex];
         //is question linked
         if (element.linkedTo) {
           if (element.linkedTo in linkedObj) {
@@ -110,44 +118,52 @@ const OneQuestion = ({
         } else {
           linkedObj = {
             ...linkedObj,
-            unlinked: [...linkedObj[unlinked], element],
+            unlinked: [...linkedObj["unlinked"], element],
           };
         }
       }
+      console.log({ linkedObj });
 
       // for (let key in linkedObj) {
       //   keyValue= linkedObj[x]
       //   if (x) {
-
+      //   item.questionType !== "essay-type"
       //   }
       // }
-      resultArray = [];
+      // resultArray = [];
       for (const key in linkedObj) {
         if (Object.hasOwnProperty.call(linkedObj, key)) {
           if (key === "unlinked") {
             const element = linkedObj[key];
-            resultArray = [...resultArray, element];
+            resultArray = [...resultArray, ...element];
           } else {
             const element = linkedObj[key];
+            console.log({ element });
             const searchArray = element.find(
-              (item) =>
-                item.questionIntroText !== null ||
-                item.questionIntroText !== undefined
+              (item) => item.questionIntroText !== null
             );
+            console.log({ searchArray });
             if (searchArray) {
               const indexOfSearch = element.indexOf(searchArray);
+              console.log({ indexOfSearch });
               const filterArray = element.filter(
                 (item, index) => index !== indexOfSearch
               );
               resultArray = [...resultArray, searchArray, ...filterArray]; //
             } else {
-              const getFromItems = items[Number(key) - 1];
-              resultArray = [...resultArray, getFromItems, ...element.pop()];
+              const getFromItems = workinArray[Number(key) - 1];
+              if (element.length === 1) {
+                resultArray = [...resultArray, getFromItems];
+              } else {
+                element.pop();
+                resultArray = [...resultArray, getFromItems, ...element];
+              }
             }
           }
         }
       }
-
+      console.log({ resultArray });
+      setitemArray(resultArray);
       setCurrentArrayHandler(resultArray);
     }
   };

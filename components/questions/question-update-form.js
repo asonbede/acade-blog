@@ -107,21 +107,19 @@ function UpdateQuestionForm() {
 
     useFieldCorrectOption.serverContentInputHandler(questionItem.correctOption);
   }
-  // useEffect(() => {
-  //   if (post) {
-  //     settitle(post.title);
-  //     setexcerpt(post.excerpt);
-  //     setimage(post.image);
-  //     setisFeaturedInit(post.isFeatured);
-  //     setdateValue(post.date);
-  //   }
-  // }, [post]);
+  useEffect(() => {
+    if (questionItem) {
+      if (questionItem.linkedTo) {
+        setlinkedValue(questionItem.linkedTo);
+      }
+    }
+  }, [questionItem]);
   function checkEditorText(editorStateValue) {
     return (
       editorStateValue.getCurrentContent().getPlainText().trim().length > 0
     );
   }
-
+  console.log({ linkedValue });
   async function sendQuestionHandler(event) {
     event.preventDefault();
     notificationCtx.showNotification({
@@ -309,11 +307,10 @@ function UpdateQuestionForm() {
           <input
             type="number"
             id="linked"
-            required
             value={linkedValue}
             onChange={onChangeNumber}
-            min="1"
-            max={items.length}
+            // min="1"
+            // max={items.length}
           />
         </div>
       </div>

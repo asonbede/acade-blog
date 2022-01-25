@@ -244,8 +244,6 @@ function NewQuestion(props) {
             required
             value={linkedValue}
             onChange={onChangeNumber}
-            min="1"
-            max={items.length}
           />
         </div>
       </div>
