@@ -36,11 +36,13 @@ async function sendQuestionData(questionDetails, id) {
 function UpdateQuestionForm() {
   const [isInvalid, setIsInvalid] = useState(false);
   const [linkedValue, setlinkedValue] = useState(0);
+  const [enteredCorrectOption, setselectValue] = useState();
+  const [filteredOptionsLen, setfilteredOptionsLen] = useState();
   const notificationCtx = useContext(NotificationContext);
   const [session, loading] = useSession();
   const router = useRouter();
 
-  const useFieldCorrectOption = useField("text");
+  //const useFieldCorrectOption = useField("text");
   // const useEditorImage= useEditor();
 
   const useEditorQuestion = useEditor();
@@ -69,7 +71,7 @@ function UpdateQuestionForm() {
   const { url: enteredQuestionIntroText, editorState: quesIntroEdiState } =
     useEditorQuestionIntroText;
   // const { url: enteredImage } = useEditorImage;
-  const { value: enteredCorrectOption } = useFieldCorrectOption;
+  //const { value: enteredCorrectOption } = useFieldCorrectOption;
 
   const questionUpdateObj = notificationCtx.questionUpdate;
   const { questionItem, blogId, questionType } = questionUpdateObj;
@@ -105,18 +107,94 @@ function UpdateQuestionForm() {
       );
     }
 
-    useFieldCorrectOption.serverContentInputHandler(questionItem.correctOption);
+    //useFieldCorrectOption.serverContentInputHandler(questionItem.correctOption);
   }
   useEffect(() => {
     if (questionItem) {
       if (questionItem.linkedTo) {
         setlinkedValue(questionItem.linkedTo);
       }
+      if (questionItem.correctOption) {
+        setselectValue(questionItem.correctOption);
+      }
     }
   }, [questionItem]);
   function checkEditorText(editorStateValue) {
     return (
       editorStateValue.getCurrentContent().getPlainText().trim().length > 0
+    );
+  }
+
+  useEffect(() => {
+    const arrayResult = filteredOptionsFunc();
+
+    setfilteredOptionsLen(arrayResult.length);
+  }, [optAEditorState, optBEditorState, optCdiState, optDdiState, optEdiState]);
+
+  useEffect(() => {
+    if (isInvalid) {
+      notificationCtx.showNotification({
+        title: "Error!",
+        message:
+          "Invalid input, some required input field/fields was probably not  filled. The required input fields are the question field,the explanation field, the correct option field and at least two option fields ",
+        status: "error",
+      });
+      setIsInvalid(false);
+    }
+  }, [isInvalid]);
+
+  function filteredOptionsFunc() {
+    const filteredOptionsArray = [
+      {
+        option: checkEditorText(optAEditorState) ? enteredOptionA.trim() : null,
+      },
+      {
+        option: checkEditorText(optBEditorState) ? enteredOptionB.trim() : null,
+      },
+
+      {
+        option: checkEditorText(optCdiState) ? enteredOptionC.trim() : null,
+      },
+      {
+        option: checkEditorText(optDdiState) ? enteredOptionD.trim() : null,
+      },
+      {
+        option: checkEditorText(optEdiState) ? enteredOptionE.trim() : null,
+      },
+    ].filter((item) => item.option !== null);
+
+    return filteredOptionsArray;
+  }
+
+  function onselectChange(e) {
+    setselectValue(e.target.value);
+  }
+  function outputSetAswerSelectOptions(params) {
+    if (filteredOptionsLen === null) {
+      return null;
+    }
+
+    //const element = optionsLength[index];
+    const optionsArray = ["A", "B", "C", "D", "E"];
+    return (
+      <select
+        name=""
+        id="correctOption"
+        onChange={onselectChange}
+        // value={selectValue}
+
+        // size={4}
+        // defaultValue={selectValue}
+        value={enteredCorrectOption}
+      >
+        <optgroup label="Set The Answer">
+          {optionsArray.map((item, index) =>
+            index < filteredOptionsLen ? (
+              <option value={optionsArray[index]}>{optionsArray[index]}</option>
+            ) : null
+          )}
+        </optgroup>
+      </select>
     );
   }
   console.log({ linkedValue });
@@ -277,14 +355,15 @@ function UpdateQuestionForm() {
           />
         </div>
         <div className={classes.control}>
-          <label htmlFor="correctOption">Correct Option</label>
-          <input
+          <label htmlFor="correctOption">Set Correct Option</label>
+          {/* <input
             id="correctOption"
             // {...useFieldCorrectOption}
             // style={{ width: "80%", display: "block" }}
             value={useFieldCorrectOption.value}
             onChange={useFieldCorrectOption.onChange}
-          />
+          /> */}
+          {outputSetAswerSelectOptions()}
         </div>
         {/* </div> */}
         <div className={classes.control}>

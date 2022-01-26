@@ -1,8 +1,8 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import classes from "./new-questions-form.module.css";
 import MyRichEditor from "../rich-text-editor/myrich-text-editor";
-
-import { useSession } from "next-auth/client";
+import NotificationContext from "../../store/notification-context";
+import { options, useSession } from "next-auth/client";
 
 import {
   useField,
@@ -13,9 +13,12 @@ function NewQuestion(props) {
   const [isInvalid, setIsInvalid] = useState(false);
   const [session, loading] = useSession();
   const [linkedValue, setlinkedValue] = useState(0);
-  //const useFieldTopic = useField("text");
-  const useFieldCorrectOption = useField("text");
+  const [filteredOptionsLen, setfilteredOptionsLen] = useState();
+  const [enteredCorrectOption, setselectValue] = useState();
 
+  //const useFieldTopic = useField("text");
+  // const useFieldCorrectOption = useField("text");
+  const notificationCtx = useContext(NotificationContext);
   const useEditorQuestion = useEditor();
   const useEditorOptionA = useEditor();
   const useEditorOptionB = useEditor();
@@ -42,7 +45,7 @@ function NewQuestion(props) {
   const { url: enteredQuestionIntroText, editorState: quesIntroEdiState } =
     useEditorQuestionIntroText;
 
-  const { value: enteredCorrectOption } = useFieldCorrectOption;
+  // const { value: enteredCorrectOption } = useFieldCorrectOption;
   // const { value: author } = useFieldAuthor;
   // const { value: imageBlog } = useFieldImage;
   // const dispatch = useDispatch();
@@ -55,13 +58,88 @@ function NewQuestion(props) {
   // const optionEInputRef = useRef();
   // const explanationInputRef = useRef();
   // const correctOptionInputRef = useRef();
+
+  //checks if editor has text = returns true or not= returns false
   function checkEditorText(editorStateValue) {
     return (
       editorStateValue.getCurrentContent().getPlainText().trim().length > 0
     );
   }
+  useEffect(() => {
+    const arrayResult = filteredOptionsFunc();
+
+    setfilteredOptionsLen(arrayResult.length);
+  }, [optAEditorState, optBEditorState, optCdiState, optDdiState, optEdiState]);
+  useEffect(() => {
+    if (isInvalid) {
+      notificationCtx.showNotification({
+        title: "Error!",
+        message:
+          "Invalid input, some required input field/fields was probably not  filled. The required input fields are the question field,the explanation field, the correct option field and at least two option fields",
+
+        status: "error",
+      });
+      setIsInvalid(false);
+    }
+  }, [isInvalid]);
+
+  function filteredOptionsFunc() {
+    const filteredOptionsArray = [
+      {
+        option: checkEditorText(optAEditorState) ? enteredOptionA.trim() : null,
+      },
+      {
+        option: checkEditorText(optBEditorState) ? enteredOptionB.trim() : null,
+      },
+
+      {
+        option: checkEditorText(optCdiState) ? enteredOptionC.trim() : null,
+      },
+      {
+        option: checkEditorText(optDdiState) ? enteredOptionD.trim() : null,
+      },
+      {
+        option: checkEditorText(optEdiState) ? enteredOptionE.trim() : null,
+      },
+    ].filter((item) => item.option !== null);
+
+    return filteredOptionsArray;
+  }
+
+  function onselectChange(e) {
+    setselectValue(e.target.value);
+  }
+  function outputSetAswerSelectOptions(params) {
+    if (filteredOptionsLen === null) {
+      return null;
+    }
+
+    //const element = optionsLength[index];
+    const optionsArray = ["A", "B", "C", "D", "E"];
+    return (
+      <select
+        name=""
+        id="correctOption"
+        onChange={onselectChange}
+        // value={selectValue}
+
+        // size={4}
+        // defaultValue={selectValue}
+        value={enteredCorrectOption}
+      >
+        <optgroup label="Set The Answer">
+          {optionsArray.map((item, index) =>
+            index < filteredOptionsLen ? (
+              <option value={optionsArray[index]}>{optionsArray[index]}</option>
+            ) : null
+          )}
+        </optgroup>
+      </select>
+    );
+  }
 
   function sendQuestionHandler(event) {
+    console.log("create-called");
     event.preventDefault();
 
     // const enteredQuestion = questionInputRef.current.value;
@@ -84,8 +162,7 @@ function NewQuestion(props) {
       // !enteredOptionE ||
       // enteredOptionE.trim() === "" ||
       !checkEditorText(explanEditorState) ||
-      !enteredCorrectOption ||
-      enteredCorrectOption.trim() === ""
+      !enteredCorrectOption
     ) {
       setIsInvalid(true);
       return;
@@ -143,7 +220,7 @@ function NewQuestion(props) {
           />
         </div>
         <div className={classes.control}>
-          <label htmlFor="question">Your Questions</label>
+          <label htmlFor="question">Your Question</label>
           {/* <textarea id="question" rows="5" ref={questionInputRef}></textarea> */}
 
           <MyRichEditor
@@ -211,15 +288,26 @@ function NewQuestion(props) {
           />
         </div>
         <div className={classes.control}>
-          <label htmlFor="correctOption">Correct Option</label>
-          <input
+          <label htmlFor="correctOption">Set The Correct Option</label>
+          {/* <input
             id="correctOption"
             required
             value={enteredCorrectOption}
             onChange={useFieldCorrectOption.onChange}
             style={{ width: "80%", display: "block" }}
-          />
+          /> */}
+          {/* {filteredOptionsLen.length > 1 && outputSetAswerSelectOptions()} */}
+          {outputSetAswerSelectOptions()}
         </div>
+        {/* <select name="" id="">
+          <optgroup label="Chemistry">
+            <option>Scientific Method</option>
+            <option>Data Presentation</option>
+            <option>Atoms, what are they?</option>
+            <option>The periodic Table</option>
+            <option>The molecules</option>
+          </optgroup>
+        </select> */}
         {/* </div> */}
         <div className={classes.control}>
           <label htmlFor="explanation">Your Explanation</label>

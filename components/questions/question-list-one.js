@@ -25,6 +25,7 @@ const OneQuestion = ({
   const [itemArray, setitemArray] = useState();
   const [orderValue, setorderValue] = useState(1);
   const [workingArray, setworkingArray] = useState();
+  const [israndomQues, setisrandomQues] = useState(false);
   //  const [authorName, setauthorName] = useState();
   //  const [authorImage, setauthorImage] = useState();
 
@@ -94,8 +95,9 @@ const OneQuestion = ({
       const workinArray = items.filter(
         (item) => item.questionType !== "essay-type"
       );
+      setisrandomQues(true);
       //fill randArray with random elements
-      for (let i = 0; i < orderValue; i++) {
+      for (let i = 0; i < Number(orderValue); i++) {
         //const element = array[index];
         let randomNumber = Math.floor(Math.random() * workinArray.length);
         if (randomNumber === index) {
@@ -110,7 +112,8 @@ const OneQuestion = ({
       for (let randex = 0; randex < randomArray.length; randex++) {
         const element = randomArray[randex];
         //is question linked
-        if (element.linkedTo) {
+        console.log(typeof Number(element.linkedTo), "hereeee");
+        if (Number(element.linkedTo)) {
           if (element.linkedTo in linkedObj) {
             linkedObj = {
               ...linkedObj,
@@ -142,27 +145,12 @@ const OneQuestion = ({
             resultArray = [...resultArray, ...element];
           } else {
             const element = linkedObj[key];
-            console.log({ element });
-            const searchArray = element.find(
-              (item) => item.questionIntroText !== null
-            );
-            console.log({ searchArray });
-            if (searchArray) {
-              const indexOfSearch = element.indexOf(searchArray);
-              console.log({ indexOfSearch });
-              const filterArray = element.filter(
-                (item, index) => index !== indexOfSearch
-              );
-              resultArray = [...resultArray, searchArray, ...filterArray]; //
-            } else {
-              const getFromItems = workinArray[Number(key) - 1];
-              if (element.length === 1) {
-                resultArray = [...resultArray, getFromItems];
-              } else {
-                element.pop();
-                resultArray = [...resultArray, getFromItems, ...element];
-              }
-            }
+            const getFromItems = workinArray[Number(key) - 1];
+            resultArray = [
+              ...resultArray,
+              { introKey: getFromItems.questionIntroText },
+              ...element,
+            ];
           }
         }
       }
@@ -228,6 +216,7 @@ const OneQuestion = ({
                     handleRadioButtonChange={handleRadioButtonChange}
                     blogId={blogId}
                     selectValue={selectValue}
+                    israndomQues={israndomQues}
                   />
                 </div>
                 {/* <p className={classes.info}>{text}</p> */}

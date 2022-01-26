@@ -34,6 +34,7 @@ function Questions(props) {
   console.log({ blogId }, "in questionsjs");
   const noteFormRef = useRef(null);
   //const notificationCtx = useContext(NotificationContext);
+  // setCurrentArrayHandler;
   function checkMessageScore() {
     if (selectValue === "mult-choice-one") {
       if (score === 1) {
