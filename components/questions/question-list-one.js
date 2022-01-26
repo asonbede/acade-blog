@@ -26,6 +26,7 @@ const OneQuestion = ({
   const [orderValue, setorderValue] = useState(1);
   const [workingArray, setworkingArray] = useState();
   const [israndomQues, setisrandomQues] = useState(false);
+  const [randIndex, setrandIndex] = useState(0);
   //  const [authorName, setauthorName] = useState();
   //  const [authorImage, setauthorImage] = useState();
 
@@ -65,6 +66,7 @@ const OneQuestion = ({
     });
     setitemArray([]);
     setorderValue(1);
+    setrandIndex(0);
   };
   const prevPerson = () => {
     setIndex((index) => {
@@ -73,6 +75,7 @@ const OneQuestion = ({
     });
     setitemArray([]);
     setorderValue(1);
+    setrandIndex(0);
   };
   const randomPerson = () => {
     setitemArray([]);
@@ -93,6 +96,7 @@ const OneQuestion = ({
     const randomArray = [];
     let linkedObj = { unlinked: [] };
     let resultArray = [];
+    let num;
     // const workinArray = items.filter(
     //   (item) => item.questionType !== "essay-type"
     // );
@@ -104,7 +108,8 @@ const OneQuestion = ({
       if (randomNumber === index) {
         randomNumber = index + 1;
       }
-      const num = checkNumber(randomNumber);
+      num = checkNumber(randomNumber);
+
       randomArray.push(workingArray[num]);
     }
     console.log({ randomArray });
@@ -168,6 +173,7 @@ const OneQuestion = ({
     // );
     // console.log({ filteredResultArray });
     setCurrentArrayHandler(resultArray);
+    setrandIndex(num);
   };
 
   function backToQuestionListHandler() {
@@ -217,9 +223,12 @@ const OneQuestion = ({
                   </span>
                 </div> */}
                 <h4 className={classes.author}>Bede Asonye</h4>
-                <p className={classes.job}>{`Question  ${index + 1} Of ${
-                  workingArray.length
-                }`}</p>
+                <p className={classes.job}>
+                  {" "}
+                  {randIndex
+                    ? `Question  ${randIndex} Of ${workingArray.length}`
+                    : `Question  ${index + 1} Of ${workingArray.length}`}
+                </p>
                 <div className={classes.info}>
                   <QuestionList
                     items={itemArray}
@@ -255,6 +264,7 @@ const OneQuestion = ({
                   onChange={onChangeNumber}
                   min="1"
                   max={workingArray.length}
+                  readOnly
                 />
               </article>
             </section>

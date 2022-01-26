@@ -13,6 +13,8 @@ function QuestionsList({
   selectValue,
 }) {
   const [showQuestionSupport, setshowQuestionSupport] = useState(false);
+  const [fullLessQuestValue, setfullLessQuestValue] = useState(false);
+  const [butQuesText, setbutQuesText] = useState("See Full Question ...");
   const notificationCtx = useContext(NotificationContext);
   const optionsList = ["A", "B", "C", "D", "E"];
   //const linkPathForUpdate = `/posts/updates/${post.id}`;
@@ -69,6 +71,20 @@ function QuestionsList({
       `/posts/questions/updates/${questionItem._id}?questionType=multi-choice`
     );
   };
+
+  function questFullLessControlHandler() {
+    setfullLessQuestValue(!fullLessQuestValue);
+    // if (fullLessQuestValue ===false) {
+    //   setbutQuesText("See Less Question ...");
+    // } else {
+    //   setbutQuesText("See Full Question ...");
+    // }
+    if (butQuesText === "See Full Question ...") {
+      setbutQuesText("See Less Question ...");
+    } else {
+      setbutQuesText("See Full Question ...");
+    }
+  }
   return (
     <ul className={classes.form}>
       {/* <button onClick={checkScore}>check score: {score}</button> */}
@@ -87,11 +103,14 @@ function QuestionsList({
 
       {items.map((item, questionIndex) => (
         <li key={item._id}>
-          {item.questionIntroText && (
+          {item.questionIntroText && fullLessQuestValue && (
             <DisplayEditorContent
               contentFromServer={item.questionIntroText}
               toolbarPresent={false}
             />
+          )}
+          {item.questionIntroText && (
+            <button onClick={questFullLessControlHandler}>{butQuesText}</button>
           )}
           <div style={{ display: "flex" }}>
             {/* &nbsp;&nbsp;{item.question} */}
