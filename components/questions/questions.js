@@ -197,6 +197,7 @@ function Questions(props) {
   const handleRadioButtonChange = (event) => {
     const { name, value } = event.target;
     console.log({ name, value });
+    console.log({ currentArray }, "quescurrArry");
     //get the student's choice and the correct option when radio button is selected
     setselectedValuesOfRadioButton({
       ...selectedValuesOfRadioButton,

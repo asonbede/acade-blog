@@ -37,7 +37,7 @@ const OneQuestion = ({
       const itemObj = workingArrayValue[index];
       setitemArray([itemObj]);
       setworkingArray(workingArrayValue);
-      if (selectValue === "mult-choice-one") {
+      if (selectValue === "mult-choice-one" && !israndomQues) {
         console.log("in useeff-one");
         setCurrentArrayHandler([itemObj]);
       }
@@ -79,85 +79,95 @@ const OneQuestion = ({
     if (Number(orderValue) > workingArray.length) {
       return;
     }
-    console.log({ orderValue }, typeof orderValue);
-    if (Number(orderValue) === 1) {
-      let randomNumber = Math.floor(Math.random() * items.length);
+    // console.log({ orderValue }, typeof orderValue);
+    // if (Number(orderValue) === 1) {
+    //   let randomNumber = Math.floor(Math.random() * items.length);
+    //   if (randomNumber === index) {
+    //     randomNumber = index + 1;
+    //   }
+    //   setIndex(checkNumber(randomNumber));
+    //   setitemArray([]);
+    // }
+
+    console.log("started-random-two");
+    const randomArray = [];
+    let linkedObj = { unlinked: [] };
+    let resultArray = [];
+    // const workinArray = items.filter(
+    //   (item) => item.questionType !== "essay-type"
+    // );
+    setisrandomQues(true);
+    //fill randArray with random elements
+    for (let i = 0; i < Number(orderValue); i++) {
+      //const element = array[index];
+      let randomNumber = Math.floor(Math.random() * workingArray.length);
       if (randomNumber === index) {
         randomNumber = index + 1;
       }
-      setIndex(checkNumber(randomNumber));
-      setitemArray([]);
-    } else {
-      console.log("started-random-two");
-      const randomArray = [];
-      let linkedObj = { unlinked: [] };
-      let resultArray = [];
-      const workinArray = items.filter(
-        (item) => item.questionType !== "essay-type"
-      );
-      setisrandomQues(true);
-      //fill randArray with random elements
-      for (let i = 0; i < Number(orderValue); i++) {
-        //const element = array[index];
-        let randomNumber = Math.floor(Math.random() * workinArray.length);
-        if (randomNumber === index) {
-          randomNumber = index + 1;
-        }
-        const num = checkNumber(randomNumber);
-        randomArray.push(workinArray[num]);
-      }
-      console.log({ randomArray });
-      //setitemArray(randomArray);
+      const num = checkNumber(randomNumber);
+      randomArray.push(workingArray[num]);
+    }
+    console.log({ randomArray });
+    //setitemArray(randomArray);
 
-      for (let randex = 0; randex < randomArray.length; randex++) {
-        const element = randomArray[randex];
-        //is question linked
-        console.log(typeof Number(element.linkedTo), "hereeee");
-        if (Number(element.linkedTo)) {
-          if (element.linkedTo in linkedObj) {
-            linkedObj = {
-              ...linkedObj,
-              [element.linkedTo]: [...linkedObj[element.linkedTo], element],
-            };
-          } else {
-            linkedObj = { ...linkedObj, [element.linkedTo]: [element] };
-          }
-        } else {
+    for (let randex = 0; randex < randomArray.length; randex++) {
+      const element = randomArray[randex];
+      //is question linked
+      console.log(typeof Number(element.linkedTo), "hereeee");
+      if (Number(element.linkedTo)) {
+        if (element.linkedTo in linkedObj) {
           linkedObj = {
             ...linkedObj,
-            unlinked: [...linkedObj["unlinked"], element],
+            [element.linkedTo]: [...linkedObj[element.linkedTo], element],
           };
+        } else {
+          linkedObj = { ...linkedObj, [element.linkedTo]: [element] };
         }
+      } else {
+        linkedObj = {
+          ...linkedObj,
+          unlinked: [...linkedObj["unlinked"], element],
+        };
       }
-      console.log({ linkedObj });
-
-      // for (let key in linkedObj) {
-      //   keyValue= linkedObj[x]
-      //   if (x) {
-      //   item.questionType !== "essay-type"
-      //   }
-      // }
-      // resultArray = [];
-      for (const key in linkedObj) {
-        if (Object.hasOwnProperty.call(linkedObj, key)) {
-          if (key === "unlinked") {
-            const element = linkedObj[key];
-            resultArray = [...resultArray, ...element];
-          } else {
-            const element = linkedObj[key];
-            const getFromItems = workinArray[Number(key) - 1];
-            resultArray = [
-              ...resultArray,
-              { introKey: getFromItems.questionIntroText },
-              ...element,
-            ];
-          }
-        }
-      }
-      console.log({ resultArray });
-      setitemArray(resultArray);
-      setCurrentArrayHandler(resultArray);
     }
+    console.log({ linkedObj });
+
+    // for (let key in linkedObj) {
+    //   keyValue= linkedObj[x]
+    //   if (x) {
+    //   item.questionType !== "essay-type"
+    //   }
+    // }
+    // resultArray = [];
+    for (const key in linkedObj) {
+      if (Object.hasOwnProperty.call(linkedObj, key)) {
+        if (key === "unlinked") {
+          const element = linkedObj[key];
+          resultArray = [...resultArray, ...element];
+        } else {
+          const element = linkedObj[key];
+          const getFromItems = workingArray[Number(key) - 1];
+          const firstItem = element.slice(0, 1);
+          const restElement = element.slice(1);
+          let firstElementObj = firstItem[0];
+          firstElementObj = {
+            ...firstElementObj,
+            questionIntroText: getFromItems.questionIntroText,
+          };
+          const joinedEle = [firstElementObj, ...restElement];
+
+          console.log({ getFromItems });
+          resultArray = [...resultArray, ...joinedEle];
+        }
+      }
+    }
+    console.log({ resultArray });
+    setitemArray(resultArray);
+    // const filteredResultArray = resultArray.filter(
+    //   (item) => item.introKey === undefined
+    // );
+    // console.log({ filteredResultArray });
+    setCurrentArrayHandler(resultArray);
   };
 
   function backToQuestionListHandler() {
