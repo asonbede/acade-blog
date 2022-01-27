@@ -24,6 +24,14 @@
   gap: 1rem;
 }
 
+.showItem {
+  display: "block";
+}
+
+.hideItem {
+  display: none;
+}
+
 /* .controls {
   width: 100%;
   display: flex;

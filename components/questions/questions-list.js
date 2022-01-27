@@ -3,22 +3,68 @@ import classes from "./questions-list.module.css";
 import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 import NotificationContext from "../../store/notification-context";
 import { useRouter } from "next/router";
+import { useSession, signOut } from "next-auth/client";
+async function sendAuthDataModerate(authDetails, setFunc) {
+  const response = await fetch("/api/moderating-post", {
+    method: "POST",
+    body: JSON.stringify(authDetails),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  console.log({ data }, "authDetails");
+  if (!response.ok) {
+    // throw new Error(data.message || "Something went wrong!");
+    setFunc(false);
+  } else {
+    setFunc(data.message);
+  }
+}
+
 function QuestionsList({
   items,
   handleRadioButtonChange,
   blogId,
   controlSubBtn,
-
+  authorId,
   markScript,
   selectValue,
+  moderated = false,
 }) {
   const [showQuestionSupport, setshowQuestionSupport] = useState(false);
   const [fullLessQuestValue, setfullLessQuestValue] = useState(false);
   const [butQuesText, setbutQuesText] = useState("See Full Question ...");
+  const [moderatedValue, setmoderatedValue] = useState();
+  const [authValue, setauthValue] = useState();
   const notificationCtx = useContext(NotificationContext);
   const optionsList = ["A", "B", "C", "D", "E"];
   //const linkPathForUpdate = `/posts/updates/${post.id}`;
+  const [session, loading] = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    const result = sendAuthDataModerate(
+      { authorId, moderated },
+      setmoderatedValue
+    );
+
+    //console.log({ result }, "postContent");
+    // return () => {
+    //   cleanup
+    // }
+  }, [authorId, moderated]);
+
+  useEffect(() => {
+    const result = sendAuthData({ authorId }, setauthValue);
+    console.log({ result });
+    //setauthValue(result.message);
+    //console.log({ result }, "postContent");
+    // return () => {
+    //   cleanup
+    // }
+  }, [session, authorId]);
   const deleteQuestionHandler = async (questionId) => {
     notificationCtx.showNotification({
       title: "Deleting question...",
@@ -102,7 +148,21 @@ function QuestionsList({
       ) : null}
 
       {items.map((item, questionIndex) => (
-        <li key={item._id}>
+        <li
+          key={item._id}
+          className={moderatedValue ? classes.showItem : classes.hideItem}
+        >
+          {!moderated && (
+            <span style={{ color: "red" }}>
+              {" "}
+              Moderation in progressing, this may take a while, until this
+              action is complete only you can see this post, newly created or
+              updated post are examined by the admin before it is shown to the
+              public.This message will be removed as soon as the process is
+              complete. You may continue to work on your post while this process
+              is on...
+            </span>
+          )}
           {item.questionIntroText && fullLessQuestValue && (
             <DisplayEditorContent
               contentFromServer={item.questionIntroText}
@@ -158,10 +218,18 @@ function QuestionsList({
               </div>
             ))}
           </div>
-          <button onClick={() => handleQuestionUpdateData(item)}>Update</button>{" "}
-          <button onClick={() => deleteConfirm(item._id.toString())}>
-            Delete
-          </button>
+
+          {authValue && (
+            <button onClick={() => handleQuestionUpdateData(item)}>
+              Update
+            </button>
+          )}
+
+          {authValue && (
+            <button onClick={() => deleteConfirm(item._id.toString())}>
+              Delete
+            </button>
+          )}
         </li>
       ))}
     </ul>

@@ -27,6 +27,8 @@ const OneQuestion = ({
   const [workingArray, setworkingArray] = useState();
   const [israndomQues, setisrandomQues] = useState(false);
   const [randIndex, setrandIndex] = useState(0);
+  const [partIndex, setparticularIndex] = useState();
+  const [particularQueValue, setparticularQueValue] = useState(1);
   //  const [authorName, setauthorName] = useState();
   //  const [authorImage, setauthorImage] = useState();
 
@@ -67,6 +69,7 @@ const OneQuestion = ({
     setitemArray([]);
     setorderValue(1);
     setrandIndex(0);
+    setparticularIndex(0);
   };
   const prevPerson = () => {
     setIndex((index) => {
@@ -76,6 +79,7 @@ const OneQuestion = ({
     setitemArray([]);
     setorderValue(1);
     setrandIndex(0);
+    setparticularIndex(0);
   };
   const randomPerson = () => {
     setitemArray([]);
@@ -174,6 +178,116 @@ const OneQuestion = ({
     // console.log({ filteredResultArray });
     setCurrentArrayHandler(resultArray);
     setrandIndex(num);
+    setparticularIndex(0);
+  };
+
+  const particularQuestionHandler = () => {
+    setitemArray([]);
+    if (
+      Number(particularQueValue) > workingArray.length ||
+      Number(particularQueValue) < 1
+    ) {
+      return;
+    }
+    // console.log({ orderValue }, typeof orderValue);
+    // if (Number(orderValue) === 1) {
+    //   let randomNumber = Math.floor(Math.random() * items.length);
+    //   if (randomNumber === index) {
+    //     randomNumber = index + 1;
+    //   }
+    //   setIndex(checkNumber(randomNumber));
+    //   setitemArray([]);
+    // }
+
+    console.log("started-random-two");
+    const randomArray = [];
+    let linkedObj = { unlinked: [] };
+    let resultArray = [];
+    let num;
+    // const workinArray = items.filter(
+    //   (item) => item.questionType !== "essay-type"
+    // );
+    //setisrandomQues(true);
+    //fill randArray with random elements
+    // for (let i = 0; i < Number(orderValue); i++) {
+    //const element = array[index];
+    // let randomNumber = Math.floor(Math.random() * workingArray.length);
+    // if (randomNumber === index) {
+    //   randomNumber = index + 1;
+    // }
+    // num = checkNumber(randomNumber);
+
+    const particularQueObj = workingArray[Number(particularQueValue) - 1];
+    //}
+    //console.log({ randomArray });
+    //setitemArray(randomArray);
+
+    // for (let randex = 0; randex < randomArray.length; randex++) {
+    // const element = randomArray[randex];
+    //is question linked
+    console.log(typeof Number(particularQueObj.linkedTo), "hereeee");
+    if (Number(particularQueObj.linkedTo)) {
+      if (particularQueObj.linkedTo in linkedObj) {
+        linkedObj = {
+          ...linkedObj,
+          [particularQueObj.linkedTo]: [
+            ...linkedObj[particularQueObj.linkedTo],
+            particularQueObj,
+          ],
+        };
+      } else {
+        linkedObj = {
+          ...linkedObj,
+          [particularQueObj.linkedTo]: [particularQueObj],
+        };
+      }
+    } else {
+      linkedObj = {
+        ...linkedObj,
+        unlinked: [...linkedObj["unlinked"], particularQueObj],
+      };
+    }
+    // }
+    console.log({ linkedObj });
+
+    // for (let key in linkedObj) {
+    //   keyValue= linkedObj[x]
+    //   if (x) {
+    //   item.questionType !== "essay-type"
+    //   }
+    // }
+    // resultArray = [];
+    for (const key in linkedObj) {
+      if (Object.hasOwnProperty.call(linkedObj, key)) {
+        if (key === "unlinked") {
+          const element = linkedObj[key];
+          resultArray = [...resultArray, ...element];
+        } else {
+          const element = linkedObj[key];
+          const getFromItems = workingArray[Number(key) - 1];
+          const firstItem = element.slice(0, 1);
+          const restElement = element.slice(1);
+          let firstElementObj = firstItem[0];
+          firstElementObj = {
+            ...firstElementObj,
+            questionIntroText: getFromItems.questionIntroText,
+          };
+          const joinedEle = [firstElementObj, ...restElement];
+
+          console.log({ getFromItems });
+          resultArray = [...resultArray, ...joinedEle];
+        }
+      }
+    }
+    console.log({ resultArray });
+    setitemArray(resultArray);
+    // const filteredResultArray = resultArray.filter(
+    //   (item) => item.introKey === undefined
+    // );
+    // console.log({ filteredResultArray });
+    setCurrentArrayHandler(resultArray);
+    setparticularIndex(particularQueValue);
+    setrandIndex(0);
   };
 
   function backToQuestionListHandler() {
@@ -189,6 +303,10 @@ const OneQuestion = ({
 
   const onChangeNumber = (e) => {
     setorderValue(e.target.value);
+  };
+
+  const onChangePartiNumElem = (e) => {
+    setparticularQueValue(e.target.value);
   };
 
   if (itemArray) {
@@ -227,6 +345,8 @@ const OneQuestion = ({
                   {" "}
                   {randIndex
                     ? `Question  ${randIndex} Of ${workingArray.length}`
+                    : partIndex
+                    ? `Question  ${partIndex} Of ${workingArray.length}`
                     : `Question  ${index + 1} Of ${workingArray.length}`}
                 </p>
                 <div className={classes.info}>
@@ -253,7 +373,7 @@ const OneQuestion = ({
                 <br />
                 <label htmlFor="order">
                   {" "}
-                  {`Quantity (between 1 and ${workingArray.length}):`}
+                  {/* {`Quantity (between 1 and ${workingArray.length}):`} */}
                 </label>
 
                 <input
@@ -265,6 +385,28 @@ const OneQuestion = ({
                   min="1"
                   max={workingArray.length}
                   readOnly
+                  style={{ visibility: "hidden" }}
+                />
+                <button
+                  className={classes.randombtn}
+                  onClick={particularQuestionHandler}
+                >
+                  Give Me Particular Questions
+                </button>
+                <br />
+                <label htmlFor="particular-quest">
+                  {" "}
+                  {`Quantity (between 1 and ${workingArray.length}):`}
+                </label>
+
+                <input
+                  type="number"
+                  id="particular-quest"
+                  required
+                  value={particularQueValue}
+                  onChange={onChangePartiNumElem}
+                  min="1"
+                  max={workingArray.length}
                 />
               </article>
             </section>

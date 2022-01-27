@@ -10,6 +10,7 @@ import QuestionsListOne from "./question-list-one";
 import MainQuestionList from "./question-main-list";
 import EssayTypeQuestions from "./essay-type-questions";
 import NewEssayQuestion from "./new-essay-question";
+import { useSession, signOut } from "next-auth/client";
 function Questions(props) {
   const [selectedValuesOfRadioButton, setselectedValuesOfRadioButton] =
     useState([]);
@@ -27,7 +28,7 @@ function Questions(props) {
   const [currentArray, setcurrentArray] = useState([]);
   const [changerValue, setChangerValue] = useState(false);
   const [isLoading, setisLoading] = useState(false);
-
+  const [session, loading] = useSession();
   const notificationCtx = useContext(NotificationContext);
   const { questions: items, blogId, questionType } = props;
   console.log({ items }, "fro,m questions");
@@ -576,7 +577,7 @@ function Questions(props) {
         />
       )} */}
       {showQuestions && isFetchingQuestions && <p>Loading questions...</p>}
-      {selectValue === "essay-type" ? (
+      {session && selectValue === "essay-type" ? (
         <Togglable buttonLabel="create essay question" ref={noteFormRef}>
           <p>Create Essay-Type Questions</p>
           <NewEssayQuestion
@@ -584,7 +585,7 @@ function Questions(props) {
             noteFormRef={noteFormRef}
           />
         </Togglable>
-      ) : (
+      ) : session && selectValue === "mult-choice-all" ? (
         <Togglable buttonLabel="create multi-choice question" ref={noteFormRef}>
           <p>Create Multi-Choice Questions</p>
           <NewQuestion
@@ -592,7 +593,7 @@ function Questions(props) {
             noteFormRef={noteFormRef}
           />
         </Togglable>
-      )}
+      ) : null}
     </section>
   );
 }
