@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import classes from "./questions-list.module.css";
 import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 import NotificationContext from "../../store/notification-context";
@@ -23,6 +23,27 @@ async function sendAuthDataModerate(authDetails, setFunc) {
   }
 }
 
+async function sendAuthData(authDetails, setFunc) {
+  //console.log({ authDetails });
+  const response = await fetch("/api/restrict-route", {
+    method: "POST",
+    body: JSON.stringify(authDetails),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  console.log({ data }, "authDetails");
+  console.log({ data }, "authDetails");
+  if (!response.ok) {
+    setFunc(false);
+    //throw new Error(data.message || "Something went wrong!");
+  } else {
+    setFunc(data.message);
+  }
+}
+
 function QuestionsList({
   items,
   handleRadioButtonChange,
@@ -31,18 +52,42 @@ function QuestionsList({
   authorId,
   markScript,
   selectValue,
-  moderated = false,
 }) {
   const [showQuestionSupport, setshowQuestionSupport] = useState(false);
   const [fullLessQuestValue, setfullLessQuestValue] = useState(false);
   const [butQuesText, setbutQuesText] = useState("See Full Question ...");
   const [moderatedValue, setmoderatedValue] = useState();
   const [authValue, setauthValue] = useState();
+  const [moderated, setmoderated] = useState();
   const notificationCtx = useContext(NotificationContext);
   const optionsList = ["A", "B", "C", "D", "E"];
   //const linkPathForUpdate = `/posts/updates/${post.id}`;
   const [session, loading] = useSession();
   const router = useRouter();
+
+  function checkModerateValue(itemsArray) {
+    if (itemsArray) {
+      const result = itemsArray.some(
+        (item) => item.moderated === false || item.moderated === undefined
+      );
+      if (result) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (items) {
+      setmoderated(checkModerateValue(items));
+    }
+
+    //console.log({ result }, "postContent");
+    // return () => {
+    //   cleanup
+    // }
+  }, [authorId, items]);
 
   useEffect(() => {
     const result = sendAuthDataModerate(
@@ -152,7 +197,7 @@ function QuestionsList({
           key={item._id}
           className={moderatedValue ? classes.showItem : classes.hideItem}
         >
-          {!moderated && (
+          {!item.moderated && (
             <span style={{ color: "red" }}>
               {" "}
               Moderation in progressing, this may take a while, until this

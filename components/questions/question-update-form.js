@@ -39,10 +39,12 @@ function UpdateQuestionForm() {
   const [enteredCorrectOption, setselectValue] = useState();
   const [filteredOptionsLen, setfilteredOptionsLen] = useState();
   const notificationCtx = useContext(NotificationContext);
+  const [isModerated, setisModerated] = useState(false);
+  const [checkBoxShow, setcheckBoxShow] = useState(false);
   const [session, loading] = useSession();
   const router = useRouter();
 
-  //const useFieldCorrectOption = useField("text");
+  const useFieldSubject = useField("text");
   // const useEditorImage= useEditor();
 
   const useEditorQuestion = useEditor();
@@ -71,7 +73,7 @@ function UpdateQuestionForm() {
   const { url: enteredQuestionIntroText, editorState: quesIntroEdiState } =
     useEditorQuestionIntroText;
   // const { url: enteredImage } = useEditorImage;
-  //const { value: enteredCorrectOption } = useFieldCorrectOption;
+  const { value: enteredSubject } = useFieldSubject;
 
   const questionUpdateObj = notificationCtx.questionUpdate;
   const { questionItem, blogId, questionType } = questionUpdateObj;
@@ -107,8 +109,28 @@ function UpdateQuestionForm() {
       );
     }
 
+    if (questionItem.subject) {
+      useFieldSubject.serverContentInputHandler(questionItem.subject);
+    }
+
     //useFieldCorrectOption.serverContentInputHandler(questionItem.correctOption);
   }
+  useEffect(() => {
+    fetch("/api/restrict-route/")
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log(data);
+        setcheckBoxShow(data.message);
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Error!",
+          message: error.message || "Something went wrong!",
+          status: "error",
+        });
+      });
+  }, [questionItem]);
+
   useEffect(() => {
     if (questionItem) {
       if (questionItem.linkedTo) {
@@ -245,6 +267,8 @@ function UpdateQuestionForm() {
           questionType: "multi-choice",
           linkedTo: linkedValue,
           authorId: session.user.email,
+          moderated: isModerated,
+          subject: enteredSubject,
           questionIntroText: checkEditorText(quesIntroEdiState)
             ? enteredQuestionIntroText.trim()
             : null,
@@ -354,6 +378,18 @@ function UpdateQuestionForm() {
             // smallHeight={true}
           />
         </div>
+
+        <div className={classes.control}>
+          <label htmlFor="subject">
+            Set The Subject Under Which This Question Falls
+          </label>
+          <input
+            id="subject"
+            value={useFieldSubject.value}
+            onChange={useFieldSubject.onChange}
+          />
+        </div>
+
         <div className={classes.control}>
           <label htmlFor="correctOption">Set Correct Option</label>
           {/* <input
@@ -392,6 +428,23 @@ function UpdateQuestionForm() {
             // max={items.length}
           />
         </div>
+        {checkBoxShow && (
+          <div>
+            <span htmlFor="isAprovedred" className="featured">
+              Approve This Post
+            </span>
+
+            <input
+              type="checkbox"
+              id="isAprovedred"
+              name="isApproveded"
+              value={isModerated}
+              checked={isModerated}
+              onChange={() => setisModerated(!isModerated)}
+              style={{ width: "7%" }}
+            />
+          </div>
+        )}
       </div>
 
       {/* {isInvalid && <p>Please enter a valid email address and comment!</p>} */}

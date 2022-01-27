@@ -17,7 +17,7 @@ function NewQuestion(props) {
   const [enteredCorrectOption, setselectValue] = useState();
 
   //const useFieldTopic = useField("text");
-  // const useFieldCorrectOption = useField("text");
+  const useFieldSubject = useField("text");
   const notificationCtx = useContext(NotificationContext);
   const useEditorQuestion = useEditor();
   const useEditorOptionA = useEditor();
@@ -45,7 +45,7 @@ function NewQuestion(props) {
   const { url: enteredQuestionIntroText, editorState: quesIntroEdiState } =
     useEditorQuestionIntroText;
 
-  // const { value: enteredCorrectOption } = useFieldCorrectOption;
+  const { value: enteredSubject } = useFieldSubject;
   // const { value: author } = useFieldAuthor;
   // const { value: imageBlog } = useFieldImage;
   // const dispatch = useDispatch();
@@ -193,10 +193,13 @@ function NewQuestion(props) {
         linkedTo: linkedValue,
         authorId: session.user.email,
         questionType: "multi-choice",
+        moderated: false,
+        subject: enteredSubject,
         questionIntroText: checkEditorText(quesIntroEdiState)
           ? enteredQuestionIntroText.trim()
           : null,
       },
+
       "mult-choice"
     );
     props.noteFormRef.current.togglevisibility();
@@ -287,16 +290,23 @@ function NewQuestion(props) {
             // smallHeight={true}
           />
         </div>
+
+        <div className={classes.control}>
+          <label htmlFor="subject">
+            Set the subject under which this question falls
+          </label>
+          <input
+            id="subject"
+            required
+            value={enteredSubject}
+            onChange={useFieldSubject.onChange}
+            style={{ width: "80%", display: "block" }}
+          />
+        </div>
+
         <div className={classes.control}>
           <label htmlFor="correctOption">Set The Correct Option</label>
-          {/* <input
-            id="correctOption"
-            required
-            value={enteredCorrectOption}
-            onChange={useFieldCorrectOption.onChange}
-            style={{ width: "80%", display: "block" }}
-          /> */}
-          {/* {filteredOptionsLen.length > 1 && outputSetAswerSelectOptions()} */}
+
           {outputSetAswerSelectOptions()}
         </div>
         {/* <select name="" id="">

@@ -17,6 +17,7 @@ function NewEssayQuestion(props) {
   const useEditorQuestion = useEditor();
 
   const useEditorExplanation = useEditor();
+  const useFieldSubject = useField("text");
 
   const {
     url: enteredQuestion,
@@ -25,6 +26,7 @@ function NewEssayQuestion(props) {
   } = useEditorQuestion;
 
   const { url: enteredExplanation } = useEditorExplanation;
+  const { value: enteredSubject } = useFieldSubject;
 
   // const { value: author } = useFieldAuthor;
   // const { value: imageBlog } = useFieldImage;
@@ -68,6 +70,8 @@ function NewEssayQuestion(props) {
         explanation: enteredExplanation,
         questionType: "essay-type",
         authorId: session.user.email,
+        subject: enteredSubject,
+        moderated: false,
       },
       "essay-type"
     );
@@ -87,6 +91,18 @@ function NewEssayQuestion(props) {
             toolbarOnFocus={false}
             toolbarPresent={true}
             // smallHeight={false}
+          />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor="subject">
+            Set the subject under which this question falls
+          </label>
+          <input
+            id="subject"
+            required
+            value={enteredSubject}
+            onChange={useFieldSubject.onChange}
+            style={{ width: "80%", display: "block" }}
           />
         </div>
 

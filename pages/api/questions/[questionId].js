@@ -41,6 +41,8 @@ async function handler(req, res) {
       authorId,
       questionIntroText,
       linkedTo,
+      moderated,
+      subject,
     } = req.body;
 
     if (
@@ -51,7 +53,9 @@ async function handler(req, res) {
       !explanation ||
       explanation.trim() === "" ||
       !correctOption ||
-      correctOption.trim() === ""
+      correctOption.trim() === "" ||
+      !subject ||
+      subject.trim() === ""
     ) {
       res.status(422).json({ message: "Invalid input." });
       client.close();
@@ -71,6 +75,8 @@ async function handler(req, res) {
       authorId,
       questionIntroText,
       linkedTo,
+      moderated,
+      subject,
     };
 
     let result;
@@ -85,13 +91,22 @@ async function handler(req, res) {
       res.status(500).json({ message: "Inserting question failed!" });
     }
   } else if (req.method === "POST" && req.body.questionType === "essay-type") {
-    const { question, explanation, questionType, authorId } = req.body;
+    const {
+      question,
+      explanation,
+      questionType,
+      authorId,
+      moderated,
+      subject,
+    } = req.body;
 
     if (
       !question ||
       question.trim() === "" ||
       !explanation ||
-      explanation.trim() === ""
+      explanation.trim() === "" ||
+      !subject ||
+      subject.trim() === ""
     ) {
       res.status(422).json({ message: "Invalid input." });
       client.close();
@@ -106,6 +121,8 @@ async function handler(req, res) {
       authorId,
 
       blogId,
+      moderated,
+      subject,
     };
 
     let result;
@@ -164,6 +181,8 @@ async function handler(req, res) {
       questionType,
       questionIntroText,
       linkedTo,
+      moderated,
+      subject,
     } = req.body;
     if (
       !question ||
@@ -173,7 +192,9 @@ async function handler(req, res) {
       !options ||
       !validateQuestionOptions(options) ||
       !correctOption ||
-      correctOption.trim() === ""
+      correctOption.trim() === "" ||
+      !subject ||
+      subject.trim() === ""
     ) {
       res.status(422).json({ message: "Invalid input." });
       client.close();
@@ -191,6 +212,8 @@ async function handler(req, res) {
       questionType,
       questionIntroText,
       linkedTo,
+      moderated,
+      subject,
     };
 
     let result;
@@ -220,13 +243,17 @@ async function handler(req, res) {
       blogId,
       authorId,
       questionType,
+      moderated,
+      subject,
     } = req.body;
 
     if (
       !question ||
       question.trim() === "" ||
       !explanation ||
-      explanation.trim() === ""
+      explanation.trim() === "" ||
+      !subject ||
+      subject.trim() === ""
     ) {
       res.status(422).json({ message: "Invalid input." });
       client.close();
@@ -241,6 +268,8 @@ async function handler(req, res) {
       blogId,
       authorId,
       questionType,
+      moderated,
+      subject,
     };
 
     let result;

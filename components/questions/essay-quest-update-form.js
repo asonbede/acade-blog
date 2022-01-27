@@ -33,6 +33,8 @@ async function sendQuestionData(questionDetails, id) {
 
 function EssayUpdateQuestionForm() {
   const [isInvalid, setIsInvalid] = useState(false);
+  const [isModerated, setisModerated] = useState(false);
+  const [checkBoxShow, setcheckBoxShow] = useState(false);
   const notificationCtx = useContext(NotificationContext);
 
   const router = useRouter();
@@ -47,6 +49,7 @@ function EssayUpdateQuestionForm() {
   //   const useEditorOptionD = useEditor();
   //   const useEditorOptionE = useEditor();
   const useEditorExplanation = useEditor();
+  const useFieldSubject = useField("text");
 
   const {
     url: enteredQuestion,
@@ -59,6 +62,7 @@ function EssayUpdateQuestionForm() {
   //   const { url: enteredOptionD } = useEditorOptionD;
   //   const { url: enteredOptionE } = useEditorOptionE;
   const { url: enteredExplanation } = useEditorExplanation;
+  const { value: enteredSubject } = useFieldSubject;
   // const { url: enteredImage } = useEditorImage;
   //const { value: enteredCorrectOption } = useFieldCorrectOption;
 
@@ -69,6 +73,23 @@ function EssayUpdateQuestionForm() {
   //   useEditorContent.useServerContent(post.content);
   //   //useEditorMainBlogTitle.useServerContent(post.title);
   // }
+
+  useEffect(() => {
+    fetch("/api/restrict-route/")
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log(data);
+        setcheckBoxShow(data.message);
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Error!",
+          message: error.message || "Something went wrong!",
+          status: "error",
+        });
+      });
+  }, [questionItem]);
+
   if (questionItem) {
     console.log({ questionItem }, "update-question");
     useEditorQuestion.serverContentHandler(questionItem.question);
@@ -78,6 +99,10 @@ function EssayUpdateQuestionForm() {
     // useEditorOptionD.serverContentHandler(questionItem.options[3].option);
     // useEditorOptionE.serverContentHandler(questionItem.options[4].option);
     useEditorExplanation.serverContentHandler(questionItem.explanation);
+
+    if (questionItem.subject) {
+      useFieldSubject.serverContentInputHandler(questionItem.subject);
+    }
     //useFieldCorrectOption.serverContentInputHandler(questionItem.correctOption);
   }
   // useEffect(() => {
@@ -120,6 +145,8 @@ function EssayUpdateQuestionForm() {
           blogId,
           authorId: questionItem.authorId,
           questionType: "essay-type",
+          moderated: isModerated,
+          subject: enteredSubject,
         },
         questionItem._id
       );
@@ -155,6 +182,18 @@ function EssayUpdateQuestionForm() {
             // smallHeight={false}
           />
         </div>
+        <div className={classes.control}>
+          <label htmlFor="subject">
+            Set the subject under which this question falls
+          </label>
+          <input
+            id="subject"
+            required
+            value={enteredSubject}
+            onChange={useFieldSubject.onChange}
+            style={{ width: "80%", display: "block" }}
+          />
+        </div>
 
         {/* </div> */}
         <div className={classes.control}>
@@ -171,6 +210,23 @@ function EssayUpdateQuestionForm() {
             // smallHeight={false}
           />
         </div>
+        {checkBoxShow && (
+          <div>
+            <span htmlFor="isAprovedred" className="featured">
+              Approve This Post
+            </span>
+
+            <input
+              type="checkbox"
+              id="isAprovedred"
+              name="isApproveded"
+              value={isModerated}
+              checked={isModerated}
+              onChange={() => setisModerated(!isModerated)}
+              style={{ width: "7%" }}
+            />
+          </div>
+        )}
       </div>
 
       {/* {isInvalid && <p>Please enter a valid email address and comment!</p>} */}

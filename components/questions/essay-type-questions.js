@@ -1,14 +1,105 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import classes from "./questions-list.module.css";
 import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 import NotificationContext from "../../store/notification-context";
 import { useRouter } from "next/router";
 import NewEssayQuestion from "./new-essay-question";
+import { useSession, signOut } from "next-auth/client";
 //import Togglable from "../togglable/togglable";
-function EssayTypeQuestions({ items, blogId, selectValue }) {
+async function sendAuthDataModerate(authDetails, setFunc) {
+  const response = await fetch("/api/moderating-post", {
+    method: "POST",
+    body: JSON.stringify(authDetails),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  console.log({ data }, "authDetails");
+  if (!response.ok) {
+    // throw new Error(data.message || "Something went wrong!");
+    setFunc(false);
+  } else {
+    setFunc(data.message);
+  }
+}
+async function sendAuthData(authDetails, setFunc) {
+  //console.log({ authDetails });
+  const response = await fetch("/api/restrict-route", {
+    method: "POST",
+    body: JSON.stringify(authDetails),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  console.log({ data }, "authDetails");
+  console.log({ data }, "authDetails");
+  if (!response.ok) {
+    setFunc(false);
+    //throw new Error(data.message || "Something went wrong!");
+  } else {
+    setFunc(data.message);
+  }
+}
+function EssayTypeQuestions({ items, blogId, selectValue, authorId }) {
   const notificationCtx = useContext(NotificationContext);
   //const noteFormRef = useRef(null);
+  const [moderatedValue, setmoderatedValue] = useState();
+  const [authValue, setauthValue] = useState();
+  const [moderated, setmoderated] = useState();
+
+  const [session, loading] = useSession();
   const router = useRouter();
+
+  function checkModerateValue(itemsArray) {
+    if (itemsArray) {
+      const result = itemsArray.some(
+        (item) => item.moderated === false || item.moderated === undefined
+      );
+      if (result) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (items) {
+      setmoderated(checkModerateValue(items));
+    }
+
+    //console.log({ result }, "postContent");
+    // return () => {
+    //   cleanup
+    // }
+  }, [authorId, items]);
+
+  useEffect(() => {
+    const result = sendAuthDataModerate(
+      { authorId, moderated },
+      setmoderatedValue
+    );
+
+    //console.log({ result }, "postContent");
+    // return () => {
+    //   cleanup
+    // }
+  }, [authorId, moderated]);
+
+  useEffect(() => {
+    const result = sendAuthData({ authorId }, setauthValue);
+    console.log({ result });
+    //setauthValue(result.message);
+    //console.log({ result }, "postContent");
+    // return () => {
+    //   cleanup
+    // }
+  }, [session, authorId]);
+
   const deleteQuestionHandler = async (questionId) => {
     notificationCtx.showNotification({
       title: "Deletind question...",
@@ -64,7 +155,21 @@ function EssayTypeQuestions({ items, blogId, selectValue }) {
   return (
     <ul className={classes.form}>
       {items.map((item, questionIndex) => (
-        <li key={item._id}>
+        <li
+          key={item._id}
+          className={moderatedValue ? classes.showItem : classes.hideItem}
+        >
+          {!moderated && (
+            <span style={{ color: "red" }}>
+              {" "}
+              Moderation in progressing, this may take a while, until this
+              action is complete only you can see this post, newly created or
+              updated post are examined by the admin before it is shown to the
+              public.This message will be removed as soon as the process is
+              complete. You may continue to work on your post while this process
+              is on...
+            </span>
+          )}
           <div style={{ display: "flex" }}>
             {/* &nbsp;&nbsp;{item.question} */}
             {selectValue === "mult-choice-one" ? null : (
@@ -84,10 +189,17 @@ function EssayTypeQuestions({ items, blogId, selectValue }) {
               toolbarPresent={false}
             />
           </div>
-          <button onClick={() => handleQuestionUpdateData(item)}>Update</button>{" "}
-          <button onClick={() => deleteConfirm(item._id.toString())}>
-            Delete
-          </button>
+
+          {authValue && (
+            <button onClick={() => handleQuestionUpdateData(item)}>
+              Update
+            </button>
+          )}
+          {authValue && (
+            <button onClick={() => deleteConfirm(item._id.toString())}>
+              Delete
+            </button>
+          )}
         </li>
       ))}
       {/* <Togglable buttonLabel="create essay question" ref={noteFormRef}>
