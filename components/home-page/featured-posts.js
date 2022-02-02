@@ -98,8 +98,3 @@ function FeaturedPosts(props) {
 }
 
 export default FeaturedPosts;
-// @media (min-width: 768px) {
-//   .latest h2 {
-//     font-size: var(--size-16);
-//   }
-// }

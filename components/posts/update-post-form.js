@@ -347,3 +347,6 @@ function UpdatePostForm({ updateId }) {
 }
 
 export default UpdatePostForm;
+
+///api/images/profile-image?file=image-January-12,-2022-asonbede@gmail.c..."
+///api/images/profile-image?file=image-January-12,-2022-asonbede@gmail.com-Bede-Asonye-data-presentation.jpg

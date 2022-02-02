@@ -52,6 +52,14 @@ const OneQuestion = ({
   }, [index, selectValue]);
   console.log({ itemArray }, "one-list");
 
+  // useEffect(() => {
+  //   setitemArray([]);
+  //   // effect
+  //   // return () => {
+  //   //   cleanup
+  //   // }
+  // }, [orderValue]);
+
   const checkNumber = (number) => {
     if (number > items.length - 1) {
       return 0;
@@ -97,27 +105,45 @@ const OneQuestion = ({
     // }
 
     console.log("started-random-two");
-    const randomArray = [];
+    let randomArray = [];
     let linkedObj = { unlinked: [] };
     let resultArray = [];
     let num;
+    let preWorkingArray = [];
+    let randomNumbers = new Set();
     // const workinArray = items.filter(
     //   (item) => item.questionType !== "essay-type"
     // );
     setisrandomQues(true);
     //fill randArray with random elements
-    for (let i = 0; i < Number(orderValue); i++) {
-      //const element = array[index];
+    // for (let i = 0; i < Number(orderValue); i++) {
+    //const element = array[index];
+    // let randomNumber = Math.floor(Math.random() * workingArray.length);
+    // if (randomNumber === index) {
+    //   randomNumber = index + 1;
+    // }
+    // num = checkNumber(randomNumber);
+    // // randomArray.push(preWorkingArray[num]);
+    //   randomNumbers.add(num)
+    //randomArray.push(workingArray[num]);
+    //}
+    while (true) {
       let randomNumber = Math.floor(Math.random() * workingArray.length);
-      if (randomNumber === index) {
-        randomNumber = index + 1;
-      }
+      // if (randomNumber === index) {
+      //   randomNumber = index + 1;
+      // }
       num = checkNumber(randomNumber);
-
-      randomArray.push(workingArray[num]);
+      // randomArray.push(preWorkingArray[num]);
+      randomNumbers.add(num);
+      if (randomNumbers.size === Number(orderValue)) {
+        break;
+      }
     }
-    console.log({ randomArray });
+    //console.log({ randomArray });
     //setitemArray(randomArray);
+    randomArray = [...randomNumbers].map((item) => workingArray[item]);
+    console.log({ randomNumbers });
+    console.log({ randomArray });
 
     for (let randex = 0; randex < randomArray.length; randex++) {
       const element = randomArray[randex];
@@ -379,13 +405,13 @@ const OneQuestion = ({
                 <input
                   type="number"
                   id="order"
-                  required
+                  // required
                   value={orderValue}
                   onChange={onChangeNumber}
                   min="1"
                   max={workingArray.length}
-                  readOnly
-                  style={{ visibility: "hidden" }}
+                  // readOnly
+                  // style={{ visibility: "hidden" }}
                 />
                 <button
                   className={classes.randombtn}
