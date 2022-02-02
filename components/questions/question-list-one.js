@@ -29,6 +29,8 @@ const OneQuestion = ({
   const [randIndex, setrandIndex] = useState(0);
   const [partIndex, setparticularIndex] = useState();
   const [particularQueValue, setparticularQueValue] = useState(1);
+  const [waecQueValue, setwaecQueValue] = useState(1);
+
   //  const [authorName, setauthorName] = useState();
   //  const [authorImage, setauthorImage] = useState();
 
@@ -38,6 +40,7 @@ const OneQuestion = ({
         (item) => item.questionType !== "essay-type"
       );
       const itemObj = workingArrayValue[index];
+
       setitemArray([itemObj]);
       setworkingArray(workingArrayValue);
       if (selectValue === "mult-choice-one" && !israndomQues) {
@@ -207,6 +210,130 @@ const OneQuestion = ({
     setparticularIndex(0);
   };
 
+  const professionExamGetter = (examTypeValue) => {
+    setitemArray([]);
+    console.log("started-random-two");
+    let examArray = [];
+    let linkedObj = { unlinked: [] };
+    let resultArray = [];
+    examArray = workingArray.filter((item) =>
+      item.examType.startsWith(examTypeValue)
+    );
+    if (!examArray || examArray.length === 0) {
+      return;
+    }
+    if (Number(waecQueValue) > examArray.length || Number(waecQueValue) < 0) {
+      return;
+    }
+    // console.log({ orderValue }, typeof orderValue);
+    // if (Number(orderValue) === 1) {
+    //   let randomNumber = Math.floor(Math.random() * items.length);
+    //   if (randomNumber === index) {
+    //     randomNumber = index + 1;
+    //   }
+    //   setIndex(checkNumber(randomNumber));
+    //   setitemArray([]);
+    // }
+
+    // const workinArray = items.filter(
+    //   (item) => item.questionType !== "essay-type"
+    // );
+    //setisrandomQues(true);
+    //fill randArray with random elements
+    // for (let i = 0; i < Number(orderValue); i++) {
+    //const element = array[index];
+    // let randomNumber = Math.floor(Math.random() * workingArray.length);
+    // if (randomNumber === index) {
+    //   randomNumber = index + 1;
+    // }
+    // num = checkNumber(randomNumber);
+    // // randomArray.push(preWorkingArray[num]);
+    //   randomNumbers.add(num)
+    //randomArray.push(workingArray[num]);
+    //}
+    //  while (true) {
+    //    let randomNumber = Math.floor(Math.random() * workingArray.length);
+    //    // if (randomNumber === index) {
+    //    //   randomNumber = index + 1;
+    //    // }
+    //    num = checkNumber(randomNumber);
+    //    // randomArray.push(preWorkingArray[num]);
+    //    randomNumbers.add(num);
+    //    if (randomNumbers.size === Number(orderValue)) {
+    //      break;
+    //    }
+    //  }
+    //console.log({ randomArray });
+    //setitemArray(randomArray);
+    // examArray = workingArray.filter((item) =>
+    //   item.examType.startsWith(examTypeValue)
+    // );
+    examArray = examArray.slice(0, waecQueValue);
+
+    console.log({ examArray });
+
+    for (let randex = 0; randex < examArray.length; randex++) {
+      const element = examArray[randex];
+      //is question linked
+      console.log(typeof Number(element.linkedTo), "hereeee");
+      if (Number(element.linkedTo)) {
+        if (element.linkedTo in linkedObj) {
+          linkedObj = {
+            ...linkedObj,
+            [element.linkedTo]: [...linkedObj[element.linkedTo], element],
+          };
+        } else {
+          linkedObj = { ...linkedObj, [element.linkedTo]: [element] };
+        }
+      } else {
+        linkedObj = {
+          ...linkedObj,
+          unlinked: [...linkedObj["unlinked"], element],
+        };
+      }
+    }
+    console.log({ linkedObj });
+
+    // for (let key in linkedObj) {
+    //   keyValue= linkedObj[x]
+    //   if (x) {
+    //   item.questionType !== "essay-type"
+    //   }
+    // }
+    // resultArray = [];
+    for (const key in linkedObj) {
+      if (Object.hasOwnProperty.call(linkedObj, key)) {
+        if (key === "unlinked") {
+          const element = linkedObj[key];
+          resultArray = [...resultArray, ...element];
+        } else {
+          const element = linkedObj[key];
+          const getFromItems = workingArray[Number(key) - 1];
+          const firstItem = element.slice(0, 1);
+          const restElement = element.slice(1);
+          let firstElementObj = firstItem[0];
+          firstElementObj = {
+            ...firstElementObj,
+            questionIntroText: getFromItems.questionIntroText,
+          };
+          const joinedEle = [firstElementObj, ...restElement];
+
+          console.log({ getFromItems });
+          resultArray = [...resultArray, ...joinedEle];
+        }
+      }
+    }
+    console.log({ resultArray });
+    setitemArray(resultArray);
+    // const filteredResultArray = resultArray.filter(
+    //   (item) => item.introKey === undefined
+    // );
+    // console.log({ filteredResultArray });
+    setCurrentArrayHandler(resultArray);
+
+    setparticularIndex(0);
+  };
+
   const particularQuestionHandler = () => {
     setitemArray([]);
     if (
@@ -335,6 +462,10 @@ const OneQuestion = ({
     setparticularQueValue(e.target.value);
   };
 
+  const onChangeWaecNumElem = (e) => {
+    setwaecQueValue(e.target.value);
+  };
+
   if (itemArray) {
     return (
       <>
@@ -396,7 +527,7 @@ const OneQuestion = ({
                 <button className={classes.randombtn} onClick={randomPerson}>
                   Give me random Questions
                 </button>
-                <br />
+
                 <label htmlFor="order">
                   {" "}
                   {/* {`Quantity (between 1 and ${workingArray.length}):`} */}
@@ -413,13 +544,14 @@ const OneQuestion = ({
                   // readOnly
                   // style={{ visibility: "hidden" }}
                 />
+                <br />
                 <button
                   className={classes.randombtn}
                   onClick={particularQuestionHandler}
                 >
                   Give Me Particular Questions
                 </button>
-                <br />
+
                 <label htmlFor="particular-quest">
                   {" "}
                   {`Quantity (between 1 and ${workingArray.length}):`}
@@ -434,6 +566,32 @@ const OneQuestion = ({
                   min="1"
                   max={workingArray.length}
                 />
+                <br />
+                <button
+                  className={classes.randombtn}
+                  onClick={() => professionExamGetter("waec")}
+                >
+                  WACE Questions On This Topic
+                </button>
+
+                <label htmlFor="waec-quest">
+                  {" "}
+                  {`Quantity (between 1 and ${
+                    workingArray.filter((item) =>
+                      item.examType.startsWith(examTypeValue)
+                    ).length
+                  }):`}
+                </label>
+
+                <input
+                  type="number"
+                  id="waec-quest"
+                  value={waecQueValue}
+                  onChange={onChangeWaecNumElem}
+                  min="1"
+                  max={workingArray.length}
+                />
+                <br />
               </article>
             </section>
           </main>

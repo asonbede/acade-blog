@@ -18,6 +18,7 @@ function NewQuestion(props) {
 
   //const useFieldTopic = useField("text");
   const useFieldSubject = useField("text");
+  const useFieldExamType = useField("text");
   const notificationCtx = useContext(NotificationContext);
   const useEditorQuestion = useEditor();
   const useEditorOptionA = useEditor();
@@ -46,6 +47,8 @@ function NewQuestion(props) {
     useEditorQuestionIntroText;
 
   const { value: enteredSubject } = useFieldSubject;
+  const { value: enteredExamType } = useFieldExamType;
+
   // const { value: author } = useFieldAuthor;
   // const { value: imageBlog } = useFieldImage;
   // const dispatch = useDispatch();
@@ -162,7 +165,11 @@ function NewQuestion(props) {
       // !enteredOptionE ||
       // enteredOptionE.trim() === "" ||
       !checkEditorText(explanEditorState) ||
-      !enteredCorrectOption
+      !enteredCorrectOption ||
+      !enteredSubject ||
+      enteredSubject.trim() === "" ||
+      !enteredExamType ||
+      enteredExamType.trim() === ""
     ) {
       setIsInvalid(true);
       return;
@@ -195,6 +202,7 @@ function NewQuestion(props) {
         questionType: "multi-choice",
         moderated: false,
         subject: enteredSubject,
+        examType: enteredExamType,
         questionIntroText: checkEditorText(quesIntroEdiState)
           ? enteredQuestionIntroText.trim()
           : null,
@@ -300,6 +308,18 @@ function NewQuestion(props) {
             required
             value={enteredSubject}
             onChange={useFieldSubject.onChange}
+            style={{ width: "80%", display: "block" }}
+          />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor="exam-type">
+            Indicate the exam body if past questions or none
+          </label>
+          <input
+            id="exam-type"
+            required
+            value={enteredExamType}
+            onChange={useFieldExamType.onChange}
             style={{ width: "80%", display: "block" }}
           />
         </div>

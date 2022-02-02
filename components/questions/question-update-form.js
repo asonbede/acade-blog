@@ -45,6 +45,8 @@ function UpdateQuestionForm() {
   const router = useRouter();
 
   const useFieldSubject = useField("text");
+  const useFieldExamType = useField("text");
+
   // const useEditorImage= useEditor();
 
   const useEditorQuestion = useEditor();
@@ -74,6 +76,7 @@ function UpdateQuestionForm() {
     useEditorQuestionIntroText;
   // const { url: enteredImage } = useEditorImage;
   const { value: enteredSubject } = useFieldSubject;
+  const { value: enteredExamType } = useFieldExamType;
 
   const questionUpdateObj = notificationCtx.questionUpdate;
   const { questionItem, blogId, questionType } = questionUpdateObj;
@@ -111,6 +114,10 @@ function UpdateQuestionForm() {
 
     if (questionItem.subject) {
       useFieldSubject.serverContentInputHandler(questionItem.subject);
+    }
+
+    if (questionItem.examType) {
+      useFieldExamType.serverContentInputHandler(questionItem.examType);
     }
 
     //useFieldCorrectOption.serverContentInputHandler(questionItem.correctOption);
@@ -240,7 +247,11 @@ function UpdateQuestionForm() {
       // enteredOptionE.trim() === "" ||
       !checkEditorText(explanEditorState) ||
       !enteredCorrectOption ||
-      enteredCorrectOption.trim() === ""
+      enteredCorrectOption.trim() === "" ||
+      !enteredExamType ||
+      enteredExamType.trim() === "" ||
+      !enteredSubject ||
+      enteredSubject.trim() === ""
     ) {
       setIsInvalid(true);
       return;
@@ -269,6 +280,7 @@ function UpdateQuestionForm() {
           authorId: session.user.email,
           moderated: isModerated,
           subject: enteredSubject,
+          examType: enteredExamType,
           questionIntroText: checkEditorText(quesIntroEdiState)
             ? enteredQuestionIntroText.trim()
             : null,
@@ -389,6 +401,20 @@ function UpdateQuestionForm() {
             onChange={useFieldSubject.onChange}
           />
         </div>
+
+        <div className={classes.control}>
+          <label htmlFor="exam-type">
+            Indicate the exam body if past questions or none
+          </label>
+          <input
+            id="exam-type"
+            value={enteredExamType}
+            onChange={useFieldExamType.onChange}
+            style={{ width: "80%", display: "block" }}
+          />
+        </div>
+
+        <div className={classes.control}></div>
 
         <div className={classes.control}>
           <label htmlFor="correctOption">Set Correct Option</label>
