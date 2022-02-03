@@ -27,10 +27,15 @@ const OneQuestion = ({
   const [workingArray, setworkingArray] = useState();
   const [israndomQues, setisrandomQues] = useState(false);
   const [randIndex, setrandIndex] = useState(0);
-  const [partIndex, setparticularIndex] = useState();
+  const [partIndex, setparticularIndex] = useState(1);
   const [particularQueValue, setparticularQueValue] = useState(1);
-  const [waecQueValue, setwaecQueValue] = useState(1);
+  const [waecQueValue, setwaecQueValue] = useState(0);
+  const [waecExamArray, setwaecExamArray] = useState([]);
+  const [waecBtnControl, setwaecBtnControl] = useState(true);
 
+  const [necoQueValue, setnecoQueValue] = useState(0);
+  const [necoExamArray, setnecoExamArray] = useState([]);
+  const [necoBtnControl, setnecoBtnControl] = useState(true);
   //  const [authorName, setauthorName] = useState();
   //  const [authorImage, setauthorImage] = useState();
 
@@ -55,13 +60,27 @@ const OneQuestion = ({
   }, [index, selectValue]);
   console.log({ itemArray }, "one-list");
 
-  // useEffect(() => {
-  //   setitemArray([]);
-  //   // effect
-  //   // return () => {
-  //   //   cleanup
-  //   // }
-  // }, [orderValue]);
+  useEffect(() => {
+    if (workingArray) {
+      setwaecExamArray(
+        workingArray.filter(
+          (item) =>
+            item.examType !== undefined && item.examType.startsWith("wassce")
+        )
+      );
+    }
+  }, [waecQueValue]);
+
+  useEffect(() => {
+    if (workingArray) {
+      setnecoExamArray(
+        workingArray.filter(
+          (item) =>
+            item.examType !== undefined && item.examType.startsWith("necossce")
+        )
+      );
+    }
+  }, [necoQueValue]);
 
   const checkNumber = (number) => {
     if (number > items.length - 1) {
@@ -210,19 +229,24 @@ const OneQuestion = ({
     setparticularIndex(0);
   };
 
-  const professionExamGetter = (examTypeValue) => {
+  const professionExamGetter = (myArrayValues, proffQueNum) => {
     setitemArray([]);
     console.log("started-random-two");
     let examArray = [];
     let linkedObj = { unlinked: [] };
     let resultArray = [];
-    examArray = workingArray.filter((item) =>
-      item.examType.startsWith(examTypeValue)
-    );
-    if (!examArray || examArray.length === 0) {
+    // examArray = workingArray.filter((item) =>
+    //   item.examType.startsWith(examTypeValue)
+    // );
+
+    // examArray = workingArray.filter(
+    //   (item) =>
+    //     item.examType !== undefined && item.examType.startsWith("wassce")
+    // );
+    if (!myArrayValues || myArrayValues.length === 0) {
       return;
     }
-    if (Number(waecQueValue) > examArray.length || Number(waecQueValue) < 0) {
+    if (Number(proffQueNum) > myArrayValues.length || Number(proffQueNum) < 0) {
       return;
     }
     // console.log({ orderValue }, typeof orderValue);
@@ -268,9 +292,9 @@ const OneQuestion = ({
     // examArray = workingArray.filter((item) =>
     //   item.examType.startsWith(examTypeValue)
     // );
-    examArray = examArray.slice(0, waecQueValue);
+    examArray = myArrayValues.slice(0, proffQueNum);
 
-    console.log({ examArray });
+    console.log({ myArrayValues });
 
     for (let randex = 0; randex < examArray.length; randex++) {
       const element = examArray[randex];
@@ -464,6 +488,12 @@ const OneQuestion = ({
 
   const onChangeWaecNumElem = (e) => {
     setwaecQueValue(e.target.value);
+    setwaecBtnControl(false);
+  };
+
+  const onChangeNecoNumElem = (e) => {
+    setnecoQueValue(e.target.value);
+    setnecoBtnControl(false);
   };
 
   if (itemArray) {
@@ -569,18 +599,23 @@ const OneQuestion = ({
                 <br />
                 <button
                   className={classes.randombtn}
-                  onClick={() => professionExamGetter("waec")}
+                  onClick={() =>
+                    professionExamGetter(waecExamArray, waecQueValue)
+                  }
+                  disabled={waecBtnControl}
                 >
                   WACE Questions On This Topic
                 </button>
 
                 <label htmlFor="waec-quest">
                   {" "}
-                  {`Quantity (between 1 and ${
-                    workingArray.filter((item) =>
-                      item.examType.startsWith(examTypeValue)
+                  {`Available Quantity  ${
+                    workingArray.filter(
+                      (item) =>
+                        item.examType !== undefined &&
+                        item.examType.startsWith("wassce")
                     ).length
-                  }):`}
+                  }: Selected Quantity`}
                 </label>
 
                 <input
@@ -589,9 +624,51 @@ const OneQuestion = ({
                   value={waecQueValue}
                   onChange={onChangeWaecNumElem}
                   min="1"
-                  max={workingArray.length}
+                  max={
+                    workingArray.filter(
+                      (item) =>
+                        item.examType !== undefined &&
+                        item.examType.startsWith("wassce")
+                    ).length
+                  }
                 />
-                <br />
+                {/* necoooooooo */}
+                <button
+                  className={classes.randombtn}
+                  onClick={() =>
+                    professionExamGetter(necoExamArray, necoQueValue)
+                  }
+                  disabled={necoBtnControl}
+                >
+                  NECO Questions On This Topic
+                </button>
+
+                <label htmlFor="neco-quest">
+                  {" "}
+                  {`Available Quantity  ${
+                    workingArray.filter(
+                      (item) =>
+                        item.examType !== undefined &&
+                        item.examType.startsWith("necossce")
+                    ).length
+                  }: Selected Quantity`}
+                </label>
+
+                <input
+                  type="number"
+                  id="neco-quest"
+                  value={waecQueValue}
+                  onChange={onChangeNecoNumElem}
+                  min="1"
+                  max={
+                    workingArray.filter(
+                      (item) =>
+                        item.examType !== undefined &&
+                        item.examType.startsWith("necossce")
+                    ).length
+                  }
+                />
+                {/* <br /> */}
               </article>
             </section>
           </main>

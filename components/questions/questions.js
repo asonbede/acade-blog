@@ -585,7 +585,9 @@ function Questions(props) {
             noteFormRef={noteFormRef}
           />
         </Togglable>
-      ) : session && selectValue === "mult-choice-all" ? (
+      ) : session &&
+        (selectValue === "mult-choice-all" ||
+          selectValue === "mult-choice-one") ? (
         <Togglable buttonLabel="create multi-choice question" ref={noteFormRef}>
           <p>Create Multi-Choice Questions</p>
           <NewQuestion

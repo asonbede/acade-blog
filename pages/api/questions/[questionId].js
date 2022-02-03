@@ -43,6 +43,7 @@ async function handler(req, res) {
       linkedTo,
       moderated,
       subject,
+      examType,
     } = req.body;
 
     if (
@@ -55,7 +56,9 @@ async function handler(req, res) {
       !correctOption ||
       correctOption.trim() === "" ||
       !subject ||
-      subject.trim() === ""
+      subject.trim() === "" ||
+      !examType ||
+      examType.trim() === ""
     ) {
       res.status(422).json({ message: "Invalid input." });
       client.close();
@@ -77,6 +80,7 @@ async function handler(req, res) {
       linkedTo,
       moderated,
       subject,
+      examType,
     };
 
     let result;
@@ -183,6 +187,7 @@ async function handler(req, res) {
       linkedTo,
       moderated,
       subject,
+      examType,
     } = req.body;
     if (
       !question ||
@@ -194,7 +199,9 @@ async function handler(req, res) {
       !correctOption ||
       correctOption.trim() === "" ||
       !subject ||
-      subject.trim() === ""
+      subject.trim() === "" ||
+      !examType ||
+      examType === ""
     ) {
       res.status(422).json({ message: "Invalid input." });
       client.close();
@@ -214,6 +221,7 @@ async function handler(req, res) {
       linkedTo,
       moderated,
       subject,
+      examType,
     };
 
     let result;

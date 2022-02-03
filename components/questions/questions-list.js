@@ -230,6 +230,10 @@ function QuestionsList({
               toolbarPresent={false}
             />
           </div>
+          {item.examType === "none" || item.examType === undefined ? null : (
+            <p>{item.examType}</p>
+          )}
+
           <div>
             {item.options.map((optionItem, optionIndex) => (
               <div
