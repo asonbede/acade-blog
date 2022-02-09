@@ -14,7 +14,7 @@ function NewQuestion(props) {
   const [session, loading] = useSession();
   const [linkedValue, setlinkedValue] = useState(0);
   const [filteredOptionsLen, setfilteredOptionsLen] = useState();
-  const [enteredCorrectOption, setselectValue] = useState();
+  const [enteredCorrectOption, setselectValue] = useState("A");
 
   //const useFieldTopic = useField("text");
   const useFieldSubject = useField("text");

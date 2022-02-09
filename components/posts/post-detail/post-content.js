@@ -10,11 +10,13 @@ import DisplayEditorContent from "../../rich-text-editor/display-editor-content"
 import classes from "./post-content.module.css";
 import Link from "next/dist/client/link";
 import { useRouter } from "next/router";
+
 // SyntaxHighlighter.registerLanguage("js", js);
 // SyntaxHighlighter.registerLanguage("css", css);
 //import NotificationContext from "../../store/notification-context";
 import NotificationContext from "../../../store/notification-context";
 import { useSession, signOut } from "next-auth/client";
+import AnimatedOrbitalDiag from "../../miscellaneous/animated-orbital-diag";
 //import { getDomainLocale } from "next/dist/next-server/lib/router/router";
 //import { adminArray } from "../../../helpers/db-utils";
 async function changeLikeHandler(likedData) {
@@ -80,6 +82,8 @@ function PostContent(props) {
   const router = useRouter();
   const imagePath = post.image;
   console.log(imagePath, "post-content");
+  console.log(post.id, "post for animation");
+
   const linkPath = `/posts/questions/${post.id}`;
   const linkPathForUpdate = `/posts/updates/${post.id}`;
   const linkPathForComment = `/comments/${post.id}`;
@@ -272,6 +276,7 @@ function PostContent(props) {
       )}
 
       <article className={classes.content}>
+        {/* <img src="" alt="proble-solved" /> */}
         <div className={classes.card}>
           <div className={classes.cardprofile}>
             {/* <img
@@ -300,13 +305,17 @@ function PostContent(props) {
           </div>
           <div className={classes.cardbanner}>
             {/* <p class="category-tag technology">Biryani</p>  */}
-            <img
-              className={classes.bannerimg}
-              src={imagePath}
-              alt="banner"
-              width={900}
-              height={800}
-            />
+            {post.id === "61f946e3e72eb408e83024f5" ? (
+              <AnimatedOrbitalDiag />
+            ) : (
+              <img
+                className={classes.bannerimg}
+                src={imagePath}
+                alt="banner"
+                width={900}
+                height={800}
+              />
+            )}
 
             {/* <div className={classes.blogdescription} style={{ width: "100%" }}> */}
             {/* <div className={classes.mainImage}>
@@ -359,6 +368,205 @@ function PostContent(props) {
           </div>
         </div>
       </article>
+      {/* <ElectronFig /> */}
+      {/* <svg
+        xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+        width="400"
+        height="250"
+        style={{ border: "2px solid red" }}
+      >
+        <rect
+          x="20%"
+          y="80%"
+          height="3em"
+          width="3em"
+          style={{ stroke: "#0f0f0f", fill: "#eff1ef" }}
+        />
+
+        <rect
+          x="20%"
+          y="40%"
+          height="3em"
+          width="3em"
+          style={{ stroke: "#0f0f0f", fill: "#eff1ef" }}
+        />
+
+        <rect
+          x="40%"
+          y="30%"
+          height="3em"
+          width="12em"
+          style={{ stroke: "#0f0f0f", fill: "#eff1ef" }}
+        />
+        <line
+          x1="55%"
+          y1="30%"
+          x2="55%"
+          y2="49%"
+          style={{ stroke: "#006600" }}
+        />
+        <line
+          x1="70%"
+          y1="30%"
+          x2="70%"
+          y2="49%"
+          style={{ stroke: "#006600" }}
+        />
+
+        <defs>
+          <marker
+            id="markerArrow"
+            markerWidth="13"
+            markerHeight="13"
+            refX="2"
+            refY="6"
+            orient="auto"
+          >
+            <path d="M2,2 L2,11 L10,6 L2,2" style={{ fill: "#000000" }} />
+          </marker>
+        </defs>
+
+        <line
+          x1="22%"
+          y1="82%"
+          x2="22%"
+          y2="92%"
+          style={{
+            stroke: "#6666ff",
+            strokeWidth: "1px",
+            fill: "none",
+
+            markerEnd: "url(#markerArrow)",
+          }}
+        />
+
+        <line
+          x2="26%"
+          y2="84%"
+          x1="26%"
+          y1="94%"
+          title="this electron"
+          style={{
+            stroke: "#6666ff",
+            strokeWidth: "1px",
+            fill: "none",
+
+            markerEnd: "url(#markerArrow)",
+          }}
+        />
+
+        <line
+          x1="22%"
+          y1="42%"
+          x2="22%"
+          y2="52%"
+          style={{
+            stroke: "#6666ff",
+            strokeWidth: "1px",
+            fill: "none",
+
+            markerEnd: "url(#markerArrow)",
+          }}
+        />
+
+        <line
+          x1="26%"
+          y1="54%"
+          x2="26%"
+          y2="44%"
+          style={{
+            stroke: "#6666ff",
+            strokeWidth: "1px",
+            fill: "none",
+
+            markerEnd: "url(#markerArrow)",
+          }}
+        />
+
+        <line
+          x2="46%"
+          y2="45%"
+          x1="46%"
+          y1="32%"
+          style={{
+            stroke: "#6666ff",
+            strokeWidth: "1px",
+            fill: "none",
+
+            markerEnd: "url(#markerArrow)",
+          }}
+        />
+
+        <line
+          x2="60%"
+          y2="45%"
+          x1="60%"
+          y1="32%"
+          style={{
+            stroke: "#6666ff",
+            strokeWidth: "1px",
+            fill: "none",
+
+            markerEnd: "url(#markerArrow)",
+          }}
+        />
+
+        <line
+          x1="77%"
+          y1="47%"
+          x2="77%"
+          y2="34%"
+          style={{
+            stroke: "#6666ff",
+            strokeWidth: "1px",
+            fill: "none",
+
+            markerEnd: "url(#markerArrow)",
+          }}
+        />
+
+        <text
+          x="22%"
+          y="38%"
+          style={{ fill: "#000000", stroke: "none", fontSize: "20px" }}
+          title="2p text hereee"
+        >
+          2s
+        </text>
+        <text
+          x="56%"
+          y="28%"
+          style={{ fill: "#000000", stroke: "none", fontSize: "20px" }}
+        >
+          2p
+        </text>
+
+        <text
+          x="20%"
+          y="78%"
+          style={{ fill: "#000000", stroke: "none", fontSize: "20px" }}
+        >
+          1s
+          <title>1s electron text</title>
+        </text>
+
+        <line
+          x2="100%"
+          y2="15%"
+          x1="0%"
+          y1="15%"
+          style={{ stroke: "#6666ff", strokeWidth: "1px", fill: "none" }}
+        />
+
+        <text
+          x="40%"
+          y="10%"
+          style={{ fill: "#000000", stroke: "none", fontSize: "20px" }}
+        >
+          Diagram C
+        </text>
+      </svg> */}
     </div>
   );
 }

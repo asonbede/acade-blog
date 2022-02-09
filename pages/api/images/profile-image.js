@@ -198,14 +198,18 @@ apiRoute.get((req, res) => {
   console.log({ key }, "inside get");
   //const key = req.params.key;
   // res.set("Content-Type", "image/jpeg");
-  // res.set("Content-Type", "image/jpg");
+  console.log(req.url, "gettttt");
+  if (req.url.endsWith(".svg")) {
+    res.setHeader("Content-Type", "image/svg+xml");
+  }
+
   // res.set("Content-Type", "image/png");
   console.log({ getFileStream });
   const stream = getFileStream(key);
   console.log("inside getFileStream2");
   stream.on("error", (err) => {
     console.log({ level: "error", messsage: "stream error", error: `${err}` });
-   console.log("error occured")
+    console.log("error occured");
   });
   stream.pipe(res);
   //readStream.pipe(res);

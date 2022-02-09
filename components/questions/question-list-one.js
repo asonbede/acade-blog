@@ -36,6 +36,10 @@ const OneQuestion = ({
   const [necoQueValue, setnecoQueValue] = useState(0);
   const [necoExamArray, setnecoExamArray] = useState([]);
   const [necoBtnControl, setnecoBtnControl] = useState(true);
+
+  const [jambQueValue, setjambQueValue] = useState(0);
+  const [jambExamArray, setjambExamArray] = useState([]);
+  const [jambBtnControl, setjambBtnControl] = useState(true);
   //  const [authorName, setauthorName] = useState();
   //  const [authorImage, setauthorImage] = useState();
 
@@ -81,6 +85,16 @@ const OneQuestion = ({
       );
     }
   }, [necoQueValue]);
+  useEffect(() => {
+    if (workingArray) {
+      setjambExamArray(
+        workingArray.filter(
+          (item) =>
+            item.examType !== undefined && item.examType.startsWith("JAMB")
+        )
+      );
+    }
+  }, [jambQueValue]);
 
   const checkNumber = (number) => {
     if (number > items.length - 1) {
@@ -496,6 +510,11 @@ const OneQuestion = ({
     setnecoBtnControl(false);
   };
 
+  const onChangeJambNumElem = (e) => {
+    setjambQueValue(e.target.value);
+    setjambBtnControl(false);
+  };
+
   if (itemArray) {
     return (
       <>
@@ -657,7 +676,7 @@ const OneQuestion = ({
                 <input
                   type="number"
                   id="neco-quest"
-                  value={waecQueValue}
+                  value={necoQueValue}
                   onChange={onChangeNecoNumElem}
                   min="1"
                   max={
@@ -669,6 +688,43 @@ const OneQuestion = ({
                   }
                 />
                 {/* <br /> */}
+                {/* jambbbb--------jambb------- */}
+
+                <button
+                  className={classes.randombtn}
+                  onClick={() =>
+                    professionExamGetter(jambExamArray, jambQueValue)
+                  }
+                  disabled={jambBtnControl}
+                >
+                  JAMB Questions On This Topic
+                </button>
+
+                <label htmlFor="jamb-quest">
+                  {" "}
+                  {`Available Quantity  ${
+                    workingArray.filter(
+                      (item) =>
+                        item.examType !== undefined &&
+                        item.examType.startsWith("JAMB")
+                    ).length
+                  }: Selected Quantity`}
+                </label>
+
+                <input
+                  type="number"
+                  id="jamb-quest"
+                  value={jambQueValue}
+                  onChange={onChangeJambNumElem}
+                  min="1"
+                  max={
+                    workingArray.filter(
+                      (item) =>
+                        item.examType !== undefined &&
+                        item.examType.startsWith("JAMB")
+                    ).length
+                  }
+                />
               </article>
             </section>
           </main>
