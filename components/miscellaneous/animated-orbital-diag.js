@@ -17,58 +17,20 @@ function AnimatedObitalDiag(props) {
     //   window.localStorage.setItem("select-value", optionValue);
     // }
   };
-
-  return (
-    <>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-        width="85%"
-        height="800"
-        style={{ border: "2px solid red" }}
+  function drawText(xValue, yValue, textValue) {
+    return (
+      <text
+        x={xValue}
+        y={yValue}
+        style={{ fill: "purple", stroke: "purple", fontSize: "20px" }}
       >
-        {/* 1s react */}
-        <rect
-          x="20%"
-          y="80%"
-          height="48"
-          width="48"
-          style={{ stroke: "#0f0f0f", fill: "#eff1ef" }}
-        />
-
-        {/* 2s react */}
-
-        <rect
-          x="20%"
-          y="40%"
-          height="48"
-          width="48"
-          style={{ stroke: "#0f0f0f", fill: "#eff1ef" }}
-        />
-
-        {/* 2p react */}
-        <rect
-          x="35%"
-          y="30%"
-          height="48"
-          width="192"
-          style={{ stroke: "#0f0f0f", fill: "#eff1ef" }}
-        />
-        {/* <line
-          x1="55%"
-          y1="30%"
-          x2="55%"
-          y2="49%"
-          style={{ stroke: "#006600" }}
-        />
-        <line
-          x1="70%"
-          y1="30%"
-          x2="70%"
-          y2="49%"
-          style={{ stroke: "#006600" }}
-        /> */}
-
+        {textValue}
+      </text>
+    );
+  }
+  function drawLineEndMarker(params) {
+    return (
+      <>
         <defs>
           <marker
             id="markerArrow"
@@ -78,188 +40,733 @@ function AnimatedObitalDiag(props) {
             refY="6"
             orient="auto"
           >
-            <path d="M2,2 L2,11 L10,6 L2,2" style={{ fill: "#000000" }} />
+            <path
+              d="M2,2 L2,11 L10,6 L2,2"
+              style={{ fill: "black", stroke: "black" }}
+            />
           </marker>
         </defs>
+      </>
+    );
+  }
 
-        <line
-          x1="22%"
-          y1="82%"
-          x2="22%"
-          y2="92%"
+  function drawElectronLine(x1, y1, x2, y2) {
+    return (
+      <line
+        x1={x1}
+        y1={y1}
+        x2={x2}
+        y2={y2}
+        style={{
+          stroke: "red",
+          strokeWidth: "1px",
+
+          markerEnd: "url(#markerArrow)",
+        }}
+      />
+    );
+  }
+
+  function sOrbitalWith2Elect(xValue, yValue) {
+    return (
+      <svg x={xValue} y={yValue} width="60" height="60">
+        <g
           style={{
-            stroke: "#6666ff",
-            strokeWidth: "1px",
+            stroke: "purple",
+            strokeWidth: "2px",
             fill: "none",
-
-            markerEnd: "url(#markerArrow)",
+            fontSize: "20px",
           }}
-        />
-
-        <line
-          x2="26%"
-          y2="84%"
-          x1="26%"
-          y1="94%"
-          title="this electron"
-          style={{
-            stroke: "#6666ff",
-            strokeWidth: "1px",
-            fill: "none",
-
-            markerEnd: "url(#markerArrow)",
-          }}
-        />
-
-        <line
-          x1="22%"
-          y1="42%"
-          x2="22%"
-          y2="52%"
-          style={{
-            stroke: "#6666ff",
-            strokeWidth: "1px",
-            fill: "none",
-
-            markerEnd: "url(#markerArrow)",
-          }}
-        />
-
-        <line
-          x1="26%"
-          y1="54%"
-          x2="26%"
-          y2="44%"
-          style={{
-            stroke: "#6666ff",
-            strokeWidth: "1px",
-            fill: "none",
-
-            markerEnd: "url(#markerArrow)",
-          }}
-        />
-
-        <line
-          x2="46%"
-          y2="45%"
-          x1="46%"
-          y1="32%"
-          style={{
-            stroke: "#6666ff",
-            strokeWidth: "1px",
-            fill: "none",
-
-            markerEnd: "url(#markerArrow)",
-          }}
-        />
-
-        <line
-          x2="60%"
-          y2="45%"
-          x1="60%"
-          y1="32%"
-          style={{
-            stroke: "#6666ff",
-            strokeWidth: "1px",
-            fill: "none",
-
-            markerEnd: "url(#markerArrow)",
-          }}
-        />
-
-        <line
-          x1="77%"
-          y1="47%"
-          x2="77%"
-          y2="34%"
-          style={{
-            stroke: "#6666ff",
-            strokeWidth: "1px",
-            fill: "none",
-
-            markerEnd: "url(#markerArrow)",
-          }}
-        />
-
-        <text
-          x="22%"
-          y="38%"
-          style={{ fill: "#000000", stroke: "none", fontSize: "20px" }}
-          title="2p text hereee"
         >
-          2s
-        </text>
-        <text
-          x="56%"
-          y="28%"
-          style={{ fill: "#000000", stroke: "none", fontSize: "20px" }}
-        >
-          2p
-        </text>
+          <rect
+            x="10"
+            y="10"
+            height="48"
+            width="48"
+            style={{ strokeWidth: "2px", fill: "none", fontSize: "20px" }}
+          />
+          {drawLineEndMarker()}
 
-        <text
-          x="20%"
-          y="78%"
-          style={{ fill: "#000000", stroke: "none", fontSize: "20px" }}
-        >
-          1s
-          <title>1s electron text</title>
-        </text>
+          {drawElectronLine("22", "50", "22", "24")}
 
-        <text
-          x="80%"
-          y="680"
-          style={{ fill: "#000000", stroke: "none", fontSize: "20px" }}
+          {drawElectronLine("40", "16", "40", "44")}
+        </g>
+      </svg>
+    );
+  }
+
+  function sOrbitalWith1Elect(xValue, yValue) {
+    return (
+      <svg x={xValue} y={yValue} width="60" height="60">
+        <g
+          style={{
+            stroke: "purple",
+            strokeWidth: "2px",
+            fill: "none",
+            fontSize: "20px",
+          }}
         >
-          Select an element
-          <title>1s electron text</title>
-        </text>
-        <foreignObject x="80%" y="700" width="100" height="100">
-          <body xmlns="http://www.w3.org/1999/xhtml">
-            {/* <button
+          <rect
+            x="10"
+            y="10"
+            height="48"
+            width="48"
+            style={{
+              strokeWidth: "2px",
+              fill: "none",
+              fontSize: "20px",
+            }}
+          />
+
+          {drawLineEndMarker()}
+
+          {drawElectronLine("24", "50", "24", "24")}
+        </g>
+      </svg>
+    );
+  }
+  function porbitalWith6Elect(xValue, yValue) {
+    return (
+      <svg x={xValue} y={yValue} width="270" height="90">
+        <g
+          style={{
+            stroke: "blue",
+            strokeWidth: "2px",
+            fill: "none",
+            fontSize: "20px",
+          }}
+        >
+          <path
+            d="M10,20
+              L240,20 L240, 70  M10, 70 L240 70 M10 20 L10 70 M80 20 L80 70  M160 20 L160 70"
+          />
+
+          {drawLineEndMarker()}
+
+          {drawElectronLine("36", "62", "36", "32")}
+
+          {drawElectronLine("120", "62", "120", "32")}
+
+          {drawElectronLine("200", "62", "200", "32")}
+
+          {drawElectronLine("58", "26", "58", "56")}
+
+          {drawElectronLine("222", "26", "222", "56")}
+
+          {drawElectronLine("144", "26", "144", "56")}
+
+          {/* 3s react */}
+        </g>
+      </svg>
+    );
+  }
+
+  function dorbitalWithTenElect(xValue, yValue) {
+    <svg x={xValue} y={yValue} width="420" height="90">
+      {/* <!-- d rect --> */}
+      <g
+        style={{
+          stroke: "green",
+          strokeWidth: "2px",
+          fill: "none",
+          fontSize: "20px",
+        }}
+      >
+        <path
+          d="M10,20
+              L400,20 L400, 70  M10, 70 L400 70 M10 20 L10 70 M80 20 L80 70  M160 20 L160 70 M240 20 L240 70 M320 20 L320 70"
+        />
+
+        {drawLineEndMarker()}
+
+        {/* <!--  electrons --> */}
+        {/* <line
+          x1="34"
+          y1="66"
+          x2="34"
+          y2="32"
+          style="
+      stroke: red;
+      stroke-width: 1px;
+      
+
+      marker-end: url(#markerArrow);
+    "
+        /> */}
+        {drawElectronLine("34", "66", "34", "32")}
+
+        {/* <line
+          x1="115"
+          y1="66"
+          x2="115"
+          y2="32"
+          style="
+      stroke: red;
+      stroke-width: 1px;
+      
+
+      marker-end: url(#markerArrow);
+    "
+        /> */}
+        {drawElectronLine("115", "66", "115", "32")}
+
+        {/* <line
+          x1="195"
+          y1="66"
+          x2="195"
+          y2="32"
+          style="
+      stroke: red;
+      stroke-width: 1px;
+      
+
+      marker-end: url(#markerArrow);
+    "
+        /> */}
+        {drawElectronLine("195", "66", "195", "32")}
+        {/* <line
+          x2="229"
+          y2="58"
+          x1="229"
+          y1="28"
+          style="
+      stroke: red;
+      stroke-width: 1px;
+      
+
+      marker-end: url(#markerArrow);
+    "
+        /> */}
+        {drawElectronLine("229", "28", "229", "58")}
+
+        {/* <line
+          x1="275"
+          y1="66"
+          x2="275"
+          y2="32"
+          style="
+      stroke: red;
+      stroke-width: 1px;
+      
+
+      marker-end: url(#markerArrow);
+    "
+        /> */}
+        {drawElectronLine("275", "66", "275", "32")}
+
+        {/* <line
+          x1="360"
+          y1="66"
+          x2="360"
+          y2="32"
+          style="
+      stroke: red;
+      stroke-width: 1px;
+      
+
+      marker-end: url(#markerArrow);
+    "
+        /> */}
+        {drawElectronLine("360", "66", "360", "32")}
+
+        {/* <line
+          x2="58"
+          y2="58"
+          x1="58"
+          y1="26"
+          style="
+      stroke: red;
+      stroke-width: 1px;
+      
+
+      marker-end: url(#markerArrow);
+    "
+        /> */}
+        {drawElectronLine("58", "26", "58", "58")}
+
+        {/* <line
+          x2="144"
+          y2="58"
+          x1="144"
+          y1="26"
+          style="
+      stroke: red;
+      stroke-width: 1px;
+      
+
+      marker-end: url(#markerArrow);
+    "
+        /> */}
+        {drawElectronLine("144", "26", "144", "58")}
+        {/* 
+        <line
+          x2="304"
+          y2="58"
+          x1="304"
+          y1="26"
+          style="
+      stroke: red;
+      stroke-width: 1px;
+      
+
+      marker-end: url(#markerArrow);
+    "
+        /> */}
+        {drawElectronLine("304", "26", "304", "58")}
+
+        {/* <line
+          x2="328"
+          y2="58"
+          x1="328"
+          y1="26"
+          style="
+      stroke: red;
+      stroke-width: 1px;
+      
+
+      marker-end: url(#markerArrow);
+    "
+        /> */}
+        {drawElectronLine("328", "26", "328", "58")}
+      </g>
+    </svg>;
+  }
+  function displaySelect() {
+    return (
+      <>
+        <label htmlFor="selectElem">
+          {" "}
+          Select An Element To See Its Orbital Electron Config
+        </label>
+        <br />
+        <select
+          id="selectElem"
+          name="elements"
+          value={selectValue}
+          onChange={onselectChange}
+        >
+          <optgroup label="Akali Metals">
+            <option value="3">Lithium(Li)</option>
+            <option value="11">Sodium(Na)</option>
+            <option value="19">Potassium(K)</option>
+            <option value="37">Rubidium(Rb)</option>
+            <option value="55">Caesium(Cs)</option>
+            <option value="87">Francium(Fr)</option>
+          </optgroup>
+          <optgroup label="Alkaline Earth Metals">
+            <option value="4">Beryllium(Be)</option>
+            <option value="12">Magnesium(Mg)</option>
+            <option value="20">Calcium(Ca)</option>
+            <option value="38">Strontium(Sr)</option>
+            <option value="56">Barium(Ba)</option>
+            <option value="88">Radium(Ra)</option>
+          </optgroup>
+        </select>
+      </>
+    );
+  }
+
+  if (selectValue === "11") {
+    return (
+      <>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          width="85%"
+          height="800"
+          style={{
+            border: "2px solid red",
+            minWidth: "300px",
+            maxWidth: "900px",
+            // overflow: "scroll",
+            // display: "block",
+          }}
+        >
+          {/* 1s react:2electron */}
+          {sOrbitalWith2Elect("20%", "80%")}
+          {/* 2S react=2 electron */}
+          {sOrbitalWith2Elect("20%", "500")}
+
+          {/* 2p-orbital-six-electron-react */}
+          {porbitalWith6Elect("35%", "57%")}
+
+          {/* 3s-rect-orbital-1-electron */}
+          {sOrbitalWith1Elect("20%", "45%")}
+
+          {/* 1s text */}
+          {drawText("21%", "80%", "1s")}
+          {/* 2s text */}
+          {drawText("22%", "495", "2s")}
+          {/* 2p text */}
+          {drawText("48%", "58%", "2p")}
+          {/* 3s text */}
+          {drawText("21%", "45%", "3s")}
+          {/* select text */}
+          {/* {drawText("65%", "680", "Select an element")} */}
+          <foreignObject x="75%" y="700" width="100" height="100">
+            <body xmlns="http://www.w3.org/1999/xhtml">
+              {/* <button
               onClick={() => console.log("button was clicked inside svg")}
             >
               click me
             </button> */}
 
-            {/* <label>Select an element</label> */}
-            <select
-              name="elements"
-              value={selectValue}
-              onChange={onselectChange}
+              {/* <label>Select an element</label> */}
+            </body>
+          </foreignObject>
+        </svg>
+        <br />
+        {displaySelect()}
+      </>
+    );
+  } else if (selectValue === "19") {
+    return (
+      <>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          width="85%"
+          height="700"
+          style={{
+            border: "2px solid red",
+            minWidth: "300px",
+            maxWidth: "900px",
+            // overflow: "scroll",
+            // display: "block",
+          }}
+        >
+          {/* 1s react:2electron */}
+          {sOrbitalWith2Elect("20%", "80%")}
+          {/* 2S react=2 electron */}
+          {sOrbitalWith2Elect("20%", "60%")}
+
+          {/* 2p-orbital-six-electron-react */}
+          {porbitalWith6Elect("35%", "57%")}
+
+          {/* 3s-rect-orbital-2-electron */}
+
+          {sOrbitalWith2Elect("20%", "45%")}
+
+          {/* 3p-orbital-six-electron-react */}
+          {porbitalWith6Elect("35%", "40%")}
+
+          {/* 4s-rect-orbital-1-electron */}
+          {sOrbitalWith1Elect("20%", "30%")}
+
+          {/* 1s text */}
+          {drawText("21%", "80%", "1s")}
+          {/* 2s text */}
+          {drawText("22%", "60%", "2s")}
+          {/* 2p text */}
+          {drawText("48%", "58%", "2p")}
+          {/* 3s text */}
+          {drawText("21%", "45%", "3s")}
+
+          {/* 3p text */}
+          {drawText("48%", "41%", "3p")}
+
+          {/* 4s text */}
+          {drawText("21%", "30%", "4s")}
+          {/* select text */}
+          {/* {drawText("65%", "680", "Select an element")} */}
+          <foreignObject x="75%" y="700" width="100" height="100">
+            <body xmlns="http://www.w3.org/1999/xhtml">
+              {/* <button
+              onClick={() => console.log("button was clicked inside svg")}
             >
-              <optgroup label="Akali Earth Metals">
-                <option value="3">Lithium</option>
-                <option value="11">Sodium</option>
-                <option value="19">Potassium</option>
-                <option value="37">Rubidium</option>
-              </optgroup>
-              <optgroup label="Flying pets">
-                <option value="parrot">Parrot</option>
-                <option value="macaw">Macaw</option>
-                <option value="albatross">Albatross</option>
-              </optgroup>
-              <optgroup label="Flying pets">
-                <option value="parrot">Parrot</option>
-                <option value="macaw">Macaw</option>
-                <option value="albatross">Albatross</option>
-              </optgroup>
-              <optgroup label="Flying pets">
-                <option value="parrot">Parrot</option>
-                <option value="macaw">Macaw</option>
-                <option value="albatross">Albatross</option>
-              </optgroup>
-              <optgroup label="Flying pets">
-                <option value="parrot">Parrot</option>
-                <option value="macaw">Macaw</option>
-                <option value="albatross">Albatross</option>
-              </optgroup>
-            </select>
-          </body>
-        </foreignObject>
-      </svg>
-    </>
-  );
+              click me
+            </button> */}
+
+              {/* <label>Select an element</label> */}
+            </body>
+          </foreignObject>
+        </svg>
+        <br />
+        {displaySelect()}
+      </>
+    );
+  } else if (selectValue === "3") {
+    {
+      return (
+        <>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+            width="85%"
+            height="300"
+            style={{
+              border: "2px solid red",
+              minWidth: "300px",
+              maxWidth: "900px",
+              // overflow: "scroll",
+              // display: "block",
+            }}
+          >
+            {/* 1s react:2electron */}
+            {sOrbitalWith2Elect("20%", "80%")}
+            {/* 2s-rect-orbital-1-electron */}
+            {sOrbitalWith1Elect("20%", "45%")}
+
+            {/* 1s text */}
+            {drawText("21%", "80%", "1s")}
+            {/* 2s text */}
+            {drawText("22%", "43%", "2s")}
+
+            {/* select text */}
+            {/* {drawText("65%", "680", "Select an element")} */}
+            <foreignObject x="75%" y="700" width="100" height="100">
+              <body xmlns="http://www.w3.org/1999/xhtml">
+                {/* <button
+              onClick={() => console.log("button was clicked inside svg")}
+            >
+              click me
+            </button> */}
+
+                {/* <label>Select an element</label> */}
+              </body>
+            </foreignObject>
+          </svg>
+          <br />
+          {displaySelect()}
+        </>
+      );
+    }
+  } else if (selectValue === "4") {
+    return (
+      <>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          width="85%"
+          height="300"
+          style={{
+            border: "2px solid red",
+            minWidth: "300px",
+            maxWidth: "900px",
+            // overflow: "scroll",
+            // display: "block",
+          }}
+        >
+          {/* 1s react:2electron */}
+          {sOrbitalWith2Elect("20%", "80%")}
+
+          {/* 1s react:2electron */}
+          {sOrbitalWith2Elect("20%", "45%")}
+
+          {/* 1s text */}
+          {drawText("21%", "80%", "1s")}
+          {/* 2s text */}
+          {drawText("22%", "43%", "2s")}
+
+          {/* select text */}
+          {/* {drawText("65%", "680", "Select an element")} */}
+          <foreignObject x="75%" y="700" width="100" height="100">
+            <body xmlns="http://www.w3.org/1999/xhtml">
+              {/* <button
+              onClick={() => console.log("button was clicked inside svg")}
+            >
+              click me
+            </button> */}
+
+              {/* <label>Select an element</label> */}
+            </body>
+          </foreignObject>
+        </svg>
+        <br />
+        {displaySelect()}
+      </>
+    );
+  } else if (selectValue === "12") {
+    return (
+      <>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          width="85%"
+          height="700"
+          style={{
+            border: "2px solid red",
+            minWidth: "300px",
+            maxWidth: "900px",
+            // overflow: "scroll",
+            // display: "block",
+          }}
+        >
+          {/* 1s react:2electron */}
+          {sOrbitalWith2Elect("20%", "90%")}
+          {/* 2S react=2 electron */}
+          {sOrbitalWith2Elect("20%", "500")}
+
+          {/* 2p-orbital-six-electron-react */}
+          {porbitalWith6Elect("34%", "64%")}
+
+          {/* 3s-rect-orbital-2-electron */}
+
+          {sOrbitalWith2Elect("20%", "48%")}
+
+          {/* 1s text */}
+          {drawText("21%", "90%", "1s")}
+          {/* 2s text */}
+          {drawText("22%", "495", "2s")}
+          {/* 2p text */}
+          {drawText("48%", "65%", "2p")}
+          {/* 3s text */}
+          {drawText("21%", "48%", "3s")}
+          {/* select text */}
+          {/* {drawText("65%", "680", "Select an element")} */}
+          <foreignObject x="75%" y="700" width="100" height="100">
+            <body xmlns="http://www.w3.org/1999/xhtml">
+              {/* <button
+              onClick={() => console.log("button was clicked inside svg")}
+            >
+              click me
+            </button> */}
+
+              {/* <label>Select an element</label> */}
+            </body>
+          </foreignObject>
+        </svg>
+        <br />
+        {displaySelect()}
+      </>
+    );
+  } else if (selectValue === "20") {
+    return (
+      <>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          width="85%"
+          height="700"
+          style={{
+            border: "2px solid red",
+            minWidth: "300px",
+            maxWidth: "900px",
+            // overflow: "scroll",
+            // display: "block",
+          }}
+        >
+          {/* 1s react:2electron */}
+          {sOrbitalWith2Elect("20%", "80%")}
+          {/* 2S react=2 electron */}
+          {sOrbitalWith2Elect("20%", "60%")}
+
+          {/* 2p-orbital-six-electron-react */}
+          {porbitalWith6Elect("35%", "57%")}
+
+          {/* 3s-rect-orbital-2-electron */}
+
+          {sOrbitalWith2Elect("20%", "45%")}
+
+          {/* 3p-orbital-six-electron-react */}
+          {porbitalWith6Elect("35%", "40%")}
+
+          {/* 4s-rect-orbital-1-electron */}
+
+          {sOrbitalWith2Elect("20%", "30%")}
+
+          {/* 1s text */}
+          {drawText("21%", "80%", "1s")}
+          {/* 2s text */}
+          {drawText("22%", "60%", "2s")}
+          {/* 2p text */}
+          {drawText("48%", "58%", "2p")}
+          {/* 3s text */}
+          {drawText("21%", "45%", "3s")}
+
+          {/* 3p text */}
+          {drawText("48%", "41%", "3p")}
+
+          {/* 4s text */}
+          {drawText("21%", "30%", "4s")}
+          {/* select text */}
+          {/* {drawText("65%", "680", "Select an element")} */}
+          <foreignObject x="75%" y="700" width="100" height="100">
+            <body xmlns="http://www.w3.org/1999/xhtml">
+              {/* <button
+              onClick={() => console.log("button was clicked inside svg")}
+            >
+              click me
+            </button> */}
+
+              {/* <label>Select an element</label> */}
+            </body>
+          </foreignObject>
+        </svg>
+        <br />
+        {displaySelect()}
+      </>
+    );
+  } else if (selectValue === "38") {
+    return (
+      <>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          width="85%"
+          height="700"
+          style={{
+            border: "2px solid red",
+            minWidth: "300px",
+            maxWidth: "900px",
+            // overflow: "scroll",
+            // display: "block",
+          }}
+        >
+          {/* 1s react:2electron */}
+          {sOrbitalWith2Elect("20%", "80%")}
+          {/* 2S react=2 electron */}
+          {sOrbitalWith2Elect("20%", "60%")}
+
+          {/* 2p-orbital-six-electron-react */}
+          {porbitalWith6Elect("35%", "57%")}
+
+          {/* 3s-rect-orbital-2-electron */}
+
+          {sOrbitalWith2Elect("20%", "45%")}
+
+          {/* 3p-orbital-six-electron-react */}
+          {porbitalWith6Elect("35%", "40%")}
+
+          {/* 4s-rect-orbital-1-electron */}
+
+          {sOrbitalWith2Elect("20%", "30%")}
+
+          {/* 1s text */}
+          {drawText("21%", "80%", "1s")}
+          {/* 2s text */}
+          {drawText("22%", "60%", "2s")}
+          {/* 2p text */}
+          {drawText("48%", "58%", "2p")}
+          {/* 3s text */}
+          {drawText("21%", "45%", "3s")}
+
+          {/* 3p text */}
+          {drawText("48%", "41%", "3p")}
+
+          {/* 4s text */}
+          {drawText("21%", "30%", "4s")}
+          {/* select text */}
+          {/* {drawText("65%", "680", "Select an element")} */}
+          <foreignObject x="75%" y="700" width="100" height="100">
+            <body xmlns="http://www.w3.org/1999/xhtml">
+              {/* <button
+              onClick={() => console.log("button was clicked inside svg")}
+            >
+              click me
+            </button> */}
+
+              {/* <label>Select an element</label> */}
+            </body>
+          </foreignObject>
+        </svg>
+        <br />
+        {displaySelect()}
+      </>
+    );
+  }
+
+  return null;
 }
 
 export default AnimatedObitalDiag;
