@@ -182,7 +182,7 @@ export const elementsArray = [
     category: "Transition metals",
   },
   {
-    name: "Ga",
+    name: "Gallium",
     atomicNum: 31,
     symbol: "Ga",
     category: "Others",
@@ -546,6 +546,42 @@ export const elementsArray = [
     name: "protactinium",
     atomicNum: 91,
     symbol: "Pa",
+    category: "Actinides",
+  },
+  {
+    name: "uranium",
+    atomicNum: 92,
+    symbol: "U",
+    category: "Actinides",
+  },
+  {
+    name: "Neptunium",
+    atomicNum: 93,
+    symbol: "Np",
+    category: "Actinides",
+  },
+  {
+    name: "Plutonium",
+    atomicNum: 94,
+    symbol: "Pu",
+    category: "Actinides",
+  },
+  {
+    name: "Americium",
+    atomicNum: 95,
+    symbol: "U",
+    category: "Actinides",
+  },
+  {
+    name: "uranium",
+    atomicNum: 92,
+    symbol: "U",
+    category: "Actinides",
+  },
+  {
+    name: "uranium",
+    atomicNum: 92,
+    symbol: "U",
     category: "Actinides",
   },
   {
