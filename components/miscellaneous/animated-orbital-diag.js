@@ -8535,6 +8535,742 @@ function AnimatedObitalDiag(props) {
         </div>
       </>
     );
+  } else if (selectValue === "96") {
+    return (
+      <>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          width="90%"
+          height="2000"
+          style={{
+            border: "2px solid red",
+            // minWidth: "300px",
+            maxWidth: "900px",
+            overflow: "scroll",
+            display: "block",
+          }}
+        >
+          {/* 1s react:2electron */}
+          {sOrbitalWith2Elect("10%", "96%")}
+          {/* 2S react=2 electron */}
+          {sOrbitalWith2Elect("10%", "90%")}
+          {/* 2p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "86%")}
+          {/* 3s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "83%")}
+          {/* 3p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "80%")}
+          {/* 4s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "75%")}
+          {/* 3d orbital with 10 electrons */}
+          {dorbitalWithTenElect("3%", "70%")}
+          {/* 4p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "64%")}
+          {/* 5s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "62%")}
+          {/* 4d orbital with 10 electrons */}
+          {dorbitalWithTenElect("3%", "56%")}
+          {/* 5p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "50%")}
+          {/* 6s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "48%")}
+          {/* 4f-rect-orbital-14-electron */}
+          {forbitalWith14Elect("3%", "40%")}
+          {/* 5d-rect-orbital-10-electron */}
+          {dorbitalWithTenElect("3%", "32%")}
+          {/* 6p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "25%")}
+          {/* 7s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "20%")}
+          {/* 5f-rect-orbital-1-electron */}
+          {forbitalWith8Elect("3%", "10%")}
+          {/* 1s text */}
+          {drawText("11%", "96%", "1s")}
+          {/* 2s text */}
+          {drawText("11%", "90%", "2s")}
+          {/* 2p text */}
+          {drawText("30%", "86%", "2p")}
+          {/* 3s text */}
+          {drawText("11%", "83%", "3s")}
+          {/* 3p text */}
+          {drawText("30%", "80%", "3p")}
+          {/* 4s text */}
+          {drawText("11%", "75%", "4s")}
+          {/* 3d text */}
+          {drawText("26%", "70%", "3d")}
+          {/* 4p text */}
+          {drawText("30%", "64%", "4p")}
+          {/* 5s text */}
+          {drawText("11%", "62%", "5s")}
+          {/* 4d text */}
+          {drawText("26%", "56.5%", "4d")}
+          {/* 5p text */}
+          {drawText("30%", "50.5%", "5p")}
+          {/* 6s text */}
+          {drawText("11%", "48%", "6s")}
+          {/* 4f text */}
+          {drawText("26%", "40.5%", "4f")}
+          {/* 5d text */}
+          {drawText("26%", "32%", "5d")}
+          {/* 6p text */}
+          {drawText("26%", "25%", "6p")}
+          {/* 7s text */}
+          {drawText("11%", "20%", "7s")}
+          {/* 5f text */}
+          {drawText("26%", "10%", "5f")}
+          {/* select text */}
+          {/* {drawText("65%", "680", "Select an element")} */}
+          <foreignObject x="75%" y="700" width="100" height="100">
+            <body xmlns="http://www.w3.org/1999/xhtml">
+              {/* <button
+              onClick={() => console.log("button was clicked inside svg")}
+            >
+              click me
+            </button> */}
+
+              {/* <label>Select an element</label> */}
+            </body>
+          </foreignObject>
+        </svg>
+        <br />
+        <div style={{ display: "flex" }}>
+          {displaySelect()}
+          {elemSortRadioButt()}
+        </div>
+      </>
+    );
+  } else if (selectValue === "97") {
+    return (
+      <>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          width="90%"
+          height="2000"
+          style={{
+            border: "2px solid red",
+            // minWidth: "300px",
+            maxWidth: "900px",
+            overflow: "scroll",
+            display: "block",
+          }}
+        >
+          {/* 1s react:2electron */}
+          {sOrbitalWith2Elect("10%", "96%")}
+          {/* 2S react=2 electron */}
+          {sOrbitalWith2Elect("10%", "90%")}
+          {/* 2p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "86%")}
+          {/* 3s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "83%")}
+          {/* 3p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "80%")}
+          {/* 4s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "75%")}
+          {/* 3d orbital with 10 electrons */}
+          {dorbitalWithTenElect("3%", "70%")}
+          {/* 4p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "64%")}
+          {/* 5s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "62%")}
+          {/* 4d orbital with 10 electrons */}
+          {dorbitalWithTenElect("3%", "56%")}
+          {/* 5p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "50%")}
+          {/* 6s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "48%")}
+          {/* 4f-rect-orbital-14-electron */}
+          {forbitalWith14Elect("3%", "40%")}
+          {/* 5d-rect-orbital-10-electron */}
+          {dorbitalWithTenElect("3%", "32%")}
+          {/* 6p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "25%")}
+          {/* 7s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "20%")}
+          {/* 5f-rect-orbital-1-electron */}
+          {forbitalWith9Elect("3%", "10%")}
+          {/* 1s text */}
+          {drawText("11%", "96%", "1s")}
+          {/* 2s text */}
+          {drawText("11%", "90%", "2s")}
+          {/* 2p text */}
+          {drawText("30%", "86%", "2p")}
+          {/* 3s text */}
+          {drawText("11%", "83%", "3s")}
+          {/* 3p text */}
+          {drawText("30%", "80%", "3p")}
+          {/* 4s text */}
+          {drawText("11%", "75%", "4s")}
+          {/* 3d text */}
+          {drawText("26%", "70%", "3d")}
+          {/* 4p text */}
+          {drawText("30%", "64%", "4p")}
+          {/* 5s text */}
+          {drawText("11%", "62%", "5s")}
+          {/* 4d text */}
+          {drawText("26%", "56.5%", "4d")}
+          {/* 5p text */}
+          {drawText("30%", "50.5%", "5p")}
+          {/* 6s text */}
+          {drawText("11%", "48%", "6s")}
+          {/* 4f text */}
+          {drawText("26%", "40.5%", "4f")}
+          {/* 5d text */}
+          {drawText("26%", "32%", "5d")}
+          {/* 6p text */}
+          {drawText("26%", "25%", "6p")}
+          {/* 7s text */}
+          {drawText("11%", "20%", "7s")}
+          {/* 5f text */}
+          {drawText("26%", "10%", "5f")}
+          {/* select text */}
+          {/* {drawText("65%", "680", "Select an element")} */}
+          <foreignObject x="75%" y="700" width="100" height="100">
+            <body xmlns="http://www.w3.org/1999/xhtml">
+              {/* <button
+              onClick={() => console.log("button was clicked inside svg")}
+            >
+              click me
+            </button> */}
+
+              {/* <label>Select an element</label> */}
+            </body>
+          </foreignObject>
+        </svg>
+        <br />
+        <div style={{ display: "flex" }}>
+          {displaySelect()}
+          {elemSortRadioButt()}
+        </div>
+      </>
+    );
+  } else if (selectValue === "98") {
+    return (
+      <>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          width="90%"
+          height="2000"
+          style={{
+            border: "2px solid red",
+            // minWidth: "300px",
+            maxWidth: "900px",
+            overflow: "scroll",
+            display: "block",
+          }}
+        >
+          {/* 1s react:2electron */}
+          {sOrbitalWith2Elect("10%", "96%")}
+          {/* 2S react=2 electron */}
+          {sOrbitalWith2Elect("10%", "90%")}
+          {/* 2p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "86%")}
+          {/* 3s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "83%")}
+          {/* 3p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "80%")}
+          {/* 4s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "75%")}
+          {/* 3d orbital with 10 electrons */}
+          {dorbitalWithTenElect("3%", "70%")}
+          {/* 4p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "64%")}
+          {/* 5s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "62%")}
+          {/* 4d orbital with 10 electrons */}
+          {dorbitalWithTenElect("3%", "56%")}
+          {/* 5p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "50%")}
+          {/* 6s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "48%")}
+          {/* 4f-rect-orbital-14-electron */}
+          {forbitalWith14Elect("3%", "40%")}
+          {/* 5d-rect-orbital-10-electron */}
+          {dorbitalWithTenElect("3%", "32%")}
+          {/* 6p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "25%")}
+          {/* 7s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "20%")}
+          {/* 5f-rect-orbital-1-electron */}
+          {forbitalWith10Elect("3%", "10%")}
+          {/* 1s text */}
+          {drawText("11%", "96%", "1s")}
+          {/* 2s text */}
+          {drawText("11%", "90%", "2s")}
+          {/* 2p text */}
+          {drawText("30%", "86%", "2p")}
+          {/* 3s text */}
+          {drawText("11%", "83%", "3s")}
+          {/* 3p text */}
+          {drawText("30%", "80%", "3p")}
+          {/* 4s text */}
+          {drawText("11%", "75%", "4s")}
+          {/* 3d text */}
+          {drawText("26%", "70%", "3d")}
+          {/* 4p text */}
+          {drawText("30%", "64%", "4p")}
+          {/* 5s text */}
+          {drawText("11%", "62%", "5s")}
+          {/* 4d text */}
+          {drawText("26%", "56.5%", "4d")}
+          {/* 5p text */}
+          {drawText("30%", "50.5%", "5p")}
+          {/* 6s text */}
+          {drawText("11%", "48%", "6s")}
+          {/* 4f text */}
+          {drawText("26%", "40.5%", "4f")}
+          {/* 5d text */}
+          {drawText("26%", "32%", "5d")}
+          {/* 6p text */}
+          {drawText("26%", "25%", "6p")}
+          {/* 7s text */}
+          {drawText("11%", "20%", "7s")}
+          {/* 5f text */}
+          {drawText("26%", "10%", "5f")}
+          {/* select text */}
+          {/* {drawText("65%", "680", "Select an element")} */}
+          <foreignObject x="75%" y="700" width="100" height="100">
+            <body xmlns="http://www.w3.org/1999/xhtml">
+              {/* <button
+              onClick={() => console.log("button was clicked inside svg")}
+            >
+              click me
+            </button> */}
+
+              {/* <label>Select an element</label> */}
+            </body>
+          </foreignObject>
+        </svg>
+        <br />
+        <div style={{ display: "flex" }}>
+          {displaySelect()}
+          {elemSortRadioButt()}
+        </div>
+      </>
+    );
+  } else if (selectValue === "99") {
+    return (
+      <>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          width="90%"
+          height="2000"
+          style={{
+            border: "2px solid red",
+            // minWidth: "300px",
+            maxWidth: "900px",
+            overflow: "scroll",
+            display: "block",
+          }}
+        >
+          {/* 1s react:2electron */}
+          {sOrbitalWith2Elect("10%", "96%")}
+          {/* 2S react=2 electron */}
+          {sOrbitalWith2Elect("10%", "90%")}
+          {/* 2p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "86%")}
+          {/* 3s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "83%")}
+          {/* 3p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "80%")}
+          {/* 4s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "75%")}
+          {/* 3d orbital with 10 electrons */}
+          {dorbitalWithTenElect("3%", "70%")}
+          {/* 4p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "64%")}
+          {/* 5s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "62%")}
+          {/* 4d orbital with 10 electrons */}
+          {dorbitalWithTenElect("3%", "56%")}
+          {/* 5p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "50%")}
+          {/* 6s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "48%")}
+          {/* 4f-rect-orbital-14-electron */}
+          {forbitalWith14Elect("3%", "40%")}
+          {/* 5d-rect-orbital-10-electron */}
+          {dorbitalWithTenElect("3%", "32%")}
+          {/* 6p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "25%")}
+          {/* 7s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "20%")}
+          {/* 5f-rect-orbital-1-electron */}
+          {forbitalWith11Elect("3%", "10%")}
+          {/* 1s text */}
+          {drawText("11%", "96%", "1s")}
+          {/* 2s text */}
+          {drawText("11%", "90%", "2s")}
+          {/* 2p text */}
+          {drawText("30%", "86%", "2p")}
+          {/* 3s text */}
+          {drawText("11%", "83%", "3s")}
+          {/* 3p text */}
+          {drawText("30%", "80%", "3p")}
+          {/* 4s text */}
+          {drawText("11%", "75%", "4s")}
+          {/* 3d text */}
+          {drawText("26%", "70%", "3d")}
+          {/* 4p text */}
+          {drawText("30%", "64%", "4p")}
+          {/* 5s text */}
+          {drawText("11%", "62%", "5s")}
+          {/* 4d text */}
+          {drawText("26%", "56.5%", "4d")}
+          {/* 5p text */}
+          {drawText("30%", "50.5%", "5p")}
+          {/* 6s text */}
+          {drawText("11%", "48%", "6s")}
+          {/* 4f text */}
+          {drawText("26%", "40.5%", "4f")}
+          {/* 5d text */}
+          {drawText("26%", "32%", "5d")}
+          {/* 6p text */}
+          {drawText("26%", "25%", "6p")}
+          {/* 7s text */}
+          {drawText("11%", "20%", "7s")}
+          {/* 5f text */}
+          {drawText("26%", "10%", "5f")}
+          {/* select text */}
+          {/* {drawText("65%", "680", "Select an element")} */}
+          <foreignObject x="75%" y="700" width="100" height="100">
+            <body xmlns="http://www.w3.org/1999/xhtml">
+              {/* <button
+              onClick={() => console.log("button was clicked inside svg")}
+            >
+              click me
+            </button> */}
+
+              {/* <label>Select an element</label> */}
+            </body>
+          </foreignObject>
+        </svg>
+        <br />
+        <div style={{ display: "flex" }}>
+          {displaySelect()}
+          {elemSortRadioButt()}
+        </div>
+      </>
+    );
+  } else if (selectValue === "100") {
+    return (
+      <>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          width="90%"
+          height="2000"
+          style={{
+            border: "2px solid red",
+            // minWidth: "300px",
+            maxWidth: "900px",
+            overflow: "scroll",
+            display: "block",
+          }}
+        >
+          {/* 1s react:2electron */}
+          {sOrbitalWith2Elect("10%", "96%")}
+          {/* 2S react=2 electron */}
+          {sOrbitalWith2Elect("10%", "90%")}
+          {/* 2p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "86%")}
+          {/* 3s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "83%")}
+          {/* 3p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "80%")}
+          {/* 4s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "75%")}
+          {/* 3d orbital with 10 electrons */}
+          {dorbitalWithTenElect("3%", "70%")}
+          {/* 4p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "64%")}
+          {/* 5s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "62%")}
+          {/* 4d orbital with 10 electrons */}
+          {dorbitalWithTenElect("3%", "56%")}
+          {/* 5p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "50%")}
+          {/* 6s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "48%")}
+          {/* 4f-rect-orbital-14-electron */}
+          {forbitalWith14Elect("3%", "40%")}
+          {/* 5d-rect-orbital-10-electron */}
+          {dorbitalWithTenElect("3%", "32%")}
+          {/* 6p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "25%")}
+          {/* 7s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "20%")}
+          {/* 5f-rect-orbital-1-electron */}
+          {forbitalWith12Elect("3%", "10%")}
+          {/* 1s text */}
+          {drawText("11%", "96%", "1s")}
+          {/* 2s text */}
+          {drawText("11%", "90%", "2s")}
+          {/* 2p text */}
+          {drawText("30%", "86%", "2p")}
+          {/* 3s text */}
+          {drawText("11%", "83%", "3s")}
+          {/* 3p text */}
+          {drawText("30%", "80%", "3p")}
+          {/* 4s text */}
+          {drawText("11%", "75%", "4s")}
+          {/* 3d text */}
+          {drawText("26%", "70%", "3d")}
+          {/* 4p text */}
+          {drawText("30%", "64%", "4p")}
+          {/* 5s text */}
+          {drawText("11%", "62%", "5s")}
+          {/* 4d text */}
+          {drawText("26%", "56.5%", "4d")}
+          {/* 5p text */}
+          {drawText("30%", "50.5%", "5p")}
+          {/* 6s text */}
+          {drawText("11%", "48%", "6s")}
+          {/* 4f text */}
+          {drawText("26%", "40.5%", "4f")}
+          {/* 5d text */}
+          {drawText("26%", "32%", "5d")}
+          {/* 6p text */}
+          {drawText("26%", "25%", "6p")}
+          {/* 7s text */}
+          {drawText("11%", "20%", "7s")}
+          {/* 5f text */}
+          {drawText("26%", "10%", "5f")}
+          {/* select text */}
+          {/* {drawText("65%", "680", "Select an element")} */}
+          <foreignObject x="75%" y="700" width="100" height="100">
+            <body xmlns="http://www.w3.org/1999/xhtml">
+              {/* <button
+              onClick={() => console.log("button was clicked inside svg")}
+            >
+              click me
+            </button> */}
+
+              {/* <label>Select an element</label> */}
+            </body>
+          </foreignObject>
+        </svg>
+        <br />
+        <div style={{ display: "flex" }}>
+          {displaySelect()}
+          {elemSortRadioButt()}
+        </div>
+      </>
+    );
+  } else if (selectValue === "101") {
+    return (
+      <>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          width="90%"
+          height="2000"
+          style={{
+            border: "2px solid red",
+            // minWidth: "300px",
+            maxWidth: "900px",
+            overflow: "scroll",
+            display: "block",
+          }}
+        >
+          {/* 1s react:2electron */}
+          {sOrbitalWith2Elect("10%", "96%")}
+          {/* 2S react=2 electron */}
+          {sOrbitalWith2Elect("10%", "90%")}
+          {/* 2p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "86%")}
+          {/* 3s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "83%")}
+          {/* 3p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "80%")}
+          {/* 4s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "75%")}
+          {/* 3d orbital with 10 electrons */}
+          {dorbitalWithTenElect("3%", "70%")}
+          {/* 4p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "64%")}
+          {/* 5s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "62%")}
+          {/* 4d orbital with 10 electrons */}
+          {dorbitalWithTenElect("3%", "56%")}
+          {/* 5p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "50%")}
+          {/* 6s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "48%")}
+          {/* 4f-rect-orbital-14-electron */}
+          {forbitalWith14Elect("3%", "40%")}
+          {/* 5d-rect-orbital-10-electron */}
+          {dorbitalWithTenElect("3%", "32%")}
+          {/* 6p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "25%")}
+          {/* 7s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "20%")}
+          {/* 5f-rect-orbital-1-electron */}
+          {forbitalWith13Elect("3%", "10%")}
+          {/* 1s text */}
+          {drawText("11%", "96%", "1s")}
+          {/* 2s text */}
+          {drawText("11%", "90%", "2s")}
+          {/* 2p text */}
+          {drawText("30%", "86%", "2p")}
+          {/* 3s text */}
+          {drawText("11%", "83%", "3s")}
+          {/* 3p text */}
+          {drawText("30%", "80%", "3p")}
+          {/* 4s text */}
+          {drawText("11%", "75%", "4s")}
+          {/* 3d text */}
+          {drawText("26%", "70%", "3d")}
+          {/* 4p text */}
+          {drawText("30%", "64%", "4p")}
+          {/* 5s text */}
+          {drawText("11%", "62%", "5s")}
+          {/* 4d text */}
+          {drawText("26%", "56.5%", "4d")}
+          {/* 5p text */}
+          {drawText("30%", "50.5%", "5p")}
+          {/* 6s text */}
+          {drawText("11%", "48%", "6s")}
+          {/* 4f text */}
+          {drawText("26%", "40.5%", "4f")}
+          {/* 5d text */}
+          {drawText("26%", "32%", "5d")}
+          {/* 6p text */}
+          {drawText("26%", "25%", "6p")}
+          {/* 7s text */}
+          {drawText("11%", "20%", "7s")}
+          {/* 5f text */}
+          {drawText("26%", "10%", "5f")}
+          {/* select text */}
+          {/* {drawText("65%", "680", "Select an element")} */}
+          <foreignObject x="75%" y="700" width="100" height="100">
+            <body xmlns="http://www.w3.org/1999/xhtml">
+              {/* <button
+              onClick={() => console.log("button was clicked inside svg")}
+            >
+              click me
+            </button> */}
+
+              {/* <label>Select an element</label> */}
+            </body>
+          </foreignObject>
+        </svg>
+        <br />
+        <div style={{ display: "flex" }}>
+          {displaySelect()}
+          {elemSortRadioButt()}
+        </div>
+      </>
+    );
+  } else if (selectValue === "102") {
+    return (
+      <>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          width="90%"
+          height="2000"
+          style={{
+            border: "2px solid red",
+            // minWidth: "300px",
+            maxWidth: "900px",
+            overflow: "scroll",
+            display: "block",
+          
+          }}
+        >
+          {/* 1s react:2electron */}
+          {sOrbitalWith2Elect("10%", "96%")}
+          {/* 2S react=2 electron */}
+          {sOrbitalWith2Elect("10%", "90%")}
+          {/* 2p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "86%")}
+          {/* 3s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "83%")}
+          {/* 3p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "80%")}
+          {/* 4s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "75%")}
+          {/* 3d orbital with 10 electrons */}
+          {dorbitalWithTenElect("3%", "70%")}
+          {/* 4p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "64%")}
+          {/* 5s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "62%")}
+          {/* 4d orbital with 10 electrons */}
+          {dorbitalWithTenElect("3%", "56%")}
+          {/* 5p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "50%")}
+          {/* 6s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "48%")}
+          {/* 4f-rect-orbital-14-electron */}
+          {forbitalWith14Elect("3%", "40%")}
+          {/* 5d-rect-orbital-10-electron */}
+          {dorbitalWithTenElect("3%", "32%")}
+          {/* 6p-orbital-six-electron-react */}
+          {porbitalWith6Elect("20%", "25%")}
+          {/* 7s-rect-orbital-2-electron */}
+          {sOrbitalWith2Elect("10%", "20%")}
+          {/* 5f-rect-orbital-1-electron */}
+          {forbitalWith14Elect("3%", "10%")}
+          {/* 1s text */}
+          {drawText("11%", "96%", "1s")}
+          {/* 2s text */}
+          {drawText("11%", "90%", "2s")}
+          {/* 2p text */}
+          {drawText("30%", "86%", "2p")}
+          {/* 3s text */}
+          {drawText("11%", "83%", "3s")}
+          {/* 3p text */}
+          {drawText("30%", "80%", "3p")}
+          {/* 4s text */}
+          {drawText("11%", "75%", "4s")}
+          {/* 3d text */}
+          {drawText("26%", "70%", "3d")}
+          {/* 4p text */}
+          {drawText("30%", "64%", "4p")}
+          {/* 5s text */}
+          {drawText("11%", "62%", "5s")}
+          {/* 4d text */}
+          {drawText("26%", "56.5%", "4d")}
+          {/* 5p text */}
+          {drawText("30%", "50.5%", "5p")}
+          {/* 6s text */}
+          {drawText("11%", "48%", "6s")}
+          {/* 4f text */}
+          {drawText("26%", "40.5%", "4f")}
+          {/* 5d text */}
+          {drawText("26%", "32%", "5d")}
+          {/* 6p text */}
+          {drawText("26%", "25%", "6p")}
+          {/* 7s text */}
+          {drawText("11%", "20%", "7s")}
+          {/* 5f text */}
+          {drawText("26%", "10%", "5f")}
+          {/* select text */}
+          {/* {drawText("65%", "680", "Select an element")} */}
+          <foreignObject x="75%" y="700" width="100" height="100">
+            <body xmlns="http://www.w3.org/1999/xhtml">
+              {/* <button
+              onClick={() => console.log("button was clicked inside svg")}
+            >
+              click me
+            </button> */}
+
+              {/* <label>Select an element</label> */}
+            </body>
+          </foreignObject>
+        </svg>
+        <br />
+        <div style={{ display: "flex" }}>
+          {displaySelect()}
+          {elemSortRadioButt()}
+        </div>
+      </>
+    );
   }
 
   return null;
