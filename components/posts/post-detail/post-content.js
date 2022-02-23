@@ -17,8 +17,14 @@ import { useRouter } from "next/router";
 import NotificationContext from "../../../store/notification-context";
 import { useSession, signOut } from "next-auth/client";
 import AnimatedOrbitalDiag from "../../miscellaneous/animated-orbital-diag";
+import PeriodicTableOfElem from "../../miscellaneous/periodic-table";
+
 //import { getDomainLocale } from "next/dist/next-server/lib/router/router";
 //import { adminArray } from "../../../helpers/db-utils";
+const replaceBannerImg = {
+  "61f946e3e72eb408e83024f5": () => <AnimatedOrbitalDiag />,
+  "62106ec04c9caa17288669ce": () => <PeriodicTableOfElem />,
+};
 async function changeLikeHandler(likedData) {
   const response = await fetch("/api/blog-content/", {
     method: "PATCH",
@@ -305,8 +311,8 @@ function PostContent(props) {
           </div>
           <div className={classes.cardbanner}>
             {/* <p class="category-tag technology">Biryani</p>  */}
-            {post.id === "61f946e3e72eb408e83024f5" ? (
-              <AnimatedOrbitalDiag />
+            {post.id in replaceBannerImg ? (
+              replaceBannerImg[post.id]()
             ) : (
               <img
                 className={classes.bannerimg}

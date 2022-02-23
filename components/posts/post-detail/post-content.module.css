@@ -9,8 +9,12 @@
   padding: var(--size-4);
 }
 .cardbanner {
-  width: 100%;
-  margin: 50px;
+  width: 95%;
+  margin: 30px;
+  /* background-color: aqua; */
+  border: 2px solid black;
+  /* overflow: scroll; */
+  overflow-x: auto;
 }
 
 .content p {
