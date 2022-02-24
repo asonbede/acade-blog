@@ -7,6 +7,7 @@ import { elementsArray } from "../../helpers/pereriodic-table/element-data";
 
 const rowNum = [1, 2, 3, 4, 5, 6, 7];
 const rowLanAndAct = ["Lanthanides", "Actinides"];
+
 function TableHead(props) {
   return (
     <tr>
@@ -23,11 +24,8 @@ function TableHead(props) {
     </tr>
   );
 }
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
-function TableRow({ row, tableData }) {
+function TableRow({ row, tableData, selectedCategory }) {
   const [idValue, setidValue] = useState();
   const [markBounds, setmarkBounds] = useState(false);
   function handleMouseEnter(paramVal) {
@@ -37,15 +35,25 @@ function TableRow({ row, tableData }) {
   function handleMouseLeave(params) {
     setmarkBounds(false);
   }
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  function addFamilyBoundClass(catValue, elemOby) {
+    if (catValue === elemOby.category) {
+      return classes.familyBonds;
+    }
 
-  function displayCellData(cellDatum) {
+    return classes.noBounds;
+  }
+
+  function displayCellData(cellDatum, selectedCat) {
     return (
       <td
         className={`${classes.dataSmall} ${classes.dataLarge} ${
           markBounds && idValue === cellDatum.atomicNum
             ? classes.showBounds
             : classes.hideBounds
-        } `}
+        }  ${addFamilyBoundClass(selectedCat, cellDatum)}`}
         onMouseEnter={() => handleMouseEnter(cellDatum.atomicNum)}
         onMouseLeave={handleMouseLeave}
       >
@@ -67,11 +75,11 @@ function TableRow({ row, tableData }) {
             <>
               {" "}
               <td>{row}</td>
-              {displayCellData(val)}
+              {displayCellData(val, selectedCategory)}
               <td colspan="16"></td>
             </>
           ) : (
-            displayCellData(val)
+            displayCellData(val, selectedCategory)
           )
         )}
       </tr>
@@ -86,20 +94,20 @@ function TableRow({ row, tableData }) {
             return (
               <>
                 <td>{row}</td>
-                {displayCellData(val)}
+                {displayCellData(val, selectedCategory)}
               </>
             );
           } else if (i === 1) {
-            return displayCellData(val);
+            return displayCellData(val, selectedCategory);
           } else if (i === 2) {
             return (
               <>
                 <td colspan="10"></td>
-                {displayCellData(val)}
+                {displayCellData(val, selectedCategory)}
               </>
             );
           } else {
-            return displayCellData(val);
+            return displayCellData(val, selectedCategory);
           }
         })}
       </tr>
@@ -113,20 +121,20 @@ function TableRow({ row, tableData }) {
             return (
               <>
                 <td>{row}</td>
-                {displayCellData(val)}
+                {displayCellData(val, selectedCategory)}
               </>
             );
           } else if (i === 1) {
-            return displayCellData(val);
+            return displayCellData(val, selectedCategory);
           } else if (i === 2) {
             return (
               <>
                 <td colspan="10"></td>
-                {displayCellData(val)}
+                {displayCellData(val, selectedCategory)}
               </>
             );
           } else {
-            return displayCellData(val);
+            return displayCellData(val, selectedCategory);
           }
         })}
       </tr>
@@ -140,10 +148,10 @@ function TableRow({ row, tableData }) {
           i === 0 ? (
             <>
               <td>{row}</td>
-              {displayCellData(val)}
+              {displayCellData(val, selectedCategory)}
             </>
           ) : (
-            displayCellData(val)
+            displayCellData(val, selectedCategory)
           )
         )}
       </tr>
@@ -157,10 +165,10 @@ function TableRow({ row, tableData }) {
           i === 0 ? (
             <>
               <td>{row}</td>
-              {displayCellData(val)}
+              {displayCellData(val, selectedCategory)}
             </>
           ) : (
-            displayCellData(val)
+            displayCellData(val, selectedCategory)
           )
         )}
       </tr>
@@ -176,10 +184,10 @@ function TableRow({ row, tableData }) {
           i === 0 ? (
             <>
               <td>{row}</td>
-              {displayCellData(val)}
+              {displayCellData(val, selectedCategory)}
             </>
           ) : (
-            displayCellData(val)
+            displayCellData(val, selectedCategory)
           )
         )}
       </tr>
@@ -195,10 +203,10 @@ function TableRow({ row, tableData }) {
           i === 0 ? (
             <>
               <td>{row}</td>
-              {displayCellData(val)}
+              {displayCellData(val, selectedCategory)}
             </>
           ) : (
-            displayCellData(val)
+            displayCellData(val, selectedCategory)
           )
         )}
       </tr>
@@ -214,10 +222,10 @@ function TableRow({ row, tableData }) {
           i === 0 ? (
             <>
               <td>{row}</td>
-              {displayCellData(val)}
+              {displayCellData(val, selectedCategory)}
             </>
           ) : (
-            displayCellData(val)
+            displayCellData(val, selectedCategory)
           )
         )}
       </tr>
@@ -233,10 +241,10 @@ function TableRow({ row, tableData }) {
           i === 0 ? (
             <>
               <td>{row}</td>
-              {displayCellData(val)}
+              {displayCellData(val, selectedCategory)}
             </>
           ) : (
-            displayCellData(val)
+            displayCellData(val, selectedCategory)
           )
         )}
       </tr>
@@ -249,7 +257,217 @@ export default function PeriodicTableOfElem(props) {
   //   const notificationCtx = useContext(NotificationContext);
   //check category number
 
-  //   const [selectValue, setselectValue] = useState();
+  const [selectedCategory, setselectedCategory] = useState();
+
+  const handleRadioButtonChange = (event) => {
+    const { name, value } = event.target;
+
+    console.log({ name, value });
+    setselectedCategory(value);
+  };
+
+  function elemSortRadioButt(params) {
+    return (
+      <div style={{ margin: "15px", display: "flex" }}>
+        <div
+          style={{
+            margin: "15px",
+            display: "flex",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="Alkali metals"
+              id="Alkali-metals"
+              onChange={handleRadioButtonChange}
+              // checked={selectedElem === "atomic"}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="Alkali-metals">Alkali metals</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="Alkaline earth metals"
+              id="Alkaline-earth-metals"
+              onChange={handleRadioButtonChange}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="Alkaline-earth-metals">Alkaline earth metals</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="Halogens"
+              id="Halogens"
+              onChange={handleRadioButtonChange}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="Halogens">Halogens</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="s-block"
+              id="s-block"
+              onChange={handleRadioButtonChange}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="s-block">s-block</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="d-block"
+              id="d-block"
+              onChange={handleRadioButtonChange}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="d-block">d-block</label>
+          </div>
+        </div>
+
+        <div
+          style={{
+            margin: "15px",
+            display: "flex",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="Noble gases"
+              id="noble-gases"
+              onChange={handleRadioButtonChange}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="noble-gases">Noble gases</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="Actinides"
+              id="actinides"
+              onChange={handleRadioButtonChange}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="actinides"> Actinides</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="Lanthanides"
+              id="lanthanides"
+              onChange={handleRadioButtonChange}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="lanthanides">Lanthanides</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="p-block"
+              id="p-block"
+              onChange={handleRadioButtonChange}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="p-block">p-block</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="f-block"
+              id="f-block"
+              onChange={handleRadioButtonChange}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="f-block">f-block</label>
+          </div>
+        </div>
+
+        <div
+          style={{
+            margin: "15px",
+            display: "flex",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="Metals"
+              id="metals"
+              onChange={handleRadioButtonChange}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="metals">Metals</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="Non metals"
+              id="non-metals"
+              onChange={handleRadioButtonChange}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="non-metal">Non metals</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="Metalloids"
+              id="metalloids"
+              onChange={handleRadioButtonChange}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="metalloids">Metalloids</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="Transition metals"
+              id="transition-metals"
+              onChange={handleRadioButtonChange}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="transition-metals">Transition metals</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="Artificial"
+              id="artificial"
+              onChange={handleRadioButtonChange}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="artificial">Artificial</label>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   //   const router = useRouter();
   //   const idFromRoute = router.query;
 
@@ -280,11 +498,14 @@ export default function PeriodicTableOfElem(props) {
         </thead>
         <tbody>
           {rowNum.map((row) => (
-            <TableRow row={row} tableData={elementsArray} />
+            <TableRow
+              row={row}
+              tableData={elementsArray}
+              selectedCategory={selectedCategory}
+            />
           ))}
         </tbody>
       </table>
-
       <table
         className={classes.tableElem}
         style={{ marginLeft: "20%", marginTop: "5%" }}
@@ -294,10 +515,15 @@ export default function PeriodicTableOfElem(props) {
         </thead> */}
         <tbody>
           {rowLanAndAct.map((row) => (
-            <TableRow row={row} tableData={elementsArray} />
+            <TableRow
+              row={row}
+              tableData={elementsArray}
+              selectedCategory={selectedCategory}
+            />
           ))}
         </tbody>
       </table>
+      {elemSortRadioButt()}
     </>
   );
 }

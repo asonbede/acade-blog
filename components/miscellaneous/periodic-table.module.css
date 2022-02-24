@@ -5,7 +5,7 @@
 
 .tableElem thead {
   font-size: 16px;
-  padding: 5px;
+  padding: 2px;
   font-weight: 900;
   color: blue;
 }
@@ -25,7 +25,7 @@
 
 .tableElem th,
 .tableElem td {
-  padding: 3px;
+  padding: 2px;
 }
 .first-column,
 .tableElem caption {
@@ -35,19 +35,23 @@
 }
 
 .dataSmall {
-  font-size: 14px;
+  font-size: 12px;
   color: blue;
 }
 
 .showBounds {
-  border: 2px solid rgb(224, 21, 21);
+  border: 1px solid rgb(224, 21, 21);
   border-radius: 3px !important;
-  font-size: larger;
+  font-size: large;
   background-color: #ebe7e1 !important;
 }
 .hideBounds {
   border: none;
 }
+.familyBonds {
+  border: 2px solid #f57388;
+}
+
 /* .dataLarge {
   font-size: 23px;
   color: blue;
