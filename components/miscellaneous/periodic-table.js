@@ -4,7 +4,7 @@ import NotificationContext from "../../store/notification-context";
 import { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import { elementsArray } from "../../helpers/pereriodic-table/element-data";
-
+import GuessElementGame from "./quess-element";
 const rowNum = [1, 2, 3, 4, 5, 6, 7];
 const rowLanAndAct = ["Lanthanides", "Actinides"];
 
@@ -25,9 +25,20 @@ function TableHead(props) {
   );
 }
 
-function TableRow({ row, tableData, selectedCategory }) {
+function TableRow({
+  row,
+  tableData,
+  selectedCategory,
+  setuserGuess,
+  setguessCount,
+  guessCount,
+  setshowEndGameBut,
+  startButWasClicked,
+}) {
   const [idValue, setidValue] = useState();
   const [markBounds, setmarkBounds] = useState(false);
+
+  //userQuess={userQuess} guessCount={quessCount} setguessCount={setguessCount}
   function handleMouseEnter(paramVal) {
     setidValue(paramVal);
     setmarkBounds(true);
@@ -35,11 +46,46 @@ function TableRow({ row, tableData, selectedCategory }) {
   function handleMouseLeave(params) {
     setmarkBounds(false);
   }
+  function handleTableData(data) {
+    if (startButWasClicked) {
+      setuserGuess(data);
+      setguessCount(guessCount + 1);
+      setshowEndGameBut(true);
+      console.log({ data, guessCount }, "periodic-table");
+    } else {
+      console.log(
+        "please click the start button first if it is game you want play game"
+      );
+    }
+  }
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
   function addFamilyBoundClass(catValue, elemOby) {
     if (catValue === elemOby.category) {
+      return classes.familyBonds;
+    } else if (
+      catValue === "s-block" &&
+      (elemOby.category === "Alkali metals" ||
+        elemOby.category === "Alkaline earth metals")
+    ) {
+      return classes.familyBonds;
+    } else if (
+      catValue === "d-block" &&
+      elemOby.category === "Transition metals"
+    ) {
+      return classes.familyBonds;
+    } else if (
+      catValue === "f-block" &&
+      (elemOby.category === "Lanthanides" || elemOby.category === "Actinides")
+    ) {
+      return classes.familyBonds;
+    } else if (
+      catValue === "Non metals" &&
+      elemOby.stateStatus === "nonmetal"
+    ) {
+      return classes.familyBonds;
+    } else if (catValue === "Metals" && !elemOby.stateStatus) {
       return classes.familyBonds;
     }
 
@@ -56,6 +102,7 @@ function TableRow({ row, tableData, selectedCategory }) {
         }  ${addFamilyBoundClass(selectedCat, cellDatum)}`}
         onMouseEnter={() => handleMouseEnter(cellDatum.atomicNum)}
         onMouseLeave={handleMouseLeave}
+        onClick={() => handleTableData(cellDatum)}
       >
         {cellDatum.atomicMass}
         <br />
@@ -258,6 +305,10 @@ export default function PeriodicTableOfElem(props) {
   //check category number
 
   const [selectedCategory, setselectedCategory] = useState();
+  const [userGuess, setuserGuess] = useState();
+  const [guessCount, setguessCount] = useState(0);
+  const [showEndGameBut, setshowEndGameBut] = useState(false);
+  const [startButWasClicked, setStartButWasClicked] = useState(false);
 
   const handleRadioButtonChange = (event) => {
     const { name, value } = event.target;
@@ -456,18 +507,18 @@ export default function PeriodicTableOfElem(props) {
             <input
               type="radio"
               name="element"
-              value="Artificial"
+              value="Unknown properties"
               id="artificial"
               onChange={handleRadioButtonChange}
               style={{ margin: "10px" }}
             />
-            <label htmlFor="artificial">Artificial</label>
+            <label htmlFor="artificial">Unknown properties</label>
           </div>
         </div>
       </div>
     );
   }
-
+  //GuessElementGame;
   //   const router = useRouter();
   //   const idFromRoute = router.query;
 
@@ -492,6 +543,17 @@ export default function PeriodicTableOfElem(props) {
   return (
     <>
       <table className={classes.tableElem}>
+        <colgroup>
+          <col span={12} />
+          <col
+            span={7}
+            className={
+              selectedCategory === "p-block"
+                ? classes.pBoundary
+                : classes.noPBoundary
+            }
+          />
+        </colgroup>
         <caption>The Periodic Table </caption>
         <thead>
           <TableHead />
@@ -502,6 +564,11 @@ export default function PeriodicTableOfElem(props) {
               row={row}
               tableData={elementsArray}
               selectedCategory={selectedCategory}
+              setuserGuess={setuserGuess}
+              setguessCount={setguessCount}
+              guessCount={guessCount}
+              setshowEndGameBut={setshowEndGameBut}
+              startButWasClicked={startButWasClicked}
             />
           ))}
         </tbody>
@@ -519,11 +586,26 @@ export default function PeriodicTableOfElem(props) {
               row={row}
               tableData={elementsArray}
               selectedCategory={selectedCategory}
+              setuserGuess={setuserGuess}
+              setguessCount={setguessCount}
+              guessCount={guessCount}
+              setshowEndGameBut={setshowEndGameBut}
+              startButWasClicked={startButWasClicked}
             />
           ))}
         </tbody>
       </table>
       {elemSortRadioButt()}
+      <GuessElementGame
+        userGuess={userGuess}
+        guessCount={guessCount}
+        setguessCount={setguessCount}
+        showEndGameBut={showEndGameBut}
+        setshowEndGameBut={setshowEndGameBut}
+        setuserGuess={setuserGuess}
+        setStartButWasClicked={setStartButWasClicked}
+        startButWasClicked={startButWasClicked}
+      />
     </>
   );
 }

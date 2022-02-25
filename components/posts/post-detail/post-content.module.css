@@ -12,7 +12,7 @@
   width: 95%;
   margin: 30px;
   /* background-color: aqua; */
-  border: 2px solid black;
+  /* border: 2px solid black; */
   /* overflow: scroll; */
   overflow-x: auto;
 }

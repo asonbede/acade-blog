@@ -51,6 +51,9 @@
 .familyBonds {
   border: 2px solid #f57388;
 }
+.pBoundary {
+  border: 2px solid #f57388;
+}
 
 /* .dataLarge {
   font-size: 23px;

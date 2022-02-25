@@ -5,6 +5,7 @@ export const elementsArray = [
     symbol: "H",
     category: "Others",
     atomicMass: "1.0",
+    stateStatus: "nonmetal",
   },
 
   {
@@ -13,6 +14,7 @@ export const elementsArray = [
     symbol: "He",
     category: "Noble gases",
     atomicMass: "4",
+    stateStatus: "nonmetal",
   },
   {
     name: "lithium",
@@ -41,6 +43,7 @@ export const elementsArray = [
     symbol: "C",
     category: "Others",
     atomicMass: "12.0",
+    stateStatus: "nonmetal",
   },
   {
     name: "nitrogen",
@@ -48,6 +51,7 @@ export const elementsArray = [
     symbol: "N",
     category: "Others",
     atomicMass: "14.0",
+    stateStatus: "nonmetal",
   },
   {
     name: "oxygen",
@@ -55,6 +59,7 @@ export const elementsArray = [
     symbol: "O",
     category: "Others",
     atomicMass: "16.0",
+    stateStatus: "nonmetal",
   },
   {
     name: "fluorine",
@@ -62,6 +67,7 @@ export const elementsArray = [
     symbol: "F",
     category: "Halogens",
     atomicMass: "19.0",
+    stateStatus: "nonmetal",
   },
   {
     name: "neon",
@@ -69,6 +75,7 @@ export const elementsArray = [
     symbol: "Ne",
     category: "Noble gases",
     atomicMass: "20.2",
+    stateStatus: "nonmetal",
   },
   {
     name: "sodium",
@@ -104,6 +111,7 @@ export const elementsArray = [
     symbol: "P",
     category: "Others",
     atomicMass: "31.0",
+    stateStatus: "nonmetal",
   },
   {
     name: "sulfur",
@@ -111,6 +119,7 @@ export const elementsArray = [
     symbol: "S",
     category: "Others",
     atomicMass: "32.1",
+    stateStatus: "nonmetal",
   },
   {
     name: "chlorine",
@@ -118,6 +127,7 @@ export const elementsArray = [
     symbol: "Cl",
     category: "Halogens",
     atomicMass: "35.5",
+    stateStatus: "nonmetal",
   },
   {
     name: "argon",
@@ -125,6 +135,7 @@ export const elementsArray = [
     symbol: "Ar",
     category: "Noble gases",
     atomicMass: "39.9",
+    stateStatus: "nonmetal",
   },
   {
     name: "potassium",
@@ -238,6 +249,7 @@ export const elementsArray = [
     symbol: "Se",
     category: "Others",
     atomicMass: "79.0",
+    stateStatus: "nonmetal",
   },
   {
     name: "bromine",
@@ -245,6 +257,7 @@ export const elementsArray = [
     symbol: "Br",
     category: "Halogens",
     atomicMass: "79.9",
+    stateStatus: "nonmetal",
   },
   {
     name: "krypton",
@@ -252,6 +265,7 @@ export const elementsArray = [
     symbol: "Kr",
     category: "Noble gases",
     atomicMass: "83.8",
+    stateStatus: "nonmetal",
   },
   {
     name: "rubidium",
@@ -372,6 +386,7 @@ export const elementsArray = [
     symbol: "I",
     category: "Halogens",
     atomicMass: "126.9",
+    stateStatus: "nonmetal",
   },
   {
     name: "xenon",
@@ -379,6 +394,7 @@ export const elementsArray = [
     symbol: "Xe",
     category: "Noble gases",
     atomicMass: "131.3",
+    stateStatus: "nonmetal",
   },
   {
     name: "cesium",
@@ -398,7 +414,7 @@ export const elementsArray = [
     name: "lanthanum",
     atomicNum: 57,
     symbol: "La",
-    category: "Transition metals",
+    category: "Lanthanides",
     atomicMass: "138.92",
   },
   {
@@ -603,6 +619,7 @@ export const elementsArray = [
     symbol: "Rn",
     category: "Noble gases",
     atomicMass: "222",
+    stateStatus: "nonmetal",
   },
   {
     name: "francium",
