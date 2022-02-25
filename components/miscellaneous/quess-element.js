@@ -55,6 +55,8 @@ export default function GuessElementGame({
       (item) => Number(item.atomicNum) === randomElementValue
     );
     const targetElemCategory = targetElemObj.category;
+    const targetElemName = targetElemObj.name;
+    const targetElemAtomicNum = targetElemObj.atomicNum;
 
     //   (item) => item.atomicNum === userQuess
     // );
@@ -78,7 +80,9 @@ export default function GuessElementGame({
       //lowOrHi.textContent = "";
       // setGameOver();
     } else if (guessCount === 5) {
-      setlastResult("!!!GAME OVER!!!");
+      setlastResult(
+        `!!!GAME OVER!!! The target Name: ${targetElemName} Atomic number: ${targetElemAtomicNum}`
+      );
       //setGameOver();
       setguessCount(0);
       setshowEndGameBut(false);
