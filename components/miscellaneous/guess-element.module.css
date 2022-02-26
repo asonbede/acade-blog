@@ -1,0 +1,30 @@
+.tableData,
+.tableData th,
+.tableData td {
+  text-align: left;
+  border: 1px solid #ddd;
+}
+.tableData {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tableData th,
+.tableData td {
+  padding: 4px;
+}
+
+.tableData tr:nth-child(even) {
+  background-color: #ecc4c4;
+}
+.tableData tr:hover {
+  background-color: coral;
+}
+/* table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 15px;
+} */

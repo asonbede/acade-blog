@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import classes from "./periodic-table.module.css";
 import NotificationContext from "../../store/notification-context";
-import { useState, useContext, useEffect } from "react";
+
+import Notification from "../ui/notification";
+
 import { useRouter } from "next/router";
 import { elementsArray } from "../../helpers/pereriodic-table/element-data";
 import GuessElementGame from "./quess-element";
@@ -37,6 +39,7 @@ function TableRow({
 }) {
   const [idValue, setidValue] = useState();
   const [markBounds, setmarkBounds] = useState(false);
+  const notificationCtx = useContext(NotificationContext);
 
   //userQuess={userQuess} guessCount={quessCount} setguessCount={setguessCount}
   function handleMouseEnter(paramVal) {
@@ -53,6 +56,11 @@ function TableRow({
       setshowEndGameBut(true);
       console.log({ data, guessCount }, "periodic-table");
     } else {
+      notificationCtx.showNotification({
+        title: "Error!",
+        message: "Click the start button before you continue!",
+        status: "error",
+      });
       console.log(
         "please click the start button first if it is game you want play game"
       );
@@ -309,6 +317,9 @@ export default function PeriodicTableOfElem(props) {
   const [guessCount, setguessCount] = useState(0);
   const [showEndGameBut, setshowEndGameBut] = useState(false);
   const [startButWasClicked, setStartButWasClicked] = useState(false);
+  const notificationCtx = useContext(NotificationContext);
+
+  const activeNotification = notificationCtx.notification;
 
   const handleRadioButtonChange = (event) => {
     const { name, value } = event.target;
@@ -316,6 +327,21 @@ export default function PeriodicTableOfElem(props) {
     console.log({ name, value });
     setselectedCategory(value);
   };
+
+  // function displayGame() {
+  //   return (
+  //     <GuessElementGame
+  //       userGuess={userGuess}
+  //       guessCount={guessCount}
+  //       setguessCount={setguessCount}
+  //       showEndGameBut={showEndGameBut}
+  //       setshowEndGameBut={setshowEndGameBut}
+  //       setuserGuess={setuserGuess}
+  //       setStartButWasClicked={setStartButWasClicked}
+  //       startButWasClicked={startButWasClicked}
+  //     />
+  //   );
+  // }
 
   function elemSortRadioButt(params) {
     return (
@@ -514,6 +540,16 @@ export default function PeriodicTableOfElem(props) {
             />
             <label htmlFor="artificial">Unknown properties</label>
           </div>
+          {/* <div
+            style={{
+              margin: "15px",
+              display: "flex",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <div>{displayGame()}</div>
+          </div> */}
         </div>
       </div>
     );
@@ -606,6 +642,13 @@ export default function PeriodicTableOfElem(props) {
         setStartButWasClicked={setStartButWasClicked}
         startButWasClicked={startButWasClicked}
       />
+      {activeNotification && (
+        <Notification
+          title={activeNotification.title}
+          message={activeNotification.message}
+          status={activeNotification.status}
+        />
+      )}
     </>
   );
 }
