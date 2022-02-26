@@ -7,6 +7,7 @@ export const elementsArray = [
     atomicMass: "1.0",
     stateStatus: "nonmetal",
     period: 1,
+    group: 1,
   },
 
   {
@@ -17,6 +18,7 @@ export const elementsArray = [
     atomicMass: "4",
     stateStatus: "nonmetal",
     period: 1,
+    group: 0,
   },
   {
     name: "lithium",
@@ -25,6 +27,7 @@ export const elementsArray = [
     category: "Alkali metals",
     atomicMass: "6.9",
     period: 2,
+    group: 1,
   },
   {
     name: "beryllium",
@@ -33,6 +36,7 @@ export const elementsArray = [
     category: "Alkaline earth metals",
     atomicMass: "9.0",
     period: 2,
+    group: 2,
   },
   {
     name: "boron",
@@ -41,6 +45,7 @@ export const elementsArray = [
     category: "Metalloids",
     atomicMass: "10.8",
     period: 2,
+    group: 3,
   },
   {
     name: "carbon",
@@ -50,6 +55,7 @@ export const elementsArray = [
     atomicMass: "12.0",
     stateStatus: "nonmetal",
     period: 2,
+    group: 4,
   },
   {
     name: "nitrogen",
@@ -59,6 +65,7 @@ export const elementsArray = [
     atomicMass: "14.0",
     stateStatus: "nonmetal",
     period: 2,
+    group: 5,
   },
   {
     name: "oxygen",
@@ -68,6 +75,7 @@ export const elementsArray = [
     atomicMass: "16.0",
     stateStatus: "nonmetal",
     period: 2,
+    group: 6,
   },
   {
     name: "fluorine",
@@ -77,6 +85,7 @@ export const elementsArray = [
     atomicMass: "19.0",
     stateStatus: "nonmetal",
     period: 2,
+    group: 7,
   },
   {
     name: "neon",
@@ -86,6 +95,7 @@ export const elementsArray = [
     atomicMass: "20.2",
     stateStatus: "nonmetal",
     period: 2,
+    group: 0,
   },
   {
     name: "sodium",
@@ -94,6 +104,7 @@ export const elementsArray = [
     category: "Alkali metals",
     atomicMass: "23.0",
     period: 3,
+    group: 1,
   },
   {
     name: "magnesium",
@@ -102,6 +113,7 @@ export const elementsArray = [
     category: "Alkaline earth metals",
     atomicMass: "24.3",
     period: 3,
+    group: 2,
   },
   {
     name: "aluminum",
@@ -110,6 +122,7 @@ export const elementsArray = [
     category: "Post-transition metals",
     atomicMass: "27.0",
     period: 3,
+    group: 3,
   },
   {
     name: "silicon",
@@ -118,6 +131,7 @@ export const elementsArray = [
     category: "Metalloids",
     atomicMass: "28.1",
     period: 3,
+    group: 4,
   },
   {
     name: "phosphorus",
@@ -127,6 +141,7 @@ export const elementsArray = [
     atomicMass: "31.0",
     stateStatus: "nonmetal",
     period: 3,
+    group: 5,
   },
   {
     name: "sulfur",
@@ -136,6 +151,7 @@ export const elementsArray = [
     atomicMass: "32.1",
     stateStatus: "nonmetal",
     period: 3,
+    group: 6,
   },
   {
     name: "chlorine",
@@ -145,6 +161,7 @@ export const elementsArray = [
     atomicMass: "35.5",
     stateStatus: "nonmetal",
     period: 3,
+    group: 7,
   },
   {
     name: "argon",
@@ -154,6 +171,7 @@ export const elementsArray = [
     atomicMass: "39.9",
     stateStatus: "nonmetal",
     period: 3,
+    group: 0,
   },
   {
     name: "potassium",
@@ -162,6 +180,7 @@ export const elementsArray = [
     category: "Alkali metals",
     atomicMass: "39.1",
     period: 4,
+    group: 1,
   },
   {
     name: "calcium",
@@ -170,6 +189,7 @@ export const elementsArray = [
     category: "Alkaline earth metals",
     atomicMass: "40.1",
     period: 4,
+    group: 2,
   },
   {
     name: "scandium",
@@ -178,6 +198,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "45.0",
     period: 1,
+    group: "main groups 2 and 3",
   },
   {
     name: "titanium",
@@ -186,6 +207,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "47.9",
     period: 4,
+    group: "main groups 2 and 3",
   },
 
   {
@@ -195,6 +217,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "50.9",
     period: 1,
+    group: "main groups 2 and 3",
   },
   {
     name: "chromium",
@@ -203,6 +226,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "52.0",
     period: 4,
+    group: "main groups 2 and 3",
   },
   {
     name: "manganese",
@@ -211,6 +235,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "54.9",
     period: 4,
+    group: "main groups 2 and 3",
   },
   {
     name: "iron",
@@ -219,6 +244,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "55.9",
     period: 4,
+    group: "main groups 2 and 3",
   },
   {
     name: "cobalt",
@@ -227,6 +253,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "58.9",
     period: 4,
+    group: "main groups 2 and 3",
   },
   {
     name: "nickel",
@@ -235,6 +262,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "58.7",
     period: 4,
+    group: "main groups 2 and 3",
   },
   {
     name: "copper",
@@ -243,6 +271,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "63.5",
     period: 4,
+    group: "main groups 2 and 3",
   },
   {
     name: "zinc",
@@ -251,6 +280,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "65.4",
     period: 4,
+    group: "main groups 2 and 3",
   },
   {
     name: "Gallium",
@@ -259,6 +289,7 @@ export const elementsArray = [
     category: "Post-transition metals",
     atomicMass: "69.7",
     period: 4,
+    group: 3,
   },
   {
     name: "germanium",
@@ -267,6 +298,7 @@ export const elementsArray = [
     category: "Metalloids",
     atomicMass: "72.4",
     period: 4,
+    group: 4,
   },
   {
     name: "arsenic",
@@ -275,6 +307,7 @@ export const elementsArray = [
     category: "Metalloids",
     atomicMass: "74.9",
     period: 4,
+    group: 5,
   },
   {
     name: "selenium",
@@ -284,6 +317,7 @@ export const elementsArray = [
     atomicMass: "79.0",
     stateStatus: "nonmetal",
     period: 4,
+    group: 6,
   },
   {
     name: "bromine",
@@ -293,6 +327,7 @@ export const elementsArray = [
     atomicMass: "79.9",
     stateStatus: "nonmetal",
     period: 4,
+    group: 7,
   },
   {
     name: "krypton",
@@ -302,6 +337,7 @@ export const elementsArray = [
     atomicMass: "83.8",
     stateStatus: "nonmetal",
     period: 4,
+    group: 0,
   },
   {
     name: "rubidium",
@@ -310,6 +346,7 @@ export const elementsArray = [
     category: "Alkali metals",
     atomicMass: "85.5",
     period: 5,
+    group: 1,
   },
   {
     name: "strontium",
@@ -318,6 +355,7 @@ export const elementsArray = [
     category: "Alkaline earth metals",
     atomicMass: "87.6",
     period: 5,
+    group: 2,
   },
   {
     name: "yitrium",
@@ -326,6 +364,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "88.9",
     period: 5,
+    group: "main groups 2 and 3",
   },
   {
     name: "zirconium",
@@ -334,6 +373,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "91.2",
     period: 5,
+    group: "main groups 2 and 3",
   },
   {
     name: "niobium",
@@ -342,6 +382,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "92.9",
     period: 5,
+    group: "main groups 2 and 3",
   },
   {
     name: "molybdenum",
@@ -350,6 +391,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "95.9",
     period: 5,
+    group: "main groups 2 and 3",
   },
   {
     name: "technetium",
@@ -358,6 +400,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "99",
     period: 5,
+    group: "main groups 2 and 3",
   },
   {
     name: "ruthenium",
@@ -366,6 +409,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "101.1",
     period: 5,
+    group: "main groups 2 and 3",
   },
 
   {
@@ -375,6 +419,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "102.9",
     period: 5,
+    group: "main groups 2 and 3",
   },
   {
     name: "palladium",
@@ -383,6 +428,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "106.4",
     period: 5,
+    group: "main groups 2 and 3",
   },
   {
     name: "silver",
@@ -391,6 +437,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "107.9",
     period: 5,
+    group: "main groups 2 and 3",
   },
   {
     name: "cadmium",
@@ -399,6 +446,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "112.4",
     period: 5,
+    group: "main groups 2 and 3",
   },
   {
     name: "indium",
@@ -407,6 +455,7 @@ export const elementsArray = [
     category: "Post-transition metals",
     atomicMass: "114.8",
     period: 5,
+    group: 3,
   },
   {
     name: "tin",
@@ -415,6 +464,7 @@ export const elementsArray = [
     category: "Post-transition metals",
     atomicMass: "118.7",
     period: 5,
+    group: 4,
   },
   {
     name: "antimony",
@@ -423,6 +473,7 @@ export const elementsArray = [
     category: "Metalloids",
     atomicMass: "121.8",
     period: 5,
+    group: 5,
   },
   {
     name: "tellurium",
@@ -431,6 +482,7 @@ export const elementsArray = [
     category: "Metalloids",
     atomicMass: "127.6",
     period: 5,
+    group: 6,
   },
   {
     name: "iodine",
@@ -440,6 +492,7 @@ export const elementsArray = [
     atomicMass: "126.9",
     stateStatus: "nonmetal",
     period: 5,
+    group: 7,
   },
   {
     name: "xenon",
@@ -449,6 +502,7 @@ export const elementsArray = [
     atomicMass: "131.3",
     stateStatus: "nonmetal",
     period: 5,
+    group: 0,
   },
   {
     name: "cesium",
@@ -457,6 +511,7 @@ export const elementsArray = [
     category: "Alkali metals",
     atomicMass: "132.9",
     period: 6,
+    group: 1,
   },
   {
     name: "barium",
@@ -465,6 +520,7 @@ export const elementsArray = [
     category: "Alkaline earth metals",
     atomicMass: "137.4",
     period: 6,
+    group: 2,
   },
   {
     name: "lanthanum",
@@ -473,6 +529,7 @@ export const elementsArray = [
     category: "Lanthanides",
     atomicMass: "138.92",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "cerium",
@@ -481,6 +538,7 @@ export const elementsArray = [
     category: "Lanthanides",
     atomicMass: "140.1",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "praseodymium",
@@ -489,6 +547,7 @@ export const elementsArray = [
     category: "Lanthanides",
     atomicMass: "140.9",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "neodymium",
@@ -497,6 +556,7 @@ export const elementsArray = [
     category: "Lanthanides",
     atomicMass: "144.3",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "promethium",
@@ -505,6 +565,7 @@ export const elementsArray = [
     category: "Lanthanides",
     atomicMass: "145",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "samarium",
@@ -513,6 +574,7 @@ export const elementsArray = [
     category: "Lanthanides",
     atomicMass: "150.3",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "europium",
@@ -521,6 +583,7 @@ export const elementsArray = [
     category: "Lanthanides",
     atomicMass: "152",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "gadolinium",
@@ -529,6 +592,7 @@ export const elementsArray = [
     category: "Lanthanides",
     atomicMass: "157.3",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "terbium",
@@ -537,6 +601,7 @@ export const elementsArray = [
     category: "Lanthanides",
     atomicMass: "158.9",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "dysprosium",
@@ -545,6 +610,7 @@ export const elementsArray = [
     category: "Lanthanides",
     atomicMass: "162.5",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "holmium",
@@ -553,6 +619,7 @@ export const elementsArray = [
     category: "Lanthanides",
     atomicMass: "164.9",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "erbium",
@@ -561,6 +628,7 @@ export const elementsArray = [
     category: "Lanthanides",
     atomicMass: "167.3",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "thulium",
@@ -569,6 +637,7 @@ export const elementsArray = [
     category: "Lanthanides",
     atomicMass: "168.9",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "ytterbium",
@@ -577,6 +646,7 @@ export const elementsArray = [
     category: "Lanthanides",
     atomicMass: "173.0",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "lutetium",
@@ -585,6 +655,7 @@ export const elementsArray = [
     category: "Lanthanides",
     atomicMass: "175",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "hafnium",
@@ -593,6 +664,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "178.5",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "tantalium",
@@ -601,6 +673,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "180.95",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "tungsten",
@@ -609,6 +682,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "183.9",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "rhenium",
@@ -617,6 +691,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "186.22",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "osmium",
@@ -625,6 +700,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "190.2",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "iridium",
@@ -633,6 +709,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "192.2",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "platinum",
@@ -641,6 +718,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "195.09",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "gold",
@@ -649,6 +727,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "197",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "mercury",
@@ -657,6 +736,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "200.6",
     period: 6,
+    group: "main groups 2 and 3",
   },
   {
     name: "thalium",
@@ -665,6 +745,7 @@ export const elementsArray = [
     category: "Post-transition metals",
     atomicMass: "204.4",
     period: 6,
+    group: 3,
   },
   {
     name: "lead",
@@ -673,6 +754,7 @@ export const elementsArray = [
     category: "Post-transition metals",
     atomicMass: "207.21",
     period: 6,
+    group: 4,
   },
   {
     name: "bismuth",
@@ -681,6 +763,7 @@ export const elementsArray = [
     category: "Post-transition metals",
     atomicMass: "209",
     period: 6,
+    group: 5,
   },
   {
     name: "polonium",
@@ -689,6 +772,7 @@ export const elementsArray = [
     category: "Metalloids",
     atomicMass: "210",
     period: 6,
+    group: 6,
   },
   {
     name: "astatine",
@@ -697,6 +781,7 @@ export const elementsArray = [
     category: "Halogens",
     atomicMass: "210",
     period: 6,
+    group: 7,
   },
   {
     name: "radon",
@@ -706,6 +791,7 @@ export const elementsArray = [
     atomicMass: "222",
     stateStatus: "nonmetal",
     period: 6,
+    group: 0,
   },
   {
     name: "francium",
@@ -714,6 +800,7 @@ export const elementsArray = [
     category: "Alkali metals",
     atomicMass: "223",
     period: 7,
+    group: 1,
   },
   {
     name: "radium",
@@ -722,6 +809,7 @@ export const elementsArray = [
     category: "Alkaline earth metals",
     atomicMass: "226.06",
     period: 7,
+    group: 2,
   },
   {
     name: "actinium",
@@ -730,6 +818,7 @@ export const elementsArray = [
     category: "Actinides",
     atomicMass: "227",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "thorium",
@@ -738,6 +827,7 @@ export const elementsArray = [
     category: "Actinides",
     atomicMass: "232.05",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "protactinium",
@@ -746,6 +836,7 @@ export const elementsArray = [
     category: "Actinides",
     atomicMass: "231",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "uranium",
@@ -754,6 +845,7 @@ export const elementsArray = [
     category: "Actinides",
     atomicMass: "238.07",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "neptunium",
@@ -762,6 +854,7 @@ export const elementsArray = [
     category: "Actinides",
     atomicMass: "237",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "plutonium",
@@ -770,6 +863,7 @@ export const elementsArray = [
     category: "Actinides",
     atomicMass: "242",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "americium",
@@ -778,6 +872,7 @@ export const elementsArray = [
     category: "Actinides",
     atomicMass: "243",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "curium",
@@ -786,6 +881,7 @@ export const elementsArray = [
     category: "Actinides",
     atomicMass: "247",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "berkelium",
@@ -794,6 +890,7 @@ export const elementsArray = [
     category: "Actinides",
     atomicMass: "249",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "californium",
@@ -802,6 +899,7 @@ export const elementsArray = [
     category: "Actinides",
     atomicMass: "249",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "einsteinium",
@@ -810,6 +908,7 @@ export const elementsArray = [
     category: "Actinides",
     atomicMass: "254",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "fermium",
@@ -818,6 +917,7 @@ export const elementsArray = [
     category: "Actinides",
     atomicMass: "255",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "mendelevium",
@@ -826,6 +926,7 @@ export const elementsArray = [
     category: "Actinides",
     atomicMass: "256",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "nobelium",
@@ -834,6 +935,7 @@ export const elementsArray = [
     category: "Actinides",
     atomicMass: "251",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "lawrencium",
@@ -842,6 +944,7 @@ export const elementsArray = [
     category: "Actinides",
     atomicMass: "262",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "rutherfordium",
@@ -850,6 +953,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "261",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "dubium",
@@ -858,6 +962,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "252",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "seaborgium",
@@ -866,6 +971,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "--",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "bohrium",
@@ -874,6 +980,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "264",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "hassium",
@@ -882,6 +989,7 @@ export const elementsArray = [
     category: "Transition metals",
     atomicMass: "269",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "meitnerium",
@@ -890,6 +998,7 @@ export const elementsArray = [
     category: "Unknown properties",
     atomicMass: "278",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "darnstatium",
@@ -898,6 +1007,7 @@ export const elementsArray = [
     category: "Unknown properties",
     atomicMass: "281",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "roentgenium",
@@ -906,6 +1016,7 @@ export const elementsArray = [
     category: "Unknown properties",
     atomicMass: "282",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "corpernicium",
@@ -914,6 +1025,7 @@ export const elementsArray = [
     category: "Unknown properties",
     atomicMass: "285",
     period: 7,
+    group: "main groups 2 and 3",
   },
   {
     name: "nihonium",
@@ -922,6 +1034,7 @@ export const elementsArray = [
     category: "Unknown properties",
     atomicMass: "286",
     period: 7,
+    group: 3,
   },
   {
     name: "flerovium",
@@ -930,6 +1043,7 @@ export const elementsArray = [
     category: "Unknown properties",
     atomicMass: "289",
     period: 7,
+    group: 4,
   },
   {
     name: "moscovium",
@@ -938,6 +1052,7 @@ export const elementsArray = [
     category: "Unknown properties",
     atomicMass: "289",
     period: 7,
+    group: 5,
   },
   {
     name: "livermorium",
@@ -946,6 +1061,7 @@ export const elementsArray = [
     category: "Unknown properties",
     atomicMass: "293",
     period: 7,
+    group: 6,
   },
   {
     name: "tennessine",
@@ -954,6 +1070,7 @@ export const elementsArray = [
     category: "Unknown properties",
     atomicMass: "-",
     period: 7,
+    group: 7,
   },
   {
     name: "oganesson",
@@ -962,5 +1079,6 @@ export const elementsArray = [
     category: "Unknown properties",
     atomicMass: "294",
     period: 7,
+    group: 0,
   },
 ];

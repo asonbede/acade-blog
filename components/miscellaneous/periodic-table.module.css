@@ -1,6 +1,6 @@
 .tableElem {
   border-collapse: collapse;
-  width: 80% !important;
+  width: 100%;
 }
 
 .tableElem thead {
@@ -10,7 +10,6 @@
   color: blue;
 }
 
-.tableElem,
 .tableElem td,
 .tableElem th {
   /* border: 0.1px solid black; */

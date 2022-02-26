@@ -71,10 +71,7 @@ export default function GuessElementGame({
     const targetElemStateStatus = targetElemObj.stateStatus
       ? "non-metals"
       : "Metals";
-    // const
-    // stateStatus: "nonmetal",
-    //   (item) => item.atomicNum === userQuess
-    // );
+    const targetElemPeriod = targetElemObj.period;
     setguesses([
       ...guesses,
       `Name: ${guessedElemName}, Atomic Number: ${guessedElemAtomicNum}`,
@@ -176,11 +173,18 @@ export default function GuessElementGame({
           }
           
           ${
-            guessCount > 1
+            guessCount > 1 && guessCount <= 2
               ? `the target belongs to the  ${targetElemCategory}`
               : ""
           }
+
+           ${
+             guessCount > 2 && guessCount <= 3
+               ? `the target belongs to period  ${targetElemPeriod}`
+               : ""
+           }
         `;
+
         notificationCtx.showNotification({
           title: "Hint!",
           message: meg,
@@ -212,12 +216,19 @@ export default function GuessElementGame({
               ? `the target belongs to the  ${targetElemStateStatus}`
               : ""
           }
+           ${
+             guessCount > 1 && guessCount <= 2
+               ? `the target belongs to the  ${targetElemCategory}`
+               : ""
+           }
+
+           ${
+             guessCount > 2 && guessCount <= 3
+               ? `the target belongs to  period ${targetElemPeriod}`
+               : ""
+           }
        
-          ${
-            guessCount > 1
-              ? `the target belongs to the  ${targetElemCategory}`
-              : ""
-          }`;
+        `;
 
         notificationCtx.showNotification({
           title: "Hint!",
@@ -291,12 +302,22 @@ export default function GuessElementGame({
   }
 
   return (
-    <div>
-      <p>Guess The Element Game</p>
-      {!showEndGameBut && <button onClick={handleStartGame}>start game</button>}
-      {showEndGameBut && <button onClick={handleEndGame}>End game</button>}
-      {/* <p className="lastResult">{lastResult}</p> */}
-
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        margin: "0 auto",
+        border: "1px solid pink",
+      }}
+    >
+      <div style={{ marginLeft: "45%", marginBottom: "4%" }}>
+        <p>Guess The Element Game</p>
+        {!showEndGameBut && (
+          <button onClick={handleStartGame}>start game</button>
+        )}
+        {showEndGameBut && <button onClick={handleEndGame}>End game</button>}
+        {/* <p className="lastResult">{lastResult}</p> */}
+      </div>
       {gameDataArray.length !== 0 && (
         <div>
           <table className={classes.tableData}>
