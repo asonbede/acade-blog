@@ -10,19 +10,35 @@ import GuessElementGame from "./quess-element";
 const rowNum = [1, 2, 3, 4, 5, 6, 7];
 const rowLanAndAct = ["Lanthanides", "Actinides"];
 
-function TableHead(props) {
+function TableHead({ handleColumnBound }) {
   return (
     <tr>
       <th>Groups/Periods</th>
-      <th>1</th>
-      <th>2</th>
+      <th className={classes.pointerClass} onClick={() => handleColumnBound(1)}>
+        1
+      </th>
+      <th className={classes.pointerClass} onClick={() => handleColumnBound(2)}>
+        2
+      </th>
       <th colspan="10"></th>
-      <th>3</th>
-      <th>4</th>
-      <th>5</th>
-      <th>6</th>
-      <th>7</th>
-      <th>0</th>
+      <th className={classes.pointerClass} onClick={() => handleColumnBound(3)}>
+        3
+      </th>
+      <th className={classes.pointerClass} onClick={() => handleColumnBound(4)}>
+        4
+      </th>
+      <th className={classes.pointerClass} onClick={() => handleColumnBound(5)}>
+        5
+      </th>
+      <th className={classes.pointerClass} onClick={() => handleColumnBound(6)}>
+        6
+      </th>
+      <th className={classes.pointerClass} onClick={() => handleColumnBound(7)}>
+        7
+      </th>
+      <th className={classes.pointerClass} onClick={() => handleColumnBound(0)}>
+        0
+      </th>
     </tr>
   );
 }
@@ -36,12 +52,41 @@ function TableRow({
   guessCount,
   setshowEndGameBut,
   startButWasClicked,
+  groupNum,
+  setgroupNum,
+  isgroup,
 }) {
   const [idValue, setidValue] = useState();
   const [markBounds, setmarkBounds] = useState(false);
+  const [rowData, setrowData] = useState(null);
+  const [isRow, setisRow] = useState(false);
   const notificationCtx = useContext(NotificationContext);
 
   //userQuess={userQuess} guessCount={quessCount} setguessCount={setguessCount}
+  function handleRowBound(rowDataValue) {
+    setisRow(!isRow);
+    setrowData(rowDataValue);
+  }
+  // <button
+  //   onClick={(e) => {
+  //     if (e.detail === 1) handleClick();
+  //     if (e.detail === 2) handleDoubleClick();
+  //   }}
+  // >
+  //   Click me
+  // </button>;
+
+  useEffect(() => {
+    setTimeout(function () {
+      setrowData(null);
+    }, 6000);
+  }, [isRow]);
+
+  useEffect(() => {
+    setTimeout(function () {
+      setgroupNum(null);
+    }, 6000);
+  }, [isgroup]);
   function handleMouseEnter(paramVal) {
     setidValue(paramVal);
     setmarkBounds(true);
@@ -49,6 +94,7 @@ function TableRow({
   function handleMouseLeave(params) {
     setmarkBounds(false);
   }
+
   function handleTableData(data) {
     if (startButWasClicked) {
       setuserGuess(data);
@@ -95,9 +141,41 @@ function TableRow({
       return classes.familyBonds;
     } else if (catValue === "Metals" && !elemOby.stateStatus) {
       return classes.familyBonds;
+    } else if (
+      catValue === "p-block" &&
+      (elemOby.group === 3 ||
+        elemOby.group === 4 ||
+        elemOby.group === 5 ||
+        elemOby.group === 6 ||
+        elemOby.group === 7 ||
+        elemOby.group === 0)
+    ) {
+      return classes.familyBonds;
     }
 
     return classes.noBounds;
+  }
+
+  function addRowBoundClass(elemOby) {
+    // console.log({ rowData, rowBonds });
+    let bondClass = "";
+    if (rowData === elemOby.period) {
+      console.log("one");
+      bondClass = classes.rowBonds;
+    }
+
+    if (bondClass) {
+      return bondClass;
+    }
+  }
+
+  function addColumnBoundClass(elemOby) {
+    // console.log({ rowData, rowBonds });
+
+    if (groupNum === elemOby.group) {
+      console.log("one");
+      return classes.groupBonds;
+    }
   }
 
   function displayCellData(cellDatum, selectedCat) {
@@ -107,7 +185,8 @@ function TableRow({
           markBounds && idValue === cellDatum.atomicNum
             ? classes.showBounds
             : classes.hideBounds
-        }  ${addFamilyBoundClass(selectedCat, cellDatum)}`}
+        }  ${addFamilyBoundClass(selectedCat, cellDatum)} 
+        ${addRowBoundClass(cellDatum)}    ${addColumnBoundClass(cellDatum)}`}
         onMouseEnter={() => handleMouseEnter(cellDatum.atomicNum)}
         onMouseLeave={handleMouseLeave}
         onClick={() => handleTableData(cellDatum)}
@@ -129,7 +208,12 @@ function TableRow({
           i === 0 ? (
             <>
               {" "}
-              <td>{row}</td>
+              <td
+                onClick={() => handleRowBound(row)}
+                className={classes.pointerClass}
+              >
+                {row}
+              </td>
               {displayCellData(val, selectedCategory)}
               <td colspan="16"></td>
             </>
@@ -148,7 +232,12 @@ function TableRow({
           if (i === 0) {
             return (
               <>
-                <td>{row}</td>
+                <td
+                  onClick={() => handleRowBound(row)}
+                  className={classes.pointerClass}
+                >
+                  {row}
+                </td>
                 {displayCellData(val, selectedCategory)}
               </>
             );
@@ -175,7 +264,12 @@ function TableRow({
           if (i === 0) {
             return (
               <>
-                <td>{row}</td>
+                <td
+                  onClick={() => handleRowBound(row)}
+                  className={classes.pointerClass}
+                >
+                  {row}
+                </td>
                 {displayCellData(val, selectedCategory)}
               </>
             );
@@ -202,7 +296,12 @@ function TableRow({
         {newTableData.map((val, i) =>
           i === 0 ? (
             <>
-              <td>{row}</td>
+              <td
+                onClick={() => handleRowBound(row)}
+                className={classes.pointerClass}
+              >
+                {row}
+              </td>
               {displayCellData(val, selectedCategory)}
             </>
           ) : (
@@ -219,7 +318,12 @@ function TableRow({
         {newTableData.map((val, i) =>
           i === 0 ? (
             <>
-              <td>{row}</td>
+              <td
+                onClick={() => handleRowBound(row)}
+                className={classes.pointerClass}
+              >
+                {row}
+              </td>
               {displayCellData(val, selectedCategory)}
             </>
           ) : (
@@ -231,6 +335,7 @@ function TableRow({
   } else if (row === 6) {
     const newTableData = tableData.slice(54, 57);
     const newTableData2 = tableData.slice(71, 86);
+    //const lant= tableData.slice(57, 71);
     const newTableData3 = [...newTableData, ...newTableData2];
 
     return (
@@ -238,7 +343,12 @@ function TableRow({
         {newTableData3.map((val, i) =>
           i === 0 ? (
             <>
-              <td>{row}</td>
+              <td
+                onClick={() => handleRowBound(row)}
+                className={classes.pointerClass}
+              >
+                {row}
+              </td>
               {displayCellData(val, selectedCategory)}
             </>
           ) : (
@@ -257,7 +367,12 @@ function TableRow({
         {newTableData3.map((val, i) =>
           i === 0 ? (
             <>
-              <td>{row}</td>
+              <td
+                onClick={() => handleRowBound(row)}
+                className={classes.pointerClass}
+              >
+                {row}
+              </td>
               {displayCellData(val, selectedCategory)}
             </>
           ) : (
@@ -317,6 +432,8 @@ export default function PeriodicTableOfElem(props) {
   const [guessCount, setguessCount] = useState(0);
   const [showEndGameBut, setshowEndGameBut] = useState(false);
   const [startButWasClicked, setStartButWasClicked] = useState(false);
+  const [groupNum, setgroupNum] = useState();
+  const [isgroup, setisgroup] = useState(false);
   const notificationCtx = useContext(NotificationContext);
 
   const activeNotification = notificationCtx.notification;
@@ -328,6 +445,10 @@ export default function PeriodicTableOfElem(props) {
     setselectedCategory(value);
   };
 
+  function handleColumnBound(groupValue) {
+    setisgroup(!isgroup);
+    setgroupNum(groupValue);
+  }
   // function displayGame() {
   //   return (
   //     <GuessElementGame
@@ -579,7 +700,7 @@ export default function PeriodicTableOfElem(props) {
   return (
     <>
       <table className={classes.tableElem}>
-        <colgroup>
+        {/* <colgroup>
           <col span={12} />
           <col
             span={7}
@@ -589,10 +710,10 @@ export default function PeriodicTableOfElem(props) {
                 : classes.noPBoundary
             }
           />
-        </colgroup>
+        </colgroup> */}
         <caption>The Periodic Table </caption>
         <thead>
-          <TableHead />
+          <TableHead handleColumnBound={handleColumnBound} />
         </thead>
         <tbody>
           {rowNum.map((row) => (
@@ -605,6 +726,9 @@ export default function PeriodicTableOfElem(props) {
               guessCount={guessCount}
               setshowEndGameBut={setshowEndGameBut}
               startButWasClicked={startButWasClicked}
+              groupNum={groupNum}
+              setgroupNum={setgroupNum}
+              isgroup={isgroup}
             />
           ))}
         </tbody>
@@ -627,6 +751,9 @@ export default function PeriodicTableOfElem(props) {
               guessCount={guessCount}
               setshowEndGameBut={setshowEndGameBut}
               startButWasClicked={startButWasClicked}
+              groupNum={groupNum}
+              setgroupNum={setgroupNum}
+              isgroup={isgroup}
             />
           ))}
         </tbody>

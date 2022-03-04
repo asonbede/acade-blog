@@ -20,6 +20,9 @@
 .tableData tr:hover {
   background-color: coral;
 }
+.pointerClass {
+  cursor: pointer;
+}
 /* table {
   border-collapse: collapse;
   width: 100%;

@@ -50,8 +50,24 @@
 .familyBonds {
   border: 2px solid #f57388;
 }
+.rowBonds {
+  border: 2px solid #f57388;
+  /* border-left: none;
+  border-right: none;
+  border-top: 2px solid #f57388;
+  border-bottom: 2px solid #f57388; */
+}
+.noRowBonds {
+  border: 2px solid green;
+}
+.groupBonds {
+  border: 2px solid #f57388;
+}
 .pBoundary {
   border: 2px solid #f57388;
+}
+.pointerClass {
+  cursor: pointer;
 }
 
 /* .dataLarge {

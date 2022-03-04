@@ -24,6 +24,7 @@ export default function GuessElementGame({
 
   const [randomElementValue, setrandomElementValue] = useState();
   const [gameDataArray, setgameDataArray] = useState([]);
+  const [queNumArrayGlobal, setuniqueNumArray] = useState([]);
 
   console.log({ userGuess }, "outside-useffect-elem");
   //   const router = useRouter();
@@ -41,6 +42,58 @@ export default function GuessElementGame({
     }
   }, [userGuess]);
 
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+  };
+
+  function generateUniQueNum(workingArray, count) {
+    // if (count===""){
+
+    // }
+    let randomNumbers = new Set();
+    while (true) {
+      let randomNum = Math.floor(Math.random() * workingArray.length);
+
+      // randomArray.push(preWorkingArray[num]);
+      randomNumbers.add(randomNum);
+      if (randomNumbers.size === workingArray.length) {
+        break;
+      }
+    }
+    //console.log({ randomArray });
+    //setitemArray(randomArray);
+    const randomArray = [...randomNumbers];
+    return randomArray;
+  }
+
+  function getTargetElemBlock(elemObj) {
+    if (elemObj.group === 1 || elemObj.group === 2) {
+      return "s-block";
+    } else if (
+      elemObj.group === 3 ||
+      elemObj.group === 4 ||
+      elemObj.group === 5 ||
+      elemObj.group === 6 ||
+      elemObj.group === 7 ||
+      elemObj.group === 0
+    ) {
+      return "p-block";
+    } else if (elemObj.category === "Transition metals") {
+      return "d-block";
+    } else if (
+      elemObj.category === "Lanthanides" ||
+      elemObj.category === "Actinides"
+    ) {
+      return "f-block";
+    }
+    return "";
+  }
+
   function checkGuess() {
     let gameDataObj = {
       rounds: "",
@@ -52,6 +105,7 @@ export default function GuessElementGame({
 
       hintGiven: "",
     };
+    let uniqueNumArray;
     const userGuessAtomicNum = Number(userGuess.atomicNum);
     console.log({ userGuess, guessCount }, "from-guess-elem");
     // if (guessCount === 1) {
@@ -71,7 +125,39 @@ export default function GuessElementGame({
     const targetElemStateStatus = targetElemObj.stateStatus
       ? "non-metals"
       : "Metals";
-    const targetElemPeriod = targetElemObj.period;
+    const targetElemPeriod = `period ${targetElemObj.period}`;
+    const targetElemGroup = `group ${targetElemObj.group}`;
+    const targetElemBlock = getTargetElemBlock(targetElemObj);
+    const targetElemArray = [
+      targetElemBlock,
+      targetElemGroup,
+      targetElemPeriod,
+      targetElemStateStatus,
+      targetElemCategory,
+    ];
+
+    if (guessCount === 1) {
+      //shuffleArray(targetElemArray);
+      uniqueNumArray = generateUniQueNum(targetElemArray);
+      console.log({ uniqueNumArray });
+      setuniqueNumArray(uniqueNumArray);
+    }
+
+    //console.log({ targetElemGroup });
+    // const arrrayGroups = [1, 2, 3, 4, 5, 6, 7, 0];
+
+    // const filteredArray = arrrayGroups.filter(
+    //   (item) => item !== targetElemGroup
+    // );
+    // console.log({ filteredArray });
+
+    // const randomNum1 = Math.floor(Math.random() * filteredArray.length) + 1;
+
+    // const targetElemGroupArray = [targetElemGroup, filteredArray[randomNum1]];
+    // console.log({ targetElemGroupArray });
+
+    // shuffleArray(targetElemGroupArray);
+
     setguesses([
       ...guesses,
       `Name: ${guessedElemName}, Atomic Number: ${guessedElemAtomicNum}`,
@@ -102,10 +188,9 @@ export default function GuessElementGame({
         rounds: guessCount,
         name: guessedElemName,
         atomicNumber: guessedElemAtomicNum,
-        maxChance: 5,
-        chanceLeft: 5 - guessCount,
+        maxChance: 6,
+        chanceLeft: 6 - guessCount,
         result: "correct",
-        hintGiven: "none",
         targetName: targetElemName,
         targetAtomicNum: targetElemAtomicNum,
       };
@@ -121,7 +206,7 @@ export default function GuessElementGame({
       //setgameDataArray([]);
       //lowOrHi.textContent = "";
       // setGameOver();
-    } else if (guessCount === 5) {
+    } else if (guessCount === 6) {
       setlastResult(
         `!!!GAME OVER!!! The target Name: ${targetElemName} Atomic number: ${targetElemAtomicNum}`
       );
@@ -145,8 +230,8 @@ export default function GuessElementGame({
         rounds: guessCount,
         name: guessedElemName,
         atomicNumber: guessedElemAtomicNum,
-        maxChance: 5,
-        chanceLeft: 5 - guessCount,
+        maxChance: 6,
+        chanceLeft: 6 - guessCount,
         result: "wrong",
         hintGiven: "--",
         targetName: targetElemName,
@@ -167,22 +252,44 @@ export default function GuessElementGame({
         // }`);
         const meg = `Wrong guess. Atomic number of this guess is lower than target! 
           ${
-            guessCount <= 1
-              ? `the target belongs to the  ${targetElemStateStatus}`
+            guessCount === 1
+              ? `the target belongs to the  ${
+                  targetElemArray[uniqueNumArray[0]]
+                }`
               : ""
           }
           
           ${
-            guessCount > 1 && guessCount <= 2
-              ? `the target belongs to the  ${targetElemCategory}`
+            guessCount === 2
+              ? `the target belongs to the  ${
+                  targetElemArray[queNumArrayGlobal[1]]
+                }`
               : ""
           }
 
            ${
-             guessCount > 2 && guessCount <= 3
-               ? `the target belongs to period  ${targetElemPeriod}`
+             guessCount === 3
+               ? `the target belongs to  ${
+                   targetElemArray[queNumArrayGlobal[2]]
+                 }`
                : ""
            }
+            ${
+              guessCount === 4
+                ? `the target belongs to  ${
+                    targetElemArray[queNumArrayGlobal[3]]
+                  }`
+                : ""
+            }
+
+             ${
+               guessCount === 5
+                 ? `the target belongs to  ${
+                     targetElemArray[queNumArrayGlobal[4]]
+                   }`
+                 : ""
+             }
+
         `;
 
         notificationCtx.showNotification({
@@ -195,8 +302,8 @@ export default function GuessElementGame({
           rounds: guessCount,
           name: guessedElemName,
           atomicNumber: guessedElemAtomicNum,
-          maxChance: 5,
-          chanceLeft: 5 - guessCount,
+          maxChance: 6,
+          chanceLeft: 6 - guessCount,
           result: "wrong",
           hintGiven: meg,
           targetName: "---",
@@ -212,22 +319,44 @@ export default function GuessElementGame({
         // }`);
         const meg = `Wrong guess. Atomic number of this guess is higher than target! 
           ${
-            guessCount <= 1
-              ? `the target belongs to the  ${targetElemStateStatus}`
+            guessCount === 1
+              ? `the target belongs to the  ${
+                  targetElemArray[uniqueNumArray[0]]
+                }`
               : ""
           }
-           ${
-             guessCount > 1 && guessCount <= 2
-               ? `the target belongs to the  ${targetElemCategory}`
-               : ""
-           }
+          
+          ${
+            guessCount === 2
+              ? `the target belongs to the  ${
+                  targetElemArray[queNumArrayGlobal[1]]
+                }`
+              : ""
+          }
 
            ${
-             guessCount > 2 && guessCount <= 3
-               ? `the target belongs to  period ${targetElemPeriod}`
+             guessCount === 3
+               ? `the target belongs to  ${
+                   targetElemArray[queNumArrayGlobal[2]]
+                 }`
                : ""
            }
-       
+            ${
+              guessCount === 4
+                ? `the target belongs to  ${
+                    targetElemArray[queNumArrayGlobal[3]]
+                  }`
+                : ""
+            }
+
+             ${
+               guessCount === 5
+                 ? `the target belongs to ${
+                     targetElemArray[queNumArrayGlobal[4]]
+                   }`
+                 : ""
+             }
+
         `;
 
         notificationCtx.showNotification({
@@ -240,8 +369,8 @@ export default function GuessElementGame({
           rounds: guessCount,
           name: guessedElemName,
           atomicNumber: guessedElemAtomicNum,
-          maxChance: 5,
-          chanceLeft: 5 - guessCount,
+          maxChance: 6,
+          chanceLeft: 6 - guessCount,
           result: "wrong",
           hintGiven: meg,
           targetName: "---",
@@ -267,7 +396,7 @@ export default function GuessElementGame({
     //choose one of the elements at random
     //notify the player, that an element has been chosen at random
     //show elements where uuser can see there progress
-    const randomElement = Math.floor(Math.random() * elementsArray.length) + 1;
+    const randomElement = Math.floor(Math.random() * elementsArray.length);
     console.log({ randomElement }, "from-ran-func");
     setrandomElementValue(randomElement + 1);
     setguessCount(0);
@@ -342,9 +471,9 @@ export default function GuessElementGame({
                 <th>max Chance</th>
                 <th>chance Left</th>
 
-                <th>targe name</th>
+                <th>target name</th>
                 <th>target atomic num</th>
-                <th>hint givem</th>
+                <th>hint given</th>
               </tr>
             </thead>
             <tbody>

@@ -18,12 +18,16 @@ import NotificationContext from "../../../store/notification-context";
 import { useSession, signOut } from "next-auth/client";
 import AnimatedOrbitalDiag from "../../miscellaneous/animated-orbital-diag";
 import PeriodicTableOfElem from "../../miscellaneous/periodic-table";
+import PeriodicTrends from "../../miscellaneous/periodic-trend";
 
 //import { getDomainLocale } from "next/dist/next-server/lib/router/router";
 //import { adminArray } from "../../../helpers/db-utils";
 const replaceBannerImg = {
   "61f946e3e72eb408e83024f5": () => <AnimatedOrbitalDiag />,
   "62106ec04c9caa17288669ce": () => <PeriodicTableOfElem />,
+};
+const appendAtEnd = {
+  "62106ec04c9caa17288669ce": () => <PeriodicTrends />,
 };
 async function changeLikeHandler(likedData) {
   const response = await fetch("/api/blog-content/", {
@@ -371,6 +375,14 @@ function PostContent(props) {
                 />
               )}
             </div>
+            {post.id in replaceBannerImg && isContentOpen ? (
+              <div
+                className={classes.blogdescription}
+                style={{ width: "80%", overflowX: "auto" }}
+              >
+                {appendAtEnd[post.id]()}
+              </div>
+            ) : null}
           </div>
         </div>
       </article>
