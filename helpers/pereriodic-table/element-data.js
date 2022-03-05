@@ -211,7 +211,7 @@ export const elementsArray = [
   },
 
   {
-    name: "vandium",
+    name: "vanadium",
     atomicNum: 23,
     symbol: "V",
     category: "Transition metals",

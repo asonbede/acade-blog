@@ -1,16 +1,20 @@
-//PeriodicTrends;
-
 import { useState, useEffect } from "react";
 import { elementsArray } from "../../helpers/pereriodic-table/element-data";
+import classes from "./periodic-trend.module.css";
 // import {
 //   drawLineEndMarker,
 //   drawText,
 //   drawElectronLine,
 // } from "../../helpers/pereriodic-table/draw-orbitals";
 
-function PeriodicTrends(props) {
+function PeriodicTrends({
+  capitalizeFirstLetter,
+  //   addFamilyBoundClass,
+  selectedCategory,
+}) {
   const [moderatedValue, setmoderatedValue] = useState();
-  const [localStorageSet, setlocalStorageSet] = useState(false);
+  const [showAllData, setshowAllData] = useState();
+
   const rowNum = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
   ];
@@ -67,8 +71,69 @@ function PeriodicTrends(props) {
       return newTableData;
     }
   }
+  function handleMouseEnter(elemAtomNum) {
+    setshowAllData(elemAtomNum);
+  }
+  function handleMouseLeave(elemAtomNum) {
+    setshowAllData(null);
+  }
+  // console.log({ selectedCategory }, "from-trend");
+  function addFamilyBoundClass(catValue, elemOby) {
+    if (catValue === elemOby.category) {
+      console.log("check1");
+      console.log({ catValue }, elemOby.category);
+      return "borderReact";
+    } else if (
+      catValue === "s-block" &&
+      (elemOby.category === "Alkali metals" ||
+        elemOby.category === "Alkaline earth metals")
+    ) {
+      console.log("check2");
+      return "borderReact";
+    } else if (
+      catValue === "d-block" &&
+      elemOby.category === "Transition metals"
+    ) {
+      console.log("check3");
+      return "borderReact";
+    } else if (
+      catValue === "f-block" &&
+      (elemOby.category === "Lanthanides" || elemOby.category === "Actinides")
+    ) {
+      console.log("check4");
+      return "borderReact";
+    } else if (
+      catValue === "Non metals" &&
+      elemOby.stateStatus === "nonmetal"
+    ) {
+      console.log("check5");
+
+      return "borderReact";
+    } else if (catValue === "Metals" && !elemOby.stateStatus) {
+      return "borderReact";
+    } else if (
+      catValue === "p-block" &&
+      (elemOby.group === 3 ||
+        elemOby.group === 4 ||
+        elemOby.group === 5 ||
+        elemOby.group === 6 ||
+        elemOby.group === 7 ||
+        elemOby.group === 0)
+    ) {
+      console.log("check6");
+      return "borderReact";
+    }
+    console.log("check7");
+    return "noborderReact";
+  }
 
   function drawRect(x, y, elemData) {
+    // console.log({ elemData }, "from-trend");
+    console.log(
+      addFamilyBoundClass(selectedCategory, elemData),
+      "from-trend-fun"
+    );
+    const rectBound = addFamilyBoundClass(selectedCategory, elemData);
     return (
       <svg
         x={`${x}`}
@@ -77,25 +142,46 @@ function PeriodicTrends(props) {
         height="70"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 70 70"
+        onMouseEnter={() => handleMouseEnter(elemData.atomicNum)}
+        onMouseLeave={handleMouseLeave}
+
+        // onClick={() => handleTableData(elemData)}
       >
         <g>
           <rect
             x="0"
             y="0"
-            width="60"
-            height="60"
-            fill="none"
-            stroke="red"
+            width={showAllData === elemData.atomicNum ? "80" : "60"}
+            height={showAllData === elemData.atomicNum ? "80" : "60"}
+            fill={showAllData === elemData.atomicNum ? "red" : "none"}
+            opacity={showAllData === elemData.atomicNum ? "0.4" : "1"}
+            stroke={rectBound === "borderReact" ? "black" : "red"}
             style={{ strokeWidth: "2px" }}
           ></rect>
-          <text x="15" y="40" fontFamily="Verdana" fontSize="15" fill="blue">
-            <tspan> {elemData.symbol}</tspan>
+          {showAllData === elemData.atomicNum ? (
+            <text x="13" y="40" fontFamily="Verdana" fontSize="12" fill="black">
+              <tspan> {elemData.symbol}</tspan>
 
-            <tspan dy="15" dx="-25">
-              {" "}
-              {elemData.atomicNum}
-            </tspan>
-          </text>
+              <tspan dy="15" dx="-13">
+                {" "}
+                {elemData.atomicNum}
+              </tspan>
+
+              <tspan dy="-40" dx="-33">
+                {" "}
+                {capitalizeFirstLetter(elemData.name)}
+              </tspan>
+            </text>
+          ) : (
+            <text x="15" y="40" fontFamily="Verdana" fontSize="15" fill="blue">
+              <tspan> {elemData.symbol}</tspan>
+
+              <tspan dy="15" dx="-25">
+                {" "}
+                {elemData.atomicNum}
+              </tspan>
+            </text>
+          )}
         </g>
       </svg>
     );

@@ -7,6 +7,7 @@ import Notification from "../ui/notification";
 import { useRouter } from "next/router";
 import { elementsArray } from "../../helpers/pereriodic-table/element-data";
 import GuessElementGame from "./quess-element";
+import PeriodicTrend from "./periodic-trend";
 const rowNum = [1, 2, 3, 4, 5, 6, 7];
 const rowLanAndAct = ["Lanthanides", "Actinides"];
 
@@ -55,6 +56,8 @@ function TableRow({
   groupNum,
   setgroupNum,
   isgroup,
+  capitalizeFirstLetter,
+  addFamilyBoundClass,
 }) {
   const [idValue, setidValue] = useState();
   const [markBounds, setmarkBounds] = useState(false);
@@ -112,49 +115,49 @@ function TableRow({
       );
     }
   }
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-  function addFamilyBoundClass(catValue, elemOby) {
-    if (catValue === elemOby.category) {
-      return classes.familyBonds;
-    } else if (
-      catValue === "s-block" &&
-      (elemOby.category === "Alkali metals" ||
-        elemOby.category === "Alkaline earth metals")
-    ) {
-      return classes.familyBonds;
-    } else if (
-      catValue === "d-block" &&
-      elemOby.category === "Transition metals"
-    ) {
-      return classes.familyBonds;
-    } else if (
-      catValue === "f-block" &&
-      (elemOby.category === "Lanthanides" || elemOby.category === "Actinides")
-    ) {
-      return classes.familyBonds;
-    } else if (
-      catValue === "Non metals" &&
-      elemOby.stateStatus === "nonmetal"
-    ) {
-      return classes.familyBonds;
-    } else if (catValue === "Metals" && !elemOby.stateStatus) {
-      return classes.familyBonds;
-    } else if (
-      catValue === "p-block" &&
-      (elemOby.group === 3 ||
-        elemOby.group === 4 ||
-        elemOby.group === 5 ||
-        elemOby.group === 6 ||
-        elemOby.group === 7 ||
-        elemOby.group === 0)
-    ) {
-      return classes.familyBonds;
-    }
+  // function capitalizeFirstLetter(string) {
+  //   return string.charAt(0).toUpperCase() + string.slice(1);
+  // }
+  // function addFamilyBoundClass(catValue, elemOby) {
+  //   if (catValue === elemOby.category) {
+  //     return classes.familyBonds;
+  //   } else if (
+  //     catValue === "s-block" &&
+  //     (elemOby.category === "Alkali metals" ||
+  //       elemOby.category === "Alkaline earth metals")
+  //   ) {
+  //     return classes.familyBonds;
+  //   } else if (
+  //     catValue === "d-block" &&
+  //     elemOby.category === "Transition metals"
+  //   ) {
+  //     return classes.familyBonds;
+  //   } else if (
+  //     catValue === "f-block" &&
+  //     (elemOby.category === "Lanthanides" || elemOby.category === "Actinides")
+  //   ) {
+  //     return classes.familyBonds;
+  //   } else if (
+  //     catValue === "Non metals" &&
+  //     elemOby.stateStatus === "nonmetal"
+  //   ) {
+  //     return classes.familyBonds;
+  //   } else if (catValue === "Metals" && !elemOby.stateStatus) {
+  //     return classes.familyBonds;
+  //   } else if (
+  //     catValue === "p-block" &&
+  //     (elemOby.group === 3 ||
+  //       elemOby.group === 4 ||
+  //       elemOby.group === 5 ||
+  //       elemOby.group === 6 ||
+  //       elemOby.group === 7 ||
+  //       elemOby.group === 0)
+  //   ) {
+  //     return classes.familyBonds;
+  //   }
 
-    return classes.noBounds;
-  }
+  //   return classes.noBounds;
+  // }
 
   function addRowBoundClass(elemOby) {
     // console.log({ rowData, rowBonds });
@@ -179,6 +182,7 @@ function TableRow({
   }
 
   function displayCellData(cellDatum, selectedCat) {
+    console.log(addFamilyBoundClass(selectedCat, cellDatum), "from-trend-fun3");
     return (
       <td
         className={`${classes.dataSmall} ${classes.dataLarge} ${
@@ -434,9 +438,22 @@ export default function PeriodicTableOfElem(props) {
   const [startButWasClicked, setStartButWasClicked] = useState(false);
   const [groupNum, setgroupNum] = useState();
   const [isgroup, setisgroup] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
+  const breakPoint = 1200;
+
   const notificationCtx = useContext(NotificationContext);
 
   const activeNotification = notificationCtx.notification;
+  useEffect(() => {
+    const handleResizeWindow = () => setWidth(window.innerWidth);
+    //subscribe to window resize event oncomponent mount
+    window.addEventListener("resize", handleResizeWindow);
+
+    return () => {
+      //unsubscribe "onComponentDestroy"
+      window.removeEventListener("resize", handleResizeWindow);
+    };
+  }, []);
 
   const handleRadioButtonChange = (event) => {
     const { name, value } = event.target;
@@ -449,20 +466,55 @@ export default function PeriodicTableOfElem(props) {
     setisgroup(!isgroup);
     setgroupNum(groupValue);
   }
-  // function displayGame() {
-  //   return (
-  //     <GuessElementGame
-  //       userGuess={userGuess}
-  //       guessCount={guessCount}
-  //       setguessCount={setguessCount}
-  //       showEndGameBut={showEndGameBut}
-  //       setshowEndGameBut={setshowEndGameBut}
-  //       setuserGuess={setuserGuess}
-  //       setStartButWasClicked={setStartButWasClicked}
-  //       startButWasClicked={startButWasClicked}
-  //     />
-  //   );
-  // }
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  function addFamilyBoundClass(catValue, elemOby) {
+    if (catValue === elemOby.category) {
+      console.log("check1");
+      return classes.familyBonds;
+    } else if (
+      catValue === "s-block" &&
+      (elemOby.category === "Alkali metals" ||
+        elemOby.category === "Alkaline earth metals")
+    ) {
+      console.log("check2");
+      return classes.familyBonds;
+    } else if (
+      catValue === "d-block" &&
+      elemOby.category === "Transition metals"
+    ) {
+      console.log("check3");
+      return classes.familyBonds;
+    } else if (
+      catValue === "f-block" &&
+      (elemOby.category === "Lanthanides" || elemOby.category === "Actinides")
+    ) {
+      console.log("check4");
+      return classes.familyBonds;
+    } else if (
+      catValue === "Non metals" &&
+      elemOby.stateStatus === "nonmetal"
+    ) {
+      console.log("check5");
+      return classes.familyBonds;
+    } else if (catValue === "Metals" && !elemOby.stateStatus) {
+      return classes.familyBonds;
+    } else if (
+      catValue === "p-block" &&
+      (elemOby.group === 3 ||
+        elemOby.group === 4 ||
+        elemOby.group === 5 ||
+        elemOby.group === 6 ||
+        elemOby.group === 7 ||
+        elemOby.group === 0)
+    ) {
+      console.log("check6");
+      return classes.familyBonds;
+    }
+    console.log("check7");
+    return classes.noBounds;
+  }
 
   function elemSortRadioButt(params) {
     return (
@@ -699,65 +751,68 @@ export default function PeriodicTableOfElem(props) {
 
   return (
     <>
-      <table className={classes.tableElem}>
-        {/* <colgroup>
-          <col span={12} />
-          <col
-            span={7}
-            className={
-              selectedCategory === "p-block"
-                ? classes.pBoundary
-                : classes.noPBoundary
-            }
-          />
-        </colgroup> */}
-        <caption>The Periodic Table </caption>
-        <thead>
-          <TableHead handleColumnBound={handleColumnBound} />
-        </thead>
-        <tbody>
-          {rowNum.map((row) => (
-            <TableRow
-              row={row}
-              tableData={elementsArray}
-              selectedCategory={selectedCategory}
-              setuserGuess={setuserGuess}
-              setguessCount={setguessCount}
-              guessCount={guessCount}
-              setshowEndGameBut={setshowEndGameBut}
-              startButWasClicked={startButWasClicked}
-              groupNum={groupNum}
-              setgroupNum={setgroupNum}
-              isgroup={isgroup}
-            />
-          ))}
-        </tbody>
-      </table>
-      <table
-        className={classes.tableElem}
-        style={{ marginLeft: "20%", marginTop: "5%" }}
-      >
-        {/* <thead>
+      {width > breakPoint ? (
+        <>
+          <table className={classes.tableElem}>
+            <caption>The Periodic Table </caption>
+            <thead>
+              <TableHead handleColumnBound={handleColumnBound} />
+            </thead>
+            <tbody>
+              {rowNum.map((row) => (
+                <TableRow
+                  row={row}
+                  tableData={elementsArray}
+                  selectedCategory={selectedCategory}
+                  setuserGuess={setuserGuess}
+                  setguessCount={setguessCount}
+                  guessCount={guessCount}
+                  setshowEndGameBut={setshowEndGameBut}
+                  startButWasClicked={startButWasClicked}
+                  groupNum={groupNum}
+                  setgroupNum={setgroupNum}
+                  isgroup={isgroup}
+                  capitalizeFirstLetter={capitalizeFirstLetter}
+                  addFamilyBoundClass={addFamilyBoundClass}
+                />
+              ))}
+            </tbody>
+          </table>
+          <table
+            className={classes.tableElem}
+            style={{ marginLeft: "20%", marginTop: "5%" }}
+          >
+            {/* <thead>
           <TableHead />
         </thead> */}
-        <tbody>
-          {rowLanAndAct.map((row) => (
-            <TableRow
-              row={row}
-              tableData={elementsArray}
-              selectedCategory={selectedCategory}
-              setuserGuess={setuserGuess}
-              setguessCount={setguessCount}
-              guessCount={guessCount}
-              setshowEndGameBut={setshowEndGameBut}
-              startButWasClicked={startButWasClicked}
-              groupNum={groupNum}
-              setgroupNum={setgroupNum}
-              isgroup={isgroup}
-            />
-          ))}
-        </tbody>
-      </table>
+            <tbody>
+              {rowLanAndAct.map((row) => (
+                <TableRow
+                  row={row}
+                  tableData={elementsArray}
+                  selectedCategory={selectedCategory}
+                  setuserGuess={setuserGuess}
+                  setguessCount={setguessCount}
+                  guessCount={guessCount}
+                  setshowEndGameBut={setshowEndGameBut}
+                  startButWasClicked={startButWasClicked}
+                  groupNum={groupNum}
+                  setgroupNum={setgroupNum}
+                  isgroup={isgroup}
+                  capitalizeFirstLetter={capitalizeFirstLetter}
+                  addFamilyBoundClass={addFamilyBoundClass}
+                />
+              ))}
+            </tbody>
+          </table>
+        </>
+      ) : (
+        <PeriodicTrend
+          selectedCategory={selectedCategory}
+          capitalizeFirstLetter={capitalizeFirstLetter}
+          addFamilyBoundClass={addFamilyBoundClass}
+        />
+      )}
       {elemSortRadioButt()}
       <GuessElementGame
         userGuess={userGuess}
