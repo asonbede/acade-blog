@@ -58,18 +58,19 @@ function TableRow({
   isgroup,
   capitalizeFirstLetter,
   addFamilyBoundClass,
+  rowData,
+  isRow,
+  handleRowBound,
+  setrowData,
 }) {
   const [idValue, setidValue] = useState();
   const [markBounds, setmarkBounds] = useState(false);
-  const [rowData, setrowData] = useState(null);
-  const [isRow, setisRow] = useState(false);
+  // const [rowData, setrowData] = useState(null);
+  //const [isRow, setisRow] = useState(false);
   const notificationCtx = useContext(NotificationContext);
 
   //userQuess={userQuess} guessCount={quessCount} setguessCount={setguessCount}
-  function handleRowBound(rowDataValue) {
-    setisRow(!isRow);
-    setrowData(rowDataValue);
-  }
+
   // <button
   //   onClick={(e) => {
   //     if (e.detail === 1) handleClick();
@@ -82,13 +83,13 @@ function TableRow({
   useEffect(() => {
     setTimeout(function () {
       setrowData(null);
-    }, 6000);
+    }, 9000);
   }, [isRow]);
 
   useEffect(() => {
     setTimeout(function () {
       setgroupNum(null);
-    }, 6000);
+    }, 9000);
   }, [isgroup]);
   function handleMouseEnter(paramVal) {
     setidValue(paramVal);
@@ -182,7 +183,7 @@ function TableRow({
   }
 
   function displayCellData(cellDatum, selectedCat) {
-    console.log(addFamilyBoundClass(selectedCat, cellDatum), "from-trend-fun3");
+    // console.log(addFamilyBoundClass(selectedCat, cellDatum), "from-trend-fun3");
     return (
       <td
         className={`${classes.dataSmall} ${classes.dataLarge} ${
@@ -439,7 +440,9 @@ export default function PeriodicTableOfElem(props) {
   const [groupNum, setgroupNum] = useState();
   const [isgroup, setisgroup] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
-  const breakPoint = 1200;
+  const [rowData, setrowData] = useState(null);
+  const [isRow, setisRow] = useState(false);
+  const breakPoint = 1300;
 
   const notificationCtx = useContext(NotificationContext);
 
@@ -452,6 +455,7 @@ export default function PeriodicTableOfElem(props) {
     return () => {
       //unsubscribe "onComponentDestroy"
       window.removeEventListener("resize", handleResizeWindow);
+      //setselectedCategory(null);
     };
   }, []);
 
@@ -460,11 +464,21 @@ export default function PeriodicTableOfElem(props) {
 
     console.log({ name, value });
     setselectedCategory(value);
+    setgroupNum(null);
+    setrowData(null);
   };
 
   function handleColumnBound(groupValue) {
     setisgroup(!isgroup);
     setgroupNum(groupValue);
+    setselectedCategory(null);
+    setrowData(null);
+  }
+  function handleRowBound(rowDataValue) {
+    setisRow(!isRow);
+    setrowData(rowDataValue);
+    setselectedCategory(null);
+    setgroupNum(null);
   }
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -713,16 +727,27 @@ export default function PeriodicTableOfElem(props) {
             />
             <label htmlFor="artificial">Unknown properties</label>
           </div>
-          {/* <div
-            style={{
-              margin: "15px",
-              display: "flex",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <div>{displayGame()}</div>
-          </div> */}
+        </div>
+        <div
+          style={{
+            margin: "15px",
+            display: "flex",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <div>
+            {" "}
+            <input
+              type="radio"
+              name="element"
+              value="null"
+              id="artificial"
+              onChange={handleRadioButtonChange}
+              style={{ margin: "10px" }}
+            />
+            <label htmlFor="artificial">Clear Bounds</label>
+          </div>
         </div>
       </div>
     );
@@ -774,6 +799,10 @@ export default function PeriodicTableOfElem(props) {
                   isgroup={isgroup}
                   capitalizeFirstLetter={capitalizeFirstLetter}
                   addFamilyBoundClass={addFamilyBoundClass}
+                  handleRowBound={handleRowBound}
+                  rowData={rowData}
+                  isRow={isRow}
+                  setrowData={setrowData}
                 />
               ))}
             </tbody>
@@ -801,6 +830,10 @@ export default function PeriodicTableOfElem(props) {
                   isgroup={isgroup}
                   capitalizeFirstLetter={capitalizeFirstLetter}
                   addFamilyBoundClass={addFamilyBoundClass}
+                  handleRowBound={handleRowBound}
+                  rowData={rowData}
+                  isRow={isRow}
+                  setrowData={setrowData}
                 />
               ))}
             </tbody>
@@ -809,8 +842,20 @@ export default function PeriodicTableOfElem(props) {
       ) : (
         <PeriodicTrend
           selectedCategory={selectedCategory}
+          setselectedCategory={setselectedCategory}
           capitalizeFirstLetter={capitalizeFirstLetter}
           addFamilyBoundClass={addFamilyBoundClass}
+          setuserGuess={setuserGuess}
+          setguessCount={setguessCount}
+          guessCount={guessCount}
+          setshowEndGameBut={setshowEndGameBut}
+          startButWasClicked={startButWasClicked}
+          handleColumnBound={handleColumnBound}
+          groupNum={groupNum}
+          handleRowBound={handleRowBound}
+          rowData={rowData}
+          isRow={isRow}
+          setrowData={setrowData}
         />
       )}
       {elemSortRadioButt()}

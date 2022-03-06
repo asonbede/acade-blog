@@ -27,7 +27,7 @@ const replaceBannerImg = {
   "62106ec04c9caa17288669ce": () => <PeriodicTableOfElem />,
 };
 const appendAtEnd = {
-  "62106ec04c9caa17288669ce": () => <PeriodicTrends />,
+  // "62106ec04c9caa17288669ce": () => <PeriodicTrends />,
 };
 async function changeLikeHandler(likedData) {
   const response = await fetch("/api/blog-content/", {
@@ -375,7 +375,7 @@ function PostContent(props) {
                 />
               )}
             </div>
-            {post.id in replaceBannerImg && isContentOpen ? (
+            {post.id in appendAtEnd && isContentOpen ? (
               <div
                 className={classes.blogdescription}
                 style={{ width: "80%", overflowX: "auto" }}

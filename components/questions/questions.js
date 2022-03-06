@@ -568,7 +568,7 @@ function Questions(props) {
           <label htmlFor="essay-type">Essay Type </label>
         </div> */}
       </div>
-      {displayQuestions()}
+      {items.length !== 0 && displayQuestions()}
       {/* {showQuestions && !isFetchingQuestions && (
         <QuestionsList
           items={items}

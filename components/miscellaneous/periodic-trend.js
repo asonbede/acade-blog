@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { elementsArray } from "../../helpers/pereriodic-table/element-data";
 import classes from "./periodic-trend.module.css";
+
+import NotificationContext from "../../store/notification-context";
 // import {
 //   drawLineEndMarker,
 //   drawText,
@@ -9,11 +11,24 @@ import classes from "./periodic-trend.module.css";
 
 function PeriodicTrends({
   capitalizeFirstLetter,
-  //   addFamilyBoundClass,
+  setselectedCategory,
   selectedCategory,
+  startButWasClicked,
+  setuserGuess,
+  setguessCount,
+  setshowEndGameBut,
+  guessCount,
+  handleColumnBound,
+  groupNum,
+
+  handleRowBound,
+  rowData,
+  isRow,
+  setrowData,
 }) {
-  const [moderatedValue, setmoderatedValue] = useState();
+  //const [groupNum, setgroupNum] = useState();
   const [showAllData, setshowAllData] = useState();
+  const notificationCtx = useContext(NotificationContext);
 
   const rowNum = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
@@ -127,6 +142,53 @@ function PeriodicTrends({
     return "noborderReact";
   }
 
+  function handleTableData(data) {
+    if (startButWasClicked) {
+      setuserGuess(data);
+      setguessCount(guessCount + 1);
+      setshowEndGameBut(true);
+      console.log({ data, guessCount }, "periodic-table");
+    } else {
+      notificationCtx.showNotification({
+        title: "Error!",
+        message: "Click the start button before you continue!",
+        status: "error",
+      });
+      console.log(
+        "please click the start button first if it is game you want play game"
+      );
+    }
+  }
+  function addRowBoundClass(elemOby) {
+    // console.log({ rowData, rowBonds });
+    if (rowData === elemOby.period) {
+      //console.log("one");
+      return "rowBondsClass";
+    }
+    return "noRowBondsClass";
+  }
+
+  function addColumnBoundClass(elemOby) {
+    // console.log({ rowData, rowBonds });
+
+    if (groupNum === elemOby.group) {
+      console.log("one");
+      return "groupBondsClass";
+    }
+    return "noGroupBondsClass";
+  }
+
+  function checkRectBound(group, gen, row) {
+    if (group === "groupBondsClass") {
+      return "black";
+    } else if (gen === "borderReact") {
+      return "black";
+    } else if (row === "rowBondsClass") {
+      return "black";
+    }
+    return "red";
+  }
+
   function drawRect(x, y, elemData) {
     // console.log({ elemData }, "from-trend");
     console.log(
@@ -134,6 +196,9 @@ function PeriodicTrends({
       "from-trend-fun"
     );
     const rectBound = addFamilyBoundClass(selectedCategory, elemData);
+    const rectBoundGroup = addColumnBoundClass(elemData);
+    const rectBoundRow = addRowBoundClass(elemData);
+
     return (
       <svg
         x={`${x}`}
@@ -144,8 +209,7 @@ function PeriodicTrends({
         viewBox="0 0 70 70"
         onMouseEnter={() => handleMouseEnter(elemData.atomicNum)}
         onMouseLeave={handleMouseLeave}
-
-        // onClick={() => handleTableData(elemData)}
+        onClick={() => handleTableData(elemData)}
       >
         <g>
           <rect
@@ -155,11 +219,11 @@ function PeriodicTrends({
             height={showAllData === elemData.atomicNum ? "80" : "60"}
             fill={showAllData === elemData.atomicNum ? "red" : "none"}
             opacity={showAllData === elemData.atomicNum ? "0.4" : "1"}
-            stroke={rectBound === "borderReact" ? "black" : "red"}
+            stroke={checkRectBound(rectBoundGroup, rectBound, rectBoundRow)}
             style={{ strokeWidth: "2px" }}
           ></rect>
           {showAllData === elemData.atomicNum ? (
-            <text x="13" y="40" fontFamily="Verdana" fontSize="12" fill="black">
+            <text x="13" y="40" fontFamily="Verdana" fontSize="11" fill="black">
               <tspan> {elemData.symbol}</tspan>
 
               <tspan dy="15" dx="-13">
@@ -268,8 +332,42 @@ function PeriodicTrends({
         x={xValue}
         y={yValue}
         fontFamily="Verdana"
-        fontSize="25"
+        fontSize="20"
         fill="blue"
+      >
+        {textValue}
+      </text>
+    );
+  }
+
+  // group label text
+  function drawTextGroup(xValue, yValue, textValue, groupNum) {
+    return (
+      <text
+        x={xValue}
+        y={yValue}
+        fontFamily="Verdana"
+        fontSize="20"
+        fill="blue"
+        onClick={() => handleColumnBound(groupNum)}
+        style={{ cursor: "pointer" }}
+      >
+        {textValue}
+      </text>
+    );
+  }
+
+  //row label text
+  function drawTextRow(xValue, yValue, textValue, groupNum) {
+    return (
+      <text
+        x={xValue}
+        y={yValue}
+        fontFamily="Verdana"
+        fontSize="20"
+        fill="blue"
+        onClick={() => handleRowBound(groupNum)}
+        style={{ cursor: "pointer" }}
       >
         {textValue}
       </text>
@@ -297,7 +395,7 @@ function PeriodicTrends({
     // <div style={{ width: "80%", margin: "0 auto", border: "1px solid red" }}>
     <svg
       id="mySVG"
-      width="900"
+      width="950"
       height="700"
       style={{ margin: "50", border: "2px solid blue" }}
       xmlns="http://www.w3.org/2000/svg"
@@ -311,16 +409,30 @@ function PeriodicTrends({
       {drawLine("60", "-30", "1100", "-30")}
       {/* increasing atomic radius line */}
       {drawLine("1100", "-90", "80", "-90")}
-
       {drawText("300", "-100", "Increasing Atomic Radius")}
-
       {drawText("300", "-35", "Increasing Electronegativity")}
-
       {drawText("300", "20", "Increasing Ionization Energy")}
+      {/* group label text */}
+      {drawTextGroup("90", "112", "1", 1)}
+      {drawTextGroup("140", "172", "2", 2)}
+      {drawTextGroup("800", "172", "3", 3)}
+      {drawTextGroup("860", "172", "4", 4)}
+      {drawTextGroup("920", "172", "5", 5)}
+      {drawTextGroup("980", "172", "6", 6)}
+      {drawTextGroup("1040", "172", "7", 7)}
+      {drawTextGroup("1100", "115", "0", 0)}
       {/*  Increasing Ionization Energy And Electronegativity */}
-      {drawLine("40", "550", "40", "-110")}
+      {drawLine("30", "550", "30", "-110")}
+      {/* row label text */}
+      {drawTextRow("45", "150", "1", 1)}
+      {drawTextRow("45", "220", "2", 2)}
+      {drawTextRow("45", "280", "3", 3)}
+      {drawTextRow("45", "330", "4", 4)}
+      {drawTextRow("45", "390", "5", 5)}
+      {drawTextRow("45", "455", "6", 6)}
+      {drawTextRow("45", "520", "7", 7)}
       <text
-        x="25"
+        x="18"
         y="-100"
         fontFamily="Verdana"
         fontSize="25"
@@ -329,7 +441,6 @@ function PeriodicTrends({
       >
         Increasing Ionization Energy And Electronegativity
       </text>
-
       {drawLine("1165", "-110", "1165", "500")}
       <text
         x="1180"
@@ -343,7 +454,7 @@ function PeriodicTrends({
       </text>
       <text
         x="60"
-        y="750"
+        y="737"
         style={{ fontStyle: "italic" }}
         fontFamily="Verdana"
         fontSize="15"
