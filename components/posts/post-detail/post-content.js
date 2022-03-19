@@ -19,12 +19,14 @@ import { useSession, signOut } from "next-auth/client";
 import AnimatedOrbitalDiag from "../../miscellaneous/animated-orbital-diag";
 import PeriodicTableOfElem from "../../miscellaneous/periodic-table";
 import PeriodicTrends from "../../miscellaneous/periodic-trend";
+import AtomicModel from "../../miscellaneous/atomic-model";
 
 //import { getDomainLocale } from "next/dist/next-server/lib/router/router";
 //import { adminArray } from "../../../helpers/db-utils";
 const replaceBannerImg = {
   "61f946e3e72eb408e83024f5": () => <AnimatedOrbitalDiag />,
   "62106ec04c9caa17288669ce": () => <PeriodicTableOfElem />,
+  "61c9123391ac2a163428c8b6": () => <AtomicModel />,
 };
 const appendAtEnd = {
   // "62106ec04c9caa17288669ce": () => <PeriodicTrends />,
