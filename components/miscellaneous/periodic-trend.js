@@ -326,6 +326,7 @@ function PeriodicTrends({
       </>
     );
   }
+
   function drawText(xValue, yValue, textValue) {
     return (
       <text
