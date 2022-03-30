@@ -397,6 +397,7 @@ export default function GuessElementGame({
     //notify the player, that an element has been chosen at random
     //show elements where uuser can see there progress
     const randomElement = Math.floor(Math.random() * elementsArray.length);
+
     console.log({ randomElement }, "from-ran-func");
     setrandomElementValue(randomElement + 1);
     setguessCount(0);

@@ -1,3 +1,107 @@
+export const polyAtomicIon = [
+  //{ name: "ammonium", formula: "NH4", charge: "+" },
+  // { name: "hydronium", formula: "H3O", charge: "+" },
+  { name: "peroxide", formula: "O2", charge: "-2" },
+  { name: "hydroxide", formula: "OH", charge: "-" },
+  { name: "cyanide", formula: "CN", charge: "-" },
+
+  { name: "azide", formula: "N3", charge: "-" },
+  { name: "carbonate", formula: "CO3", charge: "2-" },
+  { name: "bicarbonate", formula: "HCO3", charge: "-" },
+  { name: "nitrate", formula: "NO3", charge: "-" },
+  { name: "nitrite", formula: "NO2", charge: "-" },
+
+  { name: "sulfate", formula: "SO4", charge: "2-" },
+  { name: "hydrogen sulfate", formula: "HSO4", charge: "-" },
+  { name: "sulfite", formula: "SO3", charge: "2-" },
+  { name: "hydrogen sulfite", formula: "HSO3", charge: "-" },
+  { name: "phosphate", formula: "PO4", charge: "3-" },
+  { name: "hydrogen phosphate", formula: "HPO4", charge: "2-" },
+  { name: "dihydrogen phosphate", formula: "H2PO4", charge: "-" },
+  { name: "perchlorate", formula: "CLO4", charge: "-" },
+  { name: "chlorate", formula: "CLO3", charge: "-" },
+  { name: "chlorite", formula: "CLO2", charge: "-" },
+
+  { name: "hypochlorite", formula: "CLO", charge: "-" },
+  { name: "chromate", formula: "CrO4", charge: "2-" },
+  { name: "dichromate", formula: "Cr2O7", charge: "2-" },
+  { name: "permanganate", formula: "MnO4", charge: "-" },
+  { name: "silicate", formula: "SiO3", charge: "2-" },
+  { name: "thiosulfite", formula: "MnO4", charge: "2-" },
+  { name: "thiocyanate", formula: "SCN", charge: "-" },
+  { name: "arsenite", formula: "As03", charge: "3-" },
+  { name: "phosphite", formula: "PO3", charge: "3-" },
+  { name: "acetate", formula: "C2H3O2", charge: "-" },
+];
+//polyAtomicIon;
+export const variableChargeCation = [
+  {
+    symbol: "Cr",
+    charge: [2, 3, 6],
+    name: "chromium",
+  },
+  {
+    symbol: "NH4",
+    charge: [1],
+    name: "ammonium",
+  },
+  {
+    symbol: "Fe",
+    charge: [2, 3],
+    name: "iron",
+  },
+  {
+    symbol: "Co",
+    charge: [2],
+    name: "cobalt",
+  },
+  {
+    symbol: "Ni",
+    charge: [2],
+    name: "nickel",
+  },
+  {
+    symbol: "Cu",
+    charge: [1, 2],
+    name: "copper",
+  },
+  {
+    symbol: "Ag",
+    charge: [1],
+    name: "silver",
+  },
+  {
+    symbol: "Au",
+    charge: [1, 3],
+    name: "gold",
+  },
+  {
+    symbol: "Zn",
+    charge: [2],
+    name: "zinc",
+  },
+  {
+    symbol: "Hg",
+    charge: [2],
+    name: "mercury",
+  },
+  {
+    symbol: "Cd",
+    charge: [2],
+    name: "cadmium",
+  },
+  {
+    symbol: "Mn",
+    charge: [2, 3, 4, 6, 7],
+    name: "manganese",
+  },
+  {
+    symbol: "V",
+    charge: [2, 3, 4, 5],
+    name: "vanadium",
+  },
+];
+
 export const elementsArray = [
   {
     name: "hydrogen",
@@ -56,6 +160,7 @@ export const elementsArray = [
     stateStatus: "nonmetal",
     period: 2,
     group: 4,
+    ionName: "carbide",
   },
   {
     name: "nitrogen",
@@ -66,6 +171,7 @@ export const elementsArray = [
     stateStatus: "nonmetal",
     period: 2,
     group: 5,
+    ionName: "nitride",
   },
   {
     name: "oxygen",
@@ -76,6 +182,7 @@ export const elementsArray = [
     stateStatus: "nonmetal",
     period: 2,
     group: 6,
+    ionName: "oxide",
   },
   {
     name: "fluorine",
@@ -86,6 +193,7 @@ export const elementsArray = [
     stateStatus: "nonmetal",
     period: 2,
     group: 7,
+    ionName: "fluoride",
   },
   {
     name: "neon",
@@ -142,6 +250,7 @@ export const elementsArray = [
     stateStatus: "nonmetal",
     period: 3,
     group: 5,
+    ionName: "phosphide",
   },
   {
     name: "sulfur",
@@ -152,6 +261,7 @@ export const elementsArray = [
     stateStatus: "nonmetal",
     period: 3,
     group: 6,
+    ionName: "sulfide",
   },
   {
     name: "chlorine",
@@ -162,6 +272,7 @@ export const elementsArray = [
     stateStatus: "nonmetal",
     period: 3,
     group: 7,
+    ionName: "chloride",
   },
   {
     name: "argon",
@@ -308,6 +419,7 @@ export const elementsArray = [
     atomicMass: "74.9",
     period: 4,
     group: 5,
+    ionName: "arsenide",
   },
   {
     name: "selenium",
@@ -318,6 +430,7 @@ export const elementsArray = [
     stateStatus: "nonmetal",
     period: 4,
     group: 6,
+    ionName: "selenide",
   },
   {
     name: "bromine",
@@ -328,6 +441,7 @@ export const elementsArray = [
     stateStatus: "nonmetal",
     period: 4,
     group: 7,
+    ionName: "bromide",
   },
   {
     name: "krypton",
@@ -493,6 +607,7 @@ export const elementsArray = [
     stateStatus: "nonmetal",
     period: 5,
     group: 7,
+    ionName: "iodide",
   },
   {
     name: "xenon",
