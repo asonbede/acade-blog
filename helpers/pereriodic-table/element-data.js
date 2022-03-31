@@ -27,7 +27,7 @@ export const polyAtomicIon = [
   { name: "dichromate", formula: "Cr2O7", charge: "2-" },
   { name: "permanganate", formula: "MnO4", charge: "-" },
   { name: "silicate", formula: "SiO3", charge: "2-" },
-  { name: "thiosulfite", formula: "MnO4", charge: "2-" },
+  { name: "thiosulfite", formula: "S2O3", charge: "2-" },
   { name: "thiocyanate", formula: "SCN", charge: "-" },
   { name: "arsenite", formula: "As03", charge: "3-" },
   { name: "phosphite", formula: "PO3", charge: "3-" },

@@ -93,38 +93,77 @@ Quasi optio doloribus corporis quis rem obcaecati, eum dolorum veritatis sunt il
 
   function handleWriteFormula(params) {
     const compoundNameArray = ioncompoundString.split(",");
-    let romanIndicator = false;
+
     let metalNonmetalArray;
     let cationName;
-    let romanNum;
+    let symbolOfAnion;
     let anionName;
     console.log({ compoundNameArray });
     for (let index = 0; index < compoundNameArray.length; index++) {
+      let romanIndicator = false;
+      let romanNum;
       let element = compoundNameArray[index];
       element = element.trim();
       const romansNumerals = Object.values(chargeRomanTranslation);
       for (let index = 0; index < romansNumerals.length; index++) {
         const elementRoman = romansNumerals[index];
-        if (element.indexOf(elementRoman > -1)) {
+        if (element.indexOf(elementRoman) > -1) {
           romanIndicator = true;
           break;
         }
       }
 
+      //get the metal name and none metal name
       if (romanIndicator) {
         metalNonmetalArray = element.split(" ");
-        cationName = metalNonmetalArray[0];
-        romanNum = metalNonmetalArray[1];
-        romanNum = getKeyFromValue(chargeRomanTranslation, romanNum);
-        anionName = metalNonmetalArray[2];
+        if (metalNonmetalArray.length === 3) {
+          cationName = metalNonmetalArray[0];
+          romanNum = metalNonmetalArray[1];
+          romanNum = getKeyFromValue(chargeRomanTranslation, romanNum);
+          anionName = metalNonmetalArray[2];
+        } else {
+          cationName = metalNonmetalArray[0];
+          romanNum = metalNonmetalArray[1];
+          romanNum = getKeyFromValue(chargeRomanTranslation, romanNum);
+          anionName = `${metalNonmetalArray[2]} ${metalNonmetalArray[3]}`;
+        }
       } else {
+        console.log("hello");
         metalNonmetalArray = element.split(" ");
-        cationName = metalNonmetalArray[0];
+        if (metalNonmetalArray.length === 2) {
+          console.log({ metalNonmetalArray });
+          cationName = metalNonmetalArray[0];
 
-        anionName = metalNonmetalArray[1];
+          anionName = metalNonmetalArray[1];
+        } else {
+          console.log({ metalNonmetalArray });
+          cationName = metalNonmetalArray[0];
+
+          anionName = `${metalNonmetalArray[1]} ${metalNonmetalArray[2]}`;
+        }
       }
 
+      //get the cation symbol
+      const symbolOfCation = romanIndicator
+        ? variableChargeCation.find((cat) => cat.name === cationName).symbol
+        : elementsArray.find((cat) => cat.name === cationName).symbol;
+
       console.log({ cationName, anionName, romanNum });
+      console.log({ symbolOfCation });
+      //get the anion symbol or formula
+      let symbolOfAnionObj = elementsArray.find(
+        (anion) => anion.ionName === anionName
+      );
+      if (symbolOfAnionObj) {
+        symbolOfAnion = symbolOfAnionObj.symbol;
+      }
+
+      if (!symbolOfAnionObj) {
+        symbolOfAnion = polyAtomicIon.find(
+          (anion) => anion.name === anionName
+        ).formula;
+      }
+      console.log({ symbolOfAnion });
     }
   }
 
