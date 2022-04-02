@@ -20,6 +20,7 @@ export default function NamingIonicCompounds(props) {
   const [ioncompoundString, setioncompoundString] = useState(
     "calcium carbonate,sodium chloride"
   );
+  const [workArrayGlogal, setworkArrayGlogal] = useState([]);
 
   const onChange = (event) => {
     //save your value here with state variable
@@ -93,7 +94,7 @@ Quasi optio doloribus corporis quis rem obcaecati, eum dolorum veritatis sunt il
 
   function handleWriteFormula(params) {
     const compoundNameArray = ioncompoundString.split(",");
-
+    const workArray = [];
     let metalNonmetalArray;
     let cationName;
     let symbolOfAnion;
@@ -112,6 +113,8 @@ Quasi optio doloribus corporis quis rem obcaecati, eum dolorum veritatis sunt il
           break;
         }
       }
+      const compName = <p>Compound Name: {element}</p>;
+      workArray.push(compName);
 
       //get the metal name and none metal name
       if (romanIndicator) {
@@ -150,21 +153,59 @@ Quasi optio doloribus corporis quis rem obcaecati, eum dolorum veritatis sunt il
 
       console.log({ cationName, anionName, romanNum });
       console.log({ symbolOfCation });
+      workArray.push(<p>Write the symbol/formula of ions involved</p>);
+      workArray.push(`${symbolOfCation}`);
+
       //get the anion symbol or formula
       let symbolOfAnionObj = elementsArray.find(
         (anion) => anion.ionName === anionName
       );
       if (symbolOfAnionObj) {
         symbolOfAnion = symbolOfAnionObj.symbol;
+        workArray.push(symbolOfAnion);
       }
 
       if (!symbolOfAnionObj) {
         symbolOfAnion = polyAtomicIon.find(
           (anion) => anion.name === anionName
         ).formula;
+
+        let results = symbolOfAnion.matchAll(/([A-Z])(\d)?([a-z])?(\d)?/gi);
+        //let results2 = symbolOfAnion.match(/^\d+$/i);
+        // let results = "<h1> <h2>".matchAll(/<(.*?)>/gi);
+        //results = Array.from(results); // let's turn it into arraynnn
+        for (let result of results) {
+          console.log({ result });
+          const match1 = result[1];
+          const match2 = result[2] ? result[2] : false;
+          const match3 = result[3] ? result[3] : false;
+          const match4 = result[4] ? result[4] : false;
+          console.log({ match1, match2, match3, match4 });
+          const formName = (
+            <span style={{ padding: "0", margin: "0" }}>
+              {match1}
+              {match2 ? <sub>{match2}</sub> : null}
+              {match3 ? match3 : null} {match4 ? <sub>{match4}</sub> : null}
+            </span>
+          );
+          workArray.push(formName);
+        }
+        // function is_numeric(str) {
+        //   return /^\d+$/.test(str);
+        //}
+
+        //workArray.push("<span>");
+
+        // for (let index = 0; index < symbolOfAnion.length; index++) {
+        //   const element = symbolOfAnion[index];
+        //   let results2 = symbolOfAnion.match(/\d+/i);
+        //   console.log({ results2 });
+        // }
       }
       console.log({ symbolOfAnion });
     }
+    //const workArray2= workArray.filter(item=>item)
+    setworkArrayGlogal(workArray);
   }
 
   function handleGenIonicCom() {
@@ -748,7 +789,10 @@ Quasi optio doloribus corporis quis rem obcaecati, eum dolorum veritatis sunt il
     return (
       <div style={{ border: "2px solid red" }}>
         <div className={classes.card}>
-          <span style={{ width: "100%", padding: "6px" }}> {fau}</span>
+          <span style={{ width: "100%", padding: "6px" }}>
+            {" "}
+            {workArrayGlogal}
+          </span>
           <div className={classes.container}>
             <h4>
               <b>Jane Doe</b>
