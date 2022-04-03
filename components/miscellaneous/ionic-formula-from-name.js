@@ -42,16 +42,6 @@ export default function NamingIonicCompounds(props) {
 
   //const randomIonicCompounds = "calcium carbonate,sodium chloride";
   useFieldExcept.serverContentInputHandler(ioncompoundString);
-  const fau = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi obcaecati, asperiores non quibusdam delectus ullam maiores doloremque officiis architecto quam quae fuga natus? Quos similique accusantium, necessitatibus expedita reiciendis veritatis?
-Quisquam, nostrum eius? Nihil, quibusdam natus accusantium, mollitia, molestias beatae dicta eaque consequatur at necessitatibus eius. Adipisci perferendis tenetur ipsam laboriosam aut reprehenderit, expedita deleniti, quae libero qui odio sit!
-Exercitationem dignissimos ducimus quibusdam illum autem, itaque rem voluptas nulla impedit, numquam dolorem atque reprehenderit. Quae enim amet voluptate, doloremque obcaecati qui magnam. Eos quasi reiciendis eius doloremque libero reprehenderit.
-A inventore eum rerum sunt temporibus cum unde consequuntur pariatur porro minima nulla esse quis, necessitatibus architecto provident cupiditate velit minus earum laboriosam nam quam! Non delectus ratione similique distinctio?
-Expedita modi optio necessitatibus repellat rem quaerat, commodi dolores esse reiciendis placeat error illum ducimus, consequuntur inventore deleniti voluptatem, impedit laborum voluptas architecto ipsam fugiat! Quaerat modi recusandae fuga architecto.
-Ad maiores, eligendi, quod reiciendis alias, rem nobis itaque quam error sit consequatur distinctio aliquam. Repellendus quae velit obcaecati hic perferendis ipsum id consequuntur quidem tempore. Corrupti quasi molestias unde.
-Alias vitae consectetur, libero, officiis architecto autem sit vel non optio, impedit ab nam sapiente laudantium nisi ex cum aut incidunt facilis explicabo. Cumque reiciendis aliquam praesentium mollitia? Enim, ut.
-Corrupti veritatis dignissimos, ducimus sint necessitatibus accusantium natus sequi quam officiis nesciunt fugit et fugiat quaerat eaque quibusdam dolorem minima labore assumenda libero nemo molestias! Minus distinctio molestiae sapiente itaque?
-Quisquam minima molestiae mollitia maiores vero consectetur enim odit et non quos sequi, neque architecto asperiores minus aspernatur commodi sint magni illum, nesciunt praesentium soluta recusandae? Eius omnis ipsa autem?
-Quasi optio doloribus corporis quis rem obcaecati, eum dolorum veritatis sunt illum dolorem repellendus magnam esse vero unde architecto blanditiis velit fugiat voluptas eius maxime mollitia iste totam. Totam, veniam!`;
   useEffect(() => {
     setRadioValue("naming-guide");
     setcompoundCount(2);
@@ -91,6 +81,18 @@ Quasi optio doloribus corporis quis rem obcaecati, eum dolorum veritatis sunt il
     const result = value.replace(/\(|\)/g, "");
     return Object.keys(object).find((key) => object[key] === result);
   }
+  //compute the l.c.m
+  function getLCM(cataionCharge, anionCharge) {
+    //compute l.c.m
+    for (let index = 1; index < 100; index++) {
+      if (
+        index % Number(cataionCharge) === 0 &&
+        index % Number(anionCharge) === 0
+      ) {
+        return index;
+      }
+    }
+  }
 
   function handleWriteFormula(params) {
     const compoundNameArray = ioncompoundString.split(",");
@@ -99,11 +101,13 @@ Quasi optio doloribus corporis quis rem obcaecati, eum dolorum veritatis sunt il
     let cationName;
     let symbolOfAnion;
     let anionName;
+    let chargeOfAnion;
     console.log({ compoundNameArray });
     for (let index = 0; index < compoundNameArray.length; index++) {
       let romanIndicator = false;
       let romanNum;
       let element = compoundNameArray[index];
+      let symbolArray = [];
       element = element.trim();
       const romansNumerals = Object.values(chargeRomanTranslation);
       for (let index = 0; index < romansNumerals.length; index++) {
@@ -113,8 +117,6 @@ Quasi optio doloribus corporis quis rem obcaecati, eum dolorum veritatis sunt il
           break;
         }
       }
-      const compName = <p>Compound Name: {element}</p>;
-      workArray.push(compName);
 
       //get the metal name and none metal name
       if (romanIndicator) {
@@ -151,24 +153,47 @@ Quasi optio doloribus corporis quis rem obcaecati, eum dolorum veritatis sunt il
         ? variableChargeCation.find((cat) => cat.name === cationName).symbol
         : elementsArray.find((cat) => cat.name === cationName).symbol;
 
+      //get the cation charge
+      const chargeOfCation = romanIndicator
+        ? Number(romanNum)
+        : elementsArray.find((cat) => cat.name === cationName).group;
+
+      console.log({ chargeOfCation }, "ccharg");
+
       console.log({ cationName, anionName, romanNum });
       console.log({ symbolOfCation });
-      workArray.push(<p>Write the symbol/formula of ions involved</p>);
-      workArray.push(`${symbolOfCation}`);
 
-      //get the anion symbol or formula
+      //get the anion symbol or formula and charge for monoatomic ion
       let symbolOfAnionObj = elementsArray.find(
         (anion) => anion.ionName === anionName
       );
       if (symbolOfAnionObj) {
         symbolOfAnion = symbolOfAnionObj.symbol;
-        workArray.push(symbolOfAnion);
+        console.log({ symbolOfAnion }, "tt");
+        const anionGroup = symbolOfAnionObj.group;
+        console.log({ anionGroup }, "tt22");
+
+        if (anionGroup === 7) {
+          chargeOfAnion = 1;
+        } else if (anionGroup === 6) {
+          chargeOfAnion = 2;
+        } else if (anionGroup === 5) {
+          chargeOfAnion = 3;
+        } else if (anionGroup === 4) {
+          chargeOfAnion = 4;
+        }
+
+        ///workArray.push(symbolOfAnion);
       }
 
+      //get the anion symbol or formula and charge for polyatomic ion
       if (!symbolOfAnionObj) {
         symbolOfAnion = polyAtomicIon.find(
           (anion) => anion.name === anionName
         ).formula;
+        chargeOfAnion = polyAtomicIon.find(
+          (anion) => anion.name === anionName
+        ).charge;
 
         let results = symbolOfAnion.matchAll(/([A-Z])(\d)?([a-z])?(\d)?/gi);
         //let results2 = symbolOfAnion.match(/^\d+$/i);
@@ -181,27 +206,124 @@ Quasi optio doloribus corporis quis rem obcaecati, eum dolorum veritatis sunt il
           const match3 = result[3] ? result[3] : false;
           const match4 = result[4] ? result[4] : false;
           console.log({ match1, match2, match3, match4 });
-          const formName = (
+          const resultGroup = (
             <span style={{ padding: "0", margin: "0" }}>
               {match1}
               {match2 ? <sub>{match2}</sub> : null}
               {match3 ? match3 : null} {match4 ? <sub>{match4}</sub> : null}
             </span>
           );
-          workArray.push(formName);
+          symbolArray.push(resultGroup);
         }
-        // function is_numeric(str) {
-        //   return /^\d+$/.test(str);
-        //}
-
-        //workArray.push("<span>");
-
-        // for (let index = 0; index < symbolOfAnion.length; index++) {
-        //   const element = symbolOfAnion[index];
-        //   let results2 = symbolOfAnion.match(/\d+/i);
-        //   console.log({ results2 });
-        // }
       }
+      //display results
+      const compName = <p>Compound Name: {element}</p>;
+      workArray.push(compName);
+      workArray.push(<p>Write the symbol/formula of ions involved</p>);
+      if (!symbolOfAnionObj) {
+        workArray.push(symbolOfCation, ...symbolArray);
+      } else {
+        workArray.push(symbolOfCation, symbolOfAnion);
+      }
+
+      workArray.push(<p>Write the charges of ions involved</p>);
+      const chargeSymbolCat = chargeOfCation > 1 ? `${chargeOfCation}+` : "1+";
+      const chargeSymbolAnion = chargeOfAnion > 1 ? `${chargeOfAnion}-` : "1-";
+      workArray.push(
+        <>
+          {symbolOfCation}
+          <sup>{chargeSymbolCat}</sup>
+        </>
+      );
+      if (!symbolOfAnionObj) {
+        workArray.push(
+          <>
+            {" "}
+            [{symbolArray}]<sup>{chargeSymbolAnion}</sup>{" "}
+          </>
+        );
+      } else {
+        //workArray.push(symbolOfCation, symbolOfAnion);
+        workArray.push(
+          <>
+            {symbolOfAnion}
+            <sup>{chargeSymbolAnion}</sup>
+          </>
+        );
+      }
+
+      workArray.push(
+        <p>
+          Now comput the Lowest Common Multiple(LCM)/Least Common
+          Denominator(L.C.D) of the charges. This is equal to the total number
+          of electrons donated by the cation which is also equal to the total
+          number of electrons accepted by the anion in the formula.
+          {romanIndicator ? (
+            <>
+              The charge of the cation is {chargeSymbolCat}. How was it
+              obtained? The charge is obtained from the name of the compound. If
+              a metal is one that exhibits variable states, the charge will
+              always be included in Roman numerals in the compound name. Most
+              transition metals show variable oxidation state.
+              <button>This table may help</button>
+            </>
+          ) : (
+            <>
+              {" "}
+              The charge of the cation is {chargeSymbolCat}. How was it
+              obtained? The charge was obtained from the periodic table. The
+              charge of a metal element is the number of electrons it has to
+              lose to obtain an octet. If a metal is one that exhibits stable
+              oxidation state/charge, then get the charge from the periodic
+              table. The is usually equal to the group where the element is
+              located in the periodic table.<button>This table may help</button>
+            </>
+          )}
+          <br />
+          {!symbolOfAnionObj ? (
+            <>
+              The charge of the anion is {chargeSymbolAnion}. How was it
+              obtained? This is a polyatomic ion. A polyatomic ion is a group of
+              atoms that behaves as a single unit. Each polyatomic ion has a
+              charge associated with it. You have to memorise them
+              unfortunately.
+              <button>This table has to be memorised</button>
+            </>
+          ) : (
+            <>
+              {" "}
+              The charge of the anion is {chargeSymbolAnion}. How was it
+              obtained? This is a monoatomic anion. The charge was obtained from
+              the periodic table. The charge of an anion is usually equal to the
+              number of electrons it has to gain to obtained an octet. Anions in
+              group 7 has a charge of -1, those in group 6 has a charge of -2{" "}
+              <button>This table may help</button>
+            </>
+          )}
+          <br />
+          The L.C.M of {chargeOfCation} and {chargeOfAnion} is {"  "}
+          {getLCM(chargeOfCation, chargeOfAnion)}.
+        </p>
+      );
+
+      workArray.push(
+        <p>
+          Next figure out the number of atoms of the metals and nonmetal in the
+          Formula , That is the formula subscripts. Divide the L.C.M by the
+          charge of each ion to achieve this. The charge {cationName} is{" "}
+          {chargeOfCation},and the L.C.M is{" "}
+          {getLCM(chargeOfCation, chargeOfAnion)} Therefore,{" "}
+          {getLCM(chargeOfCation, chargeOfAnion) / Number(chargeOfCation)} atoms
+          of {cationName} will be in the formula.
+        </p>
+      );
+
+      workArray.push(
+        <>
+          <hr />
+        </>
+      );
+
       console.log({ symbolOfAnion });
     }
     //const workArray2= workArray.filter(item=>item)
@@ -789,16 +911,16 @@ Quasi optio doloribus corporis quis rem obcaecati, eum dolorum veritatis sunt il
     return (
       <div style={{ border: "2px solid red" }}>
         <div className={classes.card}>
-          <span style={{ width: "100%", padding: "6px" }}>
+          <div style={{ width: "100%", padding: "6px" }}>
             {" "}
             {workArrayGlogal}
-          </span>
-          <div className={classes.container}>
+          </div>
+          {/* <div className={classes.container}>
             <h4>
               <b>Jane Doe</b>
             </h4>
             <p>final answer</p>
-          </div>
+          </div> */}
         </div>
 
         <div className={classes.controlRegion}>
