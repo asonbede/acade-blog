@@ -45,7 +45,12 @@ export default function NamingIonicCompounds(props) {
   useEffect(() => {
     setRadioValue("naming-guide");
     setcompoundCount(2);
+    handleGenIonicCom();
+    handleWriteFormula();
   }, []);
+  useEffect(() => {
+    handleWriteFormula();
+  }, [ioncompoundString]);
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -54,29 +59,7 @@ export default function NamingIonicCompounds(props) {
       array[j] = temp;
     }
   };
-  function generateUniqueIonic(workingArray1, workingArray2, count) {
-    // if (count===""){
-
-    // }
-    let randomNumbers = new Set();
-    while (true) {
-      let randomNum1 = Math.floor(Math.random() * workingArray1.length);
-      let randomNum2 = Math.floor(Math.random() * workingArray2.length);
-      const cationName = workingArray1[randomNum1];
-      const anionName = workingArray2[randomNum2];
-      const ionicCompound = `${cationName} ${anionName}`;
-      // randomArray.push(preWorkingArray[num]);
-      randomNumbers.add(ionicCompound);
-      if (randomNumbers.size === count) {
-        break;
-      }
-    }
-    //console.log({ randomArray });
-    //setitemArray(randomArray);
-    const randomArray = [...randomNumbers];
-    return randomArray;
-  }
-  //getting values from keys
+  //getting values from keys///
   function getKeyFromValue(object, value) {
     const result = value.replace(/\(|\)/g, "");
     return Object.keys(object).find((key) => object[key] === result);
@@ -95,20 +78,27 @@ export default function NamingIonicCompounds(props) {
   }
 
   function handleWriteFormula(params) {
+    //get the compounds to be and split them into individual units
+    //and initialize variables
     const compoundNameArray = ioncompoundString.split(",");
     const workArray = [];
     let metalNonmetalArray;
     let cationName;
+    let symbolOfCation;
     let symbolOfAnion;
     let anionName;
     let chargeOfAnion;
     console.log({ compoundNameArray });
+
+    //iterate through each compound and write the formula
     for (let index = 0; index < compoundNameArray.length; index++) {
       let romanIndicator = false;
       let romanNum;
       let element = compoundNameArray[index];
       let symbolArray = [];
       element = element.trim();
+
+      //check whether the name of the compound contains roman numeral
       const romansNumerals = Object.values(chargeRomanTranslation);
       for (let index = 0; index < romansNumerals.length; index++) {
         const elementRoman = romansNumerals[index];
@@ -118,17 +108,19 @@ export default function NamingIonicCompounds(props) {
         }
       }
 
-      //get the metal name and none metal name
+      //get the metal name and none metal name for elements
       if (romanIndicator) {
         metalNonmetalArray = element.split(" ");
         if (metalNonmetalArray.length === 3) {
           cationName = metalNonmetalArray[0];
           romanNum = metalNonmetalArray[1];
+          //turn the roman numeral to number to used as charge later
           romanNum = getKeyFromValue(chargeRomanTranslation, romanNum);
           anionName = metalNonmetalArray[2];
         } else {
           cationName = metalNonmetalArray[0];
           romanNum = metalNonmetalArray[1];
+          //turn the roman numeral to number to used as charge later
           romanNum = getKeyFromValue(chargeRomanTranslation, romanNum);
           anionName = `${metalNonmetalArray[2]} ${metalNonmetalArray[3]}`;
         }
@@ -148,8 +140,8 @@ export default function NamingIonicCompounds(props) {
         }
       }
 
-      //get the cation symbol
-      const symbolOfCation = romanIndicator
+      //get the cation symbol by searching different arrays
+      symbolOfCation = romanIndicator
         ? variableChargeCation.find((cat) => cat.name === cationName).symbol
         : elementsArray.find((cat) => cat.name === cationName).symbol;
 
@@ -163,7 +155,7 @@ export default function NamingIonicCompounds(props) {
       console.log({ cationName, anionName, romanNum });
       console.log({ symbolOfCation });
 
-      //get the anion symbol or formula and charge for monoatomic ion
+      //get the anion symbol and charge of anion for monoatomic
       let symbolOfAnionObj = elementsArray.find(
         (anion) => anion.ionName === anionName
       );
@@ -182,8 +174,6 @@ export default function NamingIonicCompounds(props) {
         } else if (anionGroup === 4) {
           chargeOfAnion = 4;
         }
-
-        ///workArray.push(symbolOfAnion);
       }
 
       //get the anion symbol or formula and charge for polyatomic ion
@@ -196,9 +186,7 @@ export default function NamingIonicCompounds(props) {
         ).charge;
 
         let results = symbolOfAnion.matchAll(/([A-Z])(\d)?([a-z])?(\d)?/gi);
-        //let results2 = symbolOfAnion.match(/^\d+$/i);
-        // let results = "<h1> <h2>".matchAll(/<(.*?)>/gi);
-        //results = Array.from(results); // let's turn it into arraynnn
+
         for (let result of results) {
           console.log({ result });
           const match1 = result[1];
@@ -216,19 +204,41 @@ export default function NamingIonicCompounds(props) {
           symbolArray.push(resultGroup);
         }
       }
-      //display results
-      const compName = <p>Compound Name: {element}</p>;
+
+      //push variables into array to be display results
+      const compName = (
+        <p>
+          Compound Name: <br />
+          {element}
+        </p>
+      );
       workArray.push(compName);
-      workArray.push(<p>Write the symbol/formula of ions involved</p>);
+      if (symbolOfCation === "NH4") {
+        symbolOfCation = (
+          <>
+            NH<sub>4</sub>
+          </>
+        );
+      }
+
+      workArray.push(<p>Write the symbol/formula of ions involved:</p>);
+      //if it is polyatomic
       if (!symbolOfAnionObj) {
         workArray.push(symbolOfCation, ...symbolArray);
       } else {
         workArray.push(symbolOfCation, symbolOfAnion);
       }
 
-      workArray.push(<p>Write the charges of ions involved</p>);
+      workArray.push(<p>Write the charges of ions involved:</p>);
       const chargeSymbolCat = chargeOfCation > 1 ? `${chargeOfCation}+` : "1+";
       const chargeSymbolAnion = chargeOfAnion > 1 ? `${chargeOfAnion}-` : "1-";
+
+      const anionUnits =
+        getLCM(chargeOfCation, chargeOfAnion) / Number(chargeOfAnion);
+
+      const cationUnits =
+        getLCM(chargeOfCation, chargeOfAnion) / Number(chargeOfCation);
+
       workArray.push(
         <>
           {symbolOfCation}
@@ -262,9 +272,9 @@ export default function NamingIonicCompounds(props) {
             <>
               The charge of the cation is {chargeSymbolCat}. How was it
               obtained? The charge is obtained from the name of the compound. If
-              a metal is one that exhibits variable states, the charge will
-              always be included in Roman numerals in the compound name. Most
-              transition metals show variable oxidation state.
+              a metal is one that exhibits variable states, like this one, the
+              charge will always be included in Roman numerals in the compound
+              name. Most transition metals show variable oxidation state.
               <button>This table may help</button>
             </>
           ) : (
@@ -274,9 +284,10 @@ export default function NamingIonicCompounds(props) {
               obtained? The charge was obtained from the periodic table. The
               charge of a metal element is the number of electrons it has to
               lose to obtain an octet. If a metal is one that exhibits stable
-              oxidation state/charge, then get the charge from the periodic
-              table. The is usually equal to the group where the element is
-              located in the periodic table.<button>This table may help</button>
+              oxidation state/charge, then get the charge is obtained from the
+              periodic table. The is usually equal to the group where the
+              element is located in the periodic table.
+              <button>This table may help</button>
             </>
           )}
           <br />
@@ -285,7 +296,7 @@ export default function NamingIonicCompounds(props) {
               The charge of the anion is {chargeSymbolAnion}. How was it
               obtained? This is a polyatomic ion. A polyatomic ion is a group of
               atoms that behaves as a single unit. Each polyatomic ion has a
-              charge associated with it. You have to memorise them
+              charge associated with it. You have to memorise them one by one
               unfortunately.
               <button>This table has to be memorised</button>
             </>
@@ -296,8 +307,8 @@ export default function NamingIonicCompounds(props) {
               obtained? This is a monoatomic anion. The charge was obtained from
               the periodic table. The charge of an anion is usually equal to the
               number of electrons it has to gain to obtained an octet. Anions in
-              group 7 has a charge of -1, those in group 6 has a charge of -2{" "}
-              <button>This table may help</button>
+              group 7 has a charge of -1, those in group 6 has a charge of -2
+              ... <button>This table may help</button>
             </>
           )}
           <br />
@@ -308,15 +319,113 @@ export default function NamingIonicCompounds(props) {
 
       workArray.push(
         <p>
-          Next figure out the number of atoms of the metals and nonmetal in the
-          Formula , That is the formula subscripts. Divide the L.C.M by the
-          charge of each ion to achieve this. The charge {cationName} is{" "}
-          {chargeOfCation},and the L.C.M is{" "}
-          {getLCM(chargeOfCation, chargeOfAnion)} Therefore,{" "}
-          {getLCM(chargeOfCation, chargeOfAnion) / Number(chargeOfCation)} atoms
-          of {cationName} will be in the formula.
+          <span style={{ color: "blueviolet" }}>
+            Next figure out the number of units of the metals and nonmetal ions
+            in the Formula , That is, the formula's subscripts. Divide the L.C.M
+            by the charge of each ion to achieve this.
+          </span>{" "}
+          The charge of {cationName} ion here is {chargeOfCation}, and the L.C.M
+          is {getLCM(chargeOfCation, chargeOfAnion)}. Therefore, {cationUnits}{" "}
+          units of {cationName} ion will be in the formula.
+          <br />
+          The charge of {anionName} here is {chargeOfAnion}, and the L.C.M is{" "}
+          {getLCM(chargeOfCation, chargeOfAnion)}. Therefore, {anionUnits} units
+          of {anionName} ion will be in the formula.
+          <br />
         </p>
       );
+
+      workArray.push(
+        <>
+          {symbolOfCation}
+          <sup>{chargeSymbolCat}</sup>
+          <sub>{cationUnits}</sub>
+        </>
+      );
+      if (!symbolOfAnionObj) {
+        workArray.push(
+          <>
+            {" "}
+            [{symbolArray}]<sup>{chargeSymbolAnion}</sup>{" "}
+            <sub className={classes.super}>{anionUnits}</sub>
+          </>
+        );
+      } else {
+        //workArray.push(symbolOfCation, symbolOfAnion);
+        workArray.push(
+          <>
+            {symbolOfAnion}
+            <sup>{chargeSymbolAnion}</sup>
+            <sub className={classes.super}>{anionUnits}</sub>
+          </>
+        );
+      }
+
+      workArray.push(
+        <p>
+          <span style={{ color: "blueviolet" }}>
+            Now write the final formula by taking the following steps:
+            <br /> 1. Don't include the charges: since oppostively charged ions
+            are combining in equal numbers the charges has been destroyed and
+            neutrality established.
+            <br />
+            2. If the subscript is one, it is not included in the final answer.
+            <br />
+            3. Enclose polyatomic ion in parentheses if the subscript associated
+            with is greater one <br />
+          </span>{" "}
+        </p>
+      );
+
+      workArray.push(
+        <>
+          {cationUnits === 1 ? (
+            <>
+              {symbolOfCation}
+
+              {/* <sub>{cationUnits}</sub> */}
+            </>
+          ) : cationName === "ammonium" ? (
+            <>
+              ({symbolOfCation})<sub>{cationUnits}</sub>
+            </>
+          ) : (
+            <>
+              {symbolOfCation}
+
+              <sub>{cationUnits}</sub>
+            </>
+          )}
+        </>
+      );
+      if (!symbolOfAnionObj) {
+        workArray.push(
+          <>
+            {anionUnits === 1 ? (
+              <>{symbolArray}</>
+            ) : (
+              <>
+                ({symbolArray})<sub className={classes.super}>{anionUnits}</sub>
+              </>
+            )}
+          </>
+        );
+      } else {
+        //workArray.push(symbolOfCation, symbolOfAnion);
+        workArray.push(
+          <>
+            {anionUnits === 1 ? (
+              <>{symbolOfAnion}</>
+            ) : (
+              <>
+                {symbolOfAnion}
+
+                <sub className={classes.super}>{anionUnits}</sub>
+              </>
+            )}
+          </>
+        );
+      }
 
       workArray.push(
         <>
@@ -326,14 +435,39 @@ export default function NamingIonicCompounds(props) {
 
       console.log({ symbolOfAnion });
     }
-    //const workArray2= workArray.filter(item=>item)
+    //set state of work array
     setworkArrayGlogal(workArray);
   }
 
+  //generate compound
+  function generateUniqueIonic(workingArray1, workingArray2, count) {
+    let randomNumbers = new Set();
+
+    //iterate through array of metals(workingArray1) and nonmetals(workingArray2)
+    //select items at random, stop when you reach count(amount set by user)
+    while (true) {
+      let randomNum1 = Math.floor(Math.random() * workingArray1.length);
+      let randomNum2 = Math.floor(Math.random() * workingArray2.length);
+      const cationName = workingArray1[randomNum1];
+      const anionName = workingArray2[randomNum2];
+      const ionicCompound = `${cationName} ${anionName}`;
+      // randomArray.push(preWorkingArray[num]);
+      randomNumbers.add(ionicCompound);
+      if (randomNumbers.size === count) {
+        break;
+      }
+    }
+
+    //convert set to array and return the array
+    const randomArray = [...randomNumbers];
+    return randomArray;
+  }
+
+  //generate compounds
   function handleGenIonicCom() {
     console.log("call1");
 
-    //form array of group1,2,3 metals
+    //form array of group1,2,3 metals except hydrogen
     const stableChargeMetalArray = elementsArray.filter(
       (item) =>
         item.name !== "hydrogen" &&
@@ -341,20 +475,22 @@ export default function NamingIonicCompounds(props) {
     );
 
     console.log({ stableChargeMetalArray });
+    //form array of names of groups1,2,3 elements
     const stableChargeMetalNameArray = stableChargeMetalArray.map(
       (item) => item.name
     );
     console.log({ stableChargeMetalNameArray });
-    //transition or variable charge
+
+    //for array of transition or variable charge elements
     const variableMetalNameArray = variableChargeCation.map((item) => {
       const metalName = item.name;
-      if (
-        metalName === "silver" ||
-        metalName === "zinc" ||
-        metalName === "ammonium"
-      ) {
-        return metalName;
-      }
+      // if (
+      //   metalName === "silver" ||
+      //   metalName === "zinc" ||
+      //   metalName === "ammonium"
+      // ) {
+      //   return metalName;
+      // }
       const metalArray = item.charge;
       let randomNum = Math.floor(Math.random() * metalArray.length);
       const pickedCharge = metalArray[randomNum];
@@ -363,36 +499,45 @@ export default function NamingIonicCompounds(props) {
     });
 
     console.log({ variableMetalNameArray });
-
+    //combine array of stable and variable oxidation state
     const overalMetalArray = [
       ...stableChargeMetalNameArray,
       ...variableMetalNameArray,
     ];
     console.log({ overalMetalArray });
 
-    //prepare non-metal anions
+    //prepare non-metal/anions
     const monoAtomicAnionsArray = elementsArray.filter(
       (item) => item.ionName !== undefined
     );
     console.log({ monoAtomicAnionsArray });
+
+    //form array of stable non-metal names
     const monoAtomicAnionsNameArray = monoAtomicAnionsArray.map(
       (item) => item.ionName
     );
     const polyAtomicAnionsNameArray = polyAtomicIon.map((item) => item.name);
     console.log({ polyAtomicAnionsNameArray });
+
+    //form a combined array of monoatomic and polyatomic ion
     const overalNonMetalArray = [
       ...monoAtomicAnionsNameArray,
       ...polyAtomicAnionsNameArray,
     ];
+
     console.log({ overalNonMetalArray });
+    //shuffle the array
     shuffleArray(overalMetalArray);
     shuffleArray(overalNonMetalArray);
+
+    //now generate the compounds
     const generatedValue = generateUniqueIonic(
       overalMetalArray,
       overalNonMetalArray,
       compoundCount
     );
     console.log({ generatedValue });
+    //set the state of generated compounds
     setioncompoundString(generatedValue.join(", "));
   }
 
@@ -909,53 +1054,55 @@ export default function NamingIonicCompounds(props) {
     //if electrons are negatively charged
   } else if (radioValue === "activities") {
     return (
-      <div style={{ border: "2px solid red" }}>
-        <div className={classes.card}>
-          <div style={{ width: "100%", padding: "6px" }}>
-            {" "}
-            {workArrayGlogal}
-          </div>
-          {/* <div className={classes.container}>
+      <>
+        <div style={{ border: "2px solid red" }}>
+          <div className={classes.card}>
+            <div style={{ width: "100%", padding: "6px" }}>
+              {" "}
+              {workArrayGlogal}
+            </div>
+            {/* <div className={classes.container}>
             <h4>
               <b>Jane Doe</b>
             </h4>
             <p>final answer</p>
           </div> */}
-        </div>
+          </div>
 
-        <div className={classes.controlRegion}>
-          <div className="control">{displayRadioOptions()}</div>
-          <div className={classes.textarea}>
-            <textarea
-              style={{ fontSize: "18px", color: "blue", margin: "10px" }}
-              id="excerpt"
-              rows="6"
-              cols="40"
-              required
-              value={enteredExcerpt}
-              onChange={useFieldExcept.onChange}
-            ></textarea>
-          </div>
-          <div className={classes.buttons}>
-            <button onClick={handleWriteFormula}>check</button>{" "}
-            <button onClick={handleGenIonicCom}>
-              generate ionic compounds
-            </button>
-            <label htmlFor="ioncount">Quantity</label>
-            <input
-              type="number"
-              id="ioncount"
-              // required
-              value={compoundCount}
-              onChange={onChangeNumber}
-              min="1"
-              max="10"
-              // readOnly
-              // style={{ visibility: "hidden" }}
-            />
+          <div className={classes.controlRegion}>
+            <div className="control">{displayRadioOptions()}</div>
+            <div className={classes.textarea}>
+              <textarea
+                style={{ fontSize: "18px", color: "blue", margin: "10px" }}
+                id="excerpt"
+                rows="6"
+                cols="40"
+                required
+                value={enteredExcerpt}
+                onChange={useFieldExcept.onChange}
+              ></textarea>
+            </div>
+            <div className={classes.buttons}>
+              <button onClick={handleWriteFormula}>check</button>{" "}
+              <button onClick={handleGenIonicCom}>
+                generate ionic compounds
+              </button>
+              <label htmlFor="ioncount">Quantity</label>
+              <input
+                type="number"
+                id="ioncount"
+                // required
+                value={compoundCount}
+                onChange={onChangeNumber}
+                min="1"
+                max="10"
+                // readOnly
+                // style={{ visibility: "hidden" }}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
   return null;

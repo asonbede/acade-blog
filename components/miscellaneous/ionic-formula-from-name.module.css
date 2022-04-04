@@ -34,3 +34,7 @@
 .buttons {
   margin: 10px;
 }
+.card super {
+  position: relative;
+  left: 10px;
+}
