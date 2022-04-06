@@ -1,6 +1,6 @@
 export const polyAtomicIon = [
-  //{ name: "ammonium", formula: "NH4", charge: "+" },
-  // { name: "hydronium", formula: "H3O", charge: "+" },
+  { name: "ammonium", formula: "NH4", charge: "1" },
+  { name: "hydronium", formula: "H3O", charge: "1" },
   { name: "peroxide", formula: "O2", charge: "2" },
   { name: "hydroxide", formula: "OH", charge: "1" },
   { name: "cyanide", formula: "CN", charge: "1" },
@@ -99,6 +99,69 @@ export const variableChargeCation = [
     symbol: "V",
     charge: [2, 3, 4, 5],
     name: "vanadium",
+  },
+  // ------------------------------
+
+  {
+    symbol: "Sc",
+    charge: [2],
+    name: "scandium",
+  },
+  {
+    symbol: "Ti",
+    charge: [2, 3, 4],
+    name: "Titanium",
+  },
+  {
+    symbol: "Y",
+    charge: [3],
+    name: "yttrium",
+  },
+  {
+    symbol: "Zr",
+    charge: [3, 4],
+    name: "zirconium",
+  },
+  {
+    symbol: "Nb",
+    charge: [2, 3, 4, 5],
+    name: "niobium",
+  },
+  {
+    symbol: "Mo",
+    charge: [2, 3, 4, 5, 6],
+    name: "molybdenum",
+  },
+  {
+    symbol: "Tc",
+    charge: [2, 4, 5],
+    name: "technetium",
+  },
+  {
+    symbol: "Ru",
+    charge: [2, 3, 4, 5, 6, 7, 8],
+    name: "ruthenium",
+  },
+  {
+    symbol: "Rh",
+    charge: [2, 3, 4, 6],
+    name: "rhodium",
+  },
+  {
+    symbol: "Pd",
+    charge: [2, 3, 4],
+    name: "palladium",
+  },
+  {
+    symbol: "Cd",
+    charge: [2],
+    name: "cadmium",
+  },
+  // ----------------------------------
+  {
+    symbol: "Pb",
+    charge: [2],
+    name: "lead",
   },
 ];
 

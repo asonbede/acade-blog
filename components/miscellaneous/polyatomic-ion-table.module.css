@@ -1,0 +1,55 @@
+.container {
+  /* border: 1px solid blue; */
+  /* position: absolute;
+  top: 0;
+  right: 200px; */
+  width: 70%;
+  margin: 0 auto;
+}
+
+.container .tableCaption {
+  display: flex;
+  justify-content: space-between;
+}
+.tableCaption button {
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  /*optional*/
+  font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.tableCaption h1 {
+  font-size: 24px;
+}
+
+.tableMain {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tableMain td,
+.tableMain th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.tableMain tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.tableMain tr:hover {
+  background-color: #ddd;
+}
+/* styling head */
+.tableMain th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04aa6d;
+  color: white;
+}
