@@ -19,7 +19,7 @@ export default function NamingIonicCompounds(props) {
   const { value: enteredHypoteck } = useFieldHypoteck;
   //const [selectValue, setselectValue] = useState();
   // const [option, setOption] = useState();
-
+  // sethypotheticalFormulaArray;
   const [radioValue, setRadioValue] = useState();
   const [compoundCount, setcompoundCount] = useState(2);
   const [hypotheticalElemCount, sethypotheticalElemCount] = useState(2);
@@ -27,10 +27,9 @@ export default function NamingIonicCompounds(props) {
   const [ioncompoundString, setioncompoundString] = useState(
     "calcium carbonate,sodium chloride"
   );
-  const [hypoteckcompoundString, sethypoteckcompoundString] = useState(
-    "hypoteckkkkkkkkkhhhhhhhff"
-  );
-
+  const [hypoteckcompoundString, sethypoteckcompoundString] = useState("");
+  const [metalPlusCargeArray, setmetalPlusCargeArray] = useState("");
+  const [workArrayGlogalHypo, sethypotheticalFormulaArray] = useState([]);
   const [workArrayGlogal, setworkArrayGlogal] = useState([]);
   const [showPolyatomicIonTable, setshowPolyatomicIonTable] = useState(false);
   const [showChargeTable, setshowChargeTable] = useState(false);
@@ -62,13 +61,20 @@ export default function NamingIonicCompounds(props) {
     setcompoundCount(2);
     sethypotheticalElemCount(2);
     handleGenIonicCom();
+    handleGenHypotheticalComp();
+
     handleWriteFormula();
     setshowTable(false);
   }, []);
   useEffect(() => {
     handleWriteFormula();
+
     setshowTable(false);
   }, [ioncompoundString]);
+  useEffect(() => {
+    handleWriteHypoFormula();
+    setshowTable(false);
+  }, [hypoteckcompoundString]);
 
   function handleShowPolyatomicTable() {
     setshowTable(true);
@@ -108,7 +114,7 @@ export default function NamingIonicCompounds(props) {
   //compute the l.c.m
   function getLCM(cataionCharge, anionCharge) {
     //compute l.c.m
-    for (let index = 1; index < 100; index++) {
+    for (let index = 1; index < 1000; index++) {
       if (
         index % Number(cataionCharge) === 0 &&
         index % Number(anionCharge) === 0
@@ -593,7 +599,9 @@ export default function NamingIonicCompounds(props) {
     //set the state of generated compounds
     setioncompoundString(generatedValue.join(", "));
   }
-
+  //hypothetical compounds
+  // --------------------------------------------------------------------
+  //2 hypothetical ionic elements
   function handleGenHypotheticalComp() {
     //genegrate hypothetical metals symbols
     const metalsUppercaseArray = [
@@ -654,8 +662,8 @@ export default function NamingIonicCompounds(props) {
       "z",
     ];
     const metalChargeArray = [
-      2, 3, 5, 7, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-      30,
+      2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+      22, 23, 24, 25, 26, 27, 28, 29, 30,
     ];
 
     shuffleArray(metalChargeArray);
@@ -670,16 +678,33 @@ export default function NamingIonicCompounds(props) {
     );
 
     while (true) {
+      const randomNum3 = Math.floor(Math.random() * metalChargeArray.length);
+
+      const chargeOfMetal = metalChargeArray[randomNum3];
+
+      setOfMetalCharges.add(chargeOfMetal);
+
+      console.log({ hypotheticalElemCount }, typeof hypotheticalElemCount);
+      // if (setOfMetalCharges.size !== 2 * hypotheticalElemCount) {
+
+      // }
+      if (setOfMetalCharges.size === 2 * hypotheticalElemCount) {
+        console.log("trace-break1111");
+        break;
+      }
+    }
+
+    while (true) {
       const randomNum1 = Math.floor(
         Math.random() * metalsUppercaseArray.length
       );
       const randomNum2 = Math.floor(
         Math.random() * metalsLowercaseArray.length
       );
-      const randomNum3 = Math.floor(Math.random() * metalChargeArray.length);
+      //const randomNum3 = Math.floor(Math.random() * metalChargeArray.length);
       const firstLetter = metalsUppercaseArray[randomNum1];
       const secondLetter = metalsLowercaseArray[randomNum2];
-      const chargeOfMetal = metalChargeArray[randomNum3];
+      //const chargeOfMetal = metalChargeArray[randomNum3];
 
       const hypotheticalMetalSymbol = `${firstLetter}${secondLetter}`;
       if (standardMetalsSymbols.includes(hypotheticalMetalSymbol)) {
@@ -687,16 +712,19 @@ export default function NamingIonicCompounds(props) {
       }
 
       setOfMetalsSymbol.add(hypotheticalMetalSymbol);
-      setOfMetalCharges.add(chargeOfMetal);
-      if (
-        setOfMetalsSymbol.size === hypotheticalElemCount &&
-        setOfMetalCharges.size === hypotheticalElemCount
-      ) {
+      //setOfMetalCharges.add(chargeOfMetal);
+
+      console.log({ hypotheticalElemCount }, typeof hypotheticalElemCount);
+      // if (setOfMetalCharges.size !== 2 * hypotheticalElemCount) {
+
+      // }
+      if (setOfMetalsSymbol.size === 2 * hypotheticalElemCount) {
+        console.log("trace-break");
         break;
       }
     }
 
-    //convert set to array and return the array
+    //convert set to array and return the array///////
     const arrayOfMetalsSymbol = [...setOfMetalsSymbol];
     const arrayOfSelectedMetalCharge = [...setOfMetalCharges];
     console.log({ arrayOfMetalsSymbol });
@@ -708,15 +736,249 @@ export default function NamingIonicCompounds(props) {
       charge: arrayOfSelectedMetalCharge[index],
     }));
     console.log({ metalsPlusChargeArray });
+    setmetalPlusCargeArray(metalsPlusChargeArray);
+    const result = writeHypotheticalIonicQuest(metalsPlusChargeArray);
+    console.log({ result }, "rrr");
+
+    //generate nonmetal
+
     //add charge to the elements
 
     //generate hypothetical none metals
     //generate the charges
     // combine metals and none metals
-    //sethypoteckcompoundString("hypotheticals set");
+    sethypoteckcompoundString(result.join("\n\n"));
     console.log("hello world");
+    //return metalsPlusChargeArray;
   }
 
+  function genquestionType(
+    metalSymbol,
+    nonmetalSymbol,
+    metalChar,
+    nonmetalChar
+  ) {
+    let resultOfReplace = "";
+
+    const questionTypes = [
+      `A hypothetical ionic compound is formed from a metal with symbol metalSymbol and charge metalCharge+  and a nonmetal with symbol nonmetalSymbol and charge nonmetalCharge-, predict
+ the formula of the compound.`,
+      `If a hypothetical metal with symbol metalSymbol and charge metalCharge+ combines
+  with a hypothetical  nonmetal with symbol nonmetalSymbol  and charge nonmetalCharge- to form an ionicCompound,
+ write  the formula of the compound.`,
+      `What is the most likely formula of an ionic compound formed between a metal
+ with symbol metalSymbol and charge metalCharge+ and a nonmetal with symbol nonmetalSymbol
+ and charge nonmetalCharge-.
+`,
+    ];
+
+    const randomNum = Math.floor(Math.random() * questionTypes.length);
+    const selectedQuestion = questionTypes[randomNum];
+    resultOfReplace = selectedQuestion.replace(/metalSymbol/i, metalSymbol);
+    resultOfReplace = resultOfReplace.replace(
+      /nonmetalSymbol/i,
+      nonmetalSymbol
+    );
+    resultOfReplace = resultOfReplace.replace(/metalCharge/i, metalChar);
+    resultOfReplace = resultOfReplace.replace(/nonmetalCharge/i, nonmetalChar);
+    return resultOfReplace;
+  }
+
+  function writeHypotheticalIonicQuest(symbolBankResult) {
+    const questionBankArray = [];
+    let questionNum = 1;
+    for (let index = 0; index < symbolBankResult.length - 1; ) {
+      const element = symbolBankResult[index];
+      const metalSymbol = element.symbol;
+      const metalCharge = element.charge;
+      const nonmetalSymbol = symbolBankResult[index + 1].symbol;
+      const nonmetalCharge = symbolBankResult[index + 1].charge;
+      const result = genquestionType(
+        metalSymbol,
+        nonmetalSymbol,
+        metalCharge,
+        nonmetalCharge
+      );
+      questionBankArray.push(`${questionNum}. ${result}`);
+      index = index + 2;
+      questionNum = questionNum + 1;
+    }
+    return questionBankArray;
+  }
+
+  function handleWriteHypoFormula() {
+    const questionArray = hypoteckcompoundString.split("\n\n");
+    const workArray = [];
+
+    let symbolOfCation;
+    let symbolOfAnion;
+
+    let chargeOfCation;
+    let chargeOfAnion;
+
+    let questionNum = 0;
+
+    for (let index = 0; index < metalPlusCargeArray.length - 1; ) {
+      let metalElementObj = metalPlusCargeArray[index];
+      let nonmetalElementObj = metalPlusCargeArray[index + 1];
+
+      symbolOfCation = metalElementObj.symbol;
+      chargeOfCation = metalElementObj.charge;
+      symbolOfAnion = nonmetalElementObj.symbol;
+      chargeOfAnion = nonmetalElementObj.charge;
+
+      const questionValue = (
+        <p>
+          Problem: <br />
+          {questionArray[questionNum]}
+        </p>
+      );
+      workArray.push(questionValue);
+
+      const solutionValue = <p>Solution:</p>;
+
+      workArray.push(solutionValue);
+
+      workArray.push(
+        <p>
+          Write the symbol of ions/elements involved, the symbol of the metal
+          should be written first:
+        </p>
+      );
+
+      workArray.push(symbolOfCation, symbolOfAnion);
+
+      workArray.push(<p>Write the charges of ions involved:</p>);
+      const chargeSymbolCat = chargeOfCation > 1 ? `${chargeOfCation}+` : "1+";
+      const chargeSymbolAnion = chargeOfAnion > 1 ? `${chargeOfAnion}-` : "1-";
+
+      const anionUnits =
+        getLCM(chargeOfCation, chargeOfAnion) / Number(chargeOfAnion);
+
+      const cationUnits =
+        getLCM(chargeOfCation, chargeOfAnion) / Number(chargeOfCation);
+
+      workArray.push(
+        <>
+          {symbolOfCation}
+          <sup>{chargeSymbolCat}</sup>
+          {symbolOfAnion}
+          <sup>{chargeSymbolAnion}</sup>
+        </>
+      );
+
+      workArray.push(
+        <p>
+          Now comput the Lowest Common Multiple(LCM)/Least Common
+          Denominator(L.C.D) of the charges. This is equal to the total number
+          of electrons donated by the cation which is also equal to the total
+          number of electrons accepted by the anion in the formula. The charge
+          of the cation is {chargeSymbolCat}. This was given in the question.
+          The charge of the anion is {chargeSymbolAnion}. This was also given in
+          the question.? )
+          <br />
+          The L.C.M of {chargeOfCation} and {chargeOfAnion} is {"  "}
+          {getLCM(chargeOfCation, chargeOfAnion)}.
+        </p>
+      );
+
+      workArray.push(
+        <p>
+          <span style={{ color: "blueviolet" }}>
+            Next figure out the number of units of the metals and nonmetal ions
+            in the Formula , That is, the formula's subscripts. Divide the L.C.M
+            by the charge of each ion to achieve this.
+          </span>{" "}
+          The charge of {symbolOfCation} ion here is {chargeOfCation}, and the
+          L.C.M is {getLCM(chargeOfCation, chargeOfAnion)}. Therefore,{" "}
+          {cationUnits} units of {symbolOfCation} ions will be in the formula.
+          <br />
+          The charge of {symbolOfAnion} here is {chargeOfAnion}, and the L.C.M
+          is {getLCM(chargeOfCation, chargeOfAnion)}. Therefore, {anionUnits}{" "}
+          units of {symbolOfAnion} ions will be in the formula.
+          <br />
+        </p>
+      );
+
+      workArray.push(
+        <>
+          {symbolOfCation}
+          <sup>{chargeSymbolCat}</sup>
+          <sub>{cationUnits}</sub>
+          {symbolOfAnion}
+          <sup>{chargeSymbolAnion}</sup>
+          <sub className={classes.super}>{anionUnits}</sub>
+        </>
+      );
+
+      workArray.push(
+        <p>
+          <span style={{ color: "blueviolet" }}>
+            Now write the final formula by taking the following steps:
+            <br /> 1. Don't include the charges: since oppostively charged ions
+            are combining in equal numbers the charges has been destroyed and
+            neutrality established.
+            <br />
+            2. If the subscript is one, it is not included in the final answer.
+            <br />
+            3. Enclose polyatomic ion in parentheses if the subscript associated
+            with is greater one <br />
+          </span>{" "}
+        </p>
+      );
+
+      workArray.push(
+        <>
+          {cationUnits === 1 ? (
+            <>
+              {symbolOfCation}
+
+              {/* <sub>{cationUnits}</sub> */}
+            </>
+          ) : (
+            <>
+              {symbolOfCation}
+
+              <sub>{cationUnits}</sub>
+            </>
+          )}
+        </>
+      );
+
+      workArray.push(
+        <>
+          {anionUnits === 1 ? (
+            <>
+              {symbolOfAnion}
+
+              {/* <sub>{cationUnits}</sub> */}
+            </>
+          ) : (
+            <>
+              {symbolOfAnion}
+
+              <sub>{anionUnits}</sub>
+            </>
+          )}
+        </>
+      );
+
+      workArray.push(
+        <>
+          <hr />
+        </>
+      );
+
+      console.log({ symbolOfAnion });
+      index = index + 2;
+      questionNum = questionNum + 1;
+    }
+
+    //set state of work array
+    sethypotheticalFormulaArray(workArray);
+  }
+
+  // ------------------------------------------------------------
   function displayRadioOptions() {
     return (
       <>
@@ -765,7 +1027,7 @@ export default function NamingIonicCompounds(props) {
   };
 
   const onChangeHypoNumber = (e) => {
-    console.log(e.target.value, "value_number");
+    console.log(e.target.value, "value_number2");
     sethypotheticalElemCount(Number(e.target.value));
   };
 
@@ -851,10 +1113,7 @@ export default function NamingIonicCompounds(props) {
           <div className={classes.card}>
             <div style={{ width: "100%", padding: "6px" }}>
               {" "}
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est
-              obcaecati et quisquam commodi, delectus possimus consequuntur,
-              culpa vitae saepe voluptas nostrum nisi veniam blanditiis quasi
-              iste natus repellendus consequatur ex?
+              {workArrayGlogalHypo}
             </div>
           </div>
 
