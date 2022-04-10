@@ -10,22 +10,6 @@
   top: 12%;
   right: 1%;
 }
-/* .verticalmenu a {
-  background-color: #eee;
-  color: black;
-  display: block;
-  padding: 12px;
-  text-decoration: none;
-} */
-
-/* .verticalmenu button:hover {
-  background-color: #ccc;
-} */
-
-/* .vertical-menu a.active {
-  background-color: #04aa6d;
-  color: white;
-} */
 
 .verticalmenu button {
   outline: 0;

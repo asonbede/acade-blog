@@ -1,6 +1,8 @@
-//if the post is moderated, return true no matter who is logged in
-//if the post is not moderated but the persons logged in are the author or the admin retun truee
+//The idea here is to ensure that unmoderated post is not shown to the public.
+//if the post is moderated, return true no matter who is logged in.
+//if the post is not moderated but the persons logged in is the author or the admin retun true.
 //else if the post is not moderated and the person logged in is not admin don't show it.
+//if no log in and no moderation return false
 
 import { getSession } from "next-auth/client";
 

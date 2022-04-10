@@ -49,3 +49,9 @@ function Hero(props) {
 }
 
 export default Hero;
+/* What the Heros component does and how it works.
+The idea here is to have a component that displays different items
+depending on whether the user is on is on the home page or user profile  page
+If the user is on home page, the director's image and messa
+
+*/

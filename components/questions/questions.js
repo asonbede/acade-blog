@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
-//import QuestionsList from "./questions-list";
+
 import NewQuestion from "./new-questions-form";
 import classes from "./questions.module.css";
 import NotificationContext from "../../store/notification-context";
@@ -34,8 +34,7 @@ function Questions(props) {
   console.log({ items }, "fro,m questions");
   console.log({ blogId }, "in questionsjs");
   const noteFormRef = useRef(null);
-  //const notificationCtx = useContext(NotificationContext);
-  // setCurrentArrayHandler;
+
   function checkMessageScore() {
     if (selectValue === "mult-choice-one") {
       if (score === 1) {
@@ -91,9 +90,6 @@ function Questions(props) {
   }
 
   useEffect(() => {
-    // if (questionType) {
-    //   setselectValue(questionType);
-    // }
     if (typeof window !== "undefined") {
       const userChoiceFromLocStorage =
         window.localStorage.getItem("select-value");
@@ -103,9 +99,6 @@ function Questions(props) {
         setselectValue("mult-choice-all");
       }
     }
-    //    return {
-    //      basket:
-    //        window.localStorage.getItem("basket") === null
   }, []);
 
   useEffect(() => {
@@ -152,17 +145,6 @@ function Questions(props) {
     } else {
       setisLoading(false);
     }
-
-    // else {`1
-    //   setcurrentArray(
-    //     items.filter((item) => item.questionType !== "essay-type")
-    //   );
-    // }
-    // else {
-    //   // value="">All Multiple Choice</option>
-    //   // <option value="mult-choice-one
-
-    // }
   }, [changerValue, selectValue]);
 
   console.log({ currentArray }, "checking essay-type11111");
@@ -242,15 +224,7 @@ function Questions(props) {
       if (!studentsChoice) {
         unanweredQuestionsList.push(index + 1);
         skippedQuestionsList.push({ ...questionObj, originalIndex: index });
-        // correctOptionValue = checkOptions(
-        //   questionObj.correctOption,
-        //   optionsArray
-        // );
-        // setselectedValuesOfRadioButton({
-        //   ...selectedValuesOfRadioButton,
-        //   [`studentChoiceForQuestion${index + 1}`]: "go",
-        //   [`correctOptionForQuestion${index + 1}`]: correctOptionValue,
-        // });
+
         setselectedValuesOfRadioButton((selectedValuesOfRadioButton) => ({
           ...selectedValuesOfRadioButton,
           [`studentChoiceForQuestion${index + 1}`]: "go==",
@@ -281,25 +255,14 @@ function Questions(props) {
     if you click ok your script will be assessed without the skipped questions`);
       if (confirmAns) {
         console.log({ selectedValuesOfRadioButton }, "inConfirm");
-        // notificationCtx.reviewQuestionsHandler({
-        //   selectedValuesOfRadioButton,
-        //   items,
-        //   correctQuestions,
-        //   inCorrectQuestions,
-        //   skippedQuestions,
-        //   allQuestions,
-        // });
+
         setcontrolReviewLink(true);
         setskippedQuestions(skippedQuestionsList);
         setcorrectQuestions(correctQuestionsList);
         setinCorrectQuestions(inCorrectQuestionsList);
         setallQuestions(allQuestionsList);
         setscore(scoreValue);
-        // notificationCtx.showNotification({
-        //   title: "Success!",
-        //   message: `Your answer script was successfully assessed!\n You scored ${score}/${items.length}.\n Click the review button for details`,
-        //   status: "success",
-        // });
+
         return;
       } else {
         return;
@@ -312,33 +275,8 @@ function Questions(props) {
       setinCorrectQuestions(inCorrectQuestionsList);
       setallQuestions(allQuestionsList);
       setscore(scoreValue);
-      // notificationCtx.showNotification({
-      //   title: "Success!",
-      //   message: `Your answer script was successfully assessed!\n You scored ${score}/${items.length}.\n Click the review button for details`,
-      //   status: "success",
-      // });
     }
   }
-
-  // const { questions, blogId } = props;
-
-  // const notificationCtx = useContext(NotificationContext);
-
-  // const [showQuestions, setShowQuestions] = useState(false);
-  // //const [questions, setQuestions] = useState([]);
-  // const [isFetchingQuestions, setIsFetchingQuestions] = useState(false);
-
-  // useEffect(() => {
-  //   if (showQuestions) {
-  //     setIsFetchingQuestions(true);
-  //     fetch("/api/questions/" + blogId)
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         setQuestionsProd(data.questions);
-  //         setIsFetchingQuestions(false);
-  //       });
-  //   }
-  // }, [showQuestions]);
 
   const onselectChange = (e) => {
     setisLoading(true);
@@ -351,17 +289,6 @@ function Questions(props) {
       window.localStorage.setItem("select-value", optionValue);
     }
   };
-
-  //  if (typeof window !== "undefined") {
-  //    return {
-  //      basket:
-  //        window.localStorage.getItem("basket") === null
-  //          ? []
-  //          : window.localStorage.getItem("basket"),
-  //      viwedItems: [],
-  //      saved: [],
-  //    };
-  //  }
 
   function toggleQuestionsHandler() {
     setShowQuestions((prevStatus) => !prevStatus);
@@ -397,14 +324,7 @@ function Questions(props) {
           status: "success",
         });
 
-        // router.push(
-        //   `/posts/questions/${blogId}?questionType=${typeOfQuestion}`
-        // );
         router.reload(window.location.pathname);
-        // router.push({
-        //   pathname: `/posts/questions/${blogId}`,
-        //   query: { questionType: `${typeOfQuestion}` },
-        // });
       })
       .catch((error) => {
         notificationCtx.showNotification({
@@ -501,16 +421,6 @@ function Questions(props) {
           {showQuestions ? "Hide" : "Show"} Questions
         </button>
 
-        {/* {showQuestions && !isFetchingQuestions && (
-          <button
-            onClick={markScript}
-            disabled={controlSubBtn}
-            title="attempt the questions before clicking this button"
-          >
-            submit Script For Marking
-          </button>
-        )} */}
-
         <select
           onChange={onselectChange}
           // value={selectValue}
@@ -529,53 +439,9 @@ function Questions(props) {
             <option value="essay-type">Essay Type</option>
           </optgroup>
         </select>
-
-        {/* {showQuestions &&
-          !isFetchingQuestions &&
-          controlReviewLink &&
-          selectValue === "mult-choice-all" && (
-            <Link href={linkPath}>
-              <a>Review Result</a>
-            </Link>
-            // <button onClick={goToLinkHandler}>Review Result</button>bbbbhhhhhhhhh
-            // as="button"
-          )} */}
-
-        {/* <div>
-          <input
-            type="radio"
-            name="question-select"
-            value="mult-sel-all"
-            id="mult-sel-all"
-            // onChange={handleRadioSelect}
-          />
-          <label htmlFor="mult-sel-all">Show All</label>
-          <input
-            type="radio"
-            name="question-select"
-            value="mult-sel-one"
-            id="mult-sel-one"
-            // onChange={handleRadioSelect}
-          />
-          <label htmlFor="mult-sel-one">Show one </label>
-          <input
-            type="radio"
-            name="question-select"
-            value="essay"
-            id="essay-type"
-            // onChange={handleRadioSelect}
-          />
-          <label htmlFor="essay-type">Essay Type </label>
-        </div> */}
       </div>
       {items.length !== 0 && displayQuestions()}
-      {/* {showQuestions && !isFetchingQuestions && (
-        <QuestionsList
-          items={items}
-          handleRadioButtonChange={handleRadioButtonChange}
-          blogId={blogId}
-        />
-      )} */}
+
       {showQuestions && isFetchingQuestions && <p>Loading questions...</p>}
       {session && selectValue === "essay-type" ? (
         <Togglable buttonLabel="create essay question" ref={noteFormRef}>
@@ -601,14 +467,3 @@ function Questions(props) {
 }
 
 export default Questions;
-
-// # Download prebuilt binaries
-// npm i -D @swc/cli @swc/core
-
-// # Transpile JavaScript file and emit to stdout
-// npx swc ./file.js
-
-// {
-//   "presets": ["next/babel"]
-// }
-// .babelrc
