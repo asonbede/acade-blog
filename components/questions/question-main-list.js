@@ -1,6 +1,13 @@
+/* 
+The idea here is to display two components: QuestionList 
+and QuestionReviewSelect alternatively. QuestionList is displayed
+by default and enable users to answer questions. After answering the 
+questions and clicking submit, QuestionList is removed and QuestionReviewSelect
+is used to show the result. A button is used to enable the user to shuttle
+between the two components.
+*/
+
 import React, { useEffect, useState } from "react";
-// import classes from "./question-list-one.module.css";
-// import { FaChevronLeft, FaChevronRight, FaQuoteRight } from "react-icons/fa";
 import QuestionList from "./questions-list";
 import QuestionReviewSelect from "./question-review-select";
 const MainQuestionList = ({
@@ -15,62 +22,9 @@ const MainQuestionList = ({
   setcontrolSubBtn,
   variablesForReseting,
 }) => {
-  //const [index, setIndex] = useState(0);
-  //let itemObj;
-
-  //const questionArray
-  //const{authorName,authorImage}= itemObj
-  //questionArray.push(itemObj)
   const [itemArray, setitemArray] = useState();
-  //  const [authorName, setauthorName] = useState();
-  //  const [authorImage, setauthorImage] = useState();
 
-  //   useEffect(() => {
-  //     if (items) {
-  //       const itemObj = items[index];
-  //       setitemArray([itemObj]);
-  //       if (selectValue === "mult-choice-one") {
-  //         setCurrentArrayHandler([itemObj]);
-  //       }
-  //     }
-  //     // effect
-  //     // return () => {
-  //     //   cleanup
-  //     // }
-  //   }, [index, selectValue]);
-  //   console.log({ itemArray }, "one-list");
-
-  //   const checkNumber = (number) => {
-  //     if (number > items.length - 1) {
-  //       return 0;
-  //     }
-  //     if (number < 0) {
-  //       return items.length - 1;
-  //     }
-  //     return number;
-  //   };
-  //   const nextPerson = () => {
-  //     setIndex((index) => {
-  //       let newIndex = index + 1;
-  //       return checkNumber(newIndex);
-  //     });
-  //     setitemArray([]);
-  //   };
-  //   const prevPerson = () => {
-  //     setIndex((index) => {
-  //       let newIndex = index - 1;
-  //       return checkNumber(newIndex);
-  //     });
-  //     setitemArray([]);
-  //   };
-  //   const randomPerson = () => {
-  //     let randomNumber = Math.floor(Math.random() * items.length);
-  //     if (randomNumber === index) {
-  //       randomNumber = index + 1;
-  //     }
-  //     setIndex(checkNumber(randomNumber));
-  //     setitemArray([]);
-  //   };
+  //
   function backToQuestionListHandler() {
     setcontrolReviewLink(false);
     setcontrolSubBtn(true);

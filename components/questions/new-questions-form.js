@@ -1,3 +1,24 @@
+/* 
+The basic idea here is to get multiple choice type of questons from the 
+user and store it in the database. The questions is send via the addQuestion
+function as as object with the following fields
+  {
+        question: enteredQuestion,
+        options: filteredOptions,
+       explanation: enteredExplanation,
+        correctOption: enteredCorrectOption,
+        linkedTo: linkedValue,
+        authorId: session.user.email,
+        questionType: "multi-choice",
+        moderated: false,
+        subject: enteredSubject,
+        examType: enteredExamType,
+        questionIntroText: checkEditorText(quesIntroEdiState)
+          ? enteredQuestionIntroText.trim()
+          : null,
+      },
+*/
+
 import { useRef, useState, useEffect, useContext } from "react";
 import classes from "./new-questions-form.module.css";
 import MyRichEditor from "../rich-text-editor/myrich-text-editor";
@@ -16,7 +37,7 @@ function NewQuestion(props) {
   const [filteredOptionsLen, setfilteredOptionsLen] = useState();
   const [enteredCorrectOption, setselectValue] = useState("A");
 
-  //const useFieldTopic = useField("text");
+  //initialize function that will enable you to enter input and save state
   const useFieldSubject = useField("text");
   const useFieldExamType = useField("text");
   const notificationCtx = useContext(NotificationContext);
@@ -45,22 +66,8 @@ function NewQuestion(props) {
     useEditorExplanation;
   const { url: enteredQuestionIntroText, editorState: quesIntroEdiState } =
     useEditorQuestionIntroText;
-
   const { value: enteredSubject } = useFieldSubject;
   const { value: enteredExamType } = useFieldExamType;
-
-  // const { value: author } = useFieldAuthor;
-  // const { value: imageBlog } = useFieldImage;
-  // const dispatch = useDispatch();
-
-  // const questionInputRef = useRef();
-  // const optionAInputRef = useRef();
-  // const optionBInputRef = useRef();
-  // const optionCInputRef = useRef();
-  // const optionDInputRef = useRef();
-  // const optionEInputRef = useRef();
-  // const explanationInputRef = useRef();
-  // const correctOptionInputRef = useRef();
 
   //checks if editor has text = returns true or not= returns false
   function checkEditorText(editorStateValue) {
@@ -68,11 +75,15 @@ function NewQuestion(props) {
       editorStateValue.getCurrentContent().getPlainText().trim().length > 0
     );
   }
+
+  //when the page loads, the number of options is set
   useEffect(() => {
     const arrayResult = filteredOptionsFunc();
 
     setfilteredOptionsLen(arrayResult.length);
   }, [optAEditorState, optBEditorState, optCdiState, optDdiState, optEdiState]);
+
+  //called when and only when input validation fails
   useEffect(() => {
     if (isInvalid) {
       notificationCtx.showNotification({
@@ -86,6 +97,7 @@ function NewQuestion(props) {
     }
   }, [isInvalid]);
 
+  //returns an array of the options where the user had made a choice
   function filteredOptionsFunc() {
     const filteredOptionsArray = [
       {
@@ -109,25 +121,24 @@ function NewQuestion(props) {
     return filteredOptionsArray;
   }
 
+  //set the option selected by the user
   function onselectChange(e) {
     setselectValue(e.target.value);
   }
+
+  //prepares the select element for fixing the correct option  by the examiner
+  //The choice available here depends on the number of input options filled.
   function outputSetAswerSelectOptions(params) {
     if (filteredOptionsLen === null) {
       return null;
     }
 
-    //const element = optionsLength[index];
     const optionsArray = ["A", "B", "C", "D", "E"];
     return (
       <select
         name=""
         id="correctOption"
         onChange={onselectChange}
-        // value={selectValue}
-
-        // size={4}
-        // defaultValue={selectValue}
         value={enteredCorrectOption}
       >
         <optgroup label="Set The Answer">
@@ -141,29 +152,21 @@ function NewQuestion(props) {
     );
   }
 
+  //called when the submit button is clicked
+  //passes question object data to addQuestion function which
+  //sends data to database
   function sendQuestionHandler(event) {
     console.log("create-called");
     event.preventDefault();
 
-    // const enteredQuestion = questionInputRef.current.value;
-    // const enteredOptionA = optionAInputRef.current.value;
-    // const enteredOptionB = optionBInputRef.current.value;
-    // const enteredOptionC = optionCInputRef.current.value;
-    // const enteredOptionD = optionDInputRef.current.value;
-    // const enteredOptionE = optionEInputRef.current.value;
-    // const enteredCorrectOption = correctOptionInputRef.current.value;
-    // const enteredExplanation = explanationInputRef.current.value;
-
+    //check whether the required fields has entered.
+    //throw error and abort submission if any of the
+    //required fields are missing.
+    //in question options, only options A and B are required
     if (
       !checkEditorText(questEditorState) ||
       !checkEditorText(optAEditorState) ||
       !checkEditorText(optBEditorState) ||
-      // !enteredOptionC ||
-      // enteredOptionC.trim() === "" ||
-      // !enteredOptionD ||
-      // enteredOptionD.trim() === "" ||
-      // !enteredOptionE ||
-      // enteredOptionE.trim() === "" ||
       !checkEditorText(explanEditorState) ||
       !enteredCorrectOption ||
       !enteredSubject ||
@@ -212,90 +215,83 @@ function NewQuestion(props) {
     );
     props.noteFormRef.current.togglevisibility();
   }
+
+  //link question to question  to question introtext
   const onChangeNumber = (e) => {
     setlinkedValue(e.target.value);
   };
+
   return (
     <form className={classes.form} onSubmit={sendQuestionHandler}>
       <div className={classes.row}>
         <div className={classes.control}>
           <label htmlFor="questionIntro">Question Intro Text</label>
-          {/* <textarea id="question" rows="5" ref={questionInputRef}></textarea> */}
 
           <MyRichEditor
             useEditorMainBlog={useEditorQuestionIntroText}
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
-            // smallHeight={false}
           />
         </div>
         <div className={classes.control}>
           <label htmlFor="question">Your Question</label>
-          {/* <textarea id="question" rows="5" ref={questionInputRef}></textarea> */}
 
           <MyRichEditor
             useEditorMainBlog={useEditorQuestion}
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
-            // smallHeight={false}
           />
         </div>
         <div className={classes.control}>
           <label htmlFor="optionA">OptionA</label>
-          {/* <input type="text" id="optionA" ref={optionAInputRef} /> */}
 
           <MyRichEditor
             useEditorMainBlog={useEditorOptionA}
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
-            // smallHeight={true}
           />
         </div>
         <div className={classes.control}>
           <label htmlFor="optionB">OptionB</label>
-          {/* <input type="text" id="optionB" ref={optionBInputRef} /> */}
+
           <MyRichEditor
             useEditorMainBlog={useEditorOptionB}
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
-            // smallHeight={true}
           />
         </div>
         <div className={classes.control}>
           <label htmlFor="optionC">OptionC</label>
-          {/* <input type="text" id="optionC" ref={optionCInputRef} /> */}
+
           <MyRichEditor
             useEditorMainBlog={useEditorOptionC}
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
-            // smallHeight={true}
           />
         </div>
         <div className={classes.control}>
           <label htmlFor="optionD">OptionD</label>
-          {/* <input type="text" id="optionD" ref={optionDInputRef} /> */}
+
           <MyRichEditor
             useEditorMainBlog={useEditorOptionD}
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
-            // smallHeight={true}
           />
         </div>
         <div className={classes.control}>
           <label htmlFor="optionE">OptionE</label>
-          {/* <input type="text" id="optionE" ref={optionEInputRef} /> */}
+
           <MyRichEditor
             useEditorMainBlog={useEditorOptionE}
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
-            // smallHeight={true}
           />
         </div>
 
@@ -329,28 +325,14 @@ function NewQuestion(props) {
 
           {outputSetAswerSelectOptions()}
         </div>
-        {/* <select name="" id="">
-          <optgroup label="Chemistry">
-            <option>Scientific Method</option>
-            <option>Data Presentation</option>
-            <option>Atoms, what are they?</option>
-            <option>The periodic Table</option>
-            <option>The molecules</option>
-          </optgroup>
-        </select> */}
-        {/* </div> */}
+
         <div className={classes.control}>
           <label htmlFor="explanation">Your Explanation</label>
-          {/* <textarea
-          id="explanation"
-          rows="5"
-          ref={explanationInputRef}></textarea> */}
           <MyRichEditor
             useEditorMainBlog={useEditorExplanation}
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
-            // smallHeight={false}
           />
         </div>
         <div className={classes.control}>
@@ -366,122 +348,9 @@ function NewQuestion(props) {
         </div>
       </div>
 
-      {/* {isInvalid && <p>Please enter a valid email address and comment!</p>} */}
       <button className={classes.btn}>Submit</button>
     </form>
   );
 }
 
 export default NewQuestion;
-
-// import {
-//   useField,
-//   useEditor,
-//   handleImageInsert,
-//   MyRichEditor,
-// } from "../hooks/resourse";
-
-// const CreateBlog = (props) => {
-//   const [image, setimage] = useState("");
-
-//   const useFieldTopic = useField("text");
-//   const useFieldAuthor = useField("text");
-//   const useFieldImage = useField("text");
-//   const useEditorMainBlog = useEditor();
-//   const useEditorMainBlogTitle = useEditor();
-
-//   const { url, editorState, onEditorStateChange } = useEditorMainBlog;
-//   const { url: title } = useEditorMainBlogTitle;
-//   const { value: topic } = useFieldTopic;
-//   const { value: author } = useFieldAuthor;
-//   const { value: imageBlog } = useFieldImage;
-//   const dispatch = useDispatch();
-
-//   const handleCreateBlog = (event) => {
-//     event.preventDefault();
-
-//     const formData = new FormData();
-//     formData.append("image", image);
-//     formData.append("topic", topic);
-//     formData.append("title", title);
-//     formData.append("url", url);
-//     formData.append("author", author);
-//     formData.append("created", new Date().getTime());
-//     formData.append("updated", new Date().getTime());
-
-//     props.noteFormRef.current.togglevisibility();
-
-//     dispatch(createBlog(formData));
-//     // setTitle("");
-//     // setAuthor("");
-//   };
-
-//   const fileSelected = (event) => {
-//     const file = event.target.files[0];
-//     setimage(file);
-//   };
-
-//   return (
-//     <Form onSubmit={handleCreateBlog}>
-//       <Form.Group controlId="formBlogTopicId">
-//         <Form.Label>Topic</Form.Label>
-//         <Form.Control {...useFieldTopic} as="textarea" rows={2} />
-//       </Form.Group>
-
-//       <Form.Group controlId="formTitleId">
-//         <Form.Label className="App-header">Learning Objectives</Form.Label>
-
-//         <MyRichEditor
-//           useEditorMainBlog={useEditorMainBlogTitle}
-//           readOnly={false}
-//           toolbarOnFocus={false}
-//           toolbarPresent={true}
-//           smallHeight={false}
-//         />
-//       </Form.Group>
-
-//       <Form.Group controlId="formAuthorId">
-//         <Form.Label> author</Form.Label>
-
-//         <Form.Control {...useFieldAuthor} />
-//       </Form.Group>
-
-//       <Form.Group controlId="formUrlId">
-//         <Form.Label className="App-header"> Contents</Form.Label>
-
-//         <MyRichEditor
-//           useEditorMainBlog={useEditorMainBlog}
-//           readOnly={false}
-//           toolbarOnFocus={false}
-//           toolbarPresent={true}
-//           smallHeight={false}
-//         />
-//       </Form.Group>
-
-//       <Form.Group controlId="formBlogImageId">
-//         <Form.Label>Blog image</Form.Label>
-//         <Form.Control {...useFieldImage} as="textarea" rows={2} />
-//       </Form.Group>
-
-//       <Form.Group controlId="formProfileIigeId">
-//         <Form.File
-//           onChange={fileSelected}
-//           accept="image/*"
-//           label="Profile Image"
-//         />
-//       </Form.Group>
-//       <Button
-//         onClick={() =>
-//           handleImageInsert(editorState, imageBlog, onEditorStateChange)
-//         }
-//         style={{ margin: 5 }}
-//       >
-//         Insert Image
-//       </Button>
-//       <Button type="submit" style={{ margin: 5 }} block>
-//         create
-//       </Button>
-//     </Form>
-//   );
-// };
-// export default CreateBlog;

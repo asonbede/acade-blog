@@ -16,7 +16,6 @@ async function sendAuthDataModerate(authDetails, setFunc) {
   const data = await response.json();
   console.log({ data }, "authDetails");
   if (!response.ok) {
-    // throw new Error(data.message || "Something went wrong!");
     setFunc(false);
   } else {
     setFunc(data.message);
@@ -24,7 +23,6 @@ async function sendAuthDataModerate(authDetails, setFunc) {
 }
 
 async function sendAuthData(authDetails, setFunc) {
-  //console.log({ authDetails });
   const response = await fetch("/api/restrict-route", {
     method: "POST",
     body: JSON.stringify(authDetails),
@@ -38,7 +36,6 @@ async function sendAuthData(authDetails, setFunc) {
   console.log({ data }, "authDetails");
   if (!response.ok) {
     setFunc(false);
-    //throw new Error(data.message || "Something went wrong!");
   } else {
     setFunc(data.message);
   }
@@ -82,11 +79,6 @@ function QuestionsList({
     if (items) {
       setmoderated(checkModerateValue(items));
     }
-
-    //console.log({ result }, "postContent");
-    // return () => {
-    //   cleanup
-    // }
   }, [authorId, items]);
 
   useEffect(() => {
@@ -94,22 +86,13 @@ function QuestionsList({
       { authorId, moderated },
       setmoderatedValue
     );
-
-    //console.log({ result }, "postContent");
-    // return () => {
-    //   cleanup
-    // }
   }, [authorId, moderated]);
 
   useEffect(() => {
     const result = sendAuthData({ authorId }, setauthValue);
     console.log({ result });
-    //setauthValue(result.message);
-    //console.log({ result }, "postContent");
-    // return () => {
-    //   cleanup
-    // }
   }, [session, authorId]);
+
   const deleteQuestionHandler = async (questionId) => {
     notificationCtx.showNotification({
       title: "Deleting question...",
@@ -130,11 +113,9 @@ function QuestionsList({
         message: "Your question was deleted!",
         status: "success",
       });
-      // router.push(`/posts/questions/${blogId}`);
+
       router.reload(window.location.pathname);
     } catch (error) {
-      //setRequestError(error.message);
-      //setRequestStatus("error");
       notificationCtx.showNotification({
         title: "Error!",
         message: error.message || "Something went wrong!",
@@ -163,26 +144,16 @@ function QuestionsList({
     );
   };
 
-  function questFullLessControlHandler() {
-    setfullLessQuestValue(!fullLessQuestValue);
-    // if (fullLessQuestValue ===false) {
-    //   setbutQuesText("See Less Question ...");
-    // } else {
-    //   setbutQuesText("See Full Question ...");
-    // }
-    if (butQuesText === "See Full Question ...") {
-      setbutQuesText("See Less Question ...");
+  function questFullLessControlHandler(id) {
+    if (fullLessQuestValue) {
+      setfullLessQuestValue(false);
     } else {
-      setbutQuesText("See Full Question ...");
+      setfullLessQuestValue(id);
     }
   }
 
   return (
     <ul className={classes.form}>
-      {/* <button onClick={checkScore}>check score: {score}</button> */}
-      {/* <Link href={linkPath}>
-        <a onClick={() => console.log("in link")}>Review Result</a>
-      </Link> */}
       {selectValue === "mult-choice-all" ? (
         <button
           onClick={() => markScript(items)}
@@ -209,14 +180,18 @@ function QuestionsList({
               is on...
             </span>
           )}
-          {item.questionIntroText && fullLessQuestValue && (
+          {item.questionIntroText && fullLessQuestValue === item._id && (
             <DisplayEditorContent
               contentFromServer={item.questionIntroText}
               toolbarPresent={false}
             />
           )}
           {item.questionIntroText && (
-            <button onClick={questFullLessControlHandler}>{butQuesText}</button>
+            <button onClick={() => questFullLessControlHandler(item._id)}>
+              {fullLessQuestValue === item._id
+                ? "See Less Question ..."
+                : "See more Question ..."}
+            </button>
           )}
           <div style={{ display: "flex" }}>
             {/* &nbsp;&nbsp;{item.question} */}

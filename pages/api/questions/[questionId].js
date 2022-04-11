@@ -1,3 +1,25 @@
+/*
+The idea here is to store,update,delete question data object from the client
+on the database
+The question data object for multiple choice looks like this.
+{
+        question: enteredQuestion,
+        options: filteredOptions,
+       explanation: enteredExplanation,
+        correctOption: enteredCorrectOption,
+        linkedTo: linkedValue,
+        authorId: session.user.email,
+        questionType: "multi-choice",
+        moderated: false,
+        subject: enteredSubject,
+        examType: enteredExamType,
+        questionIntroText: checkEditorText(quesIntroEdiState)
+          ? enteredQuestionIntroText.trim()
+          : null,
+      }
+
+*/
+
 import {
   connectDatabase,
   insertDocument,
@@ -87,7 +109,7 @@ async function handler(req, res) {
 
     try {
       result = await insertDocument(client, "questions", newQuestion);
-      //newComment._id = result.insertedId;
+
       res
         .status(201)
         .json({ message: "Added question.", question: newQuestion });
@@ -133,7 +155,7 @@ async function handler(req, res) {
 
     try {
       result = await insertDocument(client, "questions", newQuestion);
-      //newComment._id = result.insertedId;
+
       res
         .status(201)
         .json({ message: "Added question.", question: newQuestion });
