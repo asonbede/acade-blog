@@ -1,3 +1,9 @@
+/* 
+The idea here is to show students their performance, after they 
+had clicked the submit button.
+The component passes the student performance data to 
+ a child component QuestionAnswerReviewList
+*/
 import React, { useState, useContext, useEffect } from "react";
 
 import classes from "./question-review-select.module.css";

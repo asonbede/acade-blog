@@ -1,6 +1,11 @@
+/* 
+The idea here is to iterate over the questions and check
+the correct ones.
+*/
+
 import React from "react";
 import DisplayEditorContent from "../rich-text-editor/display-editor-content";
-//import NotificationContext from "../../store/notification-context";
+
 import classes from "./questions-list.module.css";
 function QuestionAnswerReviewList(props) {
   const {
@@ -13,17 +18,7 @@ function QuestionAnswerReviewList(props) {
     selectValue,
   } = props;
   console.log({ selectedValuesOfRadioButton, items }, "uuuhh");
-  //console.log({ items }, "rrrtt");
-  // const notificationCtx = useContext(NotificationContext);
 
-  // const reviewQuestionObj = notificationCtx.reviewQuestion;
-  // const {
-  //   selectedValuesOfRadioButton,
-  //   items,
-  //   correctQuestions,
-  //   inCorrectQuestions,
-  //   skippedQuestions,
-  // } = reviewQuestionObj;
   const optionsList = ["A", "B", "C", "D", "E"];
   //const correctTranslateList = [{ "A": "blablablabla"}, { "B": "blablablabla"}, { "C": "blablablabla" }, { "D": "blablablabla"}, { "E": "blablablabla" }]
   //map options to letters
@@ -44,10 +39,6 @@ function QuestionAnswerReviewList(props) {
     const correctValue = correctValueObj[letter];
     return correctValue;
   }
-  //  questionType="all"
-  // correctQuestions={correctQuestions}
-  // inCorrectQuestions={inCorrectQuestions}
-  // skippedQuestions={skippedQuestions}
 
   function questionStatus(questionIndex) {
     if (questionType === "all") {
@@ -77,9 +68,6 @@ function QuestionAnswerReviewList(props) {
     }
     return "";
   }
-  // function colorQuestionEnd(result) {
-
-  // }
 
   function renderQuestions(questionIndex, item) {
     if (
@@ -115,6 +103,7 @@ function QuestionAnswerReviewList(props) {
     }
     return null;
   }
+
   function renderRadioButtons(
     optionItem,
     questionIndex,
@@ -154,10 +143,6 @@ function QuestionAnswerReviewList(props) {
       const questionObj = items[questionIndex];
       const optionsArray = questionObj.options;
 
-      // console.log({ studentsChoice });
-      // console.log({ optionItem });
-      // console.log({ optionsArray });
-      // console.log({ correctOptionLetter });
       const correctOptionValue = checkOptions(
         correctOptionLetter,
         optionsArray
@@ -264,7 +249,6 @@ function QuestionAnswerReviewList(props) {
               name={questionIndex}
               value={optionItem.option}
               id={`${questionIndex}:${optionIndex}`}
-              // onChange={handleRadioButtonChange}
               disabled
               style={{
                 marginTop: "16px",
@@ -299,8 +283,6 @@ function QuestionAnswerReviewList(props) {
               name={questionIndex}
               value={optionItem.option}
               id={`${questionIndex}:${optionIndex}`}
-              // onChange={handleRadioButtonChange}
-
               disabled
               style={{
                 marginTop: "16px",
@@ -326,7 +308,6 @@ function QuestionAnswerReviewList(props) {
 
   return (
     <ul className={classes.form}>
-      {/* <button onClick={markScript}>check score: {score}</button> */}
       {items.map((item, questionIndex) => (
         <li key={item._id}>
           {renderQuestions(questionIndex, item)}
@@ -339,19 +320,6 @@ function QuestionAnswerReviewList(props) {
                   optionIndex,
                   item.originalIndex
                 )}
-                {/* <div>
-                  <input
-                    type="radio"
-                    name={questionIndex}
-                    value={optionItem.option}
-                    id={`${questionIndex}:${optionIndex}`}
-                    onChange={handleRadioButtonChange}
-                  />
-                  <label htmlFor={`${questionIndex}:${optionIndex}`}>
-                    {optionsList[optionIndex]}.&nbsp;&nbsp;
-                    {optionItem.option}
-                  </label>
-                </div> */}
               </>
             ))}
           </div>

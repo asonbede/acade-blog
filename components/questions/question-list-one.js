@@ -1,8 +1,19 @@
+/* 
+The idea here is to display various kind of questions:
+one at a time question, random questios, a specific question,
+jamb questions, waec questios. The student then answers them and 
+clicks to check result.
+To achieve this, the component displays two component alternatively:
+QuestionList and QuestionReviewSelect. QuestionList shows the question while
+QuestionReviewSelect shows the result.QuestionList is shown when the 
+ controlReviewLink variable is negative else QuestionReviewSelect is shown.
+*/
 import React, { useEffect, useState } from "react";
 import classes from "./question-list-one.module.css";
 import { FaChevronLeft, FaChevronRight, FaQuoteRight } from "react-icons/fa";
 import QuestionList from "./questions-list";
 import QuestionReviewSelect from "./question-review-select";
+
 const OneQuestion = ({
   markScript,
   items,
@@ -17,11 +28,7 @@ const OneQuestion = ({
   variablesForReseting,
 }) => {
   const [index, setIndex] = useState(0);
-  //let itemObj;
 
-  //const questionArray
-  //const{authorName,authorImage}= itemObj
-  //questionArray.push(itemObj)
   const [itemArray, setitemArray] = useState();
   const [orderValue, setorderValue] = useState(1);
   const [workingArray, setworkingArray] = useState();
@@ -57,11 +64,8 @@ const OneQuestion = ({
         setCurrentArrayHandler([itemObj]);
       }
     }
-    // effect
-    // return () => {
-    //   cleanup
-    // }
   }, [index, selectValue]);
+
   console.log({ itemArray }, "one-list");
 
   useEffect(() => {
@@ -85,6 +89,7 @@ const OneQuestion = ({
       );
     }
   }, [necoQueValue]);
+
   useEffect(() => {
     if (workingArray) {
       setjambExamArray(
@@ -96,16 +101,20 @@ const OneQuestion = ({
     }
   }, [jambQueValue]);
 
+  //Ensure that the index(the number used to access the question)is
+  //not greater than or less than the number of questions available.
   const checkNumber = (number) => {
-    if (number > items.length - 1) {
+    if (number > workingArray.length - 1) {
       return 0;
     }
     if (number < 0) {
-      return items.length - 1;
+      return workingArray.length - 1;
     }
     return number;
   };
-  const nextPerson = () => {
+
+  //Allows users to access one question at a time in the forward direction
+  const nextQuestion = () => {
     setIndex((index) => {
       let newIndex = index + 1;
       return checkNumber(newIndex);
@@ -115,6 +124,8 @@ const OneQuestion = ({
     setrandIndex(0);
     setparticularIndex(0);
   };
+
+  //Allows users to access one question at a time in the backward direction
   const prevPerson = () => {
     setIndex((index) => {
       let newIndex = index - 1;
@@ -125,21 +136,12 @@ const OneQuestion = ({
     setrandIndex(0);
     setparticularIndex(0);
   };
+
   const randomPerson = () => {
     setitemArray([]);
     if (Number(orderValue) > workingArray.length) {
       return;
     }
-    // console.log({ orderValue }, typeof orderValue);
-    // if (Number(orderValue) === 1) {
-    //   let randomNumber = Math.floor(Math.random() * items.length);
-    //   if (randomNumber === index) {
-    //     randomNumber = index + 1;
-    //   }
-    //   setIndex(checkNumber(randomNumber));
-    //   setitemArray([]);
-    // }
-
     console.log("started-random-two");
     let randomArray = [];
     let linkedObj = { unlinked: [] };
@@ -147,27 +149,12 @@ const OneQuestion = ({
     let num;
     let preWorkingArray = [];
     let randomNumbers = new Set();
-    // const workinArray = items.filter(
-    //   (item) => item.questionType !== "essay-type"
-    // );
+
     setisrandomQues(true);
-    //fill randArray with random elements
-    // for (let i = 0; i < Number(orderValue); i++) {
-    //const element = array[index];
-    // let randomNumber = Math.floor(Math.random() * workingArray.length);
-    // if (randomNumber === index) {
-    //   randomNumber = index + 1;
-    // }
-    // num = checkNumber(randomNumber);
-    // // randomArray.push(preWorkingArray[num]);
-    //   randomNumbers.add(num)
-    //randomArray.push(workingArray[num]);
-    //}
+
     while (true) {
       let randomNumber = Math.floor(Math.random() * workingArray.length);
-      // if (randomNumber === index) {
-      //   randomNumber = index + 1;
-      // }
+
       num = checkNumber(randomNumber);
       // randomArray.push(preWorkingArray[num]);
       randomNumbers.add(num);
@@ -203,13 +190,6 @@ const OneQuestion = ({
     }
     console.log({ linkedObj });
 
-    // for (let key in linkedObj) {
-    //   keyValue= linkedObj[x]
-    //   if (x) {
-    //   item.questionType !== "essay-type"
-    //   }
-    // }
-    // resultArray = [];
     for (const key in linkedObj) {
       if (Object.hasOwnProperty.call(linkedObj, key)) {
         if (key === "unlinked") {
@@ -234,10 +214,7 @@ const OneQuestion = ({
     }
     console.log({ resultArray });
     setitemArray(resultArray);
-    // const filteredResultArray = resultArray.filter(
-    //   (item) => item.introKey === undefined
-    // );
-    // console.log({ filteredResultArray });
+
     setCurrentArrayHandler(resultArray);
     setrandIndex(num);
     setparticularIndex(0);
@@ -249,63 +226,14 @@ const OneQuestion = ({
     let examArray = [];
     let linkedObj = { unlinked: [] };
     let resultArray = [];
-    // examArray = workingArray.filter((item) =>
-    //   item.examType.startsWith(examTypeValue)
-    // );
 
-    // examArray = workingArray.filter(
-    //   (item) =>
-    //     item.examType !== undefined && item.examType.startsWith("wassce")
-    // );
     if (!myArrayValues || myArrayValues.length === 0) {
       return;
     }
     if (Number(proffQueNum) > myArrayValues.length || Number(proffQueNum) < 0) {
       return;
     }
-    // console.log({ orderValue }, typeof orderValue);
-    // if (Number(orderValue) === 1) {
-    //   let randomNumber = Math.floor(Math.random() * items.length);
-    //   if (randomNumber === index) {
-    //     randomNumber = index + 1;
-    //   }
-    //   setIndex(checkNumber(randomNumber));
-    //   setitemArray([]);
-    // }
 
-    // const workinArray = items.filter(
-    //   (item) => item.questionType !== "essay-type"
-    // );
-    //setisrandomQues(true);
-    //fill randArray with random elements
-    // for (let i = 0; i < Number(orderValue); i++) {
-    //const element = array[index];
-    // let randomNumber = Math.floor(Math.random() * workingArray.length);
-    // if (randomNumber === index) {
-    //   randomNumber = index + 1;
-    // }
-    // num = checkNumber(randomNumber);
-    // // randomArray.push(preWorkingArray[num]);
-    //   randomNumbers.add(num)
-    //randomArray.push(workingArray[num]);
-    //}
-    //  while (true) {
-    //    let randomNumber = Math.floor(Math.random() * workingArray.length);
-    //    // if (randomNumber === index) {
-    //    //   randomNumber = index + 1;
-    //    // }
-    //    num = checkNumber(randomNumber);
-    //    // randomArray.push(preWorkingArray[num]);
-    //    randomNumbers.add(num);
-    //    if (randomNumbers.size === Number(orderValue)) {
-    //      break;
-    //    }
-    //  }
-    //console.log({ randomArray });
-    //setitemArray(randomArray);
-    // examArray = workingArray.filter((item) =>
-    //   item.examType.startsWith(examTypeValue)
-    // );
     examArray = myArrayValues.slice(0, proffQueNum);
 
     console.log({ myArrayValues });
@@ -332,13 +260,6 @@ const OneQuestion = ({
     }
     console.log({ linkedObj });
 
-    // for (let key in linkedObj) {
-    //   keyValue= linkedObj[x]
-    //   if (x) {
-    //   item.questionType !== "essay-type"
-    //   }
-    // }
-    // resultArray = [];
     for (const key in linkedObj) {
       if (Object.hasOwnProperty.call(linkedObj, key)) {
         if (key === "unlinked") {
@@ -363,10 +284,7 @@ const OneQuestion = ({
     }
     console.log({ resultArray });
     setitemArray(resultArray);
-    // const filteredResultArray = resultArray.filter(
-    //   (item) => item.introKey === undefined
-    // );
-    // console.log({ filteredResultArray });
+
     setCurrentArrayHandler(resultArray);
 
     setparticularIndex(0);
@@ -380,42 +298,15 @@ const OneQuestion = ({
     ) {
       return;
     }
-    // console.log({ orderValue }, typeof orderValue);
-    // if (Number(orderValue) === 1) {
-    //   let randomNumber = Math.floor(Math.random() * items.length);
-    //   if (randomNumber === index) {
-    //     randomNumber = index + 1;
-    //   }
-    //   setIndex(checkNumber(randomNumber));
-    //   setitemArray([]);
-    // }
 
     console.log("started-random-two");
     const randomArray = [];
     let linkedObj = { unlinked: [] };
     let resultArray = [];
     let num;
-    // const workinArray = items.filter(
-    //   (item) => item.questionType !== "essay-type"
-    // );
-    //setisrandomQues(true);
-    //fill randArray with random elements
-    // for (let i = 0; i < Number(orderValue); i++) {
-    //const element = array[index];
-    // let randomNumber = Math.floor(Math.random() * workingArray.length);
-    // if (randomNumber === index) {
-    //   randomNumber = index + 1;
-    // }
-    // num = checkNumber(randomNumber);
 
     const particularQueObj = workingArray[Number(particularQueValue) - 1];
-    //}
-    //console.log({ randomArray });
-    //setitemArray(randomArray);
 
-    // for (let randex = 0; randex < randomArray.length; randex++) {
-    // const element = randomArray[randex];
-    //is question linked
     console.log(typeof Number(particularQueObj.linkedTo), "hereeee");
     if (Number(particularQueObj.linkedTo)) {
       if (particularQueObj.linkedTo in linkedObj) {
@@ -438,16 +329,9 @@ const OneQuestion = ({
         unlinked: [...linkedObj["unlinked"], particularQueObj],
       };
     }
-    // }
+
     console.log({ linkedObj });
 
-    // for (let key in linkedObj) {
-    //   keyValue= linkedObj[x]
-    //   if (x) {
-    //   item.questionType !== "essay-type"
-    //   }
-    // }
-    // resultArray = [];
     for (const key in linkedObj) {
       if (Object.hasOwnProperty.call(linkedObj, key)) {
         if (key === "unlinked") {
@@ -472,10 +356,7 @@ const OneQuestion = ({
     }
     console.log({ resultArray });
     setitemArray(resultArray);
-    // const filteredResultArray = resultArray.filter(
-    //   (item) => item.introKey === undefined
-    // );
-    // console.log({ filteredResultArray });
+
     setCurrentArrayHandler(resultArray);
     setparticularIndex(particularQueValue);
     setrandIndex(0);
@@ -525,36 +406,25 @@ const OneQuestion = ({
         {!controlReviewLink ? (
           <main className={classes.mainSection}>
             <section className={`${classes.container} ${classes.section}`}>
-              <div className={classes.title}>
+              {/* <div className={classes.title}>
                 <h2>our reviews</h2>
-                <button
-                  onClick={() => markScript(itemArray)}
-                  disabled={controlSubBtn}
-                >
-                  Submit For Marking
-                </button>
+
                 <div className={classes.underline}></div>
-              </div>
+              </div> */}
+
+              {/* heading */}
               <article className={classes.review}>
-                {/* <div className={classes.imgcontainer}>
-                  <img
-                    src="/images/posts/post-profile3.jpg"
-                    alt="bede"
-                    className={classes.personimg}
-                  />
-                  <span className={classes.quoteicon}>
-                    <FaQuoteRight />
-                  </span>
-                </div> */}
-                <h4 className={classes.author}>Bede Asonye</h4>
+                <h4 className={classes.author}>Goodluck from Bede Asonye</h4>
                 <p className={classes.job}>
-                  {" "}
+                  {/* show the question number */}{" "}
                   {randIndex
                     ? `Question  ${randIndex} Of ${workingArray.length}`
                     : partIndex
                     ? `Question  ${partIndex} Of ${workingArray.length}`
                     : `Question  ${index + 1} Of ${workingArray.length}`}
                 </p>
+
+                {/* display the questions for answering */}
                 <div className={classes.info}>
                   <QuestionList
                     items={itemArray}
@@ -564,36 +434,50 @@ const OneQuestion = ({
                     israndomQues={israndomQues}
                   />
                 </div>
-                {/* <p className={classes.info}>{text}</p> */}
+
+                {/* buttons for accessing questions one by one:
+                  either forward or backwards
+                */}
                 <div className={classes.buttoncontainer}>
                   <button className={classes.prevbtn} onClick={prevPerson}>
                     <FaChevronLeft />
                   </button>
-                  <button className={classes.nextbtn} onClick={nextPerson}>
+                  <button className={classes.nextbtn} onClick={nextQuestion}>
                     <FaChevronRight />
                   </button>
                 </div>
+
+                {/* buttons for submitting questions for making.
+                 */}
+                <button
+                  onClick={() => markScript(itemArray)}
+                  disabled={controlSubBtn}
+                >
+                  Submit For Marking
+                </button>
+                <br />
+
+                {/* buttons for accessing questions randomly, input
+                 number for chooseing the amount of random questions
+                */}
                 <button className={classes.randombtn} onClick={randomPerson}>
                   Give me random Questions
                 </button>
-
-                <label htmlFor="order">
-                  {" "}
-                  {/* {`Quantity (between 1 and ${workingArray.length}):`} */}
-                </label>
+                <label htmlFor="order"> </label>
 
                 <input
                   type="number"
                   id="order"
-                  // required
                   value={orderValue}
                   onChange={onChangeNumber}
                   min="1"
                   max={workingArray.length}
-                  // readOnly
-                  // style={{ visibility: "hidden" }}
                 />
                 <br />
+
+                {/* buttons for accessing a particular  question, input
+                 number for chooseing that particular question.
+                */}
                 <button
                   className={classes.randombtn}
                   onClick={particularQuestionHandler}
@@ -616,6 +500,10 @@ const OneQuestion = ({
                   max={workingArray.length}
                 />
                 <br />
+
+                {/* buttons for accessing WAEC questions , input
+                 number for chooseing the amount of WAEC questions
+                */}
                 <button
                   className={classes.randombtn}
                   onClick={() =>
@@ -651,7 +539,10 @@ const OneQuestion = ({
                     ).length
                   }
                 />
-                {/* necoooooooo */}
+
+                {/* buttons for accessing NECO questions , input
+                 number for chooseing the amount of WAEC questions
+                */}
                 <button
                   className={classes.randombtn}
                   onClick={() =>
@@ -687,8 +578,10 @@ const OneQuestion = ({
                     ).length
                   }
                 />
-                {/* <br /> */}
-                {/* jambbbb--------jambb------- */}
+
+                {/* buttons for accessing JAMB questions , input
+                 number for chooseing the amount of WAEC questions
+                */}
 
                 <button
                   className={classes.randombtn}
@@ -729,6 +622,8 @@ const OneQuestion = ({
             </section>
           </main>
         ) : (
+          // show this component after submit button is hit, that is
+          //after questions has been answered,this component shows the result
           <QuestionReviewSelect
             index={index}
             selectValue={selectValue}
