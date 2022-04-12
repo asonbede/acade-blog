@@ -139,6 +139,8 @@ const OneQuestion = ({
 
   const randomPerson = () => {
     setitemArray([]);
+    //if the quantity user requested if more than what is available
+    //abort the process else continue to process the request
     if (Number(orderValue) > workingArray.length) {
       return;
     }
@@ -152,25 +154,27 @@ const OneQuestion = ({
 
     setisrandomQues(true);
 
+    //prepare a set of unique numbers as much as the amount requested
     while (true) {
       let randomNumber = Math.floor(Math.random() * workingArray.length);
 
       num = checkNumber(randomNumber);
-      // randomArray.push(preWorkingArray[num]);
+
       randomNumbers.add(num);
       if (randomNumbers.size === Number(orderValue)) {
         break;
       }
     }
-    //console.log({ randomArray });
-    //setitemArray(randomArray);
+
+    //prepare an array of unique numbers as much as the amount requested
+    //then use it to access the questions
     randomArray = [...randomNumbers].map((item) => workingArray[item]);
     console.log({ randomNumbers });
     console.log({ randomArray });
 
     for (let randex = 0; randex < randomArray.length; randex++) {
       const element = randomArray[randex];
-      //is question linked
+
       console.log(typeof Number(element.linkedTo), "hereeee");
       if (Number(element.linkedTo)) {
         if (element.linkedTo in linkedObj) {
