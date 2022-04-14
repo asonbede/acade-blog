@@ -14,6 +14,7 @@ function QuestionReviewSelect(props) {
 
   const index = props.index;
   const controlReviewLink = props.controlReviewLink;
+  const backToQuestionListHandler = props.backToQuestionListHandler;
   const notificationCtx = useContext(NotificationContext);
 
   const reviewQuestionObj = notificationCtx.reviewQuestion;
@@ -85,6 +86,9 @@ function QuestionReviewSelect(props) {
           questionType="skipped-questions"
           selectValue={selectValue}
         />
+      ) : null}
+      {selectValue === "mult-choice-one" && controlReviewLink ? (
+        <button onClick={backToQuestionListHandler}>Back To Question</button>
       ) : null}
     </div>
   );

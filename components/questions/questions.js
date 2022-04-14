@@ -61,11 +61,11 @@ function Questions(props) {
   function checkMessageTitle() {
     const performance = Math.round((score / currentArray.length) * 100);
 
-    if (performance > 80) {
+    if (performance >= 80) {
       return "Exellent";
-    } else if (performance < 80 && performance > 60) {
+    } else if (performance < 80 && performance >= 60) {
       return "Good";
-    } else if (performance < 60 && performance > 50) {
+    } else if (performance < 60 && performance >= 50) {
       return "Average performance";
     } else {
       return "Poor performance";
@@ -75,11 +75,11 @@ function Questions(props) {
   //determine what the commendation message is
   function showerPraises() {
     const performance = Math.round((score / currentArray.length) * 100);
-    if (performance > 80) {
+    if (performance >= 80) {
       return `You scored ${score}/${currentArray.length} or ${performance}%. Great, keep it up.`;
-    } else if (performance < 80 && performance > 60) {
+    } else if (performance < 80 && performance >= 60) {
       return `You scored ${score}/${currentArray.length} or ${performance}%. Good, you can do better.`;
-    } else if (performance < 60 && performance > 50) {
+    } else if (performance < 60 && performance >= 50) {
       return `You scored ${score}/${currentArray.length} or ${performance}%. Not too bad. You need to work harder`;
     } else {
       return `You scored ${score}/${currentArray.length} or ${performance}%. You need to work very hard, consider reading the lesson again.`;
@@ -89,7 +89,7 @@ function Questions(props) {
   //determine what the staus  of the commendation message is
   function determineStatus() {
     const performance = Math.round((score / currentArray.length) * 100);
-    if (performance > 50) {
+    if (performance >= 50) {
       return `success`;
     } else {
       return `error`;

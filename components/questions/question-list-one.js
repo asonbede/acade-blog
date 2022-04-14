@@ -421,10 +421,6 @@ const OneQuestion = ({
   if (itemArray) {
     return (
       <>
-        {selectValue === "mult-choice-one" && controlReviewLink ? (
-          <button onClick={backToQuestionListHandler}>Back To Question</button>
-        ) : null}
-
         {!controlReviewLink ? (
           <main className={classes.form}>
             {/* <section className={`${classes.container} ${classes.section}`}> */}
@@ -670,6 +666,7 @@ const OneQuestion = ({
             index={index}
             selectValue={selectValue}
             controlReviewLink={controlReviewLink}
+            backToQuestionListHandler={backToQuestionListHandler}
           />
         )}
       </>
