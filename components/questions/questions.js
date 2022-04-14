@@ -11,6 +11,7 @@ import MainQuestionList from "./question-main-list";
 import EssayTypeQuestions from "./essay-type-questions";
 import NewEssayQuestion from "./new-essay-question";
 import { useSession, signOut } from "next-auth/client";
+import QuestionSelect from "./question-select";
 function Questions(props) {
   const [selectedValuesOfRadioButton, setselectedValuesOfRadioButton] =
     useState([]);
@@ -36,60 +37,77 @@ function Questions(props) {
   const noteFormRef = useRef(null);
 
   //fix commendation message title
-  function checkMessageScore() {
-    if (selectValue === "mult-choice-one") {
-      if (score === 1) {
-        return "Success! Good Work. Keep it up!";
-      } else {
-        return "Incorrect! Please try again";
-      }
+  // function checkMessageScore() {
+  //   if (selectValue === "mult-choice-one") {
+  //     if (score === 1) {
+  //       return "Success! Good Work. Keep it up!";
+  //     } else {
+  //       return "Incorrect! Please try again";
+  //     }
+  //   } else {
+  //     if (score < currentArray.length / 2) {
+  //       return "Poor Performance!";
+  //     } else if (
+  //       score > currentArray.length / 2 ||
+  //       score < (3 * currentArray.length) / 4
+  //     ) {
+  //       return "Good Work. You are on the right track";
+  //     } else {
+  //       return "Great. Excellent Porformance";
+  //     }
+  //   }
+  // }
+
+  function checkMessageTitle() {
+    const performance = Math.round((score / currentArray.length) * 100);
+
+    if (performance > 80) {
+      return "Exellent";
+    } else if (performance < 80 && performance > 60) {
+      return "Good";
+    } else if (performance < 60 && performance > 50) {
+      return "Average performance";
     } else {
-      if (score < currentArray.length / 2) {
-        return "Poor Performance!";
-      } else if (
-        score > currentArray.length / 2 ||
-        score < (3 * currentArray.length) / 4
-      ) {
-        return "Good Work. You are on the right track";
-      } else {
-        return "Great. Excellent Porformance";
-      }
+      return "Poor performance";
     }
   }
 
   //determine what the commendation message is
   function showerPraises() {
-    if (selectValue === "mult-choice-all") {
-      if (score < currentArray.length / 2) {
-        return `You scored ${score}/${currentArray.length}. You have to read this topic again. You can begin by studying 
-        the explanation provided. Click the review button to see details of your performance`;
-      } else {
-        return `You scored ${score}/${currentArray.length}. Click the review button to see details of your performance`;
-      }
+    const performance = Math.round((score / currentArray.length) * 100);
+    if (performance > 80) {
+      return `You scored ${score}/${currentArray.length} or ${performance}%. Great, keep it up.`;
+    } else if (performance < 80 && performance > 60) {
+      return `You scored ${score}/${currentArray.length} or ${performance}%. Good, you can do better.`;
+    } else if (performance < 60 && performance > 50) {
+      return `You scored ${score}/${currentArray.length} or ${performance}%. Not too bad. You need to work harder`;
     } else {
-      if (score === 1) {
-        return `You did very well on this one. To return to the questions and continue with your exploits, click the back to questions button above`;
-      } else {
-        return `You may need to study this topic again. To return to the questions, click the back to questions button above`;
-      }
+      return `You scored ${score}/${currentArray.length} or ${performance}%. You need to work very hard, consider reading the lesson again.`;
     }
   }
 
   //determine what the staus  of the commendation message is
   function determineStatus() {
-    if (selectValue === "mult-choice-all") {
-      if (score > currentArray.length / 2) {
-        return `success`;
-      } else {
-        return `error`;
-      }
+    const performance = Math.round((score / currentArray.length) * 100);
+    if (performance > 50) {
+      return `success`;
     } else {
-      if (score === 1) {
-        return `success`;
-      } else {
-        return `error`;
-      }
+      return `error`;
     }
+
+    // if (selectValue === "mult-choice-all") {
+    //   if (score > currentArray.length / 2) {
+    //     return `success`;
+    //   } else {
+    //     return `error`;
+    //   }
+    // } else {
+    //   if (score === 1) {
+    //     return `success`;
+    //   } else {
+    //     return `error`;
+    //   }
+    // }
   }
 
   //set  choice base on users previous choice, or set it to "mult-choice-all"
@@ -124,8 +142,8 @@ function Questions(props) {
   useEffect(() => {
     if (score !== null) {
       notificationCtx.showNotification({
-        title: `${checkMessageScore()}!`,
-        message: `Your answer script was successfully assessed! ${showerPraises()}`,
+        title: `${checkMessageTitle()}!`,
+        message: `Your answer script was successfully assessed! ${showerPraises()} To return to the question, click the back to question button.`,
         status: `${determineStatus()}`,
       });
     }
@@ -136,9 +154,12 @@ function Questions(props) {
     //"mult-choice-all";mult-choice-all
     if (selectValue === "mult-choice-all") {
       console.log("multi-all called");
-      setcurrentArray(
-        items.filter((item) => item.questionType !== "essay-type")
+      const multiAllChoiceResult = items.filter(
+        (item) => item.questionType !== "essay-type"
       );
+      // const result = arrangeQuestionIntro(multiAllChoiceResult);
+      setcurrentArray(multiAllChoiceResult);
+
       setisLoading(false);
     } else if (selectValue === "essay-type") {
       console.log("inside essay type");
@@ -154,6 +175,80 @@ function Questions(props) {
       setisLoading(false);
     }
   }, [changerValue, selectValue]);
+  // -----------------------------------------------------------------
+  function arrangeQuestionIntro(randomArray) {
+    // randomArray = [...randomNumbers].map((item) => workingArray[item]);
+    // console.log({ randomNumbers });
+    // console.log({ randomArray });
+    //let randomArray = [];
+    let linkedObj = { unlinked: [] };
+    let resultArray = [];
+    // let num;
+    // let preWorkingArray = [];
+    // let randomNumbers = new Set();
+
+    for (let randex = 0; randex < randomArray.length; randex++) {
+      const element = randomArray[randex];
+
+      console.log(typeof Number(element.linkedTo), "hereeee");
+      if (Number(element.linkedTo)) {
+        if (element.linkedTo in linkedObj) {
+          linkedObj = {
+            ...linkedObj,
+            [element.linkedTo]: [...linkedObj[element.linkedTo], element],
+          };
+        } else {
+          linkedObj = { ...linkedObj, [element.linkedTo]: [element] };
+        }
+      } else {
+        linkedObj = {
+          ...linkedObj,
+          unlinked: [...linkedObj["unlinked"], element],
+        };
+      }
+    }
+    console.log({ linkedObj });
+
+    for (const key in linkedObj) {
+      if (Object.hasOwnProperty.call(linkedObj, key)) {
+        if (key === "unlinked") {
+          const element = linkedObj[key];
+          resultArray = [...resultArray, ...element];
+        } else {
+          const element = linkedObj[key];
+          const getFromItems = randomArray[Number(key) - 1];
+          const firstItem = element.slice(0, 1);
+          const restElement = element.slice(1);
+          let firstElementObj = firstItem[0];
+          let lenResultArray = resultArray.length;
+          const lenRestElement = restElement.length;
+          console.log({ lenRestElement });
+          console.log({ lenResultArray });
+
+          const questionNumberResult =
+            element.length === 1
+              ? `Use the above information to answer question ${
+                  lenResultArray + 1
+                }`
+              : `Use the above information to answer questions ${
+                  lenResultArray + 1
+                } to ${lenResultArray + element.length}`;
+          console.log({ questionNumberResult });
+          firstElementObj = {
+            ...firstElementObj,
+            questionIntroText: getFromItems.questionIntroText,
+            questionIntroAtach: questionNumberResult,
+          };
+          const joinedEle = [firstElementObj, ...restElement];
+
+          console.log({ getFromItems });
+          resultArray = [...resultArray, ...joinedEle];
+        }
+      }
+    }
+    return resultArray;
+  }
+  // -----------------------------------------------------------------
 
   console.log({ currentArray }, "checking essay-type11111");
 
@@ -496,21 +591,10 @@ For easy type questions
         {/* The select elemment that enables the user specify how they want
             want to access the questions: all at once, one by one or eas type
         */}
-        <select
-          onChange={onselectChange}
-          className={classes.selectEle}
-          value={selectValue}
-        >
-          <optgroup label="Multiple Choice">
-            <option value="mult-choice-all">All Multiple Choice</option>
-            <option value="mult-choice-one">
-              Multiple Choice - One By One
-            </option>
-          </optgroup>
-          <optgroup label="Essay Type">
-            <option value="essay-type">Essay Type</option>
-          </optgroup>
-        </select>
+        <QuestionSelect
+          handleSelectChange={onselectChange}
+          selectValue={selectValue}
+        />
       </div>
 
       {/* Displays the user selected component */}

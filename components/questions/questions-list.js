@@ -180,11 +180,21 @@ function QuestionsList({
               is on...
             </span>
           )}
+
           {item.questionIntroText && fullLessQuestValue === item._id && (
-            <DisplayEditorContent
-              contentFromServer={item.questionIntroText}
-              toolbarPresent={false}
-            />
+            <>
+              <DisplayEditorContent
+                contentFromServer={item.questionIntroText}
+                toolbarPresent={false}
+              />
+
+              <span style={{ color: "blue", fontStyle: "italic" }}>
+                {selectValue === "mult-choice-one"
+                  ? item.questionIntroAtach
+                  : ""}
+              </span>
+              <br />
+            </>
           )}
           {item.questionIntroText && (
             <button onClick={() => questFullLessControlHandler(item._id)}>
@@ -195,11 +205,12 @@ function QuestionsList({
           )}
           <div style={{ display: "flex" }}>
             {/* &nbsp;&nbsp;{item.question} */}
-            {selectValue === "mult-choice-one" ? null : (
-              <span style={{ marginRight: "5px", marginTop: "14px" }}>
-                {questionIndex + 1}
-              </span>
-            )}
+            {/* {selectValue === "mult-choice-one" ? null : ( */}
+            <span style={{ marginRight: "5px", marginTop: "14px" }}>
+              {questionIndex + 1}
+            </span>
+            {/* </span>
+            )} */}
 
             <DisplayEditorContent
               contentFromServer={item.question}

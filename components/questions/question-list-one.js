@@ -10,7 +10,8 @@ QuestionReviewSelect shows the result.QuestionList is shown when the
 */
 import React, { useEffect, useState } from "react";
 import classes from "./question-list-one.module.css";
-import { FaChevronLeft, FaChevronRight, FaQuoteRight } from "react-icons/fa";
+//import classes from "./question-review-select.module.css";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import QuestionList from "./questions-list";
 import QuestionReviewSelect from "./question-review-select";
 
@@ -47,6 +48,7 @@ const OneQuestion = ({
   const [jambQueValue, setjambQueValue] = useState(0);
   const [jambExamArray, setjambExamArray] = useState([]);
   const [jambBtnControl, setjambBtnControl] = useState(true);
+  const [questionHide, setquestionHide] = useState(false);
   //  const [authorName, setauthorName] = useState();
   //  const [authorImage, setauthorImage] = useState();
 
@@ -205,9 +207,25 @@ const OneQuestion = ({
           const firstItem = element.slice(0, 1);
           const restElement = element.slice(1);
           let firstElementObj = firstItem[0];
+          let lenResultArray = resultArray.length;
+          const lenRestElement = restElement.length;
+          console.log({ lenRestElement });
+          console.log({ lenResultArray });
+
+          const questionNumberResult =
+            element.length === 1
+              ? `Use the above information to answer question ${
+                  lenResultArray + 1
+                }`
+              : `Use the above information to answer questions ${
+                  lenResultArray + 1
+                } to ${lenResultArray + element.length}`;
+          console.log({ questionNumberResult });
           firstElementObj = {
             ...firstElementObj,
             questionIntroText: getFromItems.questionIntroText,
+
+            questionIntroAtach: questionNumberResult,
           };
           const joinedEle = [firstElementObj, ...restElement];
 
@@ -408,41 +426,42 @@ const OneQuestion = ({
         ) : null}
 
         {!controlReviewLink ? (
-          <main className={classes.mainSection}>
-            <section className={`${classes.container} ${classes.section}`}>
-              {/* <div className={classes.title}>
+          <main className={classes.form}>
+            {/* <section className={`${classes.container} ${classes.section}`}> */}
+            {/* <div className={classes.title}>
                 <h2>our reviews</h2>
 
                 <div className={classes.underline}></div>
               </div> */}
 
-              {/* heading */}
-              <article className={classes.review}>
-                <h4 className={classes.author}>Goodluck from Bede Asonye</h4>
-                <p className={classes.job}>
-                  {/* show the question number */}{" "}
-                  {randIndex
-                    ? `Question  ${randIndex} Of ${workingArray.length}`
-                    : partIndex
-                    ? `Question  ${partIndex} Of ${workingArray.length}`
-                    : `Question  ${index + 1} Of ${workingArray.length}`}
-                </p>
+            {/* heading */}
+            <article className={classes.controls}>
+              <h4>Goodluck from Bede Asonye</h4>
+              <p>
+                {/* show the question number */}{" "}
+                {randIndex
+                  ? `Question  ${randIndex} Of ${workingArray.length}`
+                  : partIndex
+                  ? `Question  ${partIndex} Of ${workingArray.length}`
+                  : `Question  ${index + 1} Of ${workingArray.length}`}
+              </p>
 
-                {/* display the questions for answering */}
-                <div className={classes.info}>
-                  <QuestionList
-                    items={itemArray}
-                    handleRadioButtonChange={handleRadioButtonChange}
-                    blogId={blogId}
-                    selectValue={selectValue}
-                    israndomQues={israndomQues}
-                  />
-                </div>
+              {/* display the questions for answering */}
+              <div>
+                <QuestionList
+                  items={itemArray}
+                  handleRadioButtonChange={handleRadioButtonChange}
+                  blogId={blogId}
+                  selectValue={selectValue}
+                  israndomQues={israndomQues}
+                />
+              </div>
 
-                {/* buttons for accessing questions one by one:
+              {/* buttons for accessing questions one by one:
                   either forward or backwards
                 */}
-                <div className={classes.buttoncontainer}>
+              <div className={classes.buttoncontainer}>
+                <div className={classes.forwardBackwardButcontrol}>
                   <button className={classes.prevbtn} onClick={prevPerson}>
                     <FaChevronLeft />
                   </button>
@@ -453,177 +472,196 @@ const OneQuestion = ({
 
                 {/* buttons for submitting questions for making.
                  */}
-                <button
-                  onClick={() => markScript(itemArray)}
-                  disabled={controlSubBtn}
-                >
-                  Submit For Marking
-                </button>
-                <br />
+                <div className={classes.submitBut}>
+                  <button
+                    onClick={() => markScript(itemArray)}
+                    disabled={controlSubBtn}
+                  >
+                    Submit For Marking
+                  </button>
+                </div>
 
                 {/* buttons for accessing questions randomly, input
                  number for chooseing the amount of random questions
                 */}
-                <button className={classes.randombtn} onClick={randomPerson}>
-                  Give me random Questions
-                </button>
-                <label htmlFor="order"> </label>
+                <div className={classes.randomQuestion}>
+                  <button className={classes.randombtn} onClick={randomPerson}>
+                    Give me random Questions
+                  </button>
 
-                <input
-                  type="number"
-                  id="order"
-                  value={orderValue}
-                  onChange={onChangeNumber}
-                  min="1"
-                  max={workingArray.length}
-                />
-                <br />
+                  <label htmlFor="order">
+                    {" "}
+                    {`Available Quantity ${workingArray.length}: Selected Quantity`}
+                  </label>
+
+                  <input
+                    type="number"
+                    id="order"
+                    value={orderValue}
+                    onChange={onChangeNumber}
+                    min="1"
+                    max={workingArray.length}
+                  />
+                </div>
 
                 {/* buttons for accessing a particular  question, input
                  number for chooseing that particular question.
                 */}
+                <div className={classes.particularQuestion}>
+                  <button onClick={particularQuestionHandler}>
+                    Give Me Particular Questions
+                  </button>
+
+                  <label htmlFor="particular-quest">
+                    {" "}
+                    {`Available Quantity ${workingArray.length}: Selected Quantity`}
+                  </label>
+
+                  <input
+                    type="number"
+                    id="particular-quest"
+                    required
+                    value={particularQueValue}
+                    onChange={onChangePartiNumElem}
+                    min="1"
+                    max={workingArray.length}
+                  />
+                </div>
                 <button
-                  className={classes.randombtn}
-                  onClick={particularQuestionHandler}
+                  className={classes.seeMoreBut}
+                  onClick={() => setquestionHide(!questionHide)}
                 >
-                  Give Me Particular Questions
+                  {questionHide
+                    ? "Hide more options ..."
+                    : "Show more options ..."}
                 </button>
-
-                <label htmlFor="particular-quest">
-                  {" "}
-                  {`Quantity (between 1 and ${workingArray.length}):`}
-                </label>
-
-                <input
-                  type="number"
-                  id="particular-quest"
-                  required
-                  value={particularQueValue}
-                  onChange={onChangePartiNumElem}
-                  min="1"
-                  max={workingArray.length}
-                />
-                <br />
 
                 {/* buttons for accessing WAEC questions , input
                  number for chooseing the amount of WAEC questions
                 */}
-                <button
-                  className={classes.randombtn}
-                  onClick={() =>
-                    professionExamGetter(waecExamArray, waecQueValue)
-                  }
-                  disabled={waecBtnControl}
-                >
-                  WACE Questions On This Topic
-                </button>
+                {questionHide && (
+                  <>
+                    <div className={classes.waecQuestion}>
+                      <button
+                        onClick={() =>
+                          professionExamGetter(waecExamArray, waecQueValue)
+                        }
+                        disabled={waecBtnControl}
+                      >
+                        WACE Questions On This Topic
+                      </button>
 
-                <label htmlFor="waec-quest">
-                  {" "}
-                  {`Available Quantity  ${
-                    workingArray.filter(
-                      (item) =>
-                        item.examType !== undefined &&
-                        item.examType.startsWith("wassce")
-                    ).length
-                  }: Selected Quantity`}
-                </label>
+                      <label htmlFor="waec-quest">
+                        {" "}
+                        {`Available Quantity  ${
+                          workingArray.filter(
+                            (item) =>
+                              item.examType !== undefined &&
+                              item.examType.startsWith("wassce")
+                          ).length
+                        }: Selected Quantity`}
+                      </label>
 
-                <input
-                  type="number"
-                  id="waec-quest"
-                  value={waecQueValue}
-                  onChange={onChangeWaecNumElem}
-                  min="1"
-                  max={
-                    workingArray.filter(
-                      (item) =>
-                        item.examType !== undefined &&
-                        item.examType.startsWith("wassce")
-                    ).length
-                  }
-                />
+                      <input
+                        type="number"
+                        id="waec-quest"
+                        value={waecQueValue}
+                        onChange={onChangeWaecNumElem}
+                        min="1"
+                        max={
+                          workingArray.filter(
+                            (item) =>
+                              item.examType !== undefined &&
+                              item.examType.startsWith("wassce")
+                          ).length
+                        }
+                      />
+                    </div>
 
-                {/* buttons for accessing NECO questions , input
+                    {/* buttons for accessing NECO questions , input
                  number for chooseing the amount of WAEC questions
                 */}
-                <button
-                  className={classes.randombtn}
-                  onClick={() =>
-                    professionExamGetter(necoExamArray, necoQueValue)
-                  }
-                  disabled={necoBtnControl}
-                >
-                  NECO Questions On This Topic
-                </button>
+                    <div className={classes.necoQuestion}>
+                      <button
+                        onClick={() =>
+                          professionExamGetter(necoExamArray, necoQueValue)
+                        }
+                        disabled={necoBtnControl}
+                      >
+                        NECO Questions On This Topic
+                      </button>
 
-                <label htmlFor="neco-quest">
-                  {" "}
-                  {`Available Quantity  ${
-                    workingArray.filter(
-                      (item) =>
-                        item.examType !== undefined &&
-                        item.examType.startsWith("necossce")
-                    ).length
-                  }: Selected Quantity`}
-                </label>
+                      <label htmlFor="neco-quest">
+                        {" "}
+                        {`Available Quantity  ${
+                          workingArray.filter(
+                            (item) =>
+                              item.examType !== undefined &&
+                              item.examType.startsWith("necossce")
+                          ).length
+                        }: Selected Quantity`}
+                      </label>
 
-                <input
-                  type="number"
-                  id="neco-quest"
-                  value={necoQueValue}
-                  onChange={onChangeNecoNumElem}
-                  min="1"
-                  max={
-                    workingArray.filter(
-                      (item) =>
-                        item.examType !== undefined &&
-                        item.examType.startsWith("necossce")
-                    ).length
-                  }
-                />
+                      <input
+                        type="number"
+                        id="neco-quest"
+                        value={necoQueValue}
+                        onChange={onChangeNecoNumElem}
+                        min="1"
+                        max={
+                          workingArray.filter(
+                            (item) =>
+                              item.examType !== undefined &&
+                              item.examType.startsWith("necossce")
+                          ).length
+                        }
+                      />
+                    </div>
 
-                {/* buttons for accessing JAMB questions , input
+                    {/* buttons for accessing JAMB questions , input
                  number for chooseing the amount of WAEC questions
                 */}
+                    <div className={classes.jambQuestion}>
+                      <button
+                        onClick={() =>
+                          professionExamGetter(jambExamArray, jambQueValue)
+                        }
+                        disabled={jambBtnControl}
+                      >
+                        JAMB Questions On This Topic
+                      </button>
 
-                <button
-                  className={classes.randombtn}
-                  onClick={() =>
-                    professionExamGetter(jambExamArray, jambQueValue)
-                  }
-                  disabled={jambBtnControl}
-                >
-                  JAMB Questions On This Topic
-                </button>
+                      <label htmlFor="jamb-quest">
+                        {" "}
+                        {`Available Quantity  ${
+                          workingArray.filter(
+                            (item) =>
+                              item.examType !== undefined &&
+                              item.examType.startsWith("JAMB")
+                          ).length
+                        }: Selected Quantity`}
+                      </label>
 
-                <label htmlFor="jamb-quest">
-                  {" "}
-                  {`Available Quantity  ${
-                    workingArray.filter(
-                      (item) =>
-                        item.examType !== undefined &&
-                        item.examType.startsWith("JAMB")
-                    ).length
-                  }: Selected Quantity`}
-                </label>
-
-                <input
-                  type="number"
-                  id="jamb-quest"
-                  value={jambQueValue}
-                  onChange={onChangeJambNumElem}
-                  min="1"
-                  max={
-                    workingArray.filter(
-                      (item) =>
-                        item.examType !== undefined &&
-                        item.examType.startsWith("JAMB")
-                    ).length
-                  }
-                />
-              </article>
-            </section>
+                      <input
+                        type="number"
+                        id="jamb-quest"
+                        value={jambQueValue}
+                        onChange={onChangeJambNumElem}
+                        min="1"
+                        max={
+                          workingArray.filter(
+                            (item) =>
+                              item.examType !== undefined &&
+                              item.examType.startsWith("JAMB")
+                          ).length
+                        }
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            </article>
+            {/* </section> */}
           </main>
         ) : (
           // show this component after submit button is hit, that is
