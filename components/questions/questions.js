@@ -177,15 +177,8 @@ function Questions(props) {
   }, [changerValue, selectValue]);
   // -----------------------------------------------------------------
   function arrangeQuestionIntro(randomArray) {
-    // randomArray = [...randomNumbers].map((item) => workingArray[item]);
-    // console.log({ randomNumbers });
-    // console.log({ randomArray });
-    //let randomArray = [];
     let linkedObj = { unlinked: [] };
     let resultArray = [];
-    // let num;
-    // let preWorkingArray = [];
-    // let randomNumbers = new Set();
 
     for (let randex = 0; randex < randomArray.length; randex++) {
       const element = randomArray[randex];

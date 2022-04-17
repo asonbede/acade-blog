@@ -200,7 +200,7 @@ function QuestionsList({
             <button onClick={() => questFullLessControlHandler(item._id)}>
               {fullLessQuestValue === item._id
                 ? "See Less Question ..."
-                : "See more Question ..."}
+                : "See Full Question ..."}
             </button>
           )}
           <div style={{ display: "flex" }}>
