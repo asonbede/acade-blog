@@ -56,6 +56,8 @@ function QuestionsList({
   const [moderatedValue, setmoderatedValue] = useState();
   const [authValue, setauthValue] = useState();
   const [moderated, setmoderated] = useState();
+  const [controlLoadMoreVar, setcontrolLoadMoreVar] = useState(false);
+
   const notificationCtx = useContext(NotificationContext);
   const optionsList = ["A", "B", "C", "D", "E"];
   //const linkPathForUpdate = `/posts/updates/${post.id}`;
@@ -152,6 +154,161 @@ function QuestionsList({
     }
   }
 
+  // function checkLoadBatch(arrValue) {
+  //   if (arrValue.length % 10 === 0) {
+  //     return arrValue.length / 10;
+  //   }
+  //   return Math.floor(arrValue.length / 10) + 1;
+  // }
+  function displayListItem(item, questionIndex) {
+    return (
+      <li
+        key={item._id}
+        className={moderatedValue ? classes.showItem : classes.hideItem}
+      >
+        {!item.moderated && (
+          <span style={{ color: "red" }}>
+            {" "}
+            Moderation in progressing, this may take a while, until this action
+            is complete only you can see this post, newly created or updated
+            post are examined by the admin before it is shown to the public.This
+            message will be removed as soon as the process is complete. You may
+            continue to work on your post while this process is on...
+          </span>
+        )}
+
+        {item.questionIntroText && fullLessQuestValue === item._id && (
+          <>
+            <DisplayEditorContent
+              contentFromServer={item.questionIntroText}
+              toolbarPresent={false}
+            />
+
+            <span style={{ color: "blue", fontStyle: "italic" }}>
+              {item.questionIntroAtach}
+            </span>
+            <br />
+          </>
+        )}
+
+        {item.questionIntroText && (
+          <button onClick={() => questFullLessControlHandler(item._id)}>
+            {fullLessQuestValue === item._id
+              ? "See Less Question ..."
+              : "See Full Question ..."}
+          </button>
+        )}
+        <div style={{ display: "flex" }}>
+          {/* &nbsp;&nbsp;{item.question} */}
+          {/* {selectValue === "mult-choice-one" ? null : ( */}
+          <span style={{ marginRight: "5px", marginTop: "14px" }}>
+            {questionIndex + 1}
+          </span>
+          {/* </span>
+            )} */}
+
+          <DisplayEditorContent
+            contentFromServer={item.question}
+            toolbarPresent={false}
+          />
+        </div>
+        {item.examType === "none" || item.examType === undefined ? null : (
+          <p>{item.examType}</p>
+        )}
+
+        <div>
+          {item.options.map((optionItem, optionIndex) => (
+            <div
+              key={`${questionIndex}-${optionIndex}key`}
+              style={{
+                display: "flex",
+              }}
+            >
+              <input
+                type="radio"
+                name={questionIndex}
+                value={optionItem.option}
+                id={`${questionIndex}:${optionIndex}`}
+                onChange={handleRadioButtonChange}
+                style={{
+                  marginTop: "16px",
+                }}
+              />
+              <label
+                htmlFor={`${questionIndex}:${optionIndex}`}
+                style={{
+                  marginTop: "14px",
+                }}
+              >
+                {optionsList[optionIndex]}.{" "}
+              </label>
+              <DisplayEditorContent
+                contentFromServer={optionItem.option}
+                toolbarPresent={false}
+              />
+            </div>
+          ))}
+        </div>
+
+        {authValue && (
+          <button onClick={() => handleQuestionUpdateData(item)}>Update</button>
+        )}
+
+        {authValue && (
+          <button onClick={() => deleteConfirm(item._id.toString())}>
+            Delete
+          </button>
+        )}
+      </li>
+    );
+  }
+
+  function questionListHandlerFunc() {
+    let firstBatch;
+    let secondBatch;
+    const mapResult = items.map((item, questionIndex) =>
+      displayListItem(item, questionIndex)
+    );
+
+    if (mapResult.length > 10) {
+      firstBatch = mapResult.slice(0, 10);
+      secondBatch = mapResult.slice(10);
+      return (
+        <>
+          {firstBatch}
+          <button onClick={() => setcontrolLoadMoreVar(!controlLoadMoreVar)}>
+            show more...
+          </button>
+          {controlLoadMoreVar && <> {secondBatch} </>}
+        </>
+      );
+    }
+    return <>{firstBatch}</>;
+  }
+
+  // function displayQuestionListResult(params) {
+  //   const roundsValue = checkLoadBatch(items);
+  //   const questionListArr = [];
+  //   for (let index = 0; index < roundsValue; index++) {
+  //     // const element = array[index];
+  //     if (index < 1) {
+  //       questionListArr.push(questionListHandlerFunc(params));
+  //     } else {
+  //       const questionListPlusBut = (
+  //         <>
+  //           <button onClick={() => setcontrolLoadMoreVar(`batch${index}`)}>
+  //             Load more questions
+  //           </button>
+  //           {controlLoadMoreVar === `batch${index}` ? (
+  //             <> {questionListHandlerFunc(params)}</>
+  //           ) : null}
+  //         </>
+  //       );
+  //       questionListArr.push(questionListPlusBut);
+  //     }
+  //   }
+  // }
+
   return (
     <ul className={classes.form}>
       {selectValue === "mult-choice-all" ? (
@@ -163,111 +320,7 @@ function QuestionsList({
           Submit For Marking
         </button>
       ) : null}
-
-      {items.map((item, questionIndex) => (
-        <li
-          key={item._id}
-          className={moderatedValue ? classes.showItem : classes.hideItem}
-        >
-          {!item.moderated && (
-            <span style={{ color: "red" }}>
-              {" "}
-              Moderation in progressing, this may take a while, until this
-              action is complete only you can see this post, newly created or
-              updated post are examined by the admin before it is shown to the
-              public.This message will be removed as soon as the process is
-              complete. You may continue to work on your post while this process
-              is on...
-            </span>
-          )}
-
-          {item.questionIntroText && fullLessQuestValue === item._id && (
-            <>
-              <DisplayEditorContent
-                contentFromServer={item.questionIntroText}
-                toolbarPresent={false}
-              />
-
-              <span style={{ color: "blue", fontStyle: "italic" }}>
-                {selectValue === "mult-choice-one"
-                  ? item.questionIntroAtach
-                  : ""}
-              </span>
-              <br />
-            </>
-          )}
-          {item.questionIntroText && (
-            <button onClick={() => questFullLessControlHandler(item._id)}>
-              {fullLessQuestValue === item._id
-                ? "See Less Question ..."
-                : "See Full Question ..."}
-            </button>
-          )}
-          <div style={{ display: "flex" }}>
-            {/* &nbsp;&nbsp;{item.question} */}
-            {/* {selectValue === "mult-choice-one" ? null : ( */}
-            <span style={{ marginRight: "5px", marginTop: "14px" }}>
-              {questionIndex + 1}
-            </span>
-            {/* </span>
-            )} */}
-
-            <DisplayEditorContent
-              contentFromServer={item.question}
-              toolbarPresent={false}
-            />
-          </div>
-          {item.examType === "none" || item.examType === undefined ? null : (
-            <p>{item.examType}</p>
-          )}
-
-          <div>
-            {item.options.map((optionItem, optionIndex) => (
-              <div
-                key={`${optionIndex}key`}
-                style={{
-                  display: "flex",
-                }}
-              >
-                <input
-                  type="radio"
-                  name={questionIndex}
-                  value={optionItem.option}
-                  id={`${questionIndex}:${optionIndex}`}
-                  onChange={handleRadioButtonChange}
-                  style={{
-                    marginTop: "16px",
-                  }}
-                />
-                <label
-                  htmlFor={`${questionIndex}:${optionIndex}`}
-                  style={{
-                    marginTop: "14px",
-                  }}
-                >
-                  {optionsList[optionIndex]}.{" "}
-                </label>
-                <DisplayEditorContent
-                  contentFromServer={optionItem.option}
-                  toolbarPresent={false}
-                />
-              </div>
-            ))}
-          </div>
-
-          {authValue && (
-            <button onClick={() => handleQuestionUpdateData(item)}>
-              Update
-            </button>
-          )}
-
-          {authValue && (
-            <button onClick={() => deleteConfirm(item._id.toString())}>
-              Delete
-            </button>
-          )}
-        </li>
-      ))}
+      {questionListHandlerFunc()}
     </ul>
   );
 }

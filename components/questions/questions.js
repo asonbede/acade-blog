@@ -28,7 +28,7 @@ function Questions(props) {
   const [selectValue, setselectValue] = useState();
   const [currentArray, setcurrentArray] = useState([]);
   const [changerValue, setChangerValue] = useState(false);
-  const [isLoading, setisLoading] = useState(false);
+  const [isLoading, setisLoading] = useState(true);
   const [session, loading] = useSession();
   const notificationCtx = useContext(NotificationContext);
   const { questions: items, blogId, questionType } = props;
@@ -36,28 +36,7 @@ function Questions(props) {
   console.log({ blogId }, "in questionsjs");
   const noteFormRef = useRef(null);
 
-  //fix commendation message title
-  // function checkMessageScore() {
-  //   if (selectValue === "mult-choice-one") {
-  //     if (score === 1) {
-  //       return "Success! Good Work. Keep it up!";
-  //     } else {
-  //       return "Incorrect! Please try again";
-  //     }
-  //   } else {
-  //     if (score < currentArray.length / 2) {
-  //       return "Poor Performance!";
-  //     } else if (
-  //       score > currentArray.length / 2 ||
-  //       score < (3 * currentArray.length) / 4
-  //     ) {
-  //       return "Good Work. You are on the right track";
-  //     } else {
-  //       return "Great. Excellent Porformance";
-  //     }
-  //   }
-  // }
-
+  //commendation message tittle
   function checkMessageTitle() {
     const performance = Math.round((score / currentArray.length) * 100);
 
@@ -94,20 +73,6 @@ function Questions(props) {
     } else {
       return `error`;
     }
-
-    // if (selectValue === "mult-choice-all") {
-    //   if (score > currentArray.length / 2) {
-    //     return `success`;
-    //   } else {
-    //     return `error`;
-    //   }
-    // } else {
-    //   if (score === 1) {
-    //     return `success`;
-    //   } else {
-    //     return `error`;
-    //   }
-    // }
   }
 
   //set  choice base on users previous choice, or set it to "mult-choice-all"
@@ -157,8 +122,8 @@ function Questions(props) {
       const multiAllChoiceResult = items.filter(
         (item) => item.questionType !== "essay-type"
       );
-      // const result = arrangeQuestionIntro(multiAllChoiceResult);
-      setcurrentArray(multiAllChoiceResult);
+      const result = allQuestIntroText(multiAllChoiceResult);
+      setcurrentArray(result);
 
       setisLoading(false);
     } else if (selectValue === "essay-type") {
@@ -176,70 +141,29 @@ function Questions(props) {
     }
   }, [changerValue, selectValue]);
   // -----------------------------------------------------------------
-  function arrangeQuestionIntro(randomArray) {
-    let linkedObj = { unlinked: [] };
-    let resultArray = [];
 
-    for (let randex = 0; randex < randomArray.length; randex++) {
-      const element = randomArray[randex];
+  function allQuestIntroText(randomArray) {
+    const modifiedQuestions = randomArray.map((item) => {
+      if (item.questionIntroText) {
+        //get the number of questions that share this questionIntroText
+        const linkedValue = item.linkedTo;
+        const linkedQuestionArray = randomArray.filter(
+          (item) => item.linkedTo === linkedValue
+        );
 
-      console.log(typeof Number(element.linkedTo), "hereeee");
-      if (Number(element.linkedTo)) {
-        if (element.linkedTo in linkedObj) {
-          linkedObj = {
-            ...linkedObj,
-            [element.linkedTo]: [...linkedObj[element.linkedTo], element],
-          };
-        } else {
-          linkedObj = { ...linkedObj, [element.linkedTo]: [element] };
-        }
+        const attachStr =
+          linkedQuestionArray.length === 1
+            ? `Use the above information to answer question ${linkedValue}`
+            : `Use the above information to answer questions ${linkedValue} to ${
+                Number(linkedValue) + (linkedQuestionArray.length - 1)
+              }`;
+        return { ...item, questionIntroAtach: attachStr };
       } else {
-        linkedObj = {
-          ...linkedObj,
-          unlinked: [...linkedObj["unlinked"], element],
-        };
+        return item;
       }
-    }
-    console.log({ linkedObj });
+    });
 
-    for (const key in linkedObj) {
-      if (Object.hasOwnProperty.call(linkedObj, key)) {
-        if (key === "unlinked") {
-          const element = linkedObj[key];
-          resultArray = [...resultArray, ...element];
-        } else {
-          const element = linkedObj[key];
-          const getFromItems = randomArray[Number(key) - 1];
-          const firstItem = element.slice(0, 1);
-          const restElement = element.slice(1);
-          let firstElementObj = firstItem[0];
-          let lenResultArray = resultArray.length;
-          const lenRestElement = restElement.length;
-          console.log({ lenRestElement });
-          console.log({ lenResultArray });
-
-          const questionNumberResult =
-            element.length === 1
-              ? `Use the above information to answer question ${
-                  lenResultArray + 1
-                }`
-              : `Use the above information to answer questions ${
-                  lenResultArray + 1
-                } to ${lenResultArray + element.length}`;
-          console.log({ questionNumberResult });
-          firstElementObj = {
-            ...firstElementObj,
-            questionIntroText: getFromItems.questionIntroText,
-            questionIntroAtach: questionNumberResult,
-          };
-          const joinedEle = [firstElementObj, ...restElement];
-
-          console.log({ getFromItems });
-          resultArray = [...resultArray, ...joinedEle];
-        }
-      }
-    }
-    return resultArray;
+    return modifiedQuestions;
   }
   // -----------------------------------------------------------------
 
@@ -497,11 +421,7 @@ For easy type questions
   // he may want to access the questions all at onece or one at a time
   function displayQuestions() {
     console.log({ selectValue }, "all choice");
-    if (
-      showQuestions &&
-      !isFetchingQuestions &&
-      selectValue === "mult-choice-all"
-    ) {
+    if (selectValue === "mult-choice-all") {
       return (
         <MainQuestionList
           items={currentArray}
@@ -523,11 +443,7 @@ For easy type questions
           }}
         />
       );
-    } else if (
-      showQuestions &&
-      !isFetchingQuestions &&
-      selectValue === "mult-choice-one"
-    ) {
+    } else if (selectValue === "mult-choice-one") {
       console.log({ selectValue }, "one choice");
       return (
         <QuestionsListOne
@@ -591,11 +507,11 @@ For easy type questions
       </div>
 
       {/* Displays the user selected component */}
-      {items.length !== 0 && displayQuestions()}
+      {items.length !== 0 && showQuestions && displayQuestions()}
 
       {/* render components that enables user to create questions
        if they are loged in.*/}
-      {showQuestions && isFetchingQuestions && <p>Loading questions...</p>}
+
       {session && selectValue === "essay-type" ? (
         <Togglable buttonLabel="create essay question" ref={noteFormRef}>
           <p>Create Essay-Type Questions</p>

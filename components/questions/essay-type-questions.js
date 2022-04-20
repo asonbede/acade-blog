@@ -44,7 +44,10 @@ async function sendAuthData(authDetails, setFunc) {
     setFunc(data.message);
   }
 }
-function EssayTypeQuestions({ items, blogId, selectValue, authorId }) {
+function EssayTypeQuestions({ items, blogId, selectValue }) {
+  let authorId;
+  console.log({ items, blogId, selectValue, authorId });
+
   const notificationCtx = useContext(NotificationContext);
   //const noteFormRef = useRef(null);
   const [moderatedValue, setmoderatedValue] = useState();
@@ -69,9 +72,12 @@ function EssayTypeQuestions({ items, blogId, selectValue, authorId }) {
 
   useEffect(() => {
     if (items) {
+      authorId = items.length !== 0 ? items[0].authorId : null;
       setmoderated(checkModerateValue(items));
     }
-
+    return () => {
+      setmoderated(null);
+    };
     //console.log({ result }, "postContent");
     // return () => {
     //   cleanup
@@ -84,6 +90,9 @@ function EssayTypeQuestions({ items, blogId, selectValue, authorId }) {
       setmoderatedValue
     );
 
+    return () => {
+      setmoderatedValue(null);
+    };
     //console.log({ result }, "postContent");
     // return () => {
     //   cleanup
@@ -98,6 +107,9 @@ function EssayTypeQuestions({ items, blogId, selectValue, authorId }) {
     // return () => {
     //   cleanup
     // }
+    return () => {
+      setauthValue(null);
+    };
   }, [session, authorId]);
 
   const deleteQuestionHandler = async (questionId) => {
@@ -172,7 +184,8 @@ function EssayTypeQuestions({ items, blogId, selectValue, authorId }) {
           )}
           <div style={{ display: "flex" }}>
             {/* &nbsp;&nbsp;{item.question} */}
-            {selectValue === "mult-choice-one" ? null : (
+            {selectValue === "mult-choice-one" ||
+            selectValue === "mult-choice-all" ? null : (
               <span style={{ marginRight: "5px", marginTop: "14px" }}>
                 {questionIndex + 1}
               </span>

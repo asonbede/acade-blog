@@ -176,66 +176,6 @@ const OneQuestion = ({
     console.log({ randomArray });
     resultArray = arrangeQuestionIntro(randomArray);
 
-    // for (let randex = 0; randex < randomArray.length; randex++) {
-    //   const element = randomArray[randex];
-
-    //   console.log(typeof Number(element.linkedTo), "hereeee");
-    //   if (Number(element.linkedTo)) {
-    //     if (element.linkedTo in linkedObj) {
-    //       linkedObj = {
-    //         ...linkedObj,
-    //         [element.linkedTo]: [...linkedObj[element.linkedTo], element],
-    //       };
-    //     } else {
-    //       linkedObj = { ...linkedObj, [element.linkedTo]: [element] };
-    //     }
-    //   } else {
-    //     linkedObj = {
-    //       ...linkedObj,
-    //       unlinked: [...linkedObj["unlinked"], element],
-    //     };
-    //   }
-    // }
-    // console.log({ linkedObj });
-
-    // for (const key in linkedObj) {
-    //   if (Object.hasOwnProperty.call(linkedObj, key)) {
-    //     if (key === "unlinked") {
-    //       const element = linkedObj[key];
-    //       resultArray = [...resultArray, ...element];
-    //     } else {
-    //       const element = linkedObj[key];
-    //       const getFromItems = workingArray[Number(key) - 1];
-    //       const firstItem = element.slice(0, 1);
-    //       const restElement = element.slice(1);
-    //       let firstElementObj = firstItem[0];
-    //       let lenResultArray = resultArray.length;
-    //       const lenRestElement = restElement.length;
-    //       console.log({ lenRestElement });
-    //       console.log({ lenResultArray });
-
-    //       const questionNumberResult =
-    //         element.length === 1
-    //           ? `Use the above information to answer question ${
-    //               lenResultArray + 1
-    //             }`
-    //           : `Use the above information to answer questions ${
-    //               lenResultArray + 1
-    //             } to ${lenResultArray + element.length}`;
-    //       console.log({ questionNumberResult });
-    //       firstElementObj = {
-    //         ...firstElementObj,
-    //         questionIntroText: getFromItems.questionIntroText,
-
-    //         questionIntroAtach: questionNumberResult,
-    //       };
-    //       const joinedEle = [firstElementObj, ...restElement];
-
-    //       console.log({ getFromItems });
-    //       resultArray = [...resultArray, ...joinedEle];
-    //     }
-    //   }
-    // }
     console.log({ resultArray });
     setitemArray(resultArray);
 
@@ -331,50 +271,6 @@ const OneQuestion = ({
     console.log({ myArrayValues });
     resultArray = arrangeQuestionIntro(examArray);
 
-    // for (let randex = 0; randex < examArray.length; randex++) {
-    //   const element = examArray[randex];
-    //   //is question linked
-    //   console.log(typeof Number(element.linkedTo), "hereeee");
-    //   if (Number(element.linkedTo)) {
-    //     if (element.linkedTo in linkedObj) {
-    //       linkedObj = {
-    //         ...linkedObj,
-    //         [element.linkedTo]: [...linkedObj[element.linkedTo], element],
-    //       };
-    //     } else {
-    //       linkedObj = { ...linkedObj, [element.linkedTo]: [element] };
-    //     }
-    //   } else {
-    //     linkedObj = {
-    //       ...linkedObj,
-    //       unlinked: [...linkedObj["unlinked"], element],
-    //     };
-    //   }
-    // }
-    // console.log({ linkedObj });
-
-    // for (const key in linkedObj) {
-    //   if (Object.hasOwnProperty.call(linkedObj, key)) {
-    //     if (key === "unlinked") {
-    //       const element = linkedObj[key];
-    //       resultArray = [...resultArray, ...element];
-    //     } else {
-    //       const element = linkedObj[key];
-    //       const getFromItems = workingArray[Number(key) - 1];
-    //       const firstItem = element.slice(0, 1);
-    //       const restElement = element.slice(1);
-    //       let firstElementObj = firstItem[0];
-    //       firstElementObj = {
-    //         ...firstElementObj,
-    //         questionIntroText: getFromItems.questionIntroText,
-    //       };
-    //       const joinedEle = [firstElementObj, ...restElement];
-
-    //       console.log({ getFromItems });
-    //       resultArray = [...resultArray, ...joinedEle];
-    //     }
-    //   }
-    // }
     console.log({ resultArray });
     setitemArray(resultArray);
 
@@ -393,62 +289,10 @@ const OneQuestion = ({
     }
 
     console.log("started-random-two");
-    //const randomArray = [];
-    //let linkedObj = { unlinked: [] };
-    //let resultArray = [];
-    //let num;
 
     const particularQueObj = workingArray[Number(particularQueValue) - 1];
     const linkedResultObj = checkLinkedForOneQuestion(particularQueObj);
 
-    //console.log(typeof Number(particularQueObj.linkedTo), "hereeee");
-    // if (Number(particularQueObj.linkedTo)) {
-    //   if (particularQueObj.linkedTo in linkedObj) {
-    //     linkedObj = {
-    //       ...linkedObj,
-    //       [particularQueObj.linkedTo]: [
-    //         ...linkedObj[particularQueObj.linkedTo],
-    //         particularQueObj,
-    //       ],
-    //     };
-    //   } else {
-    //     linkedObj = {
-    //       ...linkedObj,
-    //       [particularQueObj.linkedTo]: [particularQueObj],
-    //     };
-    //   }
-    // } else {
-    //   linkedObj = {
-    //     ...linkedObj,
-    //     unlinked: [...linkedObj["unlinked"], particularQueObj],
-    //   };
-    // }
-
-    //console.log({ linkedObj });
-
-    // for (const key in linkedObj) {
-    //   if (Object.hasOwnProperty.call(linkedObj, key)) {
-    //     if (key === "unlinked") {
-    //       const element = linkedObj[key];
-    //       resultArray = [...resultArray, ...element];
-    //     } else {
-    //       const element = linkedObj[key];
-    //       const getFromItems = workingArray[Number(key) - 1];
-    //       const firstItem = element.slice(0, 1);
-    //       const restElement = element.slice(1);
-    //       let firstElementObj = firstItem[0];
-    //       firstElementObj = {
-    //         ...firstElementObj,
-    //         questionIntroText: getFromItems.questionIntroText,
-    //       };
-    //       const joinedEle = [firstElementObj, ...restElement];
-
-    //       console.log({ getFromItems });
-    //       resultArray = [...resultArray, ...joinedEle];
-    //     }
-    //   }
-    // }
-    //console.log({ resultArray });
     setitemArray([linkedResultObj]);
 
     setCurrentArrayHandler([linkedResultObj]);
@@ -512,13 +356,6 @@ const OneQuestion = ({
       <>
         {!controlReviewLink ? (
           <main className={classes.form}>
-            {/* <section className={`${classes.container} ${classes.section}`}> */}
-            {/* <div className={classes.title}>
-                <h2>our reviews</h2>
-
-                <div className={classes.underline}></div>
-              </div> */}
-
             {/* heading */}
             <article className={classes.controls}>
               <h4>Goodluck from Bede Asonye</h4>
