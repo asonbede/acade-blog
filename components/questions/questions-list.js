@@ -49,6 +49,7 @@ function QuestionsList({
   authorId,
   markScript,
   selectValue,
+  isLoading,
 }) {
   const [showQuestionSupport, setshowQuestionSupport] = useState(false);
   const [fullLessQuestValue, setfullLessQuestValue] = useState(false);
@@ -80,6 +81,7 @@ function QuestionsList({
   useEffect(() => {
     if (items) {
       setmoderated(checkModerateValue(items));
+      setcontrolLoadMoreVar(false);
     }
   }, [authorId, items]);
 
@@ -276,14 +278,18 @@ function QuestionsList({
       return (
         <>
           {firstBatch}
-          <button onClick={() => setcontrolLoadMoreVar(!controlLoadMoreVar)}>
-            show more...
-          </button>
           {controlLoadMoreVar && <> {secondBatch} </>}
+          {!isLoading && (
+            <button onClick={() => setcontrolLoadMoreVar(!controlLoadMoreVar)}>
+              {controlLoadMoreVar
+                ? "...Show less questions"
+                : "Show more questions..."}
+            </button>
+          )}
         </>
       );
     }
-    return <>{firstBatch}</>;
+    return <>{mapResult}</>;
   }
 
   // function displayQuestionListResult(params) {

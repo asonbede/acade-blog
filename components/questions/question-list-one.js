@@ -180,7 +180,7 @@ const OneQuestion = ({
     setitemArray(resultArray);
 
     setCurrentArrayHandler(resultArray);
-    setrandIndex(num);
+    setrandIndex(orderValue);
     setparticularIndex(0);
   };
 
@@ -218,7 +218,7 @@ const OneQuestion = ({
           resultArray = [...resultArray, ...element];
         } else {
           const element = linkedObj[key];
-          const getFromItems = randomArray[Number(key) - 1];
+          const getFromItems = workingArray[Number(key) - 1];
           const firstItem = element.slice(0, 1);
           const restElement = element.slice(1);
           let firstElementObj = firstItem[0];
@@ -351,6 +351,14 @@ const OneQuestion = ({
     setjambBtnControl(false);
   };
 
+  function setQuestionNum() {
+    if (randIndex) {
+      return `${randIndex} random question(s) chosen from ${workingArray.length} questions  `;
+    } else {
+      return `Question  ${index + 1} Of ${workingArray.length}`;
+    }
+  }
+
   if (itemArray) {
     return (
       <>
@@ -361,11 +369,12 @@ const OneQuestion = ({
               <h4>Goodluck from Bede Asonye</h4>
               <p>
                 {/* show the question number */}{" "}
-                {randIndex
+                {/* {randIndex
                   ? `Question  ${randIndex} Of ${workingArray.length}`
                   : partIndex
                   ? `Question  ${partIndex} Of ${workingArray.length}`
-                  : `Question  ${index + 1} Of ${workingArray.length}`}
+                  : `Question  ${index + 1} Of ${workingArray.length}`} */}
+                {setQuestionNum()}
               </p>
 
               {/* display the questions for answering */}

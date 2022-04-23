@@ -433,6 +433,7 @@ For easy type questions
           controlReviewLink={controlReviewLink}
           setcontrolReviewLink={setcontrolReviewLink}
           setcontrolSubBtn={setcontrolSubBtn}
+          isLoading={isLoading}
           variablesForReseting={{
             setskippedQuestions,
             setcorrectQuestions,
@@ -458,6 +459,7 @@ For easy type questions
           setCurrentArrayHandler={setCurrentArrayHandler}
           setcontrolSubBtn={setcontrolSubBtn}
           setisLoading={setisLoading}
+          isLoading={isLoading}
           variablesForReseting={{
             setskippedQuestions,
             setcorrectQuestions,

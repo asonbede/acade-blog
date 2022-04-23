@@ -21,6 +21,7 @@ const MainQuestionList = ({
   setcontrolReviewLink,
   setcontrolSubBtn,
   variablesForReseting,
+  isLoading,
 }) => {
   const [itemArray, setitemArray] = useState();
 
@@ -58,6 +59,7 @@ const MainQuestionList = ({
             selectValue={selectValue}
             controlReviewLink={controlReviewLink}
             setcontrolReviewLink={setcontrolReviewLink}
+            isLoading={isLoading}
           />
         ) : (
           <QuestionReviewSelect />
