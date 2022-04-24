@@ -39,11 +39,13 @@ const OneQuestion = ({
   const [particularQueValue, setparticularQueValue] = useState(1);
   const [waecQueValue, setwaecQueValue] = useState(0);
   const [waecExamArray, setwaecExamArray] = useState([]);
-  const [waecBtnControl, setwaecBtnControl] = useState(true);
+  const [waecBtnControl, setwaecBtnControl] = useState(false);
+  const [examTypeVar, setExamType] = useState();
+  const [profExamIndex, setprofExamIndex] = useState(0);
 
   const [necoQueValue, setnecoQueValue] = useState(0);
   const [necoExamArray, setnecoExamArray] = useState([]);
-  const [necoBtnControl, setnecoBtnControl] = useState(true);
+  const [necoBtnControl, setnecoBtnControl] = useState(false);
 
   const [jambQueValue, setjambQueValue] = useState(0);
   const [jambExamArray, setjambExamArray] = useState([]);
@@ -104,6 +106,10 @@ const OneQuestion = ({
     }
   }, [jambQueValue]);
 
+  // useEffect(() => {
+  //   setIndex(particularQueValue);
+  // }, [particularQueValue]);
+
   //Ensure that the index(the number used to access the question)is
   //not greater than or less than the number of questions available.
   const checkNumber = (number) => {
@@ -123,9 +129,10 @@ const OneQuestion = ({
       return checkNumber(newIndex);
     });
     setitemArray([]);
-    setorderValue(1);
+    //setorderValue(1);
     setrandIndex(0);
     setparticularIndex(0);
+    setprofExamIndex(0);
   };
 
   //Allows users to access one question at a time in the backward direction
@@ -135,9 +142,10 @@ const OneQuestion = ({
       return checkNumber(newIndex);
     });
     setitemArray([]);
-    setorderValue(1);
+    //setorderValue(1);
     setrandIndex(0);
     setparticularIndex(0);
+    setprofExamIndex(0);
   };
 
   const randomPerson = () => {
@@ -182,6 +190,7 @@ const OneQuestion = ({
     setCurrentArrayHandler(resultArray);
     setrandIndex(orderValue);
     setparticularIndex(0);
+    setprofExamIndex(0);
   };
 
   // -----------------------------------------------------------------
@@ -252,7 +261,7 @@ const OneQuestion = ({
   }
   // -----------------------------------------------------------------
 
-  const professionExamGetter = (myArrayValues, proffQueNum) => {
+  const professionExamGetter = (myArrayValues, proffQueNum, examType) => {
     setitemArray([]);
     console.log("started-random-two");
     let examArray = [];
@@ -272,11 +281,20 @@ const OneQuestion = ({
     resultArray = arrangeQuestionIntro(examArray);
 
     console.log({ resultArray });
+    if (examType === "waec") {
+      setExamType("waec");
+    } else if (examType === "jamb") {
+      setExamType("jamb");
+    } else {
+      setExamType("neco");
+    }
+    setprofExamIndex(proffQueNum);
     setitemArray(resultArray);
 
     setCurrentArrayHandler(resultArray);
 
     setparticularIndex(0);
+    setrandIndex(0);
   };
 
   const particularQuestionHandler = () => {
@@ -298,6 +316,8 @@ const OneQuestion = ({
     setCurrentArrayHandler([linkedResultObj]);
     setparticularIndex(particularQueValue);
     setrandIndex(0);
+    setprofExamIndex(0);
+    setIndex(Number(particularQueValue) - 1);
   };
 
   function backToQuestionListHandler() {
@@ -328,32 +348,37 @@ const OneQuestion = ({
     }
   }
 
-  const onChangeNumber = (e) => {
-    setorderValue(e.target.value);
-  };
+  const onChangeNumberHandler = (e) => {
+    const { name, value } = e.target;
+    console.log({ name, value }, "fromOONE");
+    switch (name) {
+      case "random":
+        setorderValue(value);
+        break;
+      case "particular":
+        setparticularQueValue(value);
+        break;
 
-  const onChangePartiNumElem = (e) => {
-    setparticularQueValue(e.target.value);
-  };
+      case "waec":
+        setwaecQueValue(value);
+        break;
+      case "neco":
+        setnecoQueValue(value);
+        break;
 
-  const onChangeWaecNumElem = (e) => {
-    setwaecQueValue(e.target.value);
-    setwaecBtnControl(false);
-  };
-
-  const onChangeNecoNumElem = (e) => {
-    setnecoQueValue(e.target.value);
-    setnecoBtnControl(false);
-  };
-
-  const onChangeJambNumElem = (e) => {
-    setjambQueValue(e.target.value);
-    setjambBtnControl(false);
+      default:
+        setjambQueValue(value);
+        break;
+    }
   };
 
   function setQuestionNum() {
     if (randIndex) {
       return `${randIndex} random question(s) chosen from ${workingArray.length} questions  `;
+    } else if (profExamIndex) {
+      return `${profExamIndex} ${examTypeVar} question(s) chosen from ${workingArray.length} questions  `;
+    } else if (partIndex) {
+      return `Question  ${partIndex} Of ${workingArray.length}`;
     } else {
       return `Question  ${index + 1} Of ${workingArray.length}`;
     }
@@ -429,9 +454,10 @@ const OneQuestion = ({
                     type="number"
                     id="order"
                     value={orderValue}
-                    onChange={onChangeNumber}
+                    onChange={onChangeNumberHandler}
                     min="1"
                     max={workingArray.length}
+                    name="random"
                   />
                 </div>
 
@@ -453,9 +479,10 @@ const OneQuestion = ({
                     id="particular-quest"
                     required
                     value={particularQueValue}
-                    onChange={onChangePartiNumElem}
+                    onChange={onChangeNumberHandler}
                     min="1"
                     max={workingArray.length}
+                    name="particular"
                   />
                 </div>
                 <button
@@ -475,7 +502,11 @@ const OneQuestion = ({
                     <div className={classes.waecQuestion}>
                       <button
                         onClick={() =>
-                          professionExamGetter(waecExamArray, waecQueValue)
+                          professionExamGetter(
+                            waecExamArray,
+                            waecQueValue,
+                            "waec"
+                          )
                         }
                         disabled={waecBtnControl}
                       >
@@ -497,8 +528,9 @@ const OneQuestion = ({
                         type="number"
                         id="waec-quest"
                         value={waecQueValue}
-                        onChange={onChangeWaecNumElem}
+                        onChange={onChangeNumberHandler}
                         min="1"
+                        name="waec"
                         max={
                           workingArray.filter(
                             (item) =>
@@ -515,7 +547,11 @@ const OneQuestion = ({
                     <div className={classes.necoQuestion}>
                       <button
                         onClick={() =>
-                          professionExamGetter(necoExamArray, necoQueValue)
+                          professionExamGetter(
+                            necoExamArray,
+                            necoQueValue,
+                            "neco"
+                          )
                         }
                         disabled={necoBtnControl}
                       >
@@ -537,8 +573,9 @@ const OneQuestion = ({
                         type="number"
                         id="neco-quest"
                         value={necoQueValue}
-                        onChange={onChangeNecoNumElem}
+                        onChange={onChangeNumberHandler}
                         min="1"
+                        name="neco"
                         max={
                           workingArray.filter(
                             (item) =>
@@ -555,7 +592,11 @@ const OneQuestion = ({
                     <div className={classes.jambQuestion}>
                       <button
                         onClick={() =>
-                          professionExamGetter(jambExamArray, jambQueValue)
+                          professionExamGetter(
+                            jambExamArray,
+                            jambQueValue,
+                            "jamb"
+                          )
                         }
                         disabled={jambBtnControl}
                       >
@@ -577,8 +618,9 @@ const OneQuestion = ({
                         type="number"
                         id="jamb-quest"
                         value={jambQueValue}
-                        onChange={onChangeJambNumElem}
+                        onChange={onChangeNumberHandler}
                         min="1"
+                        name="jamb"
                         max={
                           workingArray.filter(
                             (item) =>
