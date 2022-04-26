@@ -392,7 +392,7 @@ const OneQuestion = ({
   }
 
   function allQuestIntroText(inputArray) {
-    let modifiedQuestions = inputArray.map((item) => {
+    let modifiedQuestions = inputArray.map((item, i) => {
       if (item.questionIntroText) {
         //get the number of questions that share this questionIntroText
         const linkedValue = item.linkedTo;
@@ -402,9 +402,9 @@ const OneQuestion = ({
 
         const attachStr =
           linkedQuestionArray.length === 1
-            ? `Use the above information to answer question ${linkedValue}`
-            : `Use the above information to answer questions ${linkedValue} to ${
-                Number(linkedValue) + (linkedQuestionArray.length - 1)
+            ? `Use the above information to answer question ${i + 1}`
+            : `Use the above information to answer questions ${i + 1} to ${
+                Number(i) + linkedQuestionArray.length
               }`;
         return { ...item, questionIntroAtach: attachStr };
       } else {
@@ -420,7 +420,7 @@ const OneQuestion = ({
         const linkedToFirstQuestionArray = modifiedQuestions.filter(
           (item) => item.linkedTo === firstItemObj.linkedTo
         );
-        const getFromItems = inputArray[Number(firstItemObj.linkedTo) - 1];
+        const getFromItems = workingArray[Number(firstItemObj.linkedTo) - 1];
 
         firstItemObj = {
           ...firstItemObj,
