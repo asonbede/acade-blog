@@ -47,10 +47,16 @@ const OneQuestion = ({
   const [necoExamArray, setnecoExamArray] = useState([]);
   const [necoBtnControl, setnecoBtnControl] = useState(false);
 
+  const [rangeQueValue1, setrangeQueValue1] = useState(0);
+  const [rangeQueValue2, setrangeQueValue2] = useState(0);
+
   const [jambQueValue, setjambQueValue] = useState(0);
   const [jambExamArray, setjambExamArray] = useState([]);
   const [jambBtnControl, setjambBtnControl] = useState(true);
   const [questionHide, setquestionHide] = useState(false);
+  const [rangeIndex1, setrangeIndex1] = useState(0);
+  const [rangeIndex2, setrangeIndex2] = useState(0);
+
   //  const [authorName, setauthorName] = useState();
   //  const [authorImage, setauthorImage] = useState();
 
@@ -133,6 +139,8 @@ const OneQuestion = ({
     setrandIndex(0);
     setparticularIndex(0);
     setprofExamIndex(0);
+    setrangeIndex1(0);
+    setrangeIndex2(0);
   };
 
   //Allows users to access one question at a time in the backward direction
@@ -146,6 +154,8 @@ const OneQuestion = ({
     setrandIndex(0);
     setparticularIndex(0);
     setprofExamIndex(0);
+    setrangeIndex1(0);
+    setrangeIndex2(0);
   };
 
   const randomPerson = () => {
@@ -191,6 +201,8 @@ const OneQuestion = ({
     setrandIndex(orderValue);
     setparticularIndex(0);
     setprofExamIndex(0);
+    setrangeIndex1(0);
+    setrangeIndex2(0);
   };
 
   // -----------------------------------------------------------------
@@ -295,6 +307,8 @@ const OneQuestion = ({
 
     setparticularIndex(0);
     setrandIndex(0);
+    setrangeIndex1(0);
+    setrangeIndex2(0);
   };
 
   const particularQuestionHandler = () => {
@@ -318,6 +332,8 @@ const OneQuestion = ({
     setrandIndex(0);
     setprofExamIndex(0);
     setIndex(Number(particularQueValue) - 1);
+    setrangeIndex1(0);
+    setrangeIndex2(0);
   };
 
   function backToQuestionListHandler() {
@@ -348,6 +364,86 @@ const OneQuestion = ({
     }
   }
 
+  function rangOfQuestionsHandler() {
+    if (
+      Number(rangeQueValue1) > workingArray.length ||
+      Number(rangeQueValue1) < 1 ||
+      Number(rangeQueValue2) > workingArray.length ||
+      Number(rangeQueValue2) < 1
+    ) {
+      return;
+    }
+    const requestedQuestionArray = workingArray.slice(
+      Number(rangeQueValue1) - 1,
+      Number(rangeQueValue2)
+    );
+    const resultArray = allQuestIntroText(requestedQuestionArray);
+    console.log({ resultArray, rangeQueValue1, rangeQueValue2 });
+    setprofExamIndex(0);
+    setitemArray(resultArray);
+
+    setCurrentArrayHandler(resultArray);
+
+    setparticularIndex(0);
+    setrandIndex(0);
+    setrangeIndex1(rangeQueValue1);
+    setrangeIndex2(rangeQueValue2);
+    //setIndex(Number(rangeQueValue2) - 1);
+  }
+
+  function allQuestIntroText(inputArray) {
+    let modifiedQuestions = inputArray.map((item) => {
+      if (item.questionIntroText) {
+        //get the number of questions that share this questionIntroText
+        const linkedValue = item.linkedTo;
+        const linkedQuestionArray = inputArray.filter(
+          (item) => item.linkedTo === linkedValue
+        );
+
+        const attachStr =
+          linkedQuestionArray.length === 1
+            ? `Use the above information to answer question ${linkedValue}`
+            : `Use the above information to answer questions ${linkedValue} to ${
+                Number(linkedValue) + (linkedQuestionArray.length - 1)
+              }`;
+        return { ...item, questionIntroAtach: attachStr };
+      } else {
+        return item;
+      }
+    });
+
+    const firstItem = modifiedQuestions.slice(0, 1);
+    const restItems = modifiedQuestions.slice(1);
+    let firstItemObj = firstItem[0];
+    if (firstItemObj.linkedTo) {
+      if (!firstItemObj.questionIntroText) {
+        const linkedToFirstQuestionArray = modifiedQuestions.filter(
+          (item) => item.linkedTo === firstItemObj.linkedTo
+        );
+        const getFromItems = inputArray[Number(firstItemObj.linkedTo) - 1];
+
+        firstItemObj = {
+          ...firstItemObj,
+          questionIntroText: getFromItems.questionIntroText,
+          questionIntroAtach: `${
+            linkedToFirstQuestionArray.length === 1
+              ? `Use the information to answer question ${firstItemObj.linkedTo}`
+              : `Use the above information to answer questions ${
+                  firstItemObj.linkedTo
+                } to ${
+                  Number(firstItemObj.linkedTo) +
+                  (linkedToFirstQuestionArray.length - 1)
+                }`
+          }`,
+        };
+        return [firstItemObj, ...restItems];
+      } else {
+        return modifiedQuestions;
+      }
+    }
+    return modifiedQuestions;
+  }
+
   const onChangeNumberHandler = (e) => {
     const { name, value } = e.target;
     console.log({ name, value }, "fromOONE");
@@ -365,6 +461,12 @@ const OneQuestion = ({
       case "neco":
         setnecoQueValue(value);
         break;
+      case "range1":
+        setrangeQueValue1(value);
+        break;
+      case "range2":
+        setrangeQueValue2(value);
+        break;
 
       default:
         setjambQueValue(value);
@@ -379,6 +481,8 @@ const OneQuestion = ({
       return `${profExamIndex} ${examTypeVar} question(s) chosen from ${workingArray.length} questions  `;
     } else if (partIndex) {
       return `Question  ${partIndex} Of ${workingArray.length}`;
+    } else if (rangeQueValue1 || rangeQueValue2) {
+      return `Questions  ${rangeQueValue1} to ${rangeQueValue2} Of ${workingArray.length}`;
     } else {
       return `Question  ${index + 1} Of ${workingArray.length}`;
     }
@@ -466,7 +570,7 @@ const OneQuestion = ({
                 */}
                 <div className={classes.particularQuestion}>
                   <button onClick={particularQuestionHandler}>
-                    Give Me Particular Questions
+                    Select Particular Questions
                   </button>
 
                   <label htmlFor="particular-quest">
@@ -483,6 +587,39 @@ const OneQuestion = ({
                     min="1"
                     max={workingArray.length}
                     name="particular"
+                  />
+                </div>
+                <div className={classes.rangeOfQuestions}>
+                  <button onClick={rangOfQuestionsHandler}>
+                    Select Range of Questions
+                  </button>
+
+                  <label htmlFor="range-quest1">
+                    {" "}
+                    {`Available Quantity ${workingArray.length}: From`}
+                  </label>
+
+                  <input
+                    type="number"
+                    id="range-quest1"
+                    required
+                    value={rangeQueValue1}
+                    onChange={onChangeNumberHandler}
+                    min="1"
+                    max={workingArray.length}
+                    name="range1"
+                  />
+
+                  <label htmlFor="range-quest2">To:</label>
+                  <input
+                    type="number"
+                    id="range-quest2"
+                    required
+                    value={rangeQueValue2}
+                    onChange={onChangeNumberHandler}
+                    min="1"
+                    max={workingArray.length}
+                    name="range2"
                   />
                 </div>
                 <button
