@@ -7,7 +7,7 @@ import NotificationContext from "../../store/notification-context";
 import Link from "next/dist/client/link";
 import Togglable from "../togglable/togglable";
 import QuestionsListOne from "./question-list-one";
-import MainQuestionList from "./question-main-list";
+//import MainQuestionList from "./question-main-list";
 import EssayTypeQuestions from "./essay-type-questions";
 import NewEssayQuestion from "./new-essay-question";
 import { useSession, signOut } from "next-auth/client";
@@ -84,7 +84,7 @@ function Questions(props) {
       if (userChoiceFromLocStorage) {
         setselectValue(userChoiceFromLocStorage);
       } else {
-        setselectValue("mult-choice-all");
+        setselectValue("mult-choice-one");
       }
     }
   }, []);
@@ -117,16 +117,18 @@ function Questions(props) {
   //sort the questions according to the choice made by the user
   useEffect(() => {
     //"mult-choice-all";mult-choice-all
-    if (selectValue === "mult-choice-all") {
-      console.log("multi-all called");
-      const multiAllChoiceResult = items.filter(
-        (item) => item.questionType !== "essay-type"
-      );
-      const result = allQuestIntroText(multiAllChoiceResult);
-      setcurrentArray(result);
+    // if (selectValue === "mult-choice-all") {
+    //   console.log("multi-all called");
+    //   const multiAllChoiceResult = items.filter(
+    //     (item) => item.questionType !== "essay-type"
+    //   );
+    //   const result = allQuestIntroText(multiAllChoiceResult);
+    //   setcurrentArray(result);
 
-      setisLoading(false);
-    } else if (selectValue === "essay-type") {
+    //   setisLoading(false);
+    // }
+
+    if (selectValue === "essay-type") {
       console.log("inside essay type");
       const arrayessay = items.filter(
         (item) => item.questionType === "essay-type"
@@ -142,29 +144,29 @@ function Questions(props) {
   }, [changerValue, selectValue]);
   // -----------------------------------------------------------------
 
-  function allQuestIntroText(randomArray) {
-    const modifiedQuestions = randomArray.map((item) => {
-      if (item.questionIntroText) {
-        //get the number of questions that share this questionIntroText
-        const linkedValue = item.linkedTo;
-        const linkedQuestionArray = randomArray.filter(
-          (item) => item.linkedTo === linkedValue
-        );
+  // function allQuestIntroText(randomArray) {
+  //   const modifiedQuestions = randomArray.map((item) => {
+  //     if (item.questionIntroText) {
+  //       //get the number of questions that share this questionIntroText
+  //       const linkedValue = item.linkedTo;
+  //       const linkedQuestionArray = randomArray.filter(
+  //         (item) => item.linkedTo === linkedValue
+  //       );
 
-        const attachStr =
-          linkedQuestionArray.length === 1
-            ? `Use the above information to answer question ${linkedValue}`
-            : `Use the above information to answer questions ${linkedValue} to ${
-                Number(linkedValue) + (linkedQuestionArray.length - 1)
-              }`;
-        return { ...item, questionIntroAtach: attachStr };
-      } else {
-        return item;
-      }
-    });
+  //       const attachStr =
+  //         linkedQuestionArray.length === 1
+  //           ? `Use the above information to answer question ${linkedValue}`
+  //           : `Use the above information to answer questions ${linkedValue} to ${
+  //               Number(linkedValue) + (linkedQuestionArray.length - 1)
+  //             }`;
+  //       return { ...item, questionIntroAtach: attachStr };
+  //     } else {
+  //       return item;
+  //     }
+  //   });
 
-    return modifiedQuestions;
-  }
+  //   return modifiedQuestions;
+  // }
   // -----------------------------------------------------------------
 
   console.log({ currentArray }, "checking essay-type11111");
@@ -421,30 +423,31 @@ For easy type questions
   // he may want to access the questions all at onece or one at a time
   function displayQuestions() {
     console.log({ selectValue }, "all choice");
-    if (selectValue === "mult-choice-all") {
-      return (
-        <MainQuestionList
-          items={currentArray}
-          handleRadioButtonChange={handleRadioButtonChange}
-          blogId={blogId}
-          controlSubBtn={controlSubBtn}
-          markScript={markScript}
-          selectValue={selectValue}
-          controlReviewLink={controlReviewLink}
-          setcontrolReviewLink={setcontrolReviewLink}
-          setcontrolSubBtn={setcontrolSubBtn}
-          isLoading={isLoading}
-          variablesForReseting={{
-            setskippedQuestions,
-            setcorrectQuestions,
-            setinCorrectQuestions,
-            setallQuestions,
-            setselectedValuesOfRadioButton,
-            setscore,
-          }}
-        />
-      );
-    } else if (selectValue === "mult-choice-one") {
+    // if (selectValue === "mult-choice-all") {
+    //   return (
+    //     <MainQuestionList
+    //       items={currentArray}
+    //       handleRadioButtonChange={handleRadioButtonChange}
+    //       blogId={blogId}
+    //       controlSubBtn={controlSubBtn}
+    //       markScript={markScript}
+    //       selectValue={selectValue}
+    //       controlReviewLink={controlReviewLink}
+    //       setcontrolReviewLink={setcontrolReviewLink}
+    //       setcontrolSubBtn={setcontrolSubBtn}
+    //       isLoading={isLoading}
+    //       variablesForReseting={{
+    //         setskippedQuestions,
+    //         setcorrectQuestions,
+    //         setinCorrectQuestions,
+    //         setallQuestions,
+    //         setselectedValuesOfRadioButton,
+    //         setscore,
+    //       }}
+    //     />
+    //   );
+    // }
+    if (selectValue === "mult-choice-one") {
       console.log({ selectValue }, "one choice");
       return (
         <QuestionsListOne

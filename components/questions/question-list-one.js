@@ -427,13 +427,9 @@ const OneQuestion = ({
           questionIntroText: getFromItems.questionIntroText,
           questionIntroAtach: `${
             linkedToFirstQuestionArray.length === 1
-              ? `Use the information to answer question ${firstItemObj.linkedTo}`
-              : `Use the above information to answer questions ${
-                  firstItemObj.linkedTo
-                } to ${
-                  Number(firstItemObj.linkedTo) +
-                  (linkedToFirstQuestionArray.length - 1)
-                }`
+              ? "Use the information to answer question 1"
+              : `Use the above information to answer questions 1
+                 to ${1 + (linkedToFirstQuestionArray.length - 1)}`
           }`,
         };
         return [firstItemObj, ...restItems];

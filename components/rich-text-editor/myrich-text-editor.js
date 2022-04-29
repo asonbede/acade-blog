@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
 // import { Editor } from "react-draft-wysiwyg";
+
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
   { ssr: false }
 );
+
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const MyRichEditor = ({
@@ -16,6 +18,12 @@ const MyRichEditor = ({
 }) => {
   // const toolbarStyleObj = { display: "block" };
   // const toolbarStyleObjIntro = { display: "none" };
+  // const Editor = useMemo(() => {
+  //   return dynamic(
+  //     () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
+  //     { ssr: false }
+  //   );
+  // }, []);
   return (
     <Editor
       onEditorStateChange={useEditorMainBlog.onEditorStateChange}
