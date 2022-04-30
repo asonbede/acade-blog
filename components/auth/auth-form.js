@@ -5,10 +5,17 @@ import { useRouter } from "next/router";
 import NotificationContext from "../../store/notification-context";
 import classes from "./auth-form.module.css";
 import { useSession, signOut } from "next-auth/client";
-async function createUser(email, password, name, interest) {
+async function createUser(email, password, name, interest, username) {
   const response = await fetch("/api/auth/signup", {
     method: "POST",
-    body: JSON.stringify({ email, password, name, interest, moderated: false }),
+    body: JSON.stringify({
+      email,
+      password,
+      name,
+      interest,
+      moderated: false,
+      username,
+    }),
     headers: {
       "Content-Type": "application/json",
     },
@@ -29,6 +36,7 @@ function AuthForm() {
 
   const nameInputRef = useRef();
   const interestInputRef = useRef();
+  const usernameInputRef = useRef();
 
   const [isLogin, setIsLogin] = useState(true);
   const [regValue, setregValue] = useState(false);
@@ -61,14 +69,16 @@ function AuthForm() {
   async function submitHandler(event) {
     let enteredName;
     let enteredInterest;
+    let enteredEmail;
     event.preventDefault();
 
-    const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
+    const enteredUsername = usernameInputRef.current.value;
 
     if (!isLogin) {
       enteredName = nameInputRef.current.value;
       enteredInterest = interestInputRef.current.value;
+      enteredEmail = emailInputRef.current.value;
     }
 
     if (isLogin) {
@@ -91,7 +101,7 @@ function AuthForm() {
     if (isLogin) {
       const result = await signIn("credentials", {
         redirect: false,
-        email: enteredEmail,
+        username: enteredUsername,
         password: enteredPassword,
       });
 
@@ -116,7 +126,8 @@ function AuthForm() {
           enteredEmail,
           enteredPassword,
           enteredName,
-          enteredInterest
+          enteredInterest,
+          enteredUsername
         );
         console.log(result);
 
@@ -162,10 +173,18 @@ function AuthForm() {
             <input type="text" id="name" required ref={nameInputRef} />
           </div>
         )}
+
         <div className={classes.control}>
-          <label htmlFor="email">Your Email</label>
-          <input type="email" id="email" required ref={emailInputRef} />
+          <label htmlFor="user-name">Your User Name</label>
+          <input type="text" id="user-name" required ref={usernameInputRef} />
         </div>
+
+        {!isLogin && (
+          <div className={classes.control}>
+            <label htmlFor="email">Your Email</label>
+            <input type="email" id="email" required ref={emailInputRef} />
+          </div>
+        )}
         <div className={classes.control}>
           <label htmlFor="password">Your Password</label>
           <input

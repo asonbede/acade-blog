@@ -5,7 +5,7 @@ async function handler(req, res) {
   if (req.method === "POST") {
     const data = req.body;
 
-    const { email, password, name, interest, moderated } = data;
+    const { email, password, name, interest, moderated, username } = data;
 
     if (
       !email ||
@@ -16,7 +16,9 @@ async function handler(req, res) {
       !name ||
       name.trim() === "" ||
       !interest ||
-      interest.trim() === ""
+      interest.trim() === "" ||
+      !username ||
+      username.trim() === ""
     ) {
       res.status(422).json({
         message: "Invalid input - please check your input and try again.",
@@ -38,6 +40,18 @@ async function handler(req, res) {
       return;
     }
 
+    const existingUsername = await db
+      .collection("users")
+      .findOne({ username: username });
+
+    if (existingUsername) {
+      res
+        .status(422)
+        .json({ message: "User with that username exists already!" });
+      client.close();
+      return;
+    }
+
     const hashedPassword = await hashPassword(password);
 
     const result = await db.collection("users").insertOne({
@@ -47,6 +61,7 @@ async function handler(req, res) {
       name: name,
       interest: interest,
       moderated: moderated,
+      username: username,
     });
 
     res.status(201).json({ message: "Created user!" });
@@ -71,6 +86,7 @@ async function handler(req, res) {
     const updatedInterest = req.body.interest;
     const updatedName = req.body.name;
     const moderated = req.body.moderated;
+    const username = req.body.username;
     //const newPassword = req.body.newPassword;
 
     const client = await connectDatabase();
@@ -102,7 +118,14 @@ async function handler(req, res) {
 
     const result = await usersCollection.updateOne(
       { email: userEmail },
-      { $set: { interest: updatedInterest, name: updatedName, moderated } }
+      {
+        $set: {
+          interest: updatedInterest,
+          name: updatedName,
+          moderated,
+          username,
+        },
+      }
     );
     console.log("isideeee patchhhhhh4444");
     client.close();

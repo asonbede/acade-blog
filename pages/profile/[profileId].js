@@ -23,7 +23,7 @@ function ProfilePage(props) {
     <UserProfile
       posts={props.posts}
       name={props.name}
-      description={props.description}
+      description={props.interest}
       imageUrl={props.imageLink}
       email={props.email}
     />
@@ -87,11 +87,27 @@ export async function getServerSideProps(context) {
     email: paramValue,
   });
 
-  const { name, interest: description, imageLink } = user;
+  const { name, interest, imageLink } = user;
 
   client.close();
 
   return {
-    props: { session, posts, name, description, imageLink, email: paramValue },
+    props: {
+      session,
+      posts,
+      name,
+      interest,
+
+      imageLink,
+      email: paramValue,
+    },
   };
 }
+
+// return {
+//           email: usernameCheck.email,
+//           names: { name: usernameCheck.name, username: usernameCheck.username },
+//           imageAndInterest: {
+//             image: usernameCheck.imageLink,
+//             interest: usernameCheck.interest,
+//           },

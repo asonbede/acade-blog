@@ -17,18 +17,18 @@ export default NextAuth({
 
         const usersCollection = client.db().collection("users");
 
-        const userEmailCheck = await usersCollection.findOne({
-          email: credentials.email,
+        const usernameCheck = await usersCollection.findOne({
+          username: credentials.username,
         });
 
-        if (!userEmailCheck) {
+        if (!usernameCheck) {
           client.close();
           throw new Error("No user with that email found!");
         }
 
         const isValid = await verifyPassword(
           credentials.password,
-          userEmailCheck.password
+          usernameCheck.password
         );
 
         if (!isValid) {
@@ -38,11 +38,12 @@ export default NextAuth({
 
         client.close();
         return {
-          email: userEmailCheck.email,
-          name: userEmailCheck.name,
-          image: userEmailCheck.imageLink
-            ? `${userEmailCheck.imageLink}??${userEmailCheck.interest}`
-            : `??${userEmailCheck.interest}`,
+          email: usernameCheck.email,
+          names: { name: usernameCheck.name, username: usernameCheck.username },
+          imageAndInterest: {
+            image: usernameCheck.imageLink,
+            interest: usernameCheck.interest,
+          },
         };
       },
     }),

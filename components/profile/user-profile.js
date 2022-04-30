@@ -20,31 +20,6 @@ function UserProfile(props) {
   //console.log("from handle update");
   const { menuBtn, passOpen, updateOpen, uploadOpen } =
     notificationCtx.profileData;
-  //console.log({ menuBtn, passOpen });
-  //console.log(notificationCtx.profileData);
-  // useEffect(() => {
-  //   effect
-  //   return () => {
-  //     cleanup
-  //   }
-  // }, [input])
-  // profileData.blogUpdateHandler({
-  //   post,
-  //   idValue: post.id,
-  // });
-  // useEffect(() => {
-  //   getSession().then((session) => {
-  //     if (!session) {
-  //       window.location.href = '/auth';
-  //     } else {
-  //       setIsLoading(false);
-  //     }
-  //   });
-  // }, []);
-
-  // if (isLoading) {
-  //   return <p className={classes.profile}>Loading...</p>;
-  // }
 
   async function changePasswordHandler(passwordData) {
     const response = await fetch("/api/user/change-password", {
@@ -69,7 +44,13 @@ function UserProfile(props) {
         <title>{`${props.name} Blog`}</title>
         <meta name="description" content={`${props.description}`} />
       </Head>
-      {/* <h1>Your User Profile</h1> */}
+
+      {/*
+      component:ProfileMenu
+      What it does: displays a menu that enables users to choose
+      whether to change password, upload image or update registration details
+      How it works: displays when the menu buton is clicked.
+      */}
       {menuBtn ? null : <ProfileMenu />}
 
       <Hero

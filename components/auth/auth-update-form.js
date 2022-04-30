@@ -11,7 +11,8 @@ async function updateUser(
   interest,
   moderated,
   actionType,
-  email
+  email,
+  username
 ) {
   console.log("update rannnnnooooo000");
 
@@ -24,6 +25,7 @@ async function updateUser(
       moderated,
       actionType,
       email,
+      username,
     }),
     headers: {
       "Content-Type": "application/json",
@@ -57,6 +59,8 @@ function UpdateAuthForm(props) {
   //const [isModerated, setisModerated] = useState(false);
   const [checkBoxShow, setcheckBoxShow] = useState(false);
   const [email, setemail] = useState();
+  const [username, setusername] = useState();
+
   const router = useRouter();
 
   const [session, loading] = useSession();
@@ -131,7 +135,8 @@ function UpdateAuthForm(props) {
         interest,
         moderated,
         actionType,
-        email
+        email,
+        username
       );
       console.log(result);
 
@@ -203,6 +208,16 @@ function UpdateAuthForm(props) {
             required
             value={name}
             onChange={(e) => setname(e.target.value)}
+          />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor="username">Your Username</label>
+          <input
+            type="text"
+            id="username"
+            required
+            value={username}
+            onChange={(e) => setusername(e.target.value)}
           />
         </div>
 
