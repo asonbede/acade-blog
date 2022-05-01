@@ -57,7 +57,7 @@ export async function getServerSideProps(context) {
     {
       orderValue: 1,
     },
-    { authorId: paramValue }
+    { authorusername: paramValue }
   );
   //console.log(documents);
   const posts = documents.map((document) => {
@@ -71,6 +71,9 @@ export async function getServerSideProps(context) {
       likes: document.likes ? document.likes : {},
       author: document.author,
       authorId: document.authorId,
+      authorusername: document.authorusername
+        ? document.authorusername
+        : "asonbede",
       moderated: document.moderated ? document.moderated : false,
 
       category: document.category ? document.category : "Chemistry",
@@ -84,10 +87,10 @@ export async function getServerSideProps(context) {
   console.log("from pro77777734");
   const usersCollection = client.db().collection("users");
   const user = await usersCollection.findOne({
-    email: paramValue,
+    username: paramValue,
   });
 
-  const { name, interest, imageLink } = user;
+  const { name, interest, imageLink, email } = user;
 
   client.close();
 
@@ -99,7 +102,7 @@ export async function getServerSideProps(context) {
       interest,
 
       imageLink,
-      email: paramValue,
+      email,
     },
   };
 }

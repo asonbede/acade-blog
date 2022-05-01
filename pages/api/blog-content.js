@@ -35,6 +35,7 @@ async function handler(req, res) {
       category,
       orderValue,
       imageProfileUrl,
+      authorusername,
     } = req.body;
 
     if (
@@ -69,6 +70,7 @@ async function handler(req, res) {
       category,
       orderValue,
       imageProfileUrl,
+      authorusername,
     };
 
     let result;
@@ -97,6 +99,7 @@ async function handler(req, res) {
       category,
       orderValue,
       imageProfileUrl,
+      authorusername,
     } = req.body;
 
     if (
@@ -131,6 +134,7 @@ async function handler(req, res) {
       category,
       orderValue,
       imageProfileUrl,
+      authorusername,
     };
 
     let result;

@@ -51,6 +51,9 @@ export async function getStaticProps() {
           likes: document.likes ? document.likes : {},
           author: document.author,
           authorId: document.authorId,
+          authorusername: document.authorusername
+            ? document.authorusername
+            : "asonbede",
           moderated: document.moderated ? document.moderated : false,
           category: document.category ? document.category : "Chemistry",
           orderValue: document.orderValue ? document.orderValue : 1,

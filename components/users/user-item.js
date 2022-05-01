@@ -35,6 +35,7 @@ function UserItem(props) {
     interest,
     imageLink,
     moderated,
+    username,
   } = props.post;
   console.log({ authorId });
   const [moderatedValue, setmoderatedValue] = useState();
@@ -88,7 +89,7 @@ function UserItem(props) {
   //useEffect(() => {}, [authorId, name, imageLink]);
   //?name=${name}&description=${interest}&imageLink=${imageLink}
   //const imagePath = `/images/posts/${image}`;
-  const linkPath = `/profile/${authorId}`;
+  const linkPath = `/profile/${username}`;
   console.log({ moderated }, "from item");
   //className={moderatedValue ? classes.showItem : classes.hideItem}
   return (

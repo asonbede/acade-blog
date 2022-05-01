@@ -42,6 +42,7 @@ function UpdatePostForm({ updateId }) {
   const [imageProfileUrl, setimageProfileUrlValue] = useState();
   const [name, setname] = useState();
   const [email, setemail] = useState();
+  const [authorusername, setauthorusername] = useState();
 
   // author: session.user.name,
   // authorId: session.user.email,
@@ -85,6 +86,7 @@ function UpdatePostForm({ updateId }) {
       setimageProfileUrlValue(post.imageProfileUrl);
       setname(post.author);
       setemail(post.authorId);
+      setauthorusername(post.authorusername ? post.authorusername : "asonbede");
     }
   }, [post]);
   useEditorContent.serverContentHandler(post.content);
@@ -146,6 +148,7 @@ function UpdatePostForm({ updateId }) {
         category: enteredCategory,
         orderValue: orderValue,
         imageProfileUrl: imageProfileUrl,
+        authorusername: authorusername,
       });
       //setRequestStatus("success");
       // setEnteredContent("");
@@ -158,7 +161,7 @@ function UpdatePostForm({ updateId }) {
         message: "Your blog was updated!",
         status: "success",
       });
-      router.push(`/posts/${idValue}`);
+      router.push(`/profile/${session.user.name.username}`);
     } catch (error) {
       //setRequestError(error.message);
       //setRequestStatus("error");

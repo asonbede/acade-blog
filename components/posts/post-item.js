@@ -24,8 +24,17 @@ async function sendAuthData(authDetails, setFunc) {
 }
 
 function PostItem(props) {
-  const { title, image, excerpt, date, slug, id, moderated, authorId } =
-    props.post;
+  const {
+    title,
+    image,
+    excerpt,
+    date,
+    slug,
+    id,
+    moderated,
+    authorId,
+    authorusername,
+  } = props.post;
 
   const [moderatedValue, setmoderatedValue] = useState();
   const [localStorageSet, setlocalStorageSet] = useState(false);
@@ -55,7 +64,7 @@ function PostItem(props) {
       window.localStorage.setItem("post", JSON.stringify(props.post));
       window.localStorage.setItem("blogid", JSON.stringify(id));
       setlocalStorageSet(!localStorageSet);
-      router.push(`/profile/${authorId}`);
+      router.push(`/profile/${authorusername}`);
     }
   };
 

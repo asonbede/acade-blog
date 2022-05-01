@@ -50,6 +50,9 @@ export async function getStaticProps() {
         return {
           id: document._id.toString(),
           email: document.email,
+          username: document.username
+            ? document.username
+            : "asonye-bede-aka-happy-teacher",
           name: document.name,
           interest: document.interest,
           imageLink: document.imageLink

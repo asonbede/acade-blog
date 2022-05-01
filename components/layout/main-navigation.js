@@ -8,17 +8,32 @@ import MenuButton from "../auth/menu-button";
 function MainNavigation() {
   const [session, loading] = useSession();
   const router = useRouter();
-  //console.log({ session });
-  let name, interest, imageLink, queryStr;
+
+  let name, authorUsername;
+
   if (session) {
-    name = session.user.name;
-    interest = session.user.image.split("??")[1];
-    imageLink = session.user.image.split("??")[0];
+    console.log({ session }, "from-main");
+    authorUsername = session.user.name.username;
+    name = session.user.name.name;
+
+    // authorUsername = "asonbede";
+    // name = "Bede Asonye";
+    // name = session.user.names.name;
+    // interest = session.user.imageAndInterest.interest;
+    // imageLink = session.user.imageAndInterest.imageLink;
     //queryStr = `?name=${name}&description=${interest}&imageLink=${imageLink}`;
   }
+  // return {
+  //           email: usernameCheck.email,
+  //           names: { name: usernameCheck.name, username: usernameCheck.username },
+  //           imageAndInterest: {
+  //             image: usernameCheck.imageLink,
+  //             interest: usernameCheck.interest,
+  //           },
+
   function logoutHandler() {
     signOut();
-    // router.replace("/");
+    router.replace("/auth");
   }
   return (
     <header className={classes.header}>
@@ -60,7 +75,7 @@ function MainNavigation() {
           )}
           {session && (
             <li>
-              <Link href={`/profile/${session.user.email}`}>
+              <Link href={`/profile/${authorUsername}`}>
                 <a>Profile</a>
               </Link>
             </li>
@@ -70,9 +85,7 @@ function MainNavigation() {
               <button onClick={logoutHandler}>Logout</button>
             </li>
           )}
-          {session && (
-            <li style={{ color: "white" }}>Welcome {session.user.name}</li>
-          )}
+          {session && <li style={{ color: "white" }}>Welcome {name}</li>}
           {session && router.pathname.indexOf("/profile") > -1 ? (
             <li style={{ color: "white" }}>
               <MenuButton />

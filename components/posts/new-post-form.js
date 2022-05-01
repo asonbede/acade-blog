@@ -101,8 +101,9 @@ function NewPostForm() {
         moderated: false,
         category: enteredCategory,
         orderValue: orderValue,
-        imageProfileUrl: session.user.image.split("??")[0]
-          ? session.user.image.split("??")[0]
+        authorusername: session.user.name.username,
+        imageProfileUrl: session.user.image.imageUrl
+          ? session.user.image.imageUrl
           : "/images/posts/default-profile-pic.jpg",
       });
 
@@ -111,7 +112,7 @@ function NewPostForm() {
         message: "Your blog was saved!",
         status: "success",
       });
-      router.push(`profile/${session.user.email}`);
+      router.push(`/profile/${session.user.name.username}`);
     } catch (error) {
       notificationCtx.showNotification({
         title: "Error!",

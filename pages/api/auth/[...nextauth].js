@@ -39,9 +39,9 @@ export default NextAuth({
         client.close();
         return {
           email: usernameCheck.email,
-          names: { name: usernameCheck.name, username: usernameCheck.username },
-          imageAndInterest: {
-            image: usernameCheck.imageLink,
+          name: { name: usernameCheck.name, username: usernameCheck.username },
+          image: {
+            imageUrl: usernameCheck.imageLink,
             interest: usernameCheck.interest,
           },
         };
