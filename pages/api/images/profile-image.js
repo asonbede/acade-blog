@@ -68,7 +68,7 @@ apiRoute.post(async (req, res) => {
 
   const identityStr = `${formattedDate.replace(/ /g, "-")}-${
     session.user.email
-  }-${session.user.name.replace(/ /g, "-")}`;
+  }-${session.user.name.name.replace(/ /g, "-")}`;
   console.log("from after date");
   const upload = uploadFunc(90000000, identityStr);
 
