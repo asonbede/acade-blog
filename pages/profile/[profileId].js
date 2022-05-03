@@ -59,7 +59,7 @@ export async function getServerSideProps(context) {
     },
     { authorusername: paramValue }
   );
-  //console.log(documents);
+  // console.log(documents, "from-get-staticPROPS");
   const posts = documents.map((document) => {
     return {
       title: document.title,
@@ -90,7 +90,7 @@ export async function getServerSideProps(context) {
     username: paramValue,
   });
 
-  const { name, interest, imageLink, email } = user;
+  const { name, interest, imageLink = "", email } = user;
 
   client.close();
 

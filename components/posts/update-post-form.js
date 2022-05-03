@@ -83,8 +83,8 @@ function UpdatePostForm({ updateId }) {
   useEffect(() => {
     if (post) {
       setorderValue(post.orderValue);
-      setimageProfileUrlValue(session.user.image.imageUrl);
-      // setimageProfileUrlValue(post.imageProfileUrl);
+      // setimageProfileUrlValue(session.user.image.imageUrl);
+      setimageProfileUrlValue(post.imageProfileUrl);
       setname(post.author);
       setemail(post.authorId);
       setauthorusername(post.authorusername ? post.authorusername : "asonbede");
@@ -127,7 +127,7 @@ function UpdatePostForm({ updateId }) {
 
   async function sendMessageHandler(event) {
     event.preventDefault();
-
+    console.log({ imageProfileUrl }, "from-updaTE");
     notificationCtx.showNotification({
       title: "Updating blog...",
       message: "Your blog is currently being updated. Please wait",
