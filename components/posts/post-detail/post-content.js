@@ -21,6 +21,7 @@ import PeriodicTableOfElem from "../../miscellaneous/periodic-table";
 import PeriodicTrends from "../../miscellaneous/periodic-trend";
 import AtomicModel from "../../miscellaneous/atomic-model";
 import NamingIonicCompounds from "../../miscellaneous/naming-ionic";
+import Modal from "../../modal/modal";
 //import { getDomainLocale } from "next/dist/next-server/lib/router/router";
 //import { adminArray } from "../../../helpers/db-utils";
 const replaceBannerImg = {
@@ -107,6 +108,8 @@ function PostContent(props) {
   const [contenButText, setcontenButText] = useState("Read More");
   const [authValue, setauthValue] = useState();
   const [moderatedValue, setmoderatedValue] = useState();
+  const [showDeleteModal, setshowDeleteModal] = useState(false);
+
   let likeNo;
   //const adminArray = [process.env.admin_1, process.env.admin_2];
   //console.log({ post }, "content");
@@ -126,12 +129,11 @@ function PostContent(props) {
       { authorId, moderated },
       setmoderatedValue
     );
-
-    //console.log({ result }, "postContent");
-    // return () => {
-    //   cleanup
-    // }
   }, [authorId, moderated]);
+
+  useEffect(() => {
+    setshowDeleteModal(false);
+  }, []);
 
   const handleUpdateData = () => {
     console.log("from handle update");
@@ -177,15 +179,14 @@ function PostContent(props) {
         status: "error",
       });
     }
+    setshowDeleteModal(false);
   };
 
   const deleteConfirm = () => {
-    const responseValue = confirm(
-      "Are you really sure that you want to delete this post?"
-    );
-    if (responseValue) {
-      deletePostHandler();
-    }
+    // const responseValue = confirm(
+    //   "Are you really sure that you want to delete this post?"
+    // );
+    setshowDeleteModal(true);
   };
 
   const checkLikeObject = (likeObj, usernameValue) => {
@@ -276,319 +277,113 @@ function PostContent(props) {
     }
   };
   return (
-    <div className={moderatedValue ? classes.showItem : classes.hideItem}>
-      {!moderated && (
-        <span style={{ color: "red" }}>
-          {" "}
-          Moderation in progressing, this may take a while, until this action is
-          complete only you can see this post, newly created or updated post are
-          examined by the admin before it is shown to the public.This message
-          will be removed as soon as the process is complete. You may continue
-          to work on your post while this process is on...
-        </span>
+    <>
+      {showDeleteModal && (
+        <Modal
+          deletePostHandler={deletePostHandler}
+          text="Do you really want to delete this post?"
+          setshowDeleteModal={setshowDeleteModal}
+          showDeleteModal={showDeleteModal}
+        />
       )}
 
-      <article className={classes.content}>
-        {/* <img src="" alt="proble-solved" /> */}
-        <div className={classes.card}>
-          <div className={classes.cardprofile}>
-            {/* <img
-            className={classes.profileimg}
-            src="/images/posts/post-profile2.jpg "
-            alt=""
-          /> */}
-            <img
-              className={classes.profileimg}
-              src={post.imageProfileUrl}
-              alt={post.title}
-              width={150}
-              height={150}
-            />
-            <div
-              className={classes.cardprofileinfo}
-              style={{ marginTop: "2rem" }}
-            >
-              <h3 className={classes.profilename} style={{ margin: "0" }}>
-                {post.author}
-              </h3>
-              <span className={classes.profilefollowers}>
-                (Msc Biochemistry)
-              </span>
-            </div>
-          </div>
-          <div className={classes.cardbanner}>
-            {/* <p class="category-tag technology">Biryani</p>  */}
-            {post.id in replaceBannerImg ? (
-              replaceBannerImg[post.id]()
-            ) : (
+      <div className={moderatedValue ? classes.showItem : classes.hideItem}>
+        {!moderated && (
+          <span style={{ color: "red" }}>
+            {" "}
+            Moderation in progressing, this may take a while, until this action
+            is complete only you can see this post, newly created or updated
+            post are examined by the admin before it is shown to the public.This
+            message will be removed as soon as the process is complete. You may
+            continue to work on your post while this process is on...
+          </span>
+        )}
+
+        <article className={classes.content}>
+          {/* <img src="" alt="proble-solved" /> */}
+          <div className={classes.card}>
+            <div className={classes.cardprofile}>
               <img
-                className={classes.bannerimg}
-                src={imagePath}
-                alt="banner"
-                width={900}
-                height={800}
+                className={classes.profileimg}
+                src={post.imageProfileUrl}
+                alt={post.title}
+                width={150}
+                height={150}
               />
-            )}
-
-            {/* <div className={classes.blogdescription} style={{ width: "100%" }}> */}
-            {/* <div className={classes.mainImage}>
-              <DisplayEditorContent
-                contentFromServer={post.image}
-                toolbarPresent={false}
-              />
-            </div> */}
-
-            {/* </div> */}
-          </div>
-          <div className={classes.cardbody}>
-            <div className={classes.buttonAction}>
-              <Link href={linkPath}>
-                <a>Review Questions</a>
-              </Link>
-
-              <Link href={linkPathForComment}>
-                <a> comments</a>
-              </Link>
-
-              <button onClick={handleLikeBlog}>
-                <span>{likeNo}</span> like
-              </button>
-              {authValue && <button onClick={handleUpdateData}>Update</button>}
-              {authValue && <button onClick={deleteConfirm}>Delete</button>}
-              {/* {(session && session.user.email === post.authorId) ||
-            (session && adminArray.includes(session.user.email)) ? (
-              <button onClick={handleUpdateData}>Update</button>
-            ) : null} */}
-              {/* {(session && session.user.email === post.authorId) ||
-            (session && adminArray.includes(session.user.email)) ? (
-              <button onClick={deleteConfirm}>Delete</button>
-            ) : null} */}
+              <div
+                className={classes.cardprofileinfo}
+                style={{ marginTop: "2rem" }}
+              >
+                <h3 className={classes.profilename} style={{ margin: "0" }}>
+                  {post.author}
+                </h3>
+                <span className={classes.profilefollowers}>
+                  (Msc Biochemistry)
+                </span>
+              </div>
             </div>
-            {/* <p className={classes.bloghashtag}>#Biryani #Food</p> */}
-            <h3 className={classes.blogtitle}>{post.title}</h3>
-            <h5 className={classes.excerpt}>
-              {post.excerpt}{" "}
-              <button onClick={handleContenButText}>{contenButText}</button>
-            </h5>
-            <div className={classes.blogdescription} style={{ width: "100%" }}>
-              {isContentOpen && (
-                <DisplayEditorContent
-                  contentFromServer={post.content}
-                  toolbarPresent={false}
+            <div className={classes.cardbanner}>
+              {/* <p class="category-tag technology">Biryani</p>  */}
+              {post.id in replaceBannerImg ? (
+                replaceBannerImg[post.id]()
+              ) : (
+                <img
+                  className={classes.bannerimg}
+                  src={imagePath}
+                  alt="banner"
+                  width={900}
+                  height={800}
                 />
               )}
             </div>
-            {post.id in appendAtEnd && isContentOpen ? (
+            <div className={classes.cardbody}>
+              <div className={classes.buttonAction}>
+                <Link href={linkPath}>
+                  <a>Review Questions</a>
+                </Link>
+
+                <Link href={linkPathForComment}>
+                  <a> comments</a>
+                </Link>
+
+                <button onClick={handleLikeBlog}>
+                  <span>{likeNo}</span> like
+                </button>
+                {authValue && (
+                  <button onClick={handleUpdateData}>Update</button>
+                )}
+                {authValue && <button onClick={deleteConfirm}>Delete</button>}
+              </div>
+              {/* <p className={classes.bloghashtag}>#Biryani #Food</p> */}
+              <h3 className={classes.blogtitle}>{post.title}</h3>
+              <h5 className={classes.excerpt}>
+                {post.excerpt}{" "}
+                <button onClick={handleContenButText}>{contenButText}</button>
+              </h5>
               <div
                 className={classes.blogdescription}
-                style={{ width: "80%", overflowX: "auto" }}
+                style={{ width: "100%" }}
               >
-                {appendAtEnd[post.id]()}
+                {isContentOpen && (
+                  <DisplayEditorContent
+                    contentFromServer={post.content}
+                    toolbarPresent={false}
+                  />
+                )}
               </div>
-            ) : null}
+              {post.id in appendAtEnd && isContentOpen ? (
+                <div
+                  className={classes.blogdescription}
+                  style={{ width: "80%", overflowX: "auto" }}
+                >
+                  {appendAtEnd[post.id]()}
+                </div>
+              ) : null}
+            </div>
           </div>
-        </div>
-      </article>
-      {/* <ElectronFig /> */}
-      {/* <svg
-        xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-        width="400"
-        height="250"
-        style={{ border: "2px solid red" }}
-      >
-        <rect
-          x="20%"
-          y="80%"
-          height="3em"
-          width="3em"
-          style={{ stroke: "#0f0f0f", fill: "#eff1ef" }}
-        />
-
-        <rect
-          x="20%"
-          y="40%"
-          height="3em"
-          width="3em"
-          style={{ stroke: "#0f0f0f", fill: "#eff1ef" }}
-        />
-
-        <rect
-          x="40%"
-          y="30%"
-          height="3em"
-          width="12em"
-          style={{ stroke: "#0f0f0f", fill: "#eff1ef" }}
-        />
-        <line
-          x1="55%"
-          y1="30%"
-          x2="55%"
-          y2="49%"
-          style={{ stroke: "#006600" }}
-        />
-        <line
-          x1="70%"
-          y1="30%"
-          x2="70%"
-          y2="49%"
-          style={{ stroke: "#006600" }}
-        />
-
-        <defs>
-          <marker
-            id="markerArrow"
-            markerWidth="13"
-            markerHeight="13"
-            refX="2"
-            refY="6"
-            orient="auto"
-          >
-            <path d="M2,2 L2,11 L10,6 L2,2" style={{ fill: "#000000" }} />
-          </marker>
-        </defs>
-
-        <line
-          x1="22%"
-          y1="82%"
-          x2="22%"
-          y2="92%"
-          style={{
-            stroke: "#6666ff",
-            strokeWidth: "1px",
-            fill: "none",
-
-            markerEnd: "url(#markerArrow)",
-          }}
-        />
-
-        <line
-          x2="26%"
-          y2="84%"
-          x1="26%"
-          y1="94%"
-          title="this electron"
-          style={{
-            stroke: "#6666ff",
-            strokeWidth: "1px",
-            fill: "none",
-
-            markerEnd: "url(#markerArrow)",
-          }}
-        />
-
-        <line
-          x1="22%"
-          y1="42%"
-          x2="22%"
-          y2="52%"
-          style={{
-            stroke: "#6666ff",
-            strokeWidth: "1px",
-            fill: "none",
-
-            markerEnd: "url(#markerArrow)",
-          }}
-        />
-
-        <line
-          x1="26%"
-          y1="54%"
-          x2="26%"
-          y2="44%"
-          style={{
-            stroke: "#6666ff",
-            strokeWidth: "1px",
-            fill: "none",
-
-            markerEnd: "url(#markerArrow)",
-          }}
-        />
-
-        <line
-          x2="46%"
-          y2="45%"
-          x1="46%"
-          y1="32%"
-          style={{
-            stroke: "#6666ff",
-            strokeWidth: "1px",
-            fill: "none",
-
-            markerEnd: "url(#markerArrow)",
-          }}
-        />
-
-        <line
-          x2="60%"
-          y2="45%"
-          x1="60%"
-          y1="32%"
-          style={{
-            stroke: "#6666ff",
-            strokeWidth: "1px",
-            fill: "none",
-
-            markerEnd: "url(#markerArrow)",
-          }}
-        />
-
-        <line
-          x1="77%"
-          y1="47%"
-          x2="77%"
-          y2="34%"
-          style={{
-            stroke: "#6666ff",
-            strokeWidth: "1px",
-            fill: "none",
-
-            markerEnd: "url(#markerArrow)",
-          }}
-        />
-
-        <text
-          x="22%"
-          y="38%"
-          style={{ fill: "#000000", stroke: "none", fontSize: "20px" }}
-          title="2p text hereee"
-        >
-          2s
-        </text>
-        <text
-          x="56%"
-          y="28%"
-          style={{ fill: "#000000", stroke: "none", fontSize: "20px" }}
-        >
-          2p
-        </text>
-
-        <text
-          x="20%"
-          y="78%"
-          style={{ fill: "#000000", stroke: "none", fontSize: "20px" }}
-        >
-          1s
-          <title>1s electron text</title>
-        </text>
-
-        <line
-          x2="100%"
-          y2="15%"
-          x1="0%"
-          y1="15%"
-          style={{ stroke: "#6666ff", strokeWidth: "1px", fill: "none" }}
-        />
-
-        <text
-          x="40%"
-          y="10%"
-          style={{ fill: "#000000", stroke: "none", fontSize: "20px" }}
-        >
-          Diagram C
-        </text>
-      </svg> */}
-    </div>
+        </article>
+      </div>
+    </>
   );
 }
 
