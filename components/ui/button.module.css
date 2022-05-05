@@ -16,3 +16,23 @@
   background-color: #02afa1;
   border-color: #02afa1;
 }
+
+.btn .link {
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+
+  text-align: center;
+  cursor: pointer;
+
+  font-size: 24px !important;
+
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+
+  font-family: arial, sans-serif;
+  margin: 8px;
+  color: #069;
+  opacity: 0.5;
+}

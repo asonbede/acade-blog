@@ -22,6 +22,7 @@ import PeriodicTrends from "../../miscellaneous/periodic-trend";
 import AtomicModel from "../../miscellaneous/atomic-model";
 import NamingIonicCompounds from "../../miscellaneous/naming-ionic";
 import Modal from "../../modal/modal";
+import Button from "../../ui/button";
 //import { getDomainLocale } from "next/dist/next-server/lib/router/router";
 //import { adminArray } from "../../../helpers/db-utils";
 const replaceBannerImg = {
@@ -338,21 +339,18 @@ function PostContent(props) {
             </div>
             <div className={classes.cardbody}>
               <div className={classes.buttonAction}>
-                <Link href={linkPath}>
-                  <a>Review Questions</a>
-                </Link>
+                <Button link={linkPath}>Review Questions</Button>
 
-                <Link href={linkPathForComment}>
-                  <a> comments</a>
-                </Link>
+                <Button link={linkPathForComment}>Comments</Button>
 
-                <button onClick={handleLikeBlog}>
+                <Button onClick={handleLikeBlog}>
                   <span>{likeNo}</span> like
-                </button>
+                </Button>
+
                 {authValue && (
-                  <button onClick={handleUpdateData}>Update</button>
+                  <Button onClick={handleUpdateData}>Update</Button>
                 )}
-                {authValue && <button onClick={deleteConfirm}>Delete</button>}
+                {authValue && <Button onClick={deleteConfirm}>Delete</Button>}
               </div>
               {/* <p className={classes.bloghashtag}>#Biryani #Food</p> */}
               <h3 className={classes.blogtitle}>{post.title}</h3>
