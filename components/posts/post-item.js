@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import classes from "./post-item.module.css";
 import { useRouter } from "next/router";
+import Button from "../ui/button";
 //import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 async function sendAuthData(authDetails, setFunc) {
   const response = await fetch("/api/moderating-post", {
@@ -112,12 +113,12 @@ function PostItem(props) {
           />
           <div className={classes.cardprofileinfo}>
             <h3 className={classes.profilename}>{props.post.author}</h3>
-            <p className={classes.profilefollowers}>5.2k followers</p>
+            {/* <p className={classes.profilefollowers}>5.2k followers</p> */}
             {router.pathname.indexOf("/profile") === -1 && (
-              <button onClick={handleLocalStorage}>Read More</button>
+              <Button onClick={handleLocalStorage}>Read More</Button>
             )}
             {router.pathname.indexOf("/profile") > -1 && (
-              <button onClick={() => props.onSelectMenu(id)}>Read More</button>
+              <Button onClick={() => props.onSelectMenu(id)}>Read More</Button>
             )}
           </div>
         </div>

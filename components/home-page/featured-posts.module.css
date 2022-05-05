@@ -6,15 +6,7 @@
 }
 
 .displayProfile {
-  /* display: flex; */
-  /* flex-wrap: wrap; */
-  /* justify-content: space-around; */
-  /* margin-left: 5px; */
-  /* list-style: none; */
-  /* margin-right: 0.5%; */
-  /* margin-right: 6%; */
-  /* margin: 10px !important; */
-  /* margin: 0 !important; */
+  
   background-color: royalblue !important;
   display: grid;
   grid-template-columns: 1fr 10fr;

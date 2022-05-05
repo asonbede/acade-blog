@@ -4,6 +4,9 @@ import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 import NotificationContext from "../../store/notification-context";
 import { useRouter } from "next/router";
 import { useSession, signOut } from "next-auth/client";
+import Modal from "../ui/modal/modal";
+import Button from "../ui/button";
+
 async function sendAuthDataModerate(authDetails, setFunc) {
   const response = await fetch("/api/moderating-post", {
     method: "POST",
@@ -58,6 +61,7 @@ function QuestionsList({
   const [authValue, setauthValue] = useState();
   const [moderated, setmoderated] = useState();
   const [controlLoadMoreVar, setcontrolLoadMoreVar] = useState(false);
+  const [showDeleteQuestModal, setshowDeleteQuestModal] = useState(false);
 
   const notificationCtx = useContext(NotificationContext);
   const optionsList = ["A", "B", "C", "D", "E"];
@@ -97,6 +101,10 @@ function QuestionsList({
     console.log({ result });
   }, [session, authorId]);
 
+  useEffect(() => {
+    setshowDeleteQuestModal(false);
+  }, []);
+
   const deleteQuestionHandler = async (questionId) => {
     notificationCtx.showNotification({
       title: "Deleting question...",
@@ -126,15 +134,17 @@ function QuestionsList({
         status: "error",
       });
     }
+    setshowDeleteQuestModal(false);
   };
 
   const deleteConfirm = (id) => {
-    const responseValue = confirm(
-      "Are you really sure that you want to delete this question?"
-    );
-    if (responseValue) {
-      deleteQuestionHandler(id);
-    }
+    // const responseValue = confirm(
+    //   "Are you really sure that you want to delete this question?"
+    // );
+    setshowDeleteQuestModal(true);
+    // if (responseValue) {
+    //   deleteQuestionHandler(id);
+    // }
   };
   const handleQuestionUpdateData = (questionItem) => {
     console.log("from handle update");
@@ -156,12 +166,6 @@ function QuestionsList({
     }
   }
 
-  // function checkLoadBatch(arrValue) {
-  //   if (arrValue.length % 10 === 0) {
-  //     return arrValue.length / 10;
-  //   }
-  //   return Math.floor(arrValue.length / 10) + 1;
-  // }
   function displayListItem(item, questionIndex) {
     return (
       <li
@@ -194,11 +198,11 @@ function QuestionsList({
         )}
 
         {item.questionIntroText && (
-          <button onClick={() => questFullLessControlHandler(item._id)}>
+          <Button onClick={() => questFullLessControlHandler(item._id)}>
             {fullLessQuestValue === item._id
               ? "See Less Question ..."
               : "See Full Question ..."}
-          </button>
+          </Button>
         )}
         <div style={{ display: "flex" }}>
           {/* &nbsp;&nbsp;{item.question} */}
@@ -253,13 +257,13 @@ function QuestionsList({
         </div>
 
         {authValue && (
-          <button onClick={() => handleQuestionUpdateData(item)}>Update</button>
+          <Button onClick={() => handleQuestionUpdateData(item)}>Update</Button>
         )}
 
         {authValue && (
-          <button onClick={() => deleteConfirm(item._id.toString())}>
+          <Button onClick={() => deleteConfirm(item._id.toString())}>
             Delete
-          </button>
+          </Button>
         )}
       </li>
     );
@@ -280,11 +284,11 @@ function QuestionsList({
           {firstBatch}
           {controlLoadMoreVar && <> {secondBatch} </>}
           {!isLoading && (
-            <button onClick={() => setcontrolLoadMoreVar(!controlLoadMoreVar)}>
+            <Button onClick={() => setcontrolLoadMoreVar(!controlLoadMoreVar)}>
               {controlLoadMoreVar
                 ? "...Show less questions"
                 : "Show more questions..."}
-            </button>
+            </Button>
           )}
         </>
       );
@@ -292,42 +296,30 @@ function QuestionsList({
     return <>{mapResult}</>;
   }
 
-  // function displayQuestionListResult(params) {
-  //   const roundsValue = checkLoadBatch(items);
-  //   const questionListArr = [];
-  //   for (let index = 0; index < roundsValue; index++) {
-  //     // const element = array[index];
-  //     if (index < 1) {
-  //       questionListArr.push(questionListHandlerFunc(params));
-  //     } else {
-  //       const questionListPlusBut = (
-  //         <>
-  //           <button onClick={() => setcontrolLoadMoreVar(`batch${index}`)}>
-  //             Load more questions
-  //           </button>
-  //           {controlLoadMoreVar === `batch${index}` ? (
-  //             <> {questionListHandlerFunc(params)}</>
-  //           ) : null}
-  //         </>
-  //       );
-  //       questionListArr.push(questionListPlusBut);
-  //     }
-  //   }
-  // }
-
   return (
-    <ul className={classes.form}>
-      {selectValue === "mult-choice-all" ? (
-        <button
-          onClick={() => markScript(items)}
-          disabled={controlSubBtn}
-          title="You must answer at lest one question before this button will respond"
-        >
-          Submit For Marking
-        </button>
-      ) : null}
-      {questionListHandlerFunc()}
-    </ul>
+    <>
+      {showDeleteQuestModal && (
+        <Modal
+          deletePostHandler={() => deleteQuestionHandler(id)}
+          text="Do you really want to delete this question?"
+          setshowDeleteModal={setshowDeleteQuestModal}
+          showDeleteModal={showDeleteQuestModal}
+        />
+      )}
+
+      <ul className={classes.form}>
+        {selectValue === "mult-choice-all" ? (
+          <button
+            onClick={() => markScript(items)}
+            disabled={controlSubBtn}
+            title="You must answer at lest one question before this button will respond"
+          >
+            Submit For Marking
+          </button>
+        ) : null}
+        {questionListHandlerFunc()}
+      </ul>
+    </>
   );
 }
 

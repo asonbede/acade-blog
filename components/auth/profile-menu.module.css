@@ -12,7 +12,9 @@
 }
 
 .verticalmenu button {
-  outline: 0;
+  width: 100%;
+  border-radius: 0px;
+  /* outline: 0;
   display: block;
   padding: 2px;
 
@@ -28,7 +30,7 @@
   font-family: arial, sans-serif;
   margin: 8px;
   color: white;
-  opacity: 0.6;
+  opacity: 0.6; */
 }
 
 .verticalmenu button:hover {

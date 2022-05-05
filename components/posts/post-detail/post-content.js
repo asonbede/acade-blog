@@ -21,7 +21,7 @@ import PeriodicTableOfElem from "../../miscellaneous/periodic-table";
 import PeriodicTrends from "../../miscellaneous/periodic-trend";
 import AtomicModel from "../../miscellaneous/atomic-model";
 import NamingIonicCompounds from "../../miscellaneous/naming-ionic";
-import Modal from "../../modal/modal";
+import Modal from "../../ui/modal/modal";
 import Button from "../../ui/button";
 //import { getDomainLocale } from "next/dist/next-server/lib/router/router";
 //import { adminArray } from "../../../helpers/db-utils";
@@ -282,7 +282,9 @@ function PostContent(props) {
       {showDeleteModal && (
         <Modal
           deletePostHandler={deletePostHandler}
-          text="Do you really want to delete this post?"
+          text={`Do you really want to delete this post?
+           Deleting this post will also delete all the 
+           questions and comments associated with it`}
           setshowDeleteModal={setshowDeleteModal}
           showDeleteModal={showDeleteModal}
         />

@@ -2,67 +2,65 @@ import React from "react";
 import classes from "./profile-menu.module.css";
 import NotificationContext from "../../store/notification-context";
 import { useState, useContext, useEffect } from "react";
+import Button from "../ui/button";
 export default function ProfileMenu() {
   const notificationCtx = useContext(NotificationContext);
-  // const {
-  //   menuBtn,
-  //   passOpen: passOpenValue,
-  //   regDetailsOpen: regDetailsOpenValue,
-  // } = notificationCtx.profileData;
+
   const [passOpenValue, setpassOpenValue] = useState(false);
   const [updateOpenValue, setregDetailsOpen] = useState(false);
-  // const [regDetailsOpen, setregDetailsOpen] = useState(regDetailsOpenValue);
 
-  const { menuBtn, passOpen, updateOpen, uploadOpen } =
+  const { menuBtn, passOpen, updateOpen, uploadOpen, deleteAccount } =
     notificationCtx.profileData;
   const handlePasswordChange = () => {
     setpassOpenValue(!passOpen);
-    // setregDetailsOpen(!updateOpenValue);
+
     notificationCtx.profileDataHandler({
       menuBtn: menuBtn,
       passOpen: !passOpen,
       updateOpen: updateOpen ? !updateOpen : updateOpen,
       uploadOpen: uploadOpen ? !uploadOpen : uploadOpen,
+      deleteAccount: deleteAccount ? !deleteAccount : deleteAccount,
     });
   };
 
   const handleUpdateRegDetails = () => {
-    // setpassOpenValue(!passOpenValue);
-    // setregDetailsOpen(!updateOpen);
     notificationCtx.profileDataHandler({
       menuBtn: menuBtn,
       passOpen: passOpen ? !passOpen : passOpen,
       updateOpen: !updateOpen,
       uploadOpen: uploadOpen ? !updateOpen : updateOpen,
+      deleteAccount: deleteAccount ? !deleteAccount : deleteAccount,
     });
   };
 
   const handleProfileImageUpload = () => {
-    // setpassOpenValue(!passOpenValue);
-    // setregDetailsOpen(!updateOpen);
     notificationCtx.profileDataHandler({
       menuBtn: menuBtn,
       passOpen: passOpen ? !passOpen : passOpen,
       updateOpen: updateOpen ? !updateOpen : updateOpen,
+      deleteAccount: deleteAccount ? !deleteAccount : deleteAccount,
       uploadOpen: !uploadOpen,
     });
   };
 
-  // useEffect(() => {
-  //   notificationCtx.profileDataHandler({
-  //     menuBtn: menuBtn,
-  //     passOpen: passOpenValue,
-  //     updateOpen: updateOpenValue,
-  //   });
-  // }, [passOpenValue, updateOpenValue]);
+  const handleDeleteAccount = () => {
+    notificationCtx.profileDataHandler({
+      menuBtn: menuBtn,
+      passOpen: passOpen ? !passOpen : passOpen,
+      updateOpen: updateOpen ? !updateOpen : updateOpen,
+      uploadOpen: uploadOpen ? !uploadOpen : uploadOpen,
+      deleteAccount: !deleteAccount,
+    });
+  };
 
   return (
     <div className={`${classes.verticalmenu} ${classes.displaybox}`}>
-      <button onClick={handlePasswordChange}>Change Password</button>
-      <button onClick={handleUpdateRegDetails}>
+      <Button onClick={handlePasswordChange}>Change Password</Button>
+      <Button onClick={handleUpdateRegDetails}>
         Update Registration details
-      </button>
-      <button onClick={handleProfileImageUpload}>Upload Profile Image</button>
+      </Button>
+      <Button onClick={handleProfileImageUpload}>Upload Profile Image</Button>
+      <Button onClick={handleDeleteAccount}>Delete Account</Button>
     </div>
   );
 }

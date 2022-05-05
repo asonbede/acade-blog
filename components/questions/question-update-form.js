@@ -5,6 +5,7 @@ import classes from "./new-questions-form.module.css";
 import NotificationContext from "../../store/notification-context";
 import MyRichEditor from "../rich-text-editor/myrich-text-editor";
 import { useSession, signOut } from "next-auth/client";
+import Button from "../ui/button";
 import {
   useField,
   useEditor,
@@ -474,7 +475,7 @@ function UpdateQuestionForm() {
       </div>
 
       {/* {isInvalid && <p>Please enter a valid email address and comment!</p>} */}
-      <button className={classes.btn}>Submit</button>
+      <Button className={classes.btn}>Submit</Button>
     </form>
   );
 }

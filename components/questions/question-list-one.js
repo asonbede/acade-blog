@@ -14,7 +14,7 @@ import classes from "./question-list-one.module.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import QuestionList from "./questions-list";
 import QuestionReviewSelect from "./question-review-select";
-
+import Button from "../ui/button";
 const OneQuestion = ({
   markScript,
   items,
@@ -541,9 +541,9 @@ const OneQuestion = ({
                  number for chooseing the amount of random questions
                 */}
                 <div className={classes.randomQuestion}>
-                  <button className={classes.randombtn} onClick={randomPerson}>
+                  <Button className={classes.randombtn} onClick={randomPerson}>
                     Give me random Questions
-                  </button>
+                  </Button>
 
                   <label htmlFor="order">
                     {" "}
@@ -565,9 +565,9 @@ const OneQuestion = ({
                  number for chooseing that particular question.
                 */}
                 <div className={classes.particularQuestion}>
-                  <button onClick={particularQuestionHandler}>
+                  <Button onClick={particularQuestionHandler}>
                     Select Particular Questions
-                  </button>
+                  </Button>
 
                   <label htmlFor="particular-quest">
                     {" "}
@@ -586,9 +586,9 @@ const OneQuestion = ({
                   />
                 </div>
                 <div className={classes.rangeOfQuestions}>
-                  <button onClick={rangOfQuestionsHandler}>
+                  <Button onClick={rangOfQuestionsHandler}>
                     Select Range of Questions
-                  </button>
+                  </Button>
 
                   <label htmlFor="range-quest1">
                     {" "}
@@ -678,7 +678,7 @@ const OneQuestion = ({
                  number for chooseing the amount of WAEC questions
                 */}
                     <div className={classes.necoQuestion}>
-                      <button
+                      <Button
                         onClick={() =>
                           professionExamGetter(
                             necoExamArray,
@@ -689,7 +689,7 @@ const OneQuestion = ({
                         disabled={necoBtnControl}
                       >
                         NECO Questions On This Topic
-                      </button>
+                      </Button>
 
                       <label htmlFor="neco-quest">
                         {" "}
@@ -723,7 +723,7 @@ const OneQuestion = ({
                  number for chooseing the amount of WAEC questions
                 */}
                     <div className={classes.jambQuestion}>
-                      <button
+                      <Button
                         onClick={() =>
                           professionExamGetter(
                             jambExamArray,
@@ -734,7 +734,7 @@ const OneQuestion = ({
                         disabled={jambBtnControl}
                       >
                         JAMB Questions On This Topic
-                      </button>
+                      </Button>
 
                       <label htmlFor="jamb-quest">
                         {" "}
