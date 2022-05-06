@@ -4,6 +4,7 @@ import classes from "./featured-posts.module.css";
 import PostMenu from "../post-menu/post-menu";
 import { useRouter } from "next/router";
 import PostContent from "../posts/post-detail/post-content";
+import Button from "../ui/button";
 function FeaturedPosts(props) {
   const [post, setpost] = useState();
   const [gridControl, setgridControl] = useState(true);
@@ -67,19 +68,19 @@ function FeaturedPosts(props) {
         }  ${toggleMenu ? classes.showmenu : classes.hidemenu}`}
       >
         {router.pathname.indexOf("/profile") > -1 && (
-          <button onClick={() => settoggleMenu(!toggleMenu)}>
+          <Button onClick={() => settoggleMenu(!toggleMenu)}>
             {toggleMenu ? "Hide Menu" : "Show Menu"}
-          </button>
+          </Button>
         )}
         {router.pathname.indexOf("/profile") > -1 && post ? (
-          <button
+          <Button
             onClick={() => {
               setpost(null);
               setselectId(null);
             }}
           >
             Author Cards
-          </button>
+          </Button>
         ) : null}
         {!post && (
           <section>

@@ -5,6 +5,9 @@ import { useRouter } from "next/router";
 import NotificationContext from "../../store/notification-context";
 import classes from "./auth-update-form.module.css";
 import { useSession, signOut } from "next-auth/client";
+import Modal from "../ui/modal/modal";
+import Button from "../ui/button";
+
 async function deleteUser(
   password,
 
@@ -38,6 +41,7 @@ function DeleteAccountForm(props) {
 
   const [username, setusername] = useState();
   const [checkBoxShow, setcheckBoxShow] = useState();
+  const [showDeleteModal, setshowDeleteModal] = useState(false);
 
   const router = useRouter();
 
@@ -45,35 +49,35 @@ function DeleteAccountForm(props) {
 
   const notificationCtx = useContext(NotificationContext);
 
-  //   useEffect(() => {
-  //     setname(props.name);
-  //     setinterest(props.description);
-  //     if (moderated) {
-  //       setemail(props.email);
-  //     }
-  //   }, [session, moderated]);
-
   useEffect(() => {
-    fetch("/api/restrict-route/")
-      .then((response) => response.json())
-      .then((data) => {
-        //console.log(data);
-        setcheckBoxShow(data.message);
-      })
-      .catch((error) => {
-        notificationCtx.showNotification({
-          title: "Error!",
-          message: error.message || "Something went wrong!",
-          status: "error",
-        });
-      });
-  }, [session]);
-  //   console.log({ moderated });
+    setshowDeleteModal(false);
+  }, []);
 
-  async function submitHandler(event) {
+  //   useEffect(() => {
+  //     fetch("/api/restrict-route/")
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         //console.log(data);
+  //         setcheckBoxShow(data.message);
+  //       })
+  //       .catch((error) => {
+  //         notificationCtx.showNotification({
+  //           title: "Error!",
+  //           message: error.message || "Something went wrong!",
+  //           status: "error",
+  //         });
+  //       });
+  //   }, [session]);
+  //   console.log({ moderated });
+  function deleteHandler(event) {
+    event.preventDefault();
+    setshowDeleteModal(true);
+  }
+
+  async function submitHandler() {
     // let enteredName;
     // let enteredInterest;
-    event.preventDefault();
+    //event.preventDefault();
     // console.log({ moderated }, "twoo");
     // console.log({ moderated });
     // const actionType = moderated ? "approve-profile" : "updateInterestAndName";
@@ -99,6 +103,7 @@ function DeleteAccountForm(props) {
         status: "success",
       });
 
+      setshowDeleteModal(false);
       router.push("/writers");
     } catch (error) {
       console.log(error);
@@ -109,7 +114,8 @@ function DeleteAccountForm(props) {
       });
     }
   }
-  const { menuBtn, passOpen, updateOpen } = notificationCtx.profileData;
+  const { menuBtn, passOpen, updateOpen, deleteAccount } =
+    notificationCtx.profileData;
   const handleDeleteAccountFormClose = () => {
     notificationCtx.profileDataHandler({
       menuBtn: menuBtn,
@@ -120,46 +126,59 @@ function DeleteAccountForm(props) {
   };
 
   return (
-    <section className={`${classes.auth} ${classes.displaybox}`}>
-      <span
-        onClick={handleDeleteAccountFormClose}
-        className={classes.displayTopRight}
-        title="close"
-      >
-        &times;
-      </span>
-      <h1>Delete Account</h1>
+    <>
+      {showDeleteModal && (
+        <Modal
+          deletePostHandler={submitHandler}
+          text={`Do you really want to delete your account?
+           Deleting your account will also delete 
+           all the blogs you had created. In addition, all the
+           questions and comments associated with those blogs will also be deleted!`}
+          setshowDeleteModal={setshowDeleteModal}
+          showDeleteModal={showDeleteModal}
+        />
+      )}
 
-      <form onSubmit={submitHandler}>
-        <div className={classes.control}>
-          <label htmlFor="password">Your Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            required
-            onChange={(e) => setpassword(e.target.value)}
-          />
-        </div>
+      <section className={`${classes.auth} ${classes.displaybox}`}>
+        <span
+          onClick={handleDeleteAccountFormClose}
+          className={classes.displayTopRight}
+          title="close"
+        >
+          &times;
+        </span>
+        <h1>Delete Account</h1>
 
-        <div className={classes.control}>
-          <label htmlFor="username">Your Username</label>
-          <input
-            type="text"
-            id="username"
-            required
-            value={username}
-            onChange={(e) => setusername(e.target.value)}
-          />
-        </div>
-        {checkBoxShow ||
-          session(
+        <form onSubmit={deleteHandler}>
+          <div className={classes.control}>
+            <label htmlFor="password">Your Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              required
+              onChange={(e) => setpassword(e.target.value)}
+            />
+          </div>
+
+          <div className={classes.control}>
+            <label htmlFor="username">Your Username</label>
+            <input
+              type="text"
+              id="username"
+              required
+              value={username}
+              onChange={(e) => setusername(e.target.value)}
+            />
+          </div>
+          {session && (
             <div className={classes.actions}>
-              <button>Delete Account</button>
+              <Button>Delete Account</Button>
             </div>
           )}
-      </form>
-    </section>
+        </form>
+      </section>
+    </>
   );
 }
 

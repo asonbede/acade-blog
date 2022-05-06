@@ -11,6 +11,7 @@ import { useSession, signOut } from "next-auth/client";
 //import NotificationContext from "../../../store/notification-context";
 import NotificationContext from "../../store/notification-context";
 import UpdateAuthForm from "../auth/auth-update-form";
+import DeleteAccountForm from "../auth/delete-account-form";
 import ProfileImageUploadform from "./profile-image-upload-form";
 //import PostContent from "../posts/post-detail/post-content";
 function UserProfile(props) {
@@ -18,7 +19,7 @@ function UserProfile(props) {
   // const [isLoading, setIsLoading] = useState(true);
   const notificationCtx = useContext(NotificationContext);
   //console.log("from handle update");
-  const { menuBtn, passOpen, updateOpen, uploadOpen } =
+  const { menuBtn, passOpen, updateOpen, uploadOpen, deleteAccount } =
     notificationCtx.profileData;
 
   async function changePasswordHandler(passwordData) {
@@ -44,7 +45,6 @@ function UserProfile(props) {
         <title>{`${props.name} Blog`}</title>
         <meta name="description" content={`${props.description}`} />
       </Head>
-
       {/*
       component:ProfileMenu
       What it does: displays a menu that enables users to choose
@@ -52,7 +52,6 @@ function UserProfile(props) {
       How it works: displays when the menu buton is clicked.
       */}
       {menuBtn ? null : <ProfileMenu />}
-
       <Hero
         name={props.name}
         description={props.description}
@@ -60,7 +59,6 @@ function UserProfile(props) {
       />
       <FeaturedPosts posts={props.posts} />
       {passOpen && <ProfileForm onChangePassword={changePasswordHandler} />}
-
       {updateOpen && (
         <UpdateAuthForm
           name={props.name}
@@ -68,6 +66,14 @@ function UserProfile(props) {
           email={props.email}
         />
       )}
+      {deleteAccount && (
+        <DeleteAccountForm
+          name={props.name}
+          description={props.description}
+          email={props.email}
+        />
+      )}
+
       {uploadOpen && <ProfileImageUploadform />}
     </>
   );

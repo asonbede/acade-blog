@@ -7,6 +7,7 @@ import {
 } from "../../helpers/db-utils";
 // import {connectDatabase} from  "../../helpers/db-utils"
 import { getSession } from "next-auth/client";
+
 const ObjectId = require("mongodb").ObjectID;
 
 async function handler(req, res) {
@@ -83,7 +84,7 @@ async function handler(req, res) {
         "email",
         userEmail
       );
-      const documents = await deleteDocument(
+      const documentsPost = await deleteDocument(
         client,
         "postTable",
         "authorId",
@@ -92,6 +93,13 @@ async function handler(req, res) {
       const documentsQuestions = await deleteDocument(
         client,
         "questions",
+        "authorId",
+        userEmail
+      );
+
+      const documentsComments = await deleteDocument(
+        client,
+        "comments",
         "authorId",
         userEmail
       );

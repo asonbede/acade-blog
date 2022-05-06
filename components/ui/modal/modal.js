@@ -10,20 +10,21 @@ function Modal(props) {
   }
 
   return (
-    <div className={classes.modal}>
-      <p>{props.text}</p>
-      <button
-        className={`${classes.btn} ${classes.btnAlt}`}
-        onClick={cancelHandler}
-      >
-        Cancel
-      </button>
-      <button className={classes.btn} onClick={confirmHandler}>
-        Confirm
-      </button>
-
+    <>
       <Backdrop onCancel={cancelHandler} />
-    </div>
+      <div className={classes.modal}>
+        <p>{props.text}</p>
+        <button
+          className={`${classes.btn} ${classes.btnAlt}`}
+          onClick={cancelHandler}
+        >
+          Cancel
+        </button>
+        <button className={classes.btn} onClick={confirmHandler}>
+          Confirm
+        </button>
+      </div>
+    </>
   );
 }
 
