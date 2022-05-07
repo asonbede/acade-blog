@@ -28,7 +28,12 @@ export default function ProfileImageUploadform() {
   const [urlfileUploaded, setUrlfileUploaded] = useState("");
   const [radioButtonValue, setradioButtonValue] = useState("profile-image");
   const notificationCtx = useContext(NotificationContext);
+
   const router = useRouter();
+  function logoutHandler() {
+    signOut();
+    router.replace("/auth");
+  }
   const [session, loading] = useSession();
   const { menuBtn, passOpen, updateOpen, uploadOpen } =
     notificationCtx.profileData;
@@ -79,13 +84,14 @@ export default function ProfileImageUploadform() {
         title: "Success!",
         message: `${
           radioButtonValue === "profile-image"
-            ? "Your image was saved!"
+            ? "Your profile image was saved! You have to login again"
             : "Your blog image url has been displayed"
         }`,
         status: "success",
       });
       if (radioButtonValue === "profile-image") {
-        router.push("/writers");
+        //router.push("/writers");
+        logoutHandler();
       }
     } catch (error) {
       notificationCtx.showNotification({
@@ -96,112 +102,6 @@ export default function ProfileImageUploadform() {
     }
   }
 
-  // const handleUpload = async (e) => {
-  //   e.preventDefault();
-  //   console.log("running upload");
-  //   notificationCtx.showNotification({
-  //     title: "Uploading profile image...",
-  //     message: "Your profile image is currently being stored into a database.",
-  //     status: "pending",
-  //   });
-  //   // try {
-  //   const fileNameEncoded = encodeURIComponent(fileName);
-  //   try {
-  //     const res = await fetch(
-  //       `/api/images/profile-image?file=${fileNameEncoded}`
-  //     );
-  //     const { url, fields } = await res.json();
-  //     console.log({ url });
-  //     // const formDataItems = { acl: "public-read", ...fields, file };
-  //     // console.log({ formDataItems });
-  //     let formData = new FormData();
-  //     //formData.append("acl", "public-read");
-  //     console.log({ file });
-  //     formData.append("acl", "public-read");
-  //     Object.entries({ ...fields, file }).forEach(([key, value]) => {
-  //       //console.log({ key, value });
-  //       formData.append(key, value);
-  //     });
-  //     console.log({ formData });
-  //     // for (var key of formData.entries()) {
-  //     //   console.log(key[0] + ", " + key[1]);
-  //     // }
-
-  //     // Object.keys(fields).forEach((key) => {
-  //     //   formData.append(key, fields[key]);
-  //     // });
-  //     // Actual file has to be appended last.
-  //     formData.append("file", file);
-  //     const upload = await fetch(url, {
-  //       method: "POST",
-  //       body: file,
-  //       headers: {
-  //         "Content-Type": false,
-  //         "Content-Length": formData.entries().length,
-  //       },
-  //     });
-  //     setUrlfileUploaded(`${upload.url}/${file.name}`);
-  //     if (upload.ok) {
-  //       console.log("Uploaded successfully");
-  //       console.log({ urlfileUploaded });
-  //     } else {
-  //       console.error("Upload failed");
-  //     }
-  //   } catch (error) {
-  //     console.log("something went wrong");
-  //   }
-  // };
-
-  // const { url } = await fetch("/api/images/profile-image").then((res) =>
-  //   res.json()
-  // );
-
-  // console.log({ url });
-
-  // const response2 = await fetch(url, {
-  //   method: "PUT",
-  //   headers: {
-  //     "Content-Type": "multipart/form-data",
-  //   },
-  //   body: image,
-  // });
-
-  // const data1 = await response2.json();
-  // console.log({ data1 }, "new posttt");
-  // if (!response2.ok) {
-  //   throw new Error(data1.message || "Something went wrong!");
-  // }
-
-  // const imageUrl = url.split("?")[0];
-  // console.log({ imageUrl });
-
-  // const response = await fetch("/api/images/profile-image", {
-  //   method: "PATCH",
-  //   body: JSON.stringify(imageUrl),
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // });
-
-  // const data2 = await response.json();
-  // console.log({ data2 }, "new posttt");
-  // if (!response.ok) {
-  //   throw new Error(data2.message || "Something went wrong!");
-  // }
-
-  // notificationCtx.showNotification({
-  //   title: "Success!",
-  //   message: "Your profile image was successfully uploaded",
-  //   status: "success",
-  // });
-  // } catch (error) {
-  //   notificationCtx.showNotification({
-  //     title: "Error!",
-  //     message: error.message || "Something went wrong!",
-  //     status: "error",
-  //   });
-  // }
-  //};
   const handleRadioButtonChange = (e) => {
     setradioButtonValue(e.target.value);
   };

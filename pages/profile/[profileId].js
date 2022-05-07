@@ -65,7 +65,9 @@ export async function getServerSideProps(context) {
     return {
       title: document.title,
       date: document.date,
-      image: document.image,
+      image: document.image
+        ? document.image
+        : "/images/posts/default-profile-pic.jpg",
       excerpt: document.excerpt,
       content: document.content,
       id: document._id.toString(),

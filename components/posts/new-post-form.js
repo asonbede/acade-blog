@@ -96,7 +96,7 @@ function NewPostForm() {
         content: enteredContent,
         isFeatured: isFeatured,
 
-        author: session.user.name,
+        author: session.user.name.name,
         authorId: session.user.email,
         moderated: false,
         category: enteredCategory,

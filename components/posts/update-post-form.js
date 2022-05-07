@@ -83,8 +83,11 @@ function UpdatePostForm({ updateId }) {
   useEffect(() => {
     if (post) {
       setorderValue(post.orderValue);
-      // setimageProfileUrlValue(session.user.image.imageUrl);
-      setimageProfileUrlValue(post.imageProfileUrl);
+
+      session.user.email === "asonbede@gmail.com"
+        ? setimageProfileUrlValue(post.imageProfileUrl)
+        : setimageProfileUrlValue(session.user.image.imageUrl);
+      //setimageProfileUrlValue(post.imageProfileUrl);
       setname(post.author);
       setemail(post.authorId);
       setauthorusername(post.authorusername ? post.authorusername : "asonbede");
