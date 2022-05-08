@@ -134,7 +134,7 @@ function AuthForm() {
         notificationCtx.showNotification({
           title: "Success!",
           message:
-            "Registration was successful! You can now login with your password and email",
+            "Registration was successful! You can now login with your password and username",
           status: "success",
         });
         setIsLogin(true);

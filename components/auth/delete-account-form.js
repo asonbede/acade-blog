@@ -15,7 +15,7 @@ async function deleteUser(
 ) {
   console.log("update rannnnnooooo000");
 
-  const response = await fetch("/api/auth/delete-account", {
+  const response = await fetch("/api/delete-account/delete-account", {
     method: "PATCH",
     body: JSON.stringify({
       password,

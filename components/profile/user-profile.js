@@ -49,7 +49,7 @@ function UserProfile(props) {
       component:ProfileMenu
       What it does: displays a menu that enables users to choose
       whether to change password, upload image or update registration details
-      How it works: displays when the menu buton is clicked.
+      How it works: displays when the menu buton is clicked.BBn
       */}
       {menuBtn ? null : <ProfileMenu />}
       <Hero
