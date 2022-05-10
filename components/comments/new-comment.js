@@ -1,5 +1,12 @@
 import { useRef, useState } from "react";
 import classes from "./new-comment.module.css";
+import MyRichEditor from "../rich-text-editor/myrich-text-editor";
+import { useSession } from "next-auth/client";
+import {
+  useField,
+  useEditor,
+  handleImageInsert,
+} from "../../hooks/input-editor-hooks";
 
 function NewComment(props) {
   const [isInvalid, setIsInvalid] = useState(false);

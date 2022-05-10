@@ -51,7 +51,7 @@ function UserProfile(props) {
       whether to change password, upload image or update registration details
       How it works: displays when the menu buton is clicked.BBn
       */}
-      {menuBtn ? null : <ProfileMenu />}
+      {/* {menuBtn ? null : <ProfileMenu />} */}
       <Hero
         name={props.name}
         description={props.description}
