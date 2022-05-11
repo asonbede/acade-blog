@@ -15,7 +15,7 @@ export default function CommentItem(props) {
   const handleUpdateComment = () => {
     console.log("from handle update");
     notificationCtx.commentUpdateHandler({
-      text: props.text,
+      text: props.item,
       commentId: props.item._id.toString(),
     });
     router.push(`/comments/updates/${props.item._id.toString()}`);

@@ -13,6 +13,9 @@ function UpdateComment(props) {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [imageProfileUrlValue, setimageProfileUrlValue] = useState();
+  const [moderated, setmoderated] = useState(false);
+  const [blogId, setblogId] = useState();
+  const [authorUsername, setauthorUsername] = useState();
 
   const [session, loading] = useSession();
 
@@ -27,20 +30,34 @@ function UpdateComment(props) {
     onEditorStateChange,
   } = useEditorContent;
 
-  useEffect(() => {
-    if (session) {
-      setimageProfileUrlValue(session.user.image.imageUrl);
-      //setimageProfileUrlValue(post.imageProfileUrl);
-      setName(session.user.name.name);
-      setEmail(session.user.email);
-      // setauthorusername(
-      //   post.authorusername ? post.authorusername : "asonbede"
-      // );
-    }
-  }, [session]);
-
   const commentUpdateObj = notificationCtx.commentUpdateObj;
   const { text, commentId } = commentUpdateObj;
+
+  useEffect(() => {
+    if (session) {
+      session.user.email === "asonbede@gmail.com"
+        ? setimageProfileUrlValue(text.imageProfileUrl)
+        : setimageProfileUrlValue(session.user.image.imageUrl);
+      //setimageProfileUrlValue(post.imageProfileUrl);
+
+      session.user.email === "asonbede@gmail.com"
+        ? setName(text.name)
+        : setName(session.user.name.name);
+
+      session.user.email === "asonbede@gmail.com"
+        ? setEmail(text.email)
+        : setEmail(session.user.email);
+
+      session.user.email === "asonbede@gmail.com"
+        ? setauthorUsername(text.authorUsername)
+        : setEmail(session.user.name.username);
+
+      setmoderated(text.moderated);
+      setblogId(text.blogId);
+    }
+  }, [text, session]);
+
+  useEditorContent.serverContentHandler(text.text);
 
   function sendCommentHandler(event) {
     event.preventDefault();
@@ -54,13 +71,52 @@ function UpdateComment(props) {
       return;
     }
 
-    props.onAddComment({
+    const commentUpdateData = {
       email: email,
       name: name,
       text: enteredContent,
       imageProfileUrlValue: imageProfileUrlValue,
-      moderated: false,
+      moderated: moderated,
+      blogId,
+      authorUsername,
+    };
+
+    notificationCtx.showNotification({
+      title: "Sending comment...",
+      message: "Your comment is currently being updated .",
+      status: "pending",
     });
+
+    fetch("/api/comments/" + props.id, {
+      method: "POST",
+      body: JSON.stringify(commentUpdateData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        return response.json().then((data) => {
+          throw new Error(data.message || "Something went wrong!");
+        });
+      })
+      .then((data) => {
+        notificationCtx.showNotification({
+          title: "Success!",
+          message: "Your comment was updated!",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Error!",
+          message: error.message || "Something went wrong!",
+          status: "error",
+        });
+      });
   }
 
   return (

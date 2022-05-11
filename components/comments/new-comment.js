@@ -13,6 +13,7 @@ function NewComment(props) {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [imageProfileUrlValue, setimageProfileUrlValue] = useState();
+  const [authorUsername, setauthorUsername] = useState();
 
   const [session, loading] = useSession();
 
@@ -33,6 +34,8 @@ function NewComment(props) {
       //setimageProfileUrlValue(post.imageProfileUrl);
       setName(session.user.name.name);
       setEmail(session.user.email);
+      setauthorUsername(session.user.name.username);
+
       // setauthorusername(
       //   post.authorusername ? post.authorusername : "asonbede"
       // );
@@ -57,6 +60,7 @@ function NewComment(props) {
       text: enteredContent,
       imageProfileUrlValue: imageProfileUrlValue,
       moderated: false,
+      authorUsername,
     });
   }
 
