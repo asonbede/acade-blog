@@ -102,6 +102,7 @@ function PostContent(props) {
   const linkPath = `/posts/questions/${post.id}`;
   const linkPathForUpdate = `/posts/updates/${post.id}`;
   const linkPathForComment = `/comments/${post.id}`;
+
   console.log(post.imageProfileUrl, "profile-image");
   console.log({ linkPathForUpdate });
   const [session, loading] = useSession();

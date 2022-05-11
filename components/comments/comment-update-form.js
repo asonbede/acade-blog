@@ -8,7 +8,7 @@ import {
   handleImageInsert,
 } from "../../hooks/input-editor-hooks";
 
-function NewComment(props) {
+function UpdateComment(props) {
   const [isInvalid, setIsInvalid] = useState(false);
   const [name, setName] = useState();
   const [email, setEmail] = useState();
@@ -38,6 +38,9 @@ function NewComment(props) {
       // );
     }
   }, [session]);
+
+  const commentUpdateObj = notificationCtx.commentUpdateObj;
+  const { text, commentId } = commentUpdateObj;
 
   function sendCommentHandler(event) {
     event.preventDefault();
@@ -103,4 +106,4 @@ function NewComment(props) {
   );
 }
 
-export default NewComment;
+export default UpdateComment;

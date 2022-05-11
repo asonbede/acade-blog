@@ -10,6 +10,7 @@ const NotificationContext = createContext({
   questionUpdateHandler: function (UpdateQuestionDatas) {},
   profileDataHandler: function (profileData) {},
   userUpIdHandler: function (userId) {},
+  commentUpdateHandler: function (commentUpdateData) {},
 });
 
 export function NotificationContextProvider(props) {
@@ -19,6 +20,7 @@ export function NotificationContextProvider(props) {
   const [questionUpdateObj, setquestionUpdateObj] = useState({});
   const [profileDataObj, setprofileDataObj] = useState({});
   const [userDataObj, setuserData] = useState({});
+  const [commentUpdateObj, setcommentUpdateObj] = useState({});
   useEffect(() => {
     if (
       activeNotification &&
@@ -60,6 +62,10 @@ export function NotificationContextProvider(props) {
     setuserData(userData);
   }
 
+  function commentUpdateHandler(commentUpdateData) {
+    setcommentUpdateObj(commentUpdateData);
+  }
+
   const context = {
     reviewQuestion: reviewQuestionsObj,
     notification: activeNotification,
@@ -67,6 +73,7 @@ export function NotificationContextProvider(props) {
     questionUpdate: questionUpdateObj,
     profileData: profileDataObj,
     userData: userDataObj,
+    commentUpdateObj: commentUpdateObj,
     showNotification: showNotificationHandler,
     hideNotification: hideNotificationHandler,
     reviewQuestionsHandler: reviewQuestionsHandler,
@@ -74,6 +81,7 @@ export function NotificationContextProvider(props) {
     questionUpdateHandler: questionUpdateHandler,
     profileDataHandler: profileDataHandler,
     userUpIdHandler: userUpIdHandler,
+    commentUpdateHandler: commentUpdateHandler,
   };
 
   return (

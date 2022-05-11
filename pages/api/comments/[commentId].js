@@ -1,15 +1,9 @@
-// import {
-//   connectDatabase,
-//   insertDocument,
-//   getAllDocuments,
-// } from "../../../helpers/db-utils";
-//const ObjectId = require("mongodb").ObjectID;
 import {
   getAllFeaturedDocuments,
   connectDatabase,
   insertDocument,
 } from "../../../helpers/db-utils";
-
+import { getSession } from "next-auth/client";
 async function handler(req, res) {
   const blogId = req.query.commentId;
 
@@ -23,25 +17,35 @@ async function handler(req, res) {
   }
 
   if (req.method === "POST") {
-    const { email, name, text } = req.body;
+    const { email, name, text, imageProfileUrlValue, moderated } = req.body;
 
-    if (
-      !email.includes("@") ||
-      !name ||
-      name.trim() === "" ||
-      !text ||
-      text.trim() === ""
-    ) {
+    // email: email,
+    //   name: name,
+    //   text: enteredContent,
+    //   imageProfileUrlValue: imageProfileUrlValue,
+    //   moderated: false,
+    const session = await getSession({ req: req });
+
+    if (!session) {
+      res.status(401).json({ message: "Not authenticated!" });
+      return;
+    }
+
+    if (!text || text.trim() === "") {
       res.status(422).json({ message: "Invalid input." });
       client.close();
       return;
     }
 
     const newComment = {
-      email,
-      name,
+      email: session.user.email,
+      name: session.user.name.name,
+      authorUsername: session.user.name.username,
+      imageProfileUrlValue: session.user.image.imageUrl,
       text,
       blogId,
+
+      moderated,
     };
 
     let result;

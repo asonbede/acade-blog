@@ -1,9 +1,25 @@
-import React from "react";
+//import React from "react";
+import { React, useContext, useState, useEffect } from "react";
 import classes from "./comment-item.module.css";
 // import Modal from "../ui/modal/modal";
 // import Button from "../ui/button";
-
+import DisplayEditorContent from "../rich-text-editor/display-editor-content";
+import NotificationContext from "../../store/notification-context";
+// id: document._id.toString(),
 export default function CommentItem(props) {
+  //const linkPathForComment = `/comments/${post.id}`;
+  //const id = props.item._id.toString();
+  //const linkPathForUpdate = `/comments/updates/${id}`;
+  //commentUpdateObj: commentUpdateObj,
+  const notificationCtx = useContext(NotificationContext);
+  const handleUpdateComment = () => {
+    console.log("from handle update");
+    notificationCtx.commentUpdateHandler({
+      text: props.text,
+      commentId: props.item._id.toString(),
+    });
+    router.push(`/comments/updates/${props.item._id.toString()}`);
+  };
   return (
     <>
       {/* {showDeleteQuestModal && (
@@ -20,9 +36,17 @@ export default function CommentItem(props) {
           <h1>{props.item.name}</h1>
         </div>
 
-        <div className={classes.content}>{props.item.text}</div>
+        <div className={classes.content}>
+          {/* {props.item.text} */}
+
+          <DisplayEditorContent
+            contentFromServer={props.item.text}
+            toolbarPresent={false}
+          />
+        </div>
         <div className={classes.action}>
-          <button>Update</button>
+          <button onClick={handleUpdateComment}>Update</button>
+
           <button>Delete</button>
           <button>Like</button>
         </div>
