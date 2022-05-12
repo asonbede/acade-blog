@@ -185,9 +185,6 @@ function PostContent(props) {
   };
 
   const deleteConfirm = () => {
-    // const responseValue = confirm(
-    //   "Are you really sure that you want to delete this post?"
-    // );
     setshowDeleteModal(true);
   };
 

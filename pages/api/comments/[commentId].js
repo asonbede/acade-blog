@@ -2,11 +2,12 @@ import {
   getAllFeaturedDocuments,
   connectDatabase,
   insertDocument,
+  deleteDocument,
 } from "../../../helpers/db-utils";
 import { getSession } from "next-auth/client";
 async function handler(req, res) {
   let client;
-
+  const blogId = req.query.commentId;
   try {
     client = await connectDatabase();
   } catch (error) {
@@ -92,15 +93,21 @@ async function handler(req, res) {
     };
 
     let result;
-
+    console.log({ newCommentUpdate }, "FROM SERVER");
+    console.log({ commentId }, "FROM SERVer");
     try {
-      //updateDocument(client, collection, queryValue,updateValue)
+      updateDocument(client, collection, queryValue, updateValue);
       result = await updateDocument(
         client,
         "comments",
         commentId,
         newCommentUpdate
       );
+
+      // const result = await usersCollection.updateOne(
+      //   { _id: commentId },
+      //   { $set: { ...newCommentUpdate } }
+      // );
       // newPost._id = result.insertedId;
       res
         .status(201)
@@ -112,7 +119,8 @@ async function handler(req, res) {
 
   if (req.method === "GET") {
     //const o_id = new ObjectId(blogId);
-    console.log({ blogId }, "incomments");
+    //console.log({ blogId }, "incomments");
+    //const blogId = req.query.commentId;
     try {
       const documents = await getAllFeaturedDocuments(
         client,
@@ -126,6 +134,24 @@ async function handler(req, res) {
       res.status(200).json({ comments: documents });
     } catch (error) {
       res.status(500).json({ message: "Getting comments failed." });
+    }
+  }
+
+  if (req.method === "DELETE") {
+    //const commentId = req.query.commentId;
+    const { commentId } = req.body;
+    console.log({ commentId }, "from deletee");
+    try {
+      const documents = await deleteDocument(
+        client,
+        "comments",
+        "_id",
+        commentId
+      );
+
+      res.status(200).json({ post: documents });
+    } catch (error) {
+      res.status(500).json({ message: "Deleting comment failed." });
     }
   }
 

@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import classes from "./new-comment.module.css";
 import MyRichEditor from "../rich-text-editor/myrich-text-editor";
 import { useSession } from "next-auth/client";
+import { useRouter } from "next/router";
+import NotificationContext from "../../store/notification-context";
 import {
   useField,
   useEditor,
@@ -16,9 +18,10 @@ function UpdateComment(props) {
   const [moderated, setmoderated] = useState(false);
   const [blogId, setblogId] = useState();
   const [authorUsername, setauthorUsername] = useState();
-
+  const router = useRouter();
   const [session, loading] = useSession();
-
+  const notificationCtx = useContext(NotificationContext);
+  //  `/comments/${post.id}`
   // const emailInputRef = useRef();
   // const nameInputRef = useRef();
   // const commentInputRef = useRef();
@@ -32,7 +35,7 @@ function UpdateComment(props) {
 
   const commentUpdateObj = notificationCtx.commentUpdateObj;
   const { text, commentId } = commentUpdateObj;
-
+  //hjjjjjjjjkk
   useEffect(() => {
     if (session) {
       session.user.email === "asonbede@gmail.com"
@@ -50,7 +53,7 @@ function UpdateComment(props) {
 
       session.user.email === "asonbede@gmail.com"
         ? setauthorUsername(text.authorUsername)
-        : setEmail(session.user.name.username);
+        : setauthorUsername(session.user.name.username);
 
       setmoderated(text.moderated);
       setblogId(text.blogId);
@@ -87,8 +90,8 @@ function UpdateComment(props) {
       status: "pending",
     });
 
-    fetch("/api/comments/" + props.id, {
-      method: "POST",
+    fetch(`/api/comments/${commentId}`, {
+      method: "PUT",
       body: JSON.stringify(commentUpdateData),
       headers: {
         "Content-Type": "application/json",
@@ -109,6 +112,7 @@ function UpdateComment(props) {
           message: "Your comment was updated!",
           status: "success",
         });
+        router.push(`/comments/${text.blogId}`);
       })
       .catch((error) => {
         notificationCtx.showNotification({
@@ -128,7 +132,11 @@ function UpdateComment(props) {
             type="email"
             id="email"
             value={email}
-            onChange={() => setEmail(session.user.email)}
+            onChange={() =>
+              session.user.email === "asonbede@gmail.com"
+                ? setEmail(text.email)
+                : setEmail(session.user.email)
+            }
           />
         </div>
         <div className={classes.control}>
@@ -137,7 +145,11 @@ function UpdateComment(props) {
             type="text"
             id="name"
             value={name}
-            onChange={() => setName(session.user.name.name)}
+            onChange={() =>
+              session.user.email === "asonbede@gmail.com"
+                ? setName(text.name)
+                : setName(session.user.name.name)
+            }
           />
         </div>
       </div>

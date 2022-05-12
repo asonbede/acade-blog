@@ -49,6 +49,7 @@ function NewPostForm() {
   // }, [requestStatus]);
   const [session, loading] = useSession();
   const router = useRouter();
+
   const useFieldDate = useField("text");
   //const useFieldImage = useField("text");
   const useFieldCategory = useField("text");

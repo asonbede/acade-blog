@@ -1,19 +1,21 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 
 import CommentList from "./comment-list";
 import NewComment from "./new-comment";
 import classes from "./comments.module.css";
 import NotificationContext from "../../store/notification-context";
+import Togglable from "../togglable/togglable";
 
+import { useRouter } from "next/router";
 function Comments(props) {
   const { blogId } = props;
-
+  const router = useRouter();
   const notificationCtx = useContext(NotificationContext);
 
   const [showComments, setShowComments] = useState(true);
   const [comments, setComments] = useState([]);
   const [isFetchingComments, setIsFetchingComments] = useState(false);
-
+  const noteFormRef = useRef(null);
   useEffect(() => {
     if (showComments) {
       setIsFetchingComments(true);
@@ -25,7 +27,7 @@ function Comments(props) {
       fetch("/api/comments/" + blogId)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          console.log({ data }, "FROM COM");
           setComments(data.comments);
           setIsFetchingComments(false);
           notificationCtx.showNotification({
@@ -81,6 +83,10 @@ function Comments(props) {
           message: "Your comment was saved!",
           status: "success",
         });
+        //router.push(`/comments/${blogId}`);
+        // router.reload(window.location.pathname);
+        //setShowcomments(false);
+        setShowComments(false);
       })
       .catch((error) => {
         notificationCtx.showNotification({
@@ -89,6 +95,7 @@ function Comments(props) {
           status: "error",
         });
       });
+    noteFormRef.current.togglevisibility();
   }
 
   return (
@@ -98,7 +105,17 @@ function Comments(props) {
       </button>
       {showComments && isFetchingComments && <p>Loading...</p>}
       {showComments && !isFetchingComments && <CommentList items={comments} />}
-      {showComments && <NewComment onAddComment={addCommentHandler} />}
+      <Togglable buttonLabel="Create comment" ref={noteFormRef}>
+        <p>Create Comment</p>
+
+        {showComments && (
+          <NewComment
+            onAddComment={addCommentHandler}
+            noteFormRef={noteFormRef}
+          />
+        )}
+      </Togglable>
+      {/* ;{showComments && <NewComment onAddComment={addCommentHandler} />} */}
     </section>
   );
 }

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import classes from "./new-comment.module.css";
 import MyRichEditor from "../rich-text-editor/myrich-text-editor";
 import { useSession } from "next-auth/client";
+import Togglable from "../togglable/togglable";
 import {
   useField,
   useEditor,

@@ -1,16 +1,19 @@
 //import React from "react";
-import { React, useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import classes from "./comment-item.module.css";
-// import Modal from "../ui/modal/modal";
+import Modal from "../ui/modal/modal";
 // import Button from "../ui/button";
 import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 import NotificationContext from "../../store/notification-context";
+import { useRouter } from "next/router";
 // id: document._id.toString(),
 export default function CommentItem(props) {
   //const linkPathForComment = `/comments/${post.id}`;
   //const id = props.item._id.toString();
   //const linkPathForUpdate = `/comments/updates/${id}`;
   //commentUpdateObj: commentUpdateObj,
+  const [showDeleteModal, setshowDeleteModal] = useState(false);
+  const router = useRouter();
   const notificationCtx = useContext(NotificationContext);
   const handleUpdateComment = () => {
     console.log("from handle update");
@@ -20,16 +23,59 @@ export default function CommentItem(props) {
     });
     router.push(`/comments/updates/${props.item._id.toString()}`);
   };
+
+  const deletePostHandler = async () => {
+    notificationCtx.showNotification({
+      title: "Deleting blog...",
+      message: "Your blog is currently being deleted from the database.",
+      status: "pending",
+    });
+    try {
+      const response = await fetch(
+        `/api/comments/${props.item._id.toString()}`,
+        {
+          method: "DELETE",
+          body: JSON.stringify({ commentId: props.item._id.toString() }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      notificationCtx.showNotification({
+        title: "Success!",
+        message: "Your blog was deleted!",
+        status: "success",
+      });
+      router.push("/");
+    } catch (error) {
+      //setRequestError(error.message);
+      //setRequestStatus("error");
+      notificationCtx.showNotification({
+        title: "Error!",
+        message: error.message || "Something went wrong!",
+        status: "error",
+      });
+    }
+    setshowDeleteModal(false);
+  };
+
+  const deleteConfirm = () => {
+    setshowDeleteModal(true);
+  };
+
   return (
     <>
-      {/* {showDeleteQuestModal && (
+      {showDeleteModal && (
         <Modal
-          deletePostHandler={() => deleteQuestionHandler(id)}
-          text="Do you really want to delete this question?"
-          setshowDeleteModal={setshowDeleteQuestModal}
-          showDeleteModal={showDeleteQuestModal}
+          deletePostHandler={deletePostHandler}
+          text={`Do you really want to delete this comment?
+           `}
+          setshowDeleteModal={setshowDeleteModal}
+          showDeleteModal={showDeleteModal}
         />
-      )} */}
+      )}
+
       <div className={classes.card}>
         <div className={classes.header}>
           <img src="/images/posts/post-profile2.jpg" alt="John" />
@@ -47,7 +93,7 @@ export default function CommentItem(props) {
         <div className={classes.action}>
           <button onClick={handleUpdateComment}>Update</button>
 
-          <button>Delete</button>
+          <button onClick={deleteConfirm}>Delete</button>
           <button>Like</button>
         </div>
       </div>
