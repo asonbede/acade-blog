@@ -1,7 +1,7 @@
 import classes from "./comment-list.module.css";
 import CommentItem from "./comment-item";
 function CommentList(props) {
-  const { items } = props;
+  const { items, setShowComments } = props;
 
   return (
     <ul className={classes.comments}>
@@ -12,7 +12,7 @@ function CommentList(props) {
           <div>
             By <address>{item.name}</address>
           </div> */}
-          <CommentItem item={item} />
+          <CommentItem item={item} setShowComments={setShowComments} />
         </li>
       ))}
     </ul>

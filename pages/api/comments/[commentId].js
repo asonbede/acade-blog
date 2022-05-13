@@ -3,6 +3,7 @@ import {
   connectDatabase,
   insertDocument,
   deleteDocument,
+  updateDocument,
 } from "../../../helpers/db-utils";
 import { getSession } from "next-auth/client";
 async function handler(req, res) {
@@ -96,7 +97,7 @@ async function handler(req, res) {
     console.log({ newCommentUpdate }, "FROM SERVER");
     console.log({ commentId }, "FROM SERVer");
     try {
-      updateDocument(client, collection, queryValue, updateValue);
+      //updateDocument(client, collection, queryValue, updateValue);
       result = await updateDocument(
         client,
         "comments",

@@ -6,7 +6,7 @@ function Modal(props) {
   }
 
   function confirmHandler() {
-    props.deletePostHandler;
+    props.deletePostHandler();
   }
 
   return (

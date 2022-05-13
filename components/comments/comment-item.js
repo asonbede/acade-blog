@@ -25,9 +25,10 @@ export default function CommentItem(props) {
   };
 
   const deletePostHandler = async () => {
+    console.log("in delete comment..");
     notificationCtx.showNotification({
-      title: "Deleting blog...",
-      message: "Your blog is currently being deleted from the database.",
+      title: "Deleting comment...",
+      message: "Your comment is currently being deleted from the database.",
       status: "pending",
     });
     try {
@@ -44,10 +45,12 @@ export default function CommentItem(props) {
 
       notificationCtx.showNotification({
         title: "Success!",
-        message: "Your blog was deleted!",
+        message: "Your comment was deleted!",
         status: "success",
       });
-      router.push("/");
+      // router.push("/");
+      props.setShowComments(false);
+      // router.push(`/comments/${props.item.blogId}`);
     } catch (error) {
       //setRequestError(error.message);
       //setRequestStatus("error");

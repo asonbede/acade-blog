@@ -104,7 +104,9 @@ function Comments(props) {
         {showComments ? "Hide" : "Show"} Comments
       </button>
       {showComments && isFetchingComments && <p>Loading...</p>}
-      {showComments && !isFetchingComments && <CommentList items={comments} />}
+      {showComments && !isFetchingComments && (
+        <CommentList items={comments} setShowComments={setShowComments} />
+      )}
       <Togglable buttonLabel="Create comment" ref={noteFormRef}>
         <p>Create Comment</p>
 
