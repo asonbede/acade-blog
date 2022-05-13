@@ -11,11 +11,12 @@ import Button from "../ui/button";
 async function deleteUser(
   password,
 
-  username
+  username,
+  userId
 ) {
   console.log("update rannnnnooooo000");
 
-  const response = await fetch("/api/delete-account/delete-account", {
+  const response = await fetch(`/api/delete-account/${userId}`, {
     method: "DELETE",
     body: JSON.stringify({
       password,
@@ -82,9 +83,9 @@ function DeleteAccountForm(props) {
     // console.log({ moderated });
     // const actionType = moderated ? "approve-profile" : "updateInterestAndName";
     notificationCtx.showNotification({
-      title: "Sending Update details...",
+      title: "Sending Delete Account details...",
       message:
-        "Your Registration update details are currently being stored into a database.",
+        "Your Registration update details are currently being removed from the database.",
       status: "pending",
     });
 
@@ -92,14 +93,14 @@ function DeleteAccountForm(props) {
       const result = await deleteUser(
         password,
 
-        username
+        username,
+        props.username
       );
       console.log(result);
 
       notificationCtx.showNotification({
         title: "Success!",
-        message:
-          "Registration Update was successful! You can now login with your password and email",
+        message: "Your account was successfully deleted!",
         status: "success",
       });
 
@@ -133,7 +134,8 @@ function DeleteAccountForm(props) {
           text={`Do you really want to delete your account?
            Deleting your account will also delete 
            all the blogs you had created. In addition, all the
-           questions and comments associated with those blogs will also be deleted!`}
+           questions and comments associated with those blogs will also be deleted!
+            Do you really want to continue??`}
           setshowDeleteModal={setshowDeleteModal}
           showDeleteModal={showDeleteModal}
         />

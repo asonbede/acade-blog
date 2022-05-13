@@ -71,6 +71,7 @@ function UserProfile(props) {
           name={props.name}
           description={props.description}
           email={props.email}
+          username={props.username}
         />
       )}
 
