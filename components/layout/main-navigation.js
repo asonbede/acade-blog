@@ -72,7 +72,7 @@ function MainNavigation() {
   return (
     <nav className="navbar navbar-expand-sm bg-danger navbar-dark">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        <a className={`${classes["navbar-brand"]}`} href="#">
           Logo
         </a>
         <button
