@@ -4,6 +4,7 @@ import {
   getAllDocuments,
   updateDocument,
   deleteDocument,
+  deleteDocumentProfile,
 } from "../../../helpers/db-utils";
 
 import { hashPassword, verifyPassword } from "../../../helpers/auth";
@@ -96,17 +97,17 @@ async function handler(req, res) {
     }
     console.log({ userEmail }, "delete-add");
     try {
-      const documents = await deleteDocument(
+      const documents = await deleteDocumentProfile(
         client,
         "users",
-        "_id",
-        userIdValue
+        "email",
+        userEmail
       );
       // const documentsPost = await deleteDocument(
       //   client,
       //   "postTable",
       //   "authorId",
-      //   userEmail ason
+      //   userEmail
       // );ason
       // const documentsQuestions = await deleteDocument(
       //   client,

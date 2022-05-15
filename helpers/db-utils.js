@@ -83,4 +83,18 @@ export async function deleteDocument(client, collection, fieldValue, id) {
   return document;
 }
 
+export async function deleteDocumentProfile(
+  client,
+  collection,
+  fieldValue,
+  id
+) {
+  //const o_id = new ObjectId(id);
+  const db = client.db();
+
+  const document = await db.collection(collection).remove({ [fieldValue]: id });
+
+  return document;
+}
+
 //export const adminArray = [process.env.admin_1, process.env.admin_2];
