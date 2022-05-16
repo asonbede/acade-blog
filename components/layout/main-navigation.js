@@ -70,11 +70,11 @@ function MainNavigation() {
   };
 
   return (
-    <nav className="navbar navbar-expand-sm bg-danger navbar-dark">
+    <nav className="navbar navbar-expand-lg bg-danger navbar-dark">
       <div className="container-fluid">
-        <a className={`${classes["navbar-brand"]}`} href="#">
-          Logo
-        </a>
+        <Link href="/">
+          <a className={`${classes["navbar-brand"]}`}>Asonbiditeck</a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -83,54 +83,106 @@ function MainNavigation() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div
-          className={`collapse navbar-collapse ${classes.navigationMenu}`}
-          id="collapsibleNavbar"
-        >
-          <ul className="navbar-nav">
+        <div className={`collapse navbar-collapse`} id="collapsibleNavbar">
+          <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                Link
-              </a>
+              <Link href="/posts">
+                <a className="nav-link"> Posts</a>
+              </Link>
             </li>
+            <li className="nav-item">
+              <Link href="/writers">
+                <a className="nav-link">Authors</a>
+              </Link>
+            </li>
+            {session && (
+              <li className="nav-item">
+                <Link href="/posts/create-post">
+                  <a className="nav-link">Create Post</a>
+                </Link>
+              </li>
+            )}
+            <li className="nav-item">
+              <Link href="/contact">
+                <a className="nav-link">Contact</a>
+              </Link>
+            </li>
+            {!session && !loading && (
+              <li className="nav-item">
+                <Link href="/auth">
+                  <a className="nav-link">Login</a>
+                </Link>
+              </li>
+            )}
 
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Link
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Link
-              </a>
-            </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-              >
-                Dropdown
-              </a>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Link
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Another link
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    A third link
-                  </a>
-                </li>
-              </ul>
-            </li>
+            {session && (
+              <li className="nav-item">
+                <Link href={`/profile/${authorUsername}`}>
+                  <a className="nav-link">Profile</a>
+                </Link>
+              </li>
+            )}
+
+            {session && (
+              <li className="nav-item">
+                <a onClick={logoutHandler} className="nav-link">
+                  Logout
+                </a>
+              </li>
+            )}
+            {session && router.pathname.indexOf("/profile") > -1 ? (
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                >
+                  My account
+                </a>
+                <ul className="dropdown-menu">
+                  <li>
+                    <button
+                      onClick={handlePasswordChange}
+                      className="dropdown-item"
+                    >
+                      Change Password
+                    </button>
+                  </li>
+
+                  <li>
+                    <button
+                      onClick={handleUpdateRegDetails}
+                      className="dropdown-item"
+                    >
+                      Update Registration details
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={handleImageUpload}
+                      className="dropdown-item"
+                    >
+                      Upload Image
+                    </button>
+                  </li>
+                  <li>
+                    <button className="dropdown-item">Write Review</button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={handleDeleteAccount}
+                      className="dropdown-item"
+                    >
+                      Delete Account
+                    </button>
+                  </li>
+                </ul>
+              </li>
+            ) : null}
+            {session && (
+              <span class="navbar-text">Welcome {authorUsername}</span>
+            )}
           </ul>
         </div>
       </div>

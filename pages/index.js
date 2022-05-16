@@ -2,7 +2,8 @@ import { Fragment } from "react";
 import Head from "next/head";
 
 import FeaturedPosts from "../components/home-page/featured-posts";
-import Hero from "../components/home-page/hero";
+//import Hero from "../components/home-page/hero";
+import Title from "../components/home-page/title";
 
 import { getAllFeaturedDocuments, connectDatabase } from "../helpers/db-utils";
 
@@ -16,7 +17,7 @@ function HomePage(props) {
           content="I post about programming and web development."
         />
       </Head>
-      <Hero />
+      <Title />
       <FeaturedPosts posts={props.posts} />
     </Fragment>
   );
