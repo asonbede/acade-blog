@@ -1,55 +1,85 @@
 import Image from "next/image";
 
-import classes from "./features-section.module.css";
+import classes from "./testimonial.module.css";
 import { useRouter } from "next/router";
 function Testimonial(props) {
   return (
-    <section class="colored-section" id="testimonials">
-      <div id="testimonial-carousel" class="carousel slide" data-ride="false">
-        <div class="carousel-inner">
-          <div class="carousel-item active container-fluid">
-            <h2 class="testimonial-text">
-              I no longer have to sniff other dogs for love. I've found the
-              hottest Corgi on TinDog. Woof.
-            </h2>
-            <img
-              class="testimonial-image"
-              src="images/dog-img.jpg"
-              alt="dog-profile"
-            />
-            <em>Pebbles, New York</em>
-          </div>
-          <div class="carousel-item container-fluid">
-            <h2 class="testimonial-text">
-              My dog used to be so lonely, but with TinDog's help, they've found
-              the love of their life. I think.
-            </h2>
-            <img
-              class="testimonial-image"
-              src="images/lady-img.jpg"
-              alt="lady-profile"
-            />
-            <em>Beverly, Illinois</em>
-          </div>
-        </div>
-        <a
-          class="carousel-control-prev"
-          href="#testimonial-carousel"
-          role="button"
-          data-slide="prev"
-        >
-          <span class="carousel-control-prev-icon"></span>
-        </a>
-        <a
-          class="carousel-control-next"
-          href="#testimonial-carousel"
-          role="button"
-          data-slide="next"
-        >
-          <span class="carousel-control-next-icon"></span>
-        </a>
+    <div
+      id="demo"
+      className={`carousel slide ${classes.testimonials}`}
+      data-bs-ride="carousel"
+    >
+      {/* <!-- Indicators/dots --> */}
+      <div className="carousel-indicators">
+        <button
+          type="button"
+          data-bs-target="#demo"
+          data-bs-slide-to="0"
+          className="active"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#demo"
+          data-bs-slide-to="1"
+        ></button>
       </div>
-    </section>
+
+      {/* <!-- The slideshow/carousel --> */}
+      <div className="carousel-inner">
+        <h1>Testimonial</h1>
+        <div className="carousel-item active">
+          <h5
+            className={`${classes["testimonial-text"]}`}
+            // style={{ width: "50%", margin: "0 auto" }}
+          >
+            My dog used to be so lonely, but with TinDog's help, they've found
+            the love of their life. I think.
+          </h5>
+          <img
+            src="/images/site/home-page/dog-img.jpg"
+            alt="dog-profile"
+            // className="d-block"
+            className={`${classes["testimonial-image"]}`}
+
+            // style={{ width: "100%" }}
+          />
+        </div>
+        <div className="carousel-item">
+          <h5
+            className={`${classes["testimonial-text"]}`}
+            // style={{ width: "50%", margin: "0 auto" }}
+          >
+            I no longer have to sniff other dogs for love. I've found the
+            hottest Corgi on TinDog. Woof.
+          </h5>
+          <img
+            src="/images/site/home-page/lady-img.jpg"
+            alt="lady-profile"
+            className={`${classes["testimonial-image"]}`}
+            // className="d-block"
+            // style={{ width: "100%" }}
+          />
+        </div>
+      </div>
+
+      {/* <!-- Left and right controls/icons --> */}
+      <a
+        className="carousel-control-prev"
+        type="button"
+        data-bs-target="#demo"
+        data-bs-slide="prev"
+      >
+        <span className="carousel-control-prev-icon"></span>
+      </a>
+      <a
+        className="carousel-control-next"
+        type="button"
+        data-bs-target="#demo"
+        data-bs-slide="next"
+      >
+        <span className="carousel-control-next-icon"></span>
+      </a>
+    </div>
   );
 }
 

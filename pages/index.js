@@ -5,6 +5,7 @@ import FeaturedPosts from "../components/home-page/featured-posts";
 //import Hero from "../components/home-page/hero";
 import Title from "../components/home-page/title";
 import FeatureSection from "../components/home-page/features-section";
+import Testimonial from "../components/home-page/testimonial";
 import { getAllFeaturedDocuments, connectDatabase } from "../helpers/db-utils";
 
 function HomePage(props) {
@@ -19,6 +20,7 @@ function HomePage(props) {
       </Head>
       <Title />
       <FeatureSection />
+      <Testimonial />
       <FeaturedPosts posts={props.posts} />
     </Fragment>
   );
