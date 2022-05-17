@@ -61,10 +61,10 @@ a {
   text-decoration: none;
 }
 
-button {
+/* button {
   font: inherit;
   cursor: pointer;
-}
+} */
 .questions p {
   margin: 0;
 }
@@ -201,7 +201,7 @@ p {
 
 /* Title Section */
 
-#title {
+/* #title {
   background-color: #ff4c68;
   color: #fff;
   text-align: left;
@@ -209,7 +209,7 @@ p {
 
 #title .container-fluid {
   padding: 3% 15% 7%;
-}
+} */
 
 /* Title Image */
 
@@ -222,7 +222,7 @@ p {
 
 /* Features Section */
 
-#features {
+/* .features {
   position: relative;
 }
 
@@ -241,7 +241,7 @@ p {
 
 .icon:hover {
   color: #ff4c68;
-}
+} */
 
 /* Testimonial Section */
 
@@ -293,7 +293,7 @@ p {
   margin: 20px 10px;
 }
 
-@media (max-width: 1028px) {
+/* @media (max-width: 1028px) {
   #title {
     text-align: center;
   }
@@ -302,7 +302,7 @@ p {
     position: static;
     transform: rotate(0);
   }
-}
+} */
 
 /* .navigationMenu {
   margin-left: 0 auto;

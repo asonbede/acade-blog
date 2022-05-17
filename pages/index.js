@@ -4,7 +4,7 @@ import Head from "next/head";
 import FeaturedPosts from "../components/home-page/featured-posts";
 //import Hero from "../components/home-page/hero";
 import Title from "../components/home-page/title";
-
+import FeatureSection from "../components/home-page/features-section";
 import { getAllFeaturedDocuments, connectDatabase } from "../helpers/db-utils";
 
 function HomePage(props) {
@@ -18,6 +18,7 @@ function HomePage(props) {
         />
       </Head>
       <Title />
+      <FeatureSection />
       <FeaturedPosts posts={props.posts} />
     </Fragment>
   );
