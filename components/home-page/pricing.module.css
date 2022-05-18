@@ -1,0 +1,25 @@
+.pricing {
+  padding: 100px;
+}
+
+.price-text {
+  font-size: 3rem;
+  line-height: 1.5;
+}
+
+.pricing-column {
+  padding: 3% 2%;
+}
+
+/* .colored-section {
+  background-color: #ff4c68;
+  color: #fff;
+} */
+
+.white-section {
+  background-color: #fff;
+}
+.section-heading {
+  font-size: 3rem;
+  line-height: 1.5;
+}

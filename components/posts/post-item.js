@@ -70,61 +70,90 @@ function PostItem(props) {
   };
 
   return (
-    <div className={moderatedValue ? classes.showItem : classes.hideItem}>
-      {!moderated && (
-        <span style={{ color: "red" }}>
-          {" "}
-          Post examination in progressing, this may take a while, until this
-          action is complete only you can see this post, newly created or
-          updated post are examined by the admin before it is shown to the
-          public. This message will be removed as soon as the process is
-          complete. You may continue to work on your post while this process is
-          on...
-        </span>
-      )}
-      <li className={classes.post}>
-        {/* <Link href={linkPath}> */}
-        {/* <div> */}
-        {/* <a> */}
-        {/* <div className={classes.image}>
-              <img
-                src={props.post.imageProfileUrl}
-                alt={title}
-                width={200}
-                height={100}
-                layout="responsive"
-              />
-            </div> */}
-        <div className={classes.content}>
-          <h3>{title}</h3>
+    // <div className={moderatedValue ? classes.showItem : classes.hideItem}>
+    //   {!moderated && (
+    //     <span style={{ color: "red" }}>
+    //       {" "}
+    //       Post examination in progressing, this may take a while, until this
+    //       action is complete only you can see this post, newly created or
+    //       updated post are examined by the admin before it is shown to the
+    //       public. This message will be removed as soon as the process is
+    //       complete. You may continue to work on your post while this process is
+    //       on...
+    //     </span>
+    //   )}
+    //   <li className={classes.post}>
+    //             <div className={classes.content}>
+    //       <h3>{title}</h3>
 
+    //       <time>{formattedDate}</time>
+
+    //       <p>{excerpt}</p>
+    //     </div>
+    //     {/* </a> */}
+
+    //     {/* </Link> */}
+    //     <div className={classes.cardprofile}>
+    //       <img
+    //         className={classes.profileimg}
+    //         src={props.post.imageProfileUrl}
+    //         alt="bede image"
+    //       />
+    //       <div className={classes.cardprofileinfo}>
+    //         <h3 className={classes.profilename}>{props.post.author}</h3>
+    //         {/* <p className={classes.profilefollowers}>5.2k followers</p> */}
+    //         {router.pathname.indexOf("/profile") === -1 && (
+    //           <Button onClick={handleLocalStorage}>Read More</Button>
+    //         )}
+    //         {router.pathname.indexOf("/profile") > -1 && (
+    //           <Button onClick={() => props.onSelectMenu(id)}>Read More</Button>
+    //         )}
+    //       </div>
+    //     </div>
+    //     <br />
+    //     <br />
+    //   </li>
+    // </div>
+    <div className={`${"pricing-column"} col-lg-4 col-md-6`}>
+      <div className="card-header">
+        <h3>{title}</h3>
+      </div>
+      <div className="card d-5  w-sm-100">
+        <div className="card-body">
+          {/* <h4 className="card-title">{title}</h4> */}
           <time>{formattedDate}</time>
+          <p className="card-text">{excerpt}</p>
 
-          <p>{excerpt}</p>
+          {router.pathname.indexOf("/profile") === -1 && (
+            <button
+              class="btn btn btn-block btn-outline-dark"
+              onClick={handleLocalStorage}
+              type="button"
+            >
+              Read More
+            </button>
+          )}
+          {router.pathname.indexOf("/profile") > -1 && (
+            // <button onClick={() => props.onSelectMenu(id)}>Read More</button>
+
+            <button
+              class="btn btn btn-block btn-outline-dark"
+              onClick={() => props.onSelectMenu(id)}
+              type="button"
+            >
+              Read More
+            </button>
+          )}
         </div>
-        {/* </a> */}
-
-        {/* </Link> */}
-        <div className={classes.cardprofile}>
+        <div className="d-flex align-items-center">
           <img
-            className={classes.profileimg}
+            className={classes["post-image"]}
             src={props.post.imageProfileUrl}
-            alt="bede image"
+            alt="card image"
           />
-          <div className={classes.cardprofileinfo}>
-            <h3 className={classes.profilename}>{props.post.author}</h3>
-            {/* <p className={classes.profilefollowers}>5.2k followers</p> */}
-            {router.pathname.indexOf("/profile") === -1 && (
-              <Button onClick={handleLocalStorage}>Read More</Button>
-            )}
-            {router.pathname.indexOf("/profile") > -1 && (
-              <Button onClick={() => props.onSelectMenu(id)}>Read More</Button>
-            )}
-          </div>
+          <p className="card-text">{props.post.author}</p>
         </div>
-        <br />
-        <br />
-      </li>
+      </div>
     </div>
   );
 }

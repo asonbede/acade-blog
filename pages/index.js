@@ -6,6 +6,10 @@ import FeaturedPosts from "../components/home-page/featured-posts";
 import Title from "../components/home-page/title";
 import FeatureSection from "../components/home-page/features-section";
 import Testimonial from "../components/home-page/testimonial";
+import Press from "../components/home-page/press";
+import Pricing from "../components/home-page/pricing";
+import CallToAction from "../components/home-page/call-to-action";
+import Footer from "../components/home-page/footer-section";
 import { getAllFeaturedDocuments, connectDatabase } from "../helpers/db-utils";
 
 function HomePage(props) {
@@ -21,17 +25,21 @@ function HomePage(props) {
       <Title />
       <FeatureSection />
       <Testimonial />
+      <Press />
+      <Pricing />
+      <CallToAction />
       <FeaturedPosts posts={props.posts} />
+      <Footer />
     </Fragment>
   );
 }
 
 export async function getStaticProps() {
   let client;
-
+  let documents;
   client = await connectDatabase();
 
-  const documents = await getAllFeaturedDocuments(
+  documents = await getAllFeaturedDocuments(
     client,
     "postTable",
     {
@@ -39,7 +47,7 @@ export async function getStaticProps() {
     },
     { isFeatured: true }
   );
-
+  documents = documents.length > 6 ? documents.slice(0, 6) : documents;
   client.close();
 
   return {

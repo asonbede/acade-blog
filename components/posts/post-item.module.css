@@ -1,4 +1,4 @@
-.post {
+/* .post {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   background-color: var(--color-grey-800);
   text-align: center;
@@ -7,9 +7,8 @@
   transition: 250ms all ease-in-out;
   border-radius: 0.5rem;
   /* margin: 1rem; */
-}
 
-.post a {
+/* .post a {
   color: var(--color-grey-100);
 }
 .post:hover {
@@ -76,11 +75,11 @@
   color: #616b74;
   font-size: 0.9rem;
 }
-
+ */
 /* 
 another
 */
-.card {
+/* .card {
   overflow: hidden;
   box-shadow: 0px 2px 20px #d7dfe2;
   background: white;
@@ -179,10 +178,39 @@ another
 
 .showItem {
   display: "block";
+} */
+
+/* .hideItem {
+  display: none;
+}  */
+
+/* ANGELA */
+/* .pricing {
+  padding: 100px;
+} */
+
+.price-text {
+  font-size: 3rem;
+  line-height: 1.5;
 }
 
-.hideItem {
-  display: none;
+.pricing-column {
+  padding: 3% 3%;
+}
+
+/* .colored-section {
+  background-color: #ff4c68;
+  color: #fff;
+} */
+
+.white-section {
+  background-color: #fff;
+}
+
+.post-image {
+  width: 20%;
+  border-radius: 100%;
+  margin: 10px;
 }
 
 /* alternative card */

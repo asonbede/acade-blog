@@ -16,15 +16,31 @@ function PostsGrid(props) {
   }
 
   return (
-    <ul className={classes.grid}>
-      {posts.map((post) =>
-        !determineItem(post) ? (
-          <PostItem key={post.id} post={post} onSelectMenu={onSelectMenu} />
-        ) : (
-          <UserItem key={post.id} post={post} />
-        )
-      )}
-    </ul>
+    <section className={`${classes["white-section"]}`}>
+      <h3 className={`${classes["section-heading"]}`}>
+        Learn what you don't known or
+      </h3>
+      <p>add to your knowledge.</p>
+
+      <div className="row">
+        {posts.map((post) =>
+          !determineItem(post) ? (
+            <PostItem key={post.id} post={post} onSelectMenu={onSelectMenu} />
+          ) : (
+            <UserItem key={post.id} post={post} />
+          )
+        )}
+      </div>
+    </section>
+    // <ul className={classes.grid}>
+    //   {posts.map((post) =>
+    //     !determineItem(post) ? (
+    //       <PostItem key={post.id} post={post} onSelectMenu={onSelectMenu} />
+    //     ) : (
+    //       <UserItem key={post.id} post={post} />
+    //     )
+    //   )}
+    // </ul>
   );
 }
 

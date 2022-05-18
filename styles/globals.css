@@ -245,7 +245,7 @@ p {
 
 /* Testimonial Section */
 
-#testimonials {
+/* #testimonials {
   background-color: #ef8172;
 }
 
@@ -258,9 +258,9 @@ p {
   width: 10%;
   border-radius: 100%;
   margin: 20px;
-}
+} */
 
-#press {
+/* #press {
   background-color: #ef8172;
   padding-bottom: 3%;
 }
@@ -269,10 +269,10 @@ p {
   width: 15%;
   margin: 20px 20px 50px;
 }
-
+ */
 /* Pricing Section */
 
-#pricing {
+/* #pricing {
   padding: 100px;
 }
 
@@ -283,7 +283,7 @@ p {
 
 .pricing-column {
   padding: 3% 2%;
-}
+} */
 
 /* CTA Section */
 
