@@ -22,6 +22,7 @@ function FeaturedPosts(props) {
     const postObj = props.posts.find((item) => item.id === blogId);
     setselectId(blogId);
     setpost(postObj);
+    props.setheroIsOpen(false);
   };
   let localId;
   let localPost;
@@ -68,24 +69,33 @@ function FeaturedPosts(props) {
         }  ${toggleMenu ? classes.showmenu : classes.hidemenu}`}
       >
         {router.pathname.indexOf("/profile") > -1 && (
-          <Button onClick={() => settoggleMenu(!toggleMenu)}>
+          <button
+            onClick={() => settoggleMenu(!toggleMenu)}
+            className={`${classes.showHideBut} btn btn-sm btn-outline-dark`}
+          >
             {toggleMenu ? "Hide Menu" : "Show Menu"}
-          </Button>
+          </button>
         )}
         {router.pathname.indexOf("/profile") > -1 && post ? (
-          <Button
+          <button
+            className={`${classes.authorProfileBut} btn btn-sm btn-outline-dark mb-2`}
             onClick={() => {
               setpost(null);
               setselectId(null);
+              props.setheroIsOpen(true);
             }}
           >
-            Author Cards
-          </Button>
+            Author Profile
+          </button>
         ) : null}
         {!post && (
           <section>
             {" "}
-            <PostsGrid posts={props.posts} onSelectMenu={onSelectMenu} />{" "}
+            <PostsGrid
+              posts={props.posts}
+              onSelectMenu={onSelectMenu}
+              fromHomePage={props.fromHomePage}
+            />{" "}
           </section>
         )}
         {post && (

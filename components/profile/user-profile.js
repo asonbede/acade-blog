@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import ProfileForm from "./profile-form";
 import classes from "./user-profile.module.css";
 import Hero from "../home-page/hero";
@@ -16,9 +16,11 @@ import ProfileImageUploadform from "./profile-image-upload-form";
 //import PostContent from "../posts/post-detail/post-content";
 function UserProfile(props) {
   const [session, loading] = useSession();
+  const [heroIsOpen, setheroIsOpen] = useState(true);
   // const [isLoading, setIsLoading] = useState(true);
   const notificationCtx = useContext(NotificationContext);
   //console.log("from handle update");
+  useEffect(() => setheroIsOpen(true), []);
   const { menuBtn, passOpen, updateOpen, uploadOpen, deleteAccount } =
     notificationCtx.profileData;
 
@@ -52,12 +54,14 @@ function UserProfile(props) {
       How it works: displays when the menu buton is clicked.BBn
       */}
       {/* {menuBtn ? null : <ProfileMenu />} */}
-      <Hero
-        name={props.name}
-        description={props.description}
-        imageUrl={props.imageUrl}
-      />
-      <FeaturedPosts posts={props.posts} />
+      {heroIsOpen && (
+        <Hero
+          name={props.name}
+          description={props.description}
+          imageUrl={props.imageUrl}
+        />
+      )}
+      <FeaturedPosts posts={props.posts} setheroIsOpen={setheroIsOpen} />
       {passOpen && <ProfileForm onChangePassword={changePasswordHandler} />}
       {updateOpen && (
         <UpdateAuthForm

@@ -114,11 +114,11 @@ function PostItem(props) {
     //     <br />
     //   </li>
     // </div>
-    <div className={`${"pricing-column"} col-lg-4 col-md-6`}>
-      <div className="card-header">
-        <h3>{title}</h3>
-      </div>
-      <div className="card d-5  w-sm-100">
+    <div className="col-md-6">
+      <div className="card d-5  w-sm-90">
+        <div className="card-header">
+          <h3>{title}</h3>
+        </div>
         <div className="card-body">
           {/* <h4 className="card-title">{title}</h4> */}
           <time>{formattedDate}</time>
@@ -147,8 +147,9 @@ function PostItem(props) {
         </div>
         <div className="d-flex align-items-center">
           <img
-            className={classes["post-image"]}
+            // className={classes["post-image"]}
             src={props.post.imageProfileUrl}
+            class="rounded-circle mb-3 img-fluid"
             alt="card image"
           />
           <p className="card-text">{props.post.author}</p>

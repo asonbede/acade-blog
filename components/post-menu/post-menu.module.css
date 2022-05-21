@@ -6,7 +6,17 @@
   height: 100%;
   margin-left: 4%;
   margin-right: 4%;
+  /* animation: moveToRight 1s ease-in;
+  animation-delay: 10ms; */
 }
+/* @keyframes moveToRight {
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(600px);
+  }
+} */
 
 /* .displaybox {
   position: absolute;

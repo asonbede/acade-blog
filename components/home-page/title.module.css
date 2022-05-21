@@ -9,18 +9,17 @@
 }
 
 .title .container-fluid {
-  padding: 3% 15% 7%;
-  /* background: blue; */
+  padding: 1%;
 }
 
 /* Title Image */
 
-.title-image {
+/* .title-image {
   width: 20%;
   transform: rotate(25deg);
   position: absolute;
   right: 20%;
-}
+} */
 .colored-section {
   background-color: #ff4c68;
   color: #fff;
@@ -31,9 +30,13 @@
     text-align: center;
   }
 
-  .title-image {
+  /* .title-image {
     position: static;
     transform: rotate(0);
+  } */
+
+  .title .container-fluid {
+    padding: 2%;
   }
 }
 

@@ -1,4 +1,4 @@
-.grid {
+/* .grid {
   list-style: none;
   margin-left: 5%;
   padding: 0;
@@ -10,7 +10,7 @@
 
 .wrapper {
   display: flex;
-  /* flex-wrap: wrap; */
+ 
   justify-content: space-around;
   margin-left: 1rem;
   list-style: none;
@@ -27,4 +27,7 @@
 .section-heading {
   font-size: 2rem;
   line-height: 1.5;
+} */
+.background-home {
+  background-color: #ff4d67;
 }

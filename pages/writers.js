@@ -16,7 +16,7 @@ function AllPostsPage(props) {
           content="A list of all programming-related tutorials and posts!"
         />
       </Head>
-      {/* <Hero /> */}
+
       <AllPosts posts={props.posts} allAuthors={true} />
     </Fragment>
   );
@@ -28,19 +28,10 @@ export async function getStaticProps() {
 
   //try {
   client = await connectDatabase();
-  // } catch (error) {
-  //   res.status(500).json({ message: "Connecting to the database failed!" });
-  //   return;
-  // }
 
-  // try {
   const documents = await getAllDocuments(client, "users", {
     _id: 1,
   });
-  //   res.status(200).json({ post: documents });
-  // } catch (error) {
-  //   res.status(500).json({ message: "Getting comments failed." });
-  // }
 
   client.close();
 
@@ -64,29 +55,5 @@ export async function getStaticProps() {
     },
   };
 }
-//email, password, name, interest
+
 export default AllPostsPage;
-
-// const client = await MongoClient.connect(
-//   'mongodb+srv://maximilian:TU6WdZF2EjFWsqUt@cluster0.ntrwp.mongodb.net/meetups?retryWrites=true&w=majority'
-// );
-// const db = client.db();
-
-// const meetupsCollection = db.collection('meetups');
-
-// const meetups = await meetupsCollection.find().toArray();
-
-// client.close();
-
-// return {
-//   props: {
-//     meetups: meetups.map((meetup) => ({
-//       title: meetup.title,
-//       address: meetup.address,
-//       image: meetup.image,
-//       id: meetup._id.toString(),
-//     })),
-//   },
-//   revalidate: 1,
-// };
-// }

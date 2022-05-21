@@ -14,7 +14,7 @@ function AllPostsPage(props) {
           content="A list of all programming-related tutorials and posts!"
         />
       </Head>
-      <Hero />
+      {/* <Hero /> */}
       <AllPosts posts={props.posts} />
     </Fragment>
   );

@@ -144,7 +144,7 @@ p {
 
 /* Headings */
 
-.big-heading {
+/* .big-heading {
   font-family: "Montserrat-Black";
   font-size: 3.5rem;
   line-height: 1.5;
@@ -153,7 +153,7 @@ p {
 .section-heading {
   font-size: 3rem;
   line-height: 1.5;
-}
+} */
 
 /* Containers */
 
@@ -162,7 +162,7 @@ p {
 } */
 
 /* Sections */
-
+/* 
 .colored-section {
   background-color: #ff4c68;
   color: #fff;
@@ -170,7 +170,7 @@ p {
 
 .white-section {
   background-color: #fff;
-}
+} */
 
 /* Navigation Bar */
 
@@ -312,3 +312,20 @@ p {
 .navigationMenu li {
   padding: 5px;
 } */
+/* body::before {
+  display: block;
+  content: "";
+  height: 60px;
+} */
+
+#map {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+@media (min-width: 768px) {
+  .news-input {
+    width: 50%;
+  }
+}

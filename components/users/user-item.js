@@ -2,12 +2,7 @@ import Link from "next/link";
 //import Image from "next/image";
 import { useState, useEffect, useContext } from "react";
 import classes from "./user-item.module.css";
-//import AuthUpdateForm from "../auth/auth-update-form";
-//import { useRouter } from "next/router";
 
-//import NotificationContext from "../../store/notification-context";
-
-//import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 async function sendAuthData(authDetails, setFunc) {
   const response = await fetch("/api/moderating-post", {
     method: "POST",
@@ -39,21 +34,7 @@ function UserItem(props) {
   } = props.post;
   console.log({ authorId });
   const [moderatedValue, setmoderatedValue] = useState();
-  // const [isAdmin, setisAdmin] = useState(false);
-  // const [isUpdate, setisUpdate] = useState(false);
-  // const notificationCtx = useContext(NotificationContext);
-  //const router = useRouter();
-  // // const postAuthorDetails = () => {
-  // //   console.log("from handle update");
-  // //   notificationCtx.userUpIdHandler({
-  // //     email,
-  // //   });
 
-  //   //router.push("/profile/email");
-  // };
-  //const adminArray = [process.env.admin_1, process.env.admin_2];
-  //console.log(props.post, "content333");
-  // const { authorId } = post;
   useEffect(() => {
     const result = sendAuthData({ authorId, moderated }, setmoderatedValue);
 
@@ -63,38 +44,12 @@ function UserItem(props) {
     // }
   }, [authorId, moderated]);
 
-  // useEffect(() => {
-  //   fetch("/api/restrict-route/")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       //console.log(data);
-  //       setisAdmin(data.message);
-  //     })
-  //     .catch((error) => {
-  //       notificationCtx.showNotification({
-  //         title: "Error!",
-  //         message: error.message || "Something went wrong!",
-  //         status: "error",
-  //       });
-  //     });
-  // }, [authorId, moderated]);
-
-  //   const formattedDate = new Date(date).toLocaleDateString("en-US", {
-  //     day: "numeric",
-  //     month: "long",
-  //     year: "numeric",
-  //   });
-
-  //Store credentials in local storage
-  //useEffect(() => {}, [authorId, name, imageLink]);
-  //?name=${name}&description=${interest}&imageLink=${imageLink}
-  //const imagePath = `/images/posts/${image}`;
   const linkPath = `/profile/${username}`;
   console.log({ moderated }, "from item");
   //className={moderatedValue ? classes.showItem : classes.hideItem}
   return (
     <>
-      <div className={moderatedValue ? classes.showItem : classes.hideItem}>
+      {/* <div className={moderatedValue ? classes.showItem : classes.hideItem}>
         {!moderated && (
           <span style={{ color: "red" }}>
             {" "}
@@ -111,39 +66,54 @@ function UserItem(props) {
             <img src={imageLink} alt={name} width={400} height={300} />
           </div>
           <div className={classes.content}>
-            {/* <h3>{title}</h3>
-
-              <time>{formattedDate}</time> */}
+           
             <p>{interest}</p>
-            {/* <p>{excerpt}</p> */}
+            
           </div>
 
           <div className={classes.cardprofile}>
-            {/* <img
-            className={classes.profileimg}
-            src={props.post.imageProfileUrl}
-            alt="bede image"
-          /> */}
+           
             <div className={classes.cardprofileinfo}>
               <h3 className={classes.profilename}>{name}</h3>
               <p className={classes.profilefollowers}>15 posts</p>
               <Link href={linkPath}>
                 <a>See More About This Author</a>
               </Link>
-              {/* {isAdmin && (
-                <button onClick={() => setisUpdate(!isUpdate)}>approve</button>
-              )} */}
+             
             </div>
           </div>
           <br />
           <br />
         </li>
       </div>
-      {/* <div style={{ position: "absolute", top: "8px", right: "40px" }}>
-        {isAdmin && isUpdate ? (
-          <AuthUpdateForm email={email} name={name} interest={interest} />
-        ) : null}
-      </div> */}
+      */}
+      <div class="col-md-6">
+        <div class="card bg-light">
+          <div class="card-body text-center">
+            <img
+              src={imageLink}
+              alt={name}
+              class="rounded-circle mb-3 img-fluid"
+            />
+
+            <h3 class="card-title mb-3">{name}</h3>
+            <p class="card-text">{interest}</p>
+            {/* <a href="#">
+              <i class="bi bi-twitter text-dark mx-1"></i>
+            </a>
+            <a href="#">
+              <i class="bi bi-facebook text-dark mx-1"></i>
+            </a>
+            <a href="#">
+              <i class="bi bi-linkedin text-dark mx-1"></i>
+            </a>
+            <a href="#">
+              <i class="bi bi-instagram text-dark mx-1"></i>
+            </a> */}
+            <Link href={linkPath}>See More About This Author</Link>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

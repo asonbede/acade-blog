@@ -1,12 +1,12 @@
 .latest {
-  width: 95%;
-  max-width: 80rem;
-  margin: var(--size-8) auto;
+  width: 100%;
+  /* max-width: 80rem; */
+  margin: var(--size-1) auto;
   /* margin-right: 0.5%; */
 }
 
 .displayProfile {
-  background-color: royalblue !important;
+  /* background-color: royalblue !important; */
   display: grid;
   grid-template-columns: 1fr 10fr;
   grid-auto-rows: minmax(90%, auto);
@@ -20,15 +20,30 @@
   grid-row: 1;
   margin: 0 !important;
   z-index: 3;
-  margin-top: 40px !important;
+  margin-top: 75px !important;
+  margin-left: 15px !important;
   /* height: auto !important; */
 }
 
 .postcontandgridCont {
+  position: relative;
   grid-column: 1/10;
   grid-row: 1;
   margin: 0 !important;
-  background-color: rgb(211, 133, 133) !important;
+  /* background-color: rgb(211, 133, 133) !important; */
+}
+.displayProfile .authorProfileBut {
+  position: absolute;
+  top: 35px;
+  right: 150px;
+  z-index: 16;
+  margin-left: 5px;
+}
+.displayProfile .showHideBut {
+  position: absolute;
+  top: 35px;
+  right: 40px;
+  z-index: 16;
 }
 .showmenu {
   z-index: 2;
@@ -54,5 +69,20 @@
 @media (min-width: 768px) {
   .latest h2 {
     font-size: var(--size-16);
+  }
+}
+
+@media (max-width: 768px) {
+  .displayProfile .authorProfileBut {
+    top: 25px;
+    right: 130px;
+    margin-left: 10px;
+  }
+
+  .displayProfile .showHideBut {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    z-index: 16;
   }
 }

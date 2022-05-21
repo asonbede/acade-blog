@@ -70,7 +70,11 @@ function MainNavigation() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg bg-danger navbar-dark">
+    <nav
+      className="navbar navbar-expand-lg  navbar-dark"
+      id="nav-bar"
+      style={{ backgroundColor: "#ff4d67" }}
+    >
       <div className="container-fluid">
         <Link href="/">
           <a className={`${classes["navbar-brand"]}`}>Asonbiditeck</a>

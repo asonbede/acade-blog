@@ -289,7 +289,7 @@ function PostContent(props) {
       )}
 
       <div className={moderatedValue ? classes.showItem : classes.hideItem}>
-        {!moderated && (
+        {/* {!moderated && (
           <span style={{ color: "red" }}>
             {" "}
             Moderation in progressing, this may take a while, until this action
@@ -298,10 +298,9 @@ function PostContent(props) {
             message will be removed as soon as the process is complete. You may
             continue to work on your post while this process is on...
           </span>
-        )}
-
-        <article className={classes.content}>
-          {/* <img src="" alt="proble-solved" /> */}
+        )} */}
+        {/* <article className={classes.content}>
+        
           <div className={classes.card}>
             <div className={classes.cardprofile}>
               <img
@@ -324,7 +323,7 @@ function PostContent(props) {
               </div>
             </div>
             <div className={classes.cardbanner}>
-              {/* <p class="category-tag technology">Biryani</p>  */}
+              
               {post.id in replaceBannerImg ? (
                 replaceBannerImg[post.id]()
               ) : (
@@ -339,6 +338,7 @@ function PostContent(props) {
             </div>
             <div className={classes.cardbody}>
               <div className={classes.buttonAction}>
+                
                 <Button link={linkPath}>Review Questions</Button>
 
                 <Button link={linkPathForComment}>Comments</Button>
@@ -352,7 +352,7 @@ function PostContent(props) {
                 )}
                 {authValue && <Button onClick={deleteConfirm}>Delete</Button>}
               </div>
-              {/* <p className={classes.bloghashtag}>#Biryani #Food</p> */}
+              
               <h3 className={classes.blogtitle}>{post.title}</h3>
               <h5 className={classes.excerpt}>
                 {post.excerpt}{" "}
@@ -379,7 +379,98 @@ function PostContent(props) {
               ) : null}
             </div>
           </div>
-        </article>
+        </article> */}
+        <section id="instructors" class="p-5 bg-primary">
+          <div class="container">
+            <h2 class="text-center text-white">Our Instructors</h2>
+            <p class="lead text-center text-white mb-5">
+              Our instructors all have 5+ years working as a web developer in
+              the industry
+            </p>
+            <div class="row g-4 align-items-center justify-content-between">
+              <div class="col-md-10 ">
+                <div class="card bg-light">
+                  <div class="card-body text-center">
+                    <img
+                      src={post.imageProfileUrl}
+                      class="rounded-circle mb-3"
+                      alt={post.title}
+                    />
+
+                    <h3 class="card-title mb-3">{post.author}</h3>
+                    <div>
+                      {post.id in replaceBannerImg ? (
+                        replaceBannerImg[post.id]()
+                      ) : (
+                        <img
+                          class="mb-3 img-fluid"
+                          src={imagePath}
+                          alt="banner"
+                        />
+                      )}
+                    </div>
+                    <p class="card-text">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Assumenda accusamus nobis sed cupiditate iusto? Quibusdam.
+                    </p>
+                    <Link href={linkPath}>
+                      <a>Review Questions</a>
+                    </Link>
+                    <Link href={linkPathForComment}>
+                      <a>Comments</a>
+                    </Link>
+
+                    <button onClick={handleLikeBlog}>
+                      <span>{likeNo}</span> like
+                    </button>
+
+                    {authValue && (
+                      <button onClick={handleUpdateData}>Update</button>
+                    )}
+                    {authValue && (
+                      <button onClick={deleteConfirm}>Delete</button>
+                    )}
+                    <h3 className={classes.blogtitle}>{post.title}</h3>
+                    <h5 className={classes.excerpt}>
+                      {post.excerpt}{" "}
+                      <button onClick={handleContenButText}>
+                        {contenButText}
+                      </button>
+                    </h5>
+                    <div
+                      className={classes.blogdescription}
+                      style={{ width: "100%" }}
+                    >
+                      {isContentOpen && (
+                        <DisplayEditorContent
+                          contentFromServer={post.content}
+                          toolbarPresent={false}
+                        />
+                      )}
+
+                      {post.id in appendAtEnd && isContentOpen ? (
+                        <div
+                          className={classes.blogdescription}
+                          style={{ width: "80%", overflowX: "auto" }}
+                        >
+                          {appendAtEnd[post.id]()}
+                        </div>
+                      ) : null}
+                    </div>
+
+                    {/* <a href="#">
+              <i class="bi bi-twitter text-dark mx-1"></i>
+            </a>
+            <a href="#">
+              <i class="bi bi-facebook text-dark mx-1"></i>
+            </a> */}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        ;
       </div>
     </>
   );
