@@ -71,14 +71,14 @@ function FeaturedPosts(props) {
         {router.pathname.indexOf("/profile") > -1 && (
           <button
             onClick={() => settoggleMenu(!toggleMenu)}
-            className={`${classes.showHideBut} btn btn-sm btn-outline-dark`}
+            className={`${classes.showHideBut} btn btn-sm btn-outline-light`}
           >
             {toggleMenu ? "Hide Menu" : "Show Menu"}
           </button>
         )}
         {router.pathname.indexOf("/profile") > -1 && post ? (
           <button
-            className={`${classes.authorProfileBut} btn btn-sm btn-outline-dark mb-2`}
+            className={`${classes.authorProfileBut} btn btn-sm btn-outline-light mb-2`}
             onClick={() => {
               setpost(null);
               setselectId(null);

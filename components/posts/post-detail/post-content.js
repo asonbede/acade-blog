@@ -382,22 +382,29 @@ function PostContent(props) {
         </article> */}
         <section id="instructors" class="p-5 bg-primary">
           <div class="container">
-            <h2 class="text-center text-white">Our Instructors</h2>
-            <p class="lead text-center text-white mb-5">
+            {/* <h2 class="text-center text-white">{post.title}</h2> */}
+            {/* <p class="lead text-center text-white mb-5">
               Our instructors all have 5+ years working as a web developer in
               the industry
-            </p>
-            <div class="row g-4 align-items-center justify-content-between">
+            </p> */}
+            <div class="row g-4 align-items-center justify-content-center">
               <div class="col-md-10 ">
                 <div class="card bg-light">
+                  <div class="card-header">
+                    <h2 class="text-center">{post.title}</h2>
+                  </div>
+
                   <div class="card-body text-center">
+                    <h6 class="card-subtitle mb-2 text-muted">By</h6>
                     <img
                       src={post.imageProfileUrl}
                       class="rounded-circle mb-3"
                       alt={post.title}
                     />
 
-                    <h3 class="card-title mb-3">{post.author}</h3>
+                    <h3 class="card-title mb-1">{post.author}</h3>
+                    <h6 class="card-subtitle mb-2 text-muted">Published:</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Updated:</h6>
                     <div>
                       {post.id in replaceBannerImg ? (
                         replaceBannerImg[post.id]()
@@ -409,37 +416,56 @@ function PostContent(props) {
                         />
                       )}
                     </div>
-                    <p class="card-text">
+                    {/* <p class="card-text">
                       Lorem ipsum dolor sit amet consectetur adipisicing elit.
                       Assumenda accusamus nobis sed cupiditate iusto? Quibusdam.
-                    </p>
-                    <Link href={linkPath}>
-                      <a>Review Questions</a>
-                    </Link>
-                    <Link href={linkPathForComment}>
-                      <a>Comments</a>
-                    </Link>
+                    </p> */}
 
-                    <button onClick={handleLikeBlog}>
-                      <span>{likeNo}</span> like
-                    </button>
+                    <div class="card-body d-flex justify-content-around flex-xs-column flex-sm-column flex-md-row ">
+                      <Link href={linkPath}>
+                        <a class="btn btn-link btn-lg">Review Questions</a>
+                      </Link>
+                      <Link href={linkPathForComment}>
+                        <a class="btn btn-link btn-lg">Comments</a>
+                      </Link>
 
-                    {authValue && (
-                      <button onClick={handleUpdateData}>Update</button>
-                    )}
-                    {authValue && (
-                      <button onClick={deleteConfirm}>Delete</button>
-                    )}
-                    <h3 className={classes.blogtitle}>{post.title}</h3>
-                    <h5 className={classes.excerpt}>
-                      {post.excerpt}{" "}
-                      <button onClick={handleContenButText}>
+                      {authValue && (
+                        <button
+                          onClick={handleUpdateData}
+                          class="btn btn-link btn-lg"
+                        >
+                          Update
+                        </button>
+                      )}
+                      <button
+                        onClick={handleLikeBlog}
+                        class="btn btn-light btn-lg"
+                      >
+                        <span>{likeNo}</span> like
+                      </button>
+
+                      {authValue && (
+                        <button
+                          onClick={deleteConfirm}
+                          class="btn btn-light btn-lg"
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </div>
+
+                    <h5>
+                      {post.excerpt}
+                      <button
+                        onClick={handleContenButText}
+                        class="btn btn-light btn-lg"
+                      >
                         {contenButText}
                       </button>
                     </h5>
                     <div
-                      className={classes.blogdescription}
-                      style={{ width: "100%" }}
+                    // className={classes.blogdescription}
+                    // style={{ width: "100%" }}
                     >
                       {isContentOpen && (
                         <DisplayEditorContent
@@ -448,14 +474,14 @@ function PostContent(props) {
                         />
                       )}
 
-                      {post.id in appendAtEnd && isContentOpen ? (
+                      {/* {post.id in appendAtEnd && isContentOpen ? (
                         <div
                           className={classes.blogdescription}
                           style={{ width: "80%", overflowX: "auto" }}
                         >
                           {appendAtEnd[post.id]()}
                         </div>
-                      ) : null}
+                      ) : null} */}
                     </div>
 
                     {/* <a href="#">
