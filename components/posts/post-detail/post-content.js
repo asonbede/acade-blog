@@ -421,7 +421,7 @@ function PostContent(props) {
                       Assumenda accusamus nobis sed cupiditate iusto? Quibusdam.
                     </p> */}
 
-                    <div class="card-body d-flex justify-content-around flex-xs-column flex-sm-column flex-md-row ">
+                    <div class="card-body d-flex justify-content-around align-items-center flex-column  flex-md-row ">
                       <Link href={linkPath}>
                         <a class="btn btn-link btn-lg">Review Questions</a>
                       </Link>
