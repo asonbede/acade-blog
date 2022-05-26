@@ -107,7 +107,7 @@ export default function ProfileImageUploadform() {
   };
   return (
     <>
-      <form
+      {/* <form
         className={`${classes.form} ${classes.displaybox}`}
         onSubmit={handleUpload}
       >
@@ -168,67 +168,162 @@ export default function ProfileImageUploadform() {
         <div className={classes.action}>
           <button type="submit">Submit</button>
         </div>
-      </form>
+      </form> */}
+      <div
+        class="modal fade"
+        id="imageupload"
+        tabindex="-2"
+        aria-labelledby="enrollLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="enrollLabelImage">
+                Upload Image
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <p class="lead">Fill out this form to upload your image</p>
+              <form onSubmit={handleUpload}>
+                <div class="mb-3">
+                  <label htmlFor="myFile" class="form-label">
+                    Select File To Upload
+                  </label>
+                  <input
+                    class="form-control form-control-lg"
+                    type="file"
+                    id="myFile"
+                    name="image"
+                    accept="image/*"
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <hr style={{ border: "2px solid blue" }} />
+                <div class="mb-3">
+                  <label for="blog-image-url-display" class="col-form-label">
+                    Url of selected image
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="blog-image-url-display"
+                    value={urlfileUploaded}
+                    onChange={() => console.log("input changed")}
+                  />
+                </div>
+                <hr style={{ border: "2px solid blue" }} />
+                <div class="form-check  form-check-inline justify-content-around">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="image-type"
+                    value="blog-image"
+                    id="blog-image-type"
+                    onChange={handleRadioButtonChange}
+                  />
+                  <label class="form-check-label" for="blog-image-type">
+                    Blog Image
+                  </label>
+                </div>
+                <div class="form-check  form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="image-type"
+                    value="profile-image"
+                    id="profile-image-type"
+                    defaultChecked
+                    onChange={handleRadioButtonChange}
+                  />
+                  <label class="form-check-label" htmlFor="profile-image-type">
+                    Profile Image
+                  </label>
+                </div>
+                <div class="modal-body">
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button class="btn btn-primary">Submit</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
 
-// blogsRouter.post("/", async (req, res, next) => {
-//   const upload = uploadFunc(9000000);
-//   console.log("started....");
-
-//   upload(req, res, async (err) => {
-//     if (err) {
-//       //res.json({ msg: err });
-//       return res.status(401).json({ error: err });
-//     } else {
-//       if (req.file == undefined) {
-//         // res.json({ msg: "Error-no file selected" });
-//         console.log("no file selectedddddd");
-//         handleCreateBlog(req, res, "");
-//         return res.status(204).end();
-//         //return res.status(401).json({ error: "Error-no file selected" });
-//       } else {
-//         const file = req.file;
-
-//         const dimensions = sizeOf(`upload/${file.filename}`); // replace with your image
-//         console.log(dimensions.width, dimensions.height, "demensions");
-
-//         console.log({ file });
-//         const result = await uploadFile(file);
-//         console.log({ result });
-//         await unlinkFile(file.path);
-//         // const description = req.body.description;
-//         // console.log(description);
-//         const imageid = `/api/blogs/images/${result.key}`;
-//         // handleRegister(req.body, imageid, res);
-//         handleCreateBlog(req, res, imageid);
-//         //res.json({ imagePath: `/api/users/images/${result.key}` });
-//       }
-//     }
-//   });
-// });
-
-// const sizeOf = require("image-size");
-// const fs = require("fs");
-// const util = require("util");
-// const unlinkFile = util.promisify(fs.unlink);
-// const {
-//   uploadFile,
-//   getFileStream,
-//   uploadFunc,
-//   deleteFile,
-// } = require("../utils/s3-services");
-
-// onst create = async (newObject) => {
-//   const config = {
-//     headers: { Authorization: token },
-//   };
-//   //const formData = new FormData();
-//   formData.append("image", image);
-//   const response = await axios.post(baseUrl, newObject, {
-//     headers: { Authorization: token, "Content-Type": "multipart/form-data" },
-//   });
-//   console.log({ config });
-//   return response.data;
-// };
+//  <div
+//    class="modal fade"
+//    id="enroll"
+//    tabindex="-1"
+//    aria-labelledby="enrollLabel"
+//    aria-hidden="true"
+//  >
+//    <div class="modal-dialog">
+//      <div class="modal-content">
+//        <div class="modal-header">
+//          <h5 class="modal-title" id="enrollLabel">
+//            Enrollment
+//          </h5>
+//          <button
+//            type="button"
+//            class="btn-close"
+//            data-bs-dismiss="modal"
+//            aria-label="Close"
+//          ></button>
+//        </div>
+//        <div class="modal-body">
+//          <p class="lead">Fill out this form and we will get back to you</p>
+//          <form>
+//
+//            <div class="mb-3">
+//              <label for="last-name" class="col-form-label">
+//                Last Name:
+//              </label>
+//              <input type="text" class="form-control" id="last-name" />
+//            </div>
+//            <div class="mb-3">
+//              <label for="email" class="col-form-label">
+//                Email:
+//              </label>
+//              <input type="email" class="form-control" id="email" />
+//            </div>
+//            <div class="mb-3">
+//              <label for="phone" class="col-form-label">
+//                Phone:
+//              </label>
+//              <input type="tel" class="form-control" id="phone" />
+//            </div>
+//          </form>
+//        </div>
+//        <div class="modal-footer">
+//          <button
+//            type="button"
+//            class="btn btn-secondary"
+//            data-bs-dismiss="modal"
+//          >
+//            Close
+//          </button>
+//          <button data-bs-dismiss="modal" type="button" class="btn btn-primary">
+//            Submit
+//          </button>
+//        </div>
+//      </div>
+//    </div>
+//  </div>;

@@ -48,6 +48,7 @@ export async function getStaticProps() {
         return {
           title: document.title,
           date: document.date,
+          updateDate: document.updateDate ? document.updateDate : document.date,
 
           image: document.image
             ? document.image

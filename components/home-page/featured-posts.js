@@ -22,6 +22,7 @@ function FeaturedPosts(props) {
     const postObj = props.posts.find((item) => item.id === blogId);
     setselectId(blogId);
     setpost(postObj);
+    settoggleMenu(false);
     props.setheroIsOpen(false);
   };
   let localId;
@@ -41,6 +42,7 @@ function FeaturedPosts(props) {
       setpost(localPost);
       setselectId(localId);
       //onSelectMenu(localId);
+      settoggleMenu(false);
       window.localStorage.setItem("post", null);
       window.localStorage.setItem("blogid", null);
     }

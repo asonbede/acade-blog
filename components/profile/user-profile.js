@@ -62,7 +62,10 @@ function UserProfile(props) {
         />
       )}
       <FeaturedPosts posts={props.posts} setheroIsOpen={setheroIsOpen} />
-      {passOpen && <ProfileForm onChangePassword={changePasswordHandler} />}
+      {/* change password */}
+      {<ProfileForm onChangePassword={changePasswordHandler} />}
+
+      {/* update registration */}
       {updateOpen && (
         <UpdateAuthForm
           name={props.name}
@@ -70,6 +73,8 @@ function UserProfile(props) {
           email={props.email}
         />
       )}
+
+      {/* delete account */}
       {deleteAccount && (
         <DeleteAccountForm
           name={props.name}
@@ -79,7 +84,8 @@ function UserProfile(props) {
         />
       )}
 
-      {uploadOpen && <ProfileImageUploadform />}
+      {/* upload image */}
+      <ProfileImageUploadform />
     </>
   );
 }

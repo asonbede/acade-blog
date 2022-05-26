@@ -153,6 +153,7 @@ function UpdatePostForm({ updateId }) {
         orderValue: orderValue,
         imageProfileUrl: imageProfileUrl,
         authorusername: authorusername,
+        updateDate: formattedDateUpdated,
       });
       //setRequestStatus("success");
       // setEnteredContent("");
@@ -176,6 +177,11 @@ function UpdatePostForm({ updateId }) {
       });
     }
   }
+  const formattedDateUpdated = new Date().toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 
   const onChangeNumber = (e) => {
     setorderValue(e.target.value);

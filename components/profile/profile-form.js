@@ -62,12 +62,12 @@ function ProfileForm(props) {
     });
     // return () => {
     //   cleanup
-    // }
+    // }ason
   };
 
   return (
     <>
-      <form
+      {/* <form
         className={`${classes.form} ${classes.displaybox}`}
         onSubmit={submitHandler}
       >
@@ -76,7 +76,7 @@ function ProfileForm(props) {
           className={classes.displayTopRight}
           title="close"
         >
-          &times;
+          &times;ason
         </span>
         <div className={classes.control}>
           <label htmlFor="new-password">New Password</label>
@@ -89,7 +89,71 @@ function ProfileForm(props) {
         <div className={classes.action}>
           <button>Change Password</button>
         </div>
-      </form>
+      </form> */}
+      <div
+        class="modal fade"
+        id="enroll"
+        tabindex="-1"
+        aria-labelledby="enrollLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="enrollLabel">
+                Change Password
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <p class="lead">Fill out this form to change your password</p>
+              <form onSubmit={submitHandler}>
+                <div class="mb-3">
+                  <label htmlFor="new-password" class="col-form-label">
+                    New Password:
+                  </label>
+                  <input
+                    class="form-control"
+                    type="password"
+                    id="new-password"
+                    ref={newPasswordRef}
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label htmFor="old-password" class="col-form-label">
+                    Old Password:
+                  </label>
+                  <input
+                    class="form-control"
+                    type="password"
+                    id="old-password"
+                    ref={oldPasswordRef}
+                    required
+                  />
+                </div>
+                <div class="modal-body">
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button class="btn btn-primary">Submit</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

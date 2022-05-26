@@ -100,6 +100,7 @@ async function handler(req, res) {
       orderValue,
       imageProfileUrl,
       authorusername,
+      updateDate,
     } = req.body;
 
     if (
@@ -135,6 +136,7 @@ async function handler(req, res) {
       orderValue,
       imageProfileUrl,
       authorusername,
+      updateDate,
     };
 
     let result;

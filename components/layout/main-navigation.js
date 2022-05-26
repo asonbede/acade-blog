@@ -22,7 +22,7 @@ function MainNavigation() {
 
   function logoutHandler() {
     signOut();
-    router.replace("/auth");
+    // router.replace("/auth");
   }
 
   const { menuBtn, passOpen, updateOpen, uploadOpen, deleteAccount } =
@@ -69,11 +69,20 @@ function MainNavigation() {
     });
   };
 
+  <button
+    class="btn btn-primary btn-lg"
+    data-bs-toggle="modal"
+    data-bs-target="#enroll"
+  >
+    Start The Enrollment
+  </button>;
+
   return (
     <nav
       className="navbar navbar-expand-lg  navbar-dark"
       id="nav-bar"
       style={{ backgroundColor: "#ff4d67" }}
+      fixed-top
     >
       <div className="container-fluid">
         <Link href="/">
@@ -147,7 +156,10 @@ function MainNavigation() {
                 <ul className="dropdown-menu">
                   <li>
                     <button
-                      onClick={handlePasswordChange}
+                      // class="btn btn-primary btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#enroll"
+                      // onClick={handlePasswordChange}
                       className="dropdown-item"
                     >
                       Change Password
@@ -164,7 +176,10 @@ function MainNavigation() {
                   </li>
                   <li>
                     <button
-                      onClick={handleImageUpload}
+                      // onClick={handleImageUpload}
+
+                      data-bs-toggle="modal"
+                      data-bs-target="#imageupload"
                       className="dropdown-item"
                     >
                       Upload Image

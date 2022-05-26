@@ -51,9 +51,6 @@ export default function ProfileMenu(props) {
 
   return (
     <div className={`${classes.verticalmenu} `}>
-      {/* <button>Change Password</button>
-      <button>Update Registration details</button>
-      <button>Upload Profile Image</button> */}
       <div
         style={{
           width: "50%",
@@ -68,7 +65,8 @@ export default function ProfileMenu(props) {
         id="menu-select"
         name="menu-select"
         size={6}
-        className={classes.menuSelect}
+        className={`${classes.menuSelect} form-select form-select-lg mb-3`}
+        aria-label=".form-select-lg example"
         onChange={onselectChange}
         // value={selectValue}
         defaultValue={props.setselectId}
@@ -87,8 +85,7 @@ export default function ProfileMenu(props) {
         ))}
         {/* <optgroup label="Chemistry">
           <option>Scientific Method</option>
-          <option>Data Presentation</option>
-          <option>Atoms, what are they?</option>
+          <option>Data Presentation</option>on
           <option>The periodic Table</option>
           <option>The molecules</option>
         </optgroup>

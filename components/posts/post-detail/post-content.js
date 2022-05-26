@@ -98,6 +98,25 @@ function PostContent(props) {
   const imagePath = post.image;
   console.log(imagePath, "post-content");
   console.log(post.id, "post for animation");
+  console.log(props.date, "date in content");
+
+  const formattedDatePublished = new Date(post.date).toLocaleDateString(
+    "en-US",
+    {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }
+  );
+
+  const formattedDateUpdated = new Date(post.updateDate).toLocaleDateString(
+    "en-US",
+    {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }
+  );
 
   const linkPath = `/posts/questions/${post.id}`;
   const linkPathForUpdate = `/posts/updates/${post.id}`;
@@ -391,7 +410,9 @@ function PostContent(props) {
               <div class="col-md-10 ">
                 <div class="card bg-light">
                   <div class="card-header">
-                    <h2 class="text-center">{post.title}</h2>
+                    <h3 class="text-center fw-bolder display-3">
+                      {post.title}
+                    </h3>
                   </div>
 
                   <div class="card-body text-center">
@@ -403,9 +424,13 @@ function PostContent(props) {
                     />
 
                     <h3 class="card-title mb-1">{post.author}</h3>
-                    <h6 class="card-subtitle mb-2 text-muted">Published:</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">Updated:</h6>
-                    <div>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                      Published:{formattedDatePublished}
+                    </h6>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                      Updated: {formattedDateUpdated}
+                    </h6>
+                    <div className="w-100 overflow-auto">
                       {post.id in replaceBannerImg ? (
                         replaceBannerImg[post.id]()
                       ) : (

@@ -1,7 +1,7 @@
 .latest {
   width: 100%;
   /* max-width: 80rem; */
-  margin: var(--size-1) auto;
+  margin: var(--size-1) 0;
   /* margin-right: 0.5%; */
 }
 
@@ -10,9 +10,9 @@
   display: grid;
   grid-template-columns: 1fr 10fr;
   grid-auto-rows: minmax(90%, auto);
-  width: 98% !important;
-  max-width: 98rem !important;
-  margin: var(--size-2) auto !important;
+  width: 100% !important;
+  /* max-width: 98rem !important; */
+  /* margin: var(--size-2) auto !important; */
   grid-column-gap: 1px;
 }
 .menuProfile {
@@ -20,8 +20,8 @@
   grid-row: 1;
   margin: 0 !important;
   z-index: 3;
-  margin-top: 75px !important;
-  margin-left: 15px !important;
+  margin-top: 5px !important;
+  margin-left: 3px !important;
   /* height: auto !important; */
 }
 
@@ -77,6 +77,15 @@
     top: 10px;
     right: 130px;
     margin-left: 10px;
+  }
+
+  @media (max-width: 768px) {
+    .menuProfile {
+      z-index: 3;
+      margin-top: 48px !important;
+      margin-left: 3px !important;
+      /* height: auto !important; */
+    }
   }
 
   .displayProfile .showHideBut {

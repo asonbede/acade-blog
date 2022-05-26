@@ -27,7 +27,7 @@
 
 .success {
   background-color: var(--color-success-500);
-  color: var(--color-grey-800);
+  color: var(--color-grey-850) !important;
 }
 
 .error {
