@@ -29,7 +29,9 @@ function HomePage(props) {
       </Head>
       <Title />
       <FeatureSection />
-      <Testimonial />
+      <Testimonial
+        allUsersDocumentsProcessed={props.allUsersDocumentsProcessed}
+      />
       <Press />
       <Pricing />
 
@@ -62,13 +64,11 @@ export async function getStaticProps() {
   );
   documents = documents.length > 6 ? documents.slice(0, 6) : documents;
 
-  usersDocuments = await getAllDocuments(client, "users", {
+  const allUsersDocuments = await getAllDocuments(client, "users", {
     _id: 1,
   });
 
-  usersDocuments =
-    usersDocuments.length > 6 ? usersDocuments.slice(0, 6) : usersDocuments;
-  const usersDocumentsProcessed = usersDocuments.map((document) => {
+  const allUsersDocumentsProcessed = allUsersDocuments.map((document) => {
     return {
       id: document._id.toString(),
       email: document.email,
@@ -81,8 +81,14 @@ export async function getStaticProps() {
         ? document.imageLink
         : "/images/posts/default-profile-pic.jpg",
       moderated: document.moderated ? document.moderated : false,
+      review: document.review ? document.review : "Yet to write review",
     };
   });
+
+  const usersDocumentsProcessed =
+    allUsersDocumentsProcessed.length > 6
+      ? allUsersDocumentsProcessed.slice(0, 6)
+      : allUsersDocumentsProcessed;
 
   client.close();
 
@@ -114,6 +120,7 @@ export async function getStaticProps() {
         };
       }),
       usersDocumentsProcessed,
+      allUsersDocumentsProcessed,
     },
   };
 }

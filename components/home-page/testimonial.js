@@ -3,6 +3,25 @@ import Image from "next/image";
 import classes from "./testimonial.module.css";
 import { useRouter } from "next/router";
 function Testimonial(props) {
+  const router = useRouter();
+
+  function examineDocument() {
+    const usersDocuments = props.allUsersDocumentsProcessed;
+
+    const documentsWithReview = usersDocuments.filter(
+      (item) => item.review !== null
+    );
+    if (router.pathname.indexOf("/") > -1) {
+      if (documentsWithReview.length > 6) {
+        return documentsWithReview.slice(0, 6);
+      } else {
+        return documentsWithReview;
+      }
+    } else {
+      return documentsWithReview;
+    }
+  }
+
   return (
     <div
       id="demo"
@@ -10,7 +29,7 @@ function Testimonial(props) {
       data-bs-ride="carousel"
     >
       {/* <!-- Indicators/dots --> */}
-      <div className="carousel-indicators">
+      {/* <div className="carousel-indicators">
         <button
           type="button"
           data-bs-target="#demo"
@@ -22,29 +41,39 @@ function Testimonial(props) {
           data-bs-target="#demo"
           data-bs-slide-to="1"
         ></button>
-      </div>
+      </div> */}
 
       {/* <!-- The slideshow/carousel --> */}
+
       <div className="carousel-inner">
         <h1>Testimonial</h1>
-        <div className="carousel-item active">
-          <h5
-            className={`${classes["testimonial-text"]}`}
-            // style={{ width: "50%", margin: "0 auto" }}
-          >
-            My dog used to be so lonely, but with TinDog's help, they've found
-            the love of their life. I think.
-          </h5>
-          <img
-            src="/images/site/home-page/dog-img.jpg"
-            alt="dog-profile"
-            // className="d-block"
-            className={`${classes["testimonial-image"]}`}
 
-            // style={{ width: "100%" }}
-          />
-        </div>
-        <div className="carousel-item">
+        {examineDocument().map((item, i) => (
+          <div
+            className={`carousel-item  ${i === 0 ? "active" : ""}`}
+            key={item.id}
+          >
+            <h5
+              className={`${classes["testimonial-text"]}`}
+              // style={{ width: "50%", margin: "0 auto" }}
+            >
+              {item.review}
+            </h5>
+            <div class="d-flex flex-column w-100 justify-content-center">
+              <img
+                src={item.imageLink}
+                alt="dog-profile"
+                // className="d-block"
+                className={`${classes["testimonial-image"]}`}
+
+                // style={{ width: "100%" }}
+              />
+              <p class="display-5">{item.name} </p>
+            </div>
+          </div>
+        ))}
+
+        {/* <div className="carousel-item">
           <h5
             className={`${classes["testimonial-text"]}`}
             // style={{ width: "50%", margin: "0 auto" }}
@@ -56,10 +85,9 @@ function Testimonial(props) {
             src="/images/site/home-page/lady-img.jpg"
             alt="lady-profile"
             className={`${classes["testimonial-image"]}`}
-            // className="d-block"
-            // style={{ width: "100%" }}
+           
           />
-        </div>
+        </div> */}
       </div>
 
       {/* <!-- Left and right controls/icons --> */}
@@ -84,3 +112,4 @@ function Testimonial(props) {
 }
 
 export default Testimonial;
+//  imageLink: document.imageLink;

@@ -13,6 +13,7 @@ import NotificationContext from "../../store/notification-context";
 import UpdateAuthForm from "../auth/auth-update-form";
 import DeleteAccountForm from "../auth/delete-account-form";
 import ProfileImageUploadform from "./profile-image-upload-form";
+import ReviewTestimonialform from "./review-testimonial";
 //import PostContent from "../posts/post-detail/post-content";
 function UserProfile(props) {
   const [session, loading] = useSession();
@@ -28,6 +29,23 @@ function UserProfile(props) {
     const response = await fetch("/api/user/change-password", {
       method: "PATCH",
       body: JSON.stringify(passwordData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    //console.log(data);
+    if (!response.ok) {
+      throw new Error(data.message || "Something went wrong!");
+    }
+  }
+
+  async function onChangeReview(reviewData) {
+    const response = await fetch("/api/user/review", {
+      method: "PATCH",
+      body: JSON.stringify(reviewData),
       headers: {
         "Content-Type": "application/json",
       },
@@ -64,7 +82,6 @@ function UserProfile(props) {
       <FeaturedPosts posts={props.posts} setheroIsOpen={setheroIsOpen} />
       {/* change password */}
       {<ProfileForm onChangePassword={changePasswordHandler} />}
-
       {/* update registration */}
       {updateOpen && (
         <UpdateAuthForm
@@ -73,7 +90,6 @@ function UserProfile(props) {
           email={props.email}
         />
       )}
-
       {/* delete account */}
       {deleteAccount && (
         <DeleteAccountForm
@@ -83,9 +99,12 @@ function UserProfile(props) {
           username={props.username}
         />
       )}
-
       {/* upload image */}
       <ProfileImageUploadform />
+      <ReviewTestimonialform
+        onChangeReview={onChangeReview}
+        review={props.review}
+      />
     </>
   );
 }

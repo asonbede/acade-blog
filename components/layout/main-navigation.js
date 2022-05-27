@@ -186,7 +186,13 @@ function MainNavigation() {
                     </button>
                   </li>
                   <li>
-                    <button className="dropdown-item">Write Review</button>
+                    <button
+                      data-bs-toggle="modal"
+                      data-bs-target="#reviewTestimonial"
+                      className="dropdown-item"
+                    >
+                      Write Review
+                    </button>
                   </li>
                   <li>
                     <button
