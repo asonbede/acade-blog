@@ -496,26 +496,24 @@ For easy type questions
   }
 
   return (
-    <section className={classes.questions}>
+    <>
+      {/* <section className={classes.questions} class="p-5 bg-primary">
       <div className={classes.control}>
         <button onClick={toggleQuestionsHandler}>
           {showQuestions ? "Hide" : "Show"} Questions
         </button>
 
-        {/* The select elemment that enables the user specify how they want
-            want to access the questions: all at once, one by one or eas type
-        */}
+      
         <QuestionSelect
           handleSelectChange={onselectChange}
           selectValue={selectValue}
         />
       </div>
 
-      {/* Displays the user selected component */}
+      
       {items.length !== 0 && showQuestions && displayQuestions()}
 
-      {/* render components that enables user to create questions
-       if they are loged in.*/}
+     
 
       {session && selectValue === "essay-type" ? (
         <Togglable buttonLabel="create essay question" ref={noteFormRef}>
@@ -536,11 +534,71 @@ For easy type questions
           />
         </Togglable>
       ) : null}
-    </section>
+    </section> */}
+      <section id="questions" class="p-1 bg-primary">
+        <div class="container">
+          <h2 class="text-center text-white">Revision Questions</h2>
+          <p class="lead text-center text-white mb-1">
+            We recommend that you read the topic before answering the questions.
+            {/* The questions are intended to consolidate your understanding of the
+            topic. */}
+          </p>
+          {/* <div class="row justify-content-center">
+            <div class="col-10"> */}
+          <div class="d-flex justify-content-end">
+            <button
+              onClick={toggleQuestionsHandler}
+              class="btn  btn-outline-light btn-sm m-2"
+            >
+              {showQuestions ? "Hide" : "Show"} Questions
+            </button>
+
+            {/* The select elemment that enables the user specify how they want
+            want to access the questions: all at once, one by one or eas type
+        */}
+            <QuestionSelect
+              handleSelectChange={onselectChange}
+              selectValue={selectValue}
+            />
+          </div>
+          <div>
+            {/* Displays the user selected component */}
+            {items.length !== 0 && showQuestions && displayQuestions()}
+          </div>
+          <div>
+            {session && selectValue === "essay-type" ? (
+              <Togglable buttonLabel="create essay question" ref={noteFormRef}>
+                <p>Create Essay-Type Questions</p>
+                <NewEssayQuestion
+                  onAddQuestion={addQuestionHandler}
+                  noteFormRef={noteFormRef}
+                />
+              </Togglable>
+            ) : session &&
+              (selectValue === "mult-choice-all" ||
+                selectValue === "mult-choice-one") ? (
+              <Togglable
+                buttonLabel="create multi-choice question"
+                ref={noteFormRef}
+              >
+                <p>Create Multi-Choice Questions</p>
+                <NewQuestion
+                  onAddQuestion={addQuestionHandler}
+                  noteFormRef={noteFormRef}
+                />
+              </Togglable>
+            ) : null}
+          </div>
+          {/* </div>
+          </div> */}
+        </div>
+      </section>
+    </>
   );
 }
 
 export default Questions;
+
 /* 
 Questions.js
 How this component is loaded and what it does.

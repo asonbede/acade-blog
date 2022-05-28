@@ -82,7 +82,6 @@ function MainNavigation() {
       className="navbar navbar-expand-lg  navbar-dark"
       id="nav-bar"
       style={{ backgroundColor: "#ff4d67" }}
-      fixed-top
     >
       <div className="container-fluid">
         <Link href="/">

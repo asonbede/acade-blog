@@ -46,7 +46,7 @@ function Testimonial(props) {
       {/* <!-- The slideshow/carousel --> */}
 
       <div className="carousel-inner">
-        <h1>Testimonial</h1>
+        <h1 class="display-1 fw-bolder">Testimonial</h1>
 
         {examineDocument().map((item, i) => (
           <div

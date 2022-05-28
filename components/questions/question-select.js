@@ -5,7 +5,9 @@ function QuestionSelect({ handleSelectChange, selectValue }) {
     <select
       onChange={handleSelectChange}
       value={selectValue}
-      style={{ backgroundColor: "white" }}
+      class="form-select form-select-sm m-2 w-25 bg-primary"
+      aria-label=".form-select-sm example"
+      style={{ color: "white" }}
     >
       <optgroup label="Multiple Choice">
         {/* <option value="mult-choice-all">All Multiple Choice</option> */}

@@ -14,7 +14,9 @@ function ReviewForm(props) {
   const [name, setName] = useState();
   const [username, setuserName] = useState();
   const [review, setreview] = useState();
+  const [isSuccess, setisSuccess] = useState(true);
   const router = useRouter();
+  const ref = useRef(null);
   console.log({ session });
   //   function logoutHandler() {
   //     signOut();
@@ -35,7 +37,7 @@ function ReviewForm(props) {
     // optional: Add validation
 
     notificationCtx.showNotification({
-      title: "Changing password...",
+      title: "Submitting Review...",
       message: "Your review is currently being submitted, please wait...",
       status: "pending",
     });
@@ -47,13 +49,16 @@ function ReviewForm(props) {
         name,
         username,
       });
-
+      console.log(ref.current, "MODAL");
       notificationCtx.showNotification({
         title: "Success!",
         message: "Your review was successfully submitted!",
         status: "success",
       });
-      router.push("/");
+      // setisSuccess(false);
+
+      ref.current.click();
+      router.push("/reviews-testimonial");
     } catch (error) {
       notificationCtx.showNotification({
         title: "Error!",
@@ -68,11 +73,11 @@ function ReviewForm(props) {
       <div
         class="modal fade"
         id="reviewTestimonial"
-        tabindex="-3"
+        tabIndex="-3"
         aria-labelledby="reviewTestimonialLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
+        <div class="modal-dialog" style={{ zIndex: 0 }}>
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="reviewTestimonialLabel">
@@ -146,6 +151,7 @@ function ReviewForm(props) {
                       type="button"
                       class="btn btn-secondary"
                       data-bs-dismiss="modal"
+                      ref={ref}
                     >
                       Close
                     </button>

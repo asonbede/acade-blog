@@ -90,6 +90,9 @@ function FeaturedPosts(props) {
             Author Profile
           </button>
         ) : null}
+
+        {/* <!-- open sidebar / offcanvas --> */}
+
         {!post && (
           <section>
             {" "}
