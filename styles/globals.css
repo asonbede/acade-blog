@@ -96,12 +96,12 @@ a {
 }
 .editor-class {
   background-color: white;
-  padding: 1rem;
-  border: 1px solid rgb(197, 71, 71);
+  padding-left: 1.5rem;
+  /* border: 1px solid rgb(197, 71, 71); */
 
   margin-top: 1px;
-  width: 100% !important;
-  border-radius: 6px;
+  /* width: 100% !important; */
+  /* border-radius: 6px; */
 }
 .editor-small-class {
   background-color: #d3d3d3;

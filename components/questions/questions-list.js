@@ -168,11 +168,11 @@ function QuestionsList({
 
   function displayListItem(item, questionIndex) {
     return (
-      <li
+      <div
         key={item._id}
-        className={moderatedValue ? classes.showItem : classes.hideItem}
+        className={`${moderatedValue ? classes.showItem : classes.hideItem} `}
       >
-        {!item.moderated && (
+        {/* {!item.moderated && (
           <span style={{ color: "red" }}>
             {" "}
             Moderation in progressing, this may take a while, until this action
@@ -181,7 +181,7 @@ function QuestionsList({
             message will be removed as soon as the process is complete. You may
             continue to work on your post while this process is on...
           </span>
-        )}
+        )} */}
 
         {item.questionIntroText && fullLessQuestValue === item._id && (
           <>
@@ -197,75 +197,88 @@ function QuestionsList({
           </>
         )}
 
-        {item.questionIntroText && (
-          <Button onClick={() => questFullLessControlHandler(item._id)}>
-            {fullLessQuestValue === item._id
-              ? "See Less Question ..."
-              : "See Full Question ..."}
-          </Button>
-        )}
-        <div style={{ display: "flex" }}>
-          {/* &nbsp;&nbsp;{item.question} */}
-          {/* {selectValue === "mult-choice-one" ? null : ( */}
-          <span style={{ marginRight: "5px", marginTop: "14px" }}>
-            {questionIndex + 1}
-          </span>
-          {/* </span>
-            )} */}
-
-          <DisplayEditorContent
-            contentFromServer={item.question}
-            toolbarPresent={false}
-          />
-        </div>
-        {item.examType === "none" || item.examType === undefined ? null : (
-          <p>{item.examType}</p>
-        )}
-
-        <div>
-          {item.options.map((optionItem, optionIndex) => (
-            <div
-              key={`${questionIndex}-${optionIndex}key`}
-              style={{
-                display: "flex",
-              }}
+        <div class="d-flex flex-column fw-bolder border mt-5 p-3">
+          {item.questionIntroText && (
+            <a
+              onClick={() => questFullLessControlHandler(item._id)}
+              class="btn  btn-outline-dark  border-light"
             >
-              <input
-                type="radio"
-                name={questionIndex}
-                value={optionItem.option}
-                id={`${questionIndex}:${optionIndex}`}
-                onChange={handleRadioButtonChange}
-                style={{
-                  marginTop: "16px",
-                }}
-              />
-              <label
-                htmlFor={`${questionIndex}:${optionIndex}`}
-                style={{
-                  marginTop: "14px",
-                }}
-              >
-                {optionsList[optionIndex]}.{" "}
+              {fullLessQuestValue === item._id
+                ? "See Less Question ..."
+                : "See Full Question ..."}
+            </a>
+          )}
+          <div class="d-flex align-items-center fw-bolder">
+            {/* <div class="mt-4 p-5 bg-primary text-white rounded">
+            <h1>Jumbotron Example</h1>
+            <p>Lorem ipsum...</p>
+          </div> */}
+            <span>{questionIndex + 1}.</span>
+
+            <DisplayEditorContent
+              contentFromServer={item.question}
+              toolbarPresent={false}
+            />
+          </div>
+          {item.examType === "none" || item.examType === undefined ? null : (
+            <span>{item.examType}</span>
+          )}
+        </div>
+
+        <div class="list-group">
+          {item.options.map((optionItem, optionIndex) => (
+            <>
+              <label class="d-flex align-items-center list-group-item ms-5">
+                <div
+                  key={`${questionIndex}-${optionIndex}key`}
+                  class="form-check"
+                >
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    name={questionIndex}
+                    value={optionItem.option}
+                    id={`${questionIndex}:${optionIndex}`}
+                    onChange={handleRadioButtonChange}
+                    // style={{
+                    //   marginTop: "16px",
+                    // }}
+                  />
+                  {/* <label */}
+                  {/* class="form-check-label"
+                    htmlFor={`${questionIndex}:${optionIndex}`}
+                    // style={{ */}
+                  {/* //   marginTop: "14px",
+                    // }}
+                 // > */}
+                  {optionsList[optionIndex]}. {/* </label> */}
+                </div>
+
+                <DisplayEditorContent
+                  contentFromServer={optionItem.option}
+                  toolbarPresent={false}
+                />
               </label>
-              <DisplayEditorContent
-                contentFromServer={optionItem.option}
-                toolbarPresent={false}
-              />
-            </div>
+            </>
           ))}
         </div>
+        <div class="d-flex justify-content-around">
+          {authValue && (
+            <Button
+              onClick={() => handleQuestionUpdateData(item)}
+              // style={{ marginLeft: "10px", display: "inline-block" }}
+            >
+              Update
+            </Button>
+          )}
 
-        {authValue && (
-          <Button onClick={() => handleQuestionUpdateData(item)}>Update</Button>
-        )}
-
-        {authValue && (
-          <Button onClick={() => deleteConfirm(item._id.toString())}>
-            Delete
-          </Button>
-        )}
-      </li>
+          {authValue && (
+            <Button onClick={() => deleteConfirm(item._id.toString())}>
+              Delete
+            </Button>
+          )}
+        </div>
+      </div>
     );
   }
 
@@ -307,7 +320,7 @@ function QuestionsList({
         />
       )}
 
-      <ul className={classes.form}>
+      <div>
         {selectValue === "mult-choice-all" ? (
           <button
             onClick={() => markScript(items)}
@@ -318,9 +331,17 @@ function QuestionsList({
           </button>
         ) : null}
         {questionListHandlerFunc()}
-      </ul>
+      </div>
     </>
   );
+}
+
+{
+  /* <ul class="list-group list-group-flush">
+  <li class="list-group-item">An item</li>
+  <li class="list-group-item">A second item</li>
+  <li class="list-group-item">A third item</li>
+</ul>; */
 }
 
 export default QuestionsList;

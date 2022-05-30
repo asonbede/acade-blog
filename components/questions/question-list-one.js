@@ -488,287 +488,529 @@ const OneQuestion = ({
     return (
       <>
         {!controlReviewLink ? (
-          <main className={classes.form}>
-            {/* heading */}
-            <article className={classes.controls}>
-              <h4>Goodluck from Bede Asonye</h4>
-              <p>
-                {/* show the question number */}{" "}
-                {/* {randIndex
-                  ? `Question  ${randIndex} Of ${workingArray.length}`
-                  : partIndex
-                  ? `Question  ${partIndex} Of ${workingArray.length}`
-                  : `Question  ${index + 1} Of ${workingArray.length}`} */}
-                {setQuestionNum()}
-              </p>
+          // <main className={classes.form}>
 
-              {/* display the questions for answering */}
-              <div>
-                <QuestionList
-                  items={itemArray}
-                  handleRadioButtonChange={handleRadioButtonChange}
-                  blogId={blogId}
-                  selectValue={selectValue}
-                  israndomQues={israndomQues}
-                />
-              </div>
+          //   <article className={classes.controls}>
+          //     <h4>Goodluck from Bede Asonye</h4>
+          //     <p>
 
-              {/* buttons for accessing questions one by one:
-                  either forward or backwards
-                */}
-              <div className={classes.buttoncontainer}>
-                <div className={classes.forwardBackwardButcontrol}>
-                  <button className={classes.prevbtn} onClick={prevPerson}>
-                    <FaChevronLeft />
-                  </button>
-                  <button className={classes.nextbtn} onClick={nextQuestion}>
-                    <FaChevronRight />
-                  </button>
-                </div>
+          //       {setQuestionNum()}
+          //     </p>
 
-                {/* buttons for submitting questions for making.
-                 */}
-                <div className={classes.submitBut}>
-                  <button
-                    onClick={() => markScript(itemArray)}
-                    disabled={controlSubBtn}
-                  >
-                    Submit For Marking
-                  </button>
-                </div>
+          //     <div>
+          //       <QuestionList
+          //         items={itemArray}
+          //         handleRadioButtonChange={handleRadioButtonChange}
+          //         blogId={blogId}
+          //         selectValue={selectValue}
+          //         israndomQues={israndomQues}
+          //       />
+          //     </div>
 
-                {/* buttons for accessing questions randomly, input
-                 number for chooseing the amount of random questions
-                */}
-                <div className={classes.randomQuestion}>
-                  <Button className={classes.randombtn} onClick={randomPerson}>
-                    Give me random Questions
-                  </Button>
+          //     <div className={classes.buttoncontainer}>
+          //       <div className={classes.forwardBackwardButcontrol}>
+          //         <button className={classes.prevbtn} onClick={prevPerson}>
+          //           <FaChevronLeft />
+          //         </button>
+          //         <button className={classes.nextbtn} onClick={nextQuestion}>
+          //           <FaChevronRight />
+          //         </button>
+          //       </div>
 
-                  <label htmlFor="order">
-                    {" "}
-                    {`Available Quantity ${workingArray.length}: Selected Quantity`}
-                  </label>
+          //       <div className={classes.submitBut}>
+          //         <button
+          //           onClick={() => markScript(itemArray)}
+          //           disabled={controlSubBtn}
+          //         >
+          //           Submit For Marking
+          //         </button>
+          //       </div>
 
-                  <input
-                    type="number"
-                    id="order"
-                    value={orderValue}
-                    onChange={onChangeNumberHandler}
-                    min="1"
-                    max={workingArray.length}
-                    name="random"
-                  />
-                </div>
+          //       <div className={classes.randomQuestion}>
+          //         <Button className={classes.randombtn} onClick={randomPerson}>
+          //           Give me random Questions
+          //         </Button>
 
-                {/* buttons for accessing a particular  question, input
-                 number for chooseing that particular question.
-                */}
-                <div className={classes.particularQuestion}>
-                  <Button onClick={particularQuestionHandler}>
-                    Select Particular Questions
-                  </Button>
+          //         <label htmlFor="order">
+          //           {" "}
+          //           {`Available Quantity ${workingArray.length}: Selected Quantity`}
+          //         </label>
 
-                  <label htmlFor="particular-quest">
-                    {" "}
-                    {`Available Quantity ${workingArray.length}: Selected Quantity`}
-                  </label>
+          //         <input
+          //           type="number"
+          //           id="order"
+          //           value={orderValue}
+          //           onChange={onChangeNumberHandler}
+          //           min="1"
+          //           max={workingArray.length}
+          //           name="random"
+          //         />
+          //       </div>
 
-                  <input
-                    type="number"
-                    id="particular-quest"
-                    required
-                    value={particularQueValue}
-                    onChange={onChangeNumberHandler}
-                    min="1"
-                    max={workingArray.length}
-                    name="particular"
-                  />
-                </div>
-                <div className={classes.rangeOfQuestions}>
-                  <Button onClick={rangOfQuestionsHandler}>
-                    Select Range of Questions
-                  </Button>
+          //       <div className={classes.particularQuestion}>
+          //         <Button onClick={particularQuestionHandler}>
+          //           Select Particular Questions
+          //         </Button>
 
-                  <label htmlFor="range-quest1">
-                    {" "}
-                    {`Available Quantity ${workingArray.length}: From`}
-                  </label>
+          //         <label htmlFor="particular-quest">
+          //           {" "}
+          //           {`Available Quantity ${workingArray.length}: Selected Quantity`}
+          //         </label>
 
-                  <input
-                    type="number"
-                    id="range-quest1"
-                    required
-                    value={rangeQueValue1}
-                    onChange={onChangeNumberHandler}
-                    min="1"
-                    max={workingArray.length}
-                    name="range1"
-                  />
+          //         <input
+          //           type="number"
+          //           id="particular-quest"
+          //           required
+          //           value={particularQueValue}
+          //           onChange={onChangeNumberHandler}
+          //           min="1"
+          //           max={workingArray.length}
+          //           name="particular"
+          //         />
+          //       </div>
+          //       <div className={classes.rangeOfQuestions}>
+          //         <Button onClick={rangOfQuestionsHandler}>
+          //           Select Range of Questions
+          //         </Button>
 
-                  <label htmlFor="range-quest2">To:</label>
-                  <input
-                    type="number"
-                    id="range-quest2"
-                    required
-                    value={rangeQueValue2}
-                    onChange={onChangeNumberHandler}
-                    min="1"
-                    max={workingArray.length}
-                    name="range2"
-                  />
-                </div>
-                <button
-                  className={classes.seeMoreBut}
-                  onClick={() => setquestionHide(!questionHide)}
-                >
-                  {questionHide
-                    ? "Hide more options ..."
-                    : "Show more options ..."}
-                </button>
+          //         <label htmlFor="range-quest1">
+          //           {" "}
+          //           {`Available Quantity ${workingArray.length}: From`}
+          //         </label>
 
-                {/* buttons for accessing WAEC questions , input
-                 number for chooseing the amount of WAEC questions
-                */}
-                {questionHide && (
-                  <>
-                    <div className={classes.waecQuestion}>
+          //         <input
+          //           type="number"
+          //           id="range-quest1"
+          //           required
+          //           value={rangeQueValue1}
+          //           onChange={onChangeNumberHandler}
+          //           min="1"
+          //           max={workingArray.length}
+          //           name="range1"
+          //         />
+
+          //         <label htmlFor="range-quest2">To:</label>
+          //         <input
+          //           type="number"
+          //           id="range-quest2"
+          //           required
+          //           value={rangeQueValue2}
+          //           onChange={onChangeNumberHandler}
+          //           min="1"
+          //           max={workingArray.length}
+          //           name="range2"
+          //         />
+          //       </div>
+          //       <button
+          //         className={classes.seeMoreBut}
+          //         onClick={() => setquestionHide(!questionHide)}
+          //       >
+          //         {questionHide
+          //           ? "Hide more options ..."
+          //           : "Show more options ..."}
+          //       </button>
+
+          //       {questionHide && (
+          //         <>
+          //           <div className={classes.waecQuestion}>
+          //             <button
+          //               onClick={() =>
+          //                 professionExamGetter(
+          //                   waecExamArray,
+          //                   waecQueValue,
+          //                   "waec"
+          //                 )
+          //               }
+          //               disabled={waecBtnControl}
+          //             >
+          //               WACE Questions On This Topic
+          //             </button>
+
+          //             <label htmlFor="waec-quest">
+          //               {" "}
+          //               {`Available Quantity  ${
+          //                 workingArray.filter(
+          //                   (item) =>
+          //                     item.examType !== undefined &&
+          //                     item.examType.startsWith("wassce")
+          //                 ).length
+          //               }: Selected Quantity`}
+          //             </label>
+
+          //             <input
+          //               type="number"
+          //               id="waec-quest"
+          //               value={waecQueValue}
+          //               onChange={onChangeNumberHandler}
+          //               min="1"
+          //               name="waec"
+          //               max={
+          //                 workingArray.filter(
+          //                   (item) =>
+          //                     item.examType !== undefined &&
+          //                     item.examType.startsWith("wassce")
+          //                 ).length
+          //               }
+          //             />
+          //           </div>
+
+          //           <div className={classes.necoQuestion}>
+          //             <Button
+          //               onClick={() =>
+          //                 professionExamGetter(
+          //                   necoExamArray,
+          //                   necoQueValue,
+          //                   "neco"
+          //                 )
+          //               }
+          //               disabled={necoBtnControl}
+          //             >
+          //               NECO Questions On This Topic
+          //             </Button>
+
+          //             <label htmlFor="neco-quest">
+          //               {" "}
+          //               {`Available Quantity  ${
+          //                 workingArray.filter(
+          //                   (item) =>
+          //                     item.examType !== undefined &&
+          //                     item.examType.startsWith("necossce")
+          //                 ).length
+          //               }: Selected Quantity`}
+          //             </label>
+
+          //             <input
+          //               type="number"
+          //               id="neco-quest"
+          //               value={necoQueValue}
+          //               onChange={onChangeNumberHandler}
+          //               min="1"
+          //               name="neco"
+          //               max={
+          //                 workingArray.filter(
+          //                   (item) =>
+          //                     item.examType !== undefined &&
+          //                     item.examType.startsWith("necossce")
+          //                 ).length
+          //               }
+          //             />
+          //           </div>
+
+          //           <div className={classes.jambQuestion}>
+          //             <Button
+          //               onClick={() =>
+          //                 professionExamGetter(
+          //                   jambExamArray,
+          //                   jambQueValue,
+          //                   "jamb"
+          //                 )
+          //               }
+          //               disabled={jambBtnControl}
+          //             >
+          //               JAMB Questions On This Topic
+          //             </Button>
+
+          //             <label htmlFor="jamb-quest">
+          //               {" "}
+          //               {`Available Quantity  ${
+          //                 workingArray.filter(
+          //                   (item) =>
+          //                     item.examType !== undefined &&
+          //                     item.examType.startsWith("JAMB")
+          //                 ).length
+          //               }: Selected Quantity`}
+          //             </label>
+
+          //             <input
+          //               type="number"
+          //               id="jamb-quest"
+          //               value={jambQueValue}
+          //               onChange={onChangeNumberHandler}
+          //               min="1"
+          //               name="jamb"
+          //               max={
+          //                 workingArray.filter(
+          //                   (item) =>
+          //                     item.examType !== undefined &&
+          //                     item.examType.startsWith("JAMB")
+          //                 ).length
+          //               }
+          //             />
+          //           </div>
+          //         </>
+          //       )}
+          //     </div>
+          //   </article>
+          //.mainSection
+          // </main>
+          <section className={classes.mainSection}>
+            <div class="row justify-content-center align-items-center">
+              <div class="col-11">
+                <div class="card bg-light">
+                  <div class="card-header">
+                    <h3 class="card-title mb-3">
+                      <h4>Goodluck from Bede Asonye</h4>
+                    </h3>
+                    <p class="card-text">{setQuestionNum()}</p>
+                  </div>
+                  <div class="card-body text-center">
+                    <QuestionList
+                      items={itemArray}
+                      handleRadioButtonChange={handleRadioButtonChange}
+                      blogId={blogId}
+                      selectValue={selectValue}
+                      israndomQues={israndomQues}
+                    />
+                  </div>
+
+                  <div class="card-body text-center">
+                    <div className={classes.buttoncontainer}>
+                      <div className={classes.forwardBackwardButcontrol}>
+                        <button
+                          className={classes.prevbtn}
+                          onClick={prevPerson}
+                        >
+                          <FaChevronLeft />
+                        </button>
+                        <button
+                          className={classes.nextbtn}
+                          onClick={nextQuestion}
+                        >
+                          <FaChevronRight />
+                        </button>
+                      </div>
+
+                      <div className={classes.submitBut}>
+                        <Button
+                          onClick={() => markScript(itemArray)}
+                          disabled={controlSubBtn}
+                        >
+                          Submit For Marking
+                        </Button>
+                      </div>
+
+                      <div className={classes.randomQuestion}>
+                        <Button
+                          className={`${classes.randombtn}`}
+                          onClick={randomPerson}
+                        >
+                          Give me random Questions
+                        </Button>
+
+                        <label htmlFor="order" class="card-text">
+                          {" "}
+                          {`Available Quantity ${workingArray.length}: Selected Quantity`}
+                        </label>
+
+                        <input
+                          type="number"
+                          id="order"
+                          value={orderValue}
+                          onChange={onChangeNumberHandler}
+                          min="1"
+                          max={workingArray.length}
+                          name="random"
+                        />
+                      </div>
+
+                      <div className={classes.particularQuestion}>
+                        <Button onClick={particularQuestionHandler}>
+                          Select Particular Questions
+                        </Button>
+
+                        <label htmlFor="particular-quest">
+                          {" "}
+                          {`Available Quantity ${workingArray.length}: Selected Quantity`}
+                        </label>
+
+                        <input
+                          type="number"
+                          id="particular-quest"
+                          required
+                          value={particularQueValue}
+                          onChange={onChangeNumberHandler}
+                          min="1"
+                          max={workingArray.length}
+                          name="particular"
+                        />
+                      </div>
+                      <div className={classes.rangeOfQuestions}>
+                        <Button onClick={rangOfQuestionsHandler}>
+                          Select Range of Questions
+                        </Button>
+
+                        <label htmlFor="range-quest1">
+                          {" "}
+                          {`Available Quantity ${workingArray.length}: From`}
+                        </label>
+
+                        <input
+                          type="number"
+                          id="range-quest1"
+                          required
+                          value={rangeQueValue1}
+                          onChange={onChangeNumberHandler}
+                          min="1"
+                          max={workingArray.length}
+                          name="range1"
+                        />
+
+                        <label htmlFor="range-quest2">To:</label>
+                        <input
+                          type="number"
+                          id="range-quest2"
+                          required
+                          value={rangeQueValue2}
+                          onChange={onChangeNumberHandler}
+                          min="1"
+                          max={workingArray.length}
+                          name="range2"
+                        />
+                      </div>
                       <button
-                        onClick={() =>
-                          professionExamGetter(
-                            waecExamArray,
-                            waecQueValue,
-                            "waec"
-                          )
-                        }
-                        disabled={waecBtnControl}
+                        className={classes.seeMoreBut}
+                        onClick={() => setquestionHide(!questionHide)}
                       >
-                        WACE Questions On This Topic
+                        {questionHide
+                          ? "Hide more options ..."
+                          : "Show more options ..."}
                       </button>
 
-                      <label htmlFor="waec-quest">
-                        {" "}
-                        {`Available Quantity  ${
-                          workingArray.filter(
-                            (item) =>
-                              item.examType !== undefined &&
-                              item.examType.startsWith("wassce")
-                          ).length
-                        }: Selected Quantity`}
-                      </label>
+                      {questionHide && (
+                        <>
+                          <div className={classes.waecQuestion}>
+                            <Button
+                              onClick={() =>
+                                professionExamGetter(
+                                  waecExamArray,
+                                  waecQueValue,
+                                  "waec"
+                                )
+                              }
+                              disabled={waecBtnControl}
+                            >
+                              WACE Questions On This Topic
+                            </Button>
 
-                      <input
-                        type="number"
-                        id="waec-quest"
-                        value={waecQueValue}
-                        onChange={onChangeNumberHandler}
-                        min="1"
-                        name="waec"
-                        max={
-                          workingArray.filter(
-                            (item) =>
-                              item.examType !== undefined &&
-                              item.examType.startsWith("wassce")
-                          ).length
-                        }
-                      />
+                            <label htmlFor="waec-quest">
+                              {" "}
+                              {`Available Quantity  ${
+                                workingArray.filter(
+                                  (item) =>
+                                    item.examType !== undefined &&
+                                    item.examType.startsWith("wassce")
+                                ).length
+                              }: Selected Quantity`}
+                            </label>
+
+                            <input
+                              type="number"
+                              id="waec-quest"
+                              value={waecQueValue}
+                              onChange={onChangeNumberHandler}
+                              min="1"
+                              name="waec"
+                              max={
+                                workingArray.filter(
+                                  (item) =>
+                                    item.examType !== undefined &&
+                                    item.examType.startsWith("wassce")
+                                ).length
+                              }
+                            />
+                          </div>
+
+                          <div className={classes.necoQuestion}>
+                            <Button
+                              onClick={() =>
+                                professionExamGetter(
+                                  necoExamArray,
+                                  necoQueValue,
+                                  "neco"
+                                )
+                              }
+                              disabled={necoBtnControl}
+                            >
+                              NECO Questions On This Topic
+                            </Button>
+
+                            <label htmlFor="neco-quest">
+                              {" "}
+                              {`Available Quantity  ${
+                                workingArray.filter(
+                                  (item) =>
+                                    item.examType !== undefined &&
+                                    item.examType.startsWith("necossce")
+                                ).length
+                              }: Selected Quantity`}
+                            </label>
+
+                            <input
+                              type="number"
+                              id="neco-quest"
+                              value={necoQueValue}
+                              onChange={onChangeNumberHandler}
+                              min="1"
+                              name="neco"
+                              max={
+                                workingArray.filter(
+                                  (item) =>
+                                    item.examType !== undefined &&
+                                    item.examType.startsWith("necossce")
+                                ).length
+                              }
+                            />
+                          </div>
+
+                          <div className={classes.jambQuestion}>
+                            <Button
+                              onClick={() =>
+                                professionExamGetter(
+                                  jambExamArray,
+                                  jambQueValue,
+                                  "jamb"
+                                )
+                              }
+                              disabled={jambBtnControl}
+                            >
+                              JAMB Questions On This Topic
+                            </Button>
+
+                            <label htmlFor="jamb-quest">
+                              {" "}
+                              {`Available Quantity  ${
+                                workingArray.filter(
+                                  (item) =>
+                                    item.examType !== undefined &&
+                                    item.examType.startsWith("JAMB")
+                                ).length
+                              }: Selected Quantity`}
+                            </label>
+
+                            <input
+                              type="number"
+                              id="jamb-quest"
+                              value={jambQueValue}
+                              onChange={onChangeNumberHandler}
+                              min="1"
+                              name="jamb"
+                              max={
+                                workingArray.filter(
+                                  (item) =>
+                                    item.examType !== undefined &&
+                                    item.examType.startsWith("JAMB")
+                                ).length
+                              }
+                            />
+                          </div>
+                        </>
+                      )}
                     </div>
-
-                    {/* buttons for accessing NECO questions , input
-                 number for chooseing the amount of WAEC questions
-                */}
-                    <div className={classes.necoQuestion}>
-                      <Button
-                        onClick={() =>
-                          professionExamGetter(
-                            necoExamArray,
-                            necoQueValue,
-                            "neco"
-                          )
-                        }
-                        disabled={necoBtnControl}
-                      >
-                        NECO Questions On This Topic
-                      </Button>
-
-                      <label htmlFor="neco-quest">
-                        {" "}
-                        {`Available Quantity  ${
-                          workingArray.filter(
-                            (item) =>
-                              item.examType !== undefined &&
-                              item.examType.startsWith("necossce")
-                          ).length
-                        }: Selected Quantity`}
-                      </label>
-
-                      <input
-                        type="number"
-                        id="neco-quest"
-                        value={necoQueValue}
-                        onChange={onChangeNumberHandler}
-                        min="1"
-                        name="neco"
-                        max={
-                          workingArray.filter(
-                            (item) =>
-                              item.examType !== undefined &&
-                              item.examType.startsWith("necossce")
-                          ).length
-                        }
-                      />
-                    </div>
-
-                    {/* buttons for accessing JAMB questions , input
-                 number for chooseing the amount of WAEC questions
-                */}
-                    <div className={classes.jambQuestion}>
-                      <Button
-                        onClick={() =>
-                          professionExamGetter(
-                            jambExamArray,
-                            jambQueValue,
-                            "jamb"
-                          )
-                        }
-                        disabled={jambBtnControl}
-                      >
-                        JAMB Questions On This Topic
-                      </Button>
-
-                      <label htmlFor="jamb-quest">
-                        {" "}
-                        {`Available Quantity  ${
-                          workingArray.filter(
-                            (item) =>
-                              item.examType !== undefined &&
-                              item.examType.startsWith("JAMB")
-                          ).length
-                        }: Selected Quantity`}
-                      </label>
-
-                      <input
-                        type="number"
-                        id="jamb-quest"
-                        value={jambQueValue}
-                        onChange={onChangeNumberHandler}
-                        min="1"
-                        name="jamb"
-                        max={
-                          workingArray.filter(
-                            (item) =>
-                              item.examType !== undefined &&
-                              item.examType.startsWith("JAMB")
-                          ).length
-                        }
-                      />
-                    </div>
-                  </>
-                )}
+                  </div>
+                </div>
               </div>
-            </article>
-            {/* </section> */}
-          </main>
+            </div>
+          </section>
         ) : (
           // show this component after submit button is hit, that is
           //after questions has been answered,this component shows the result
@@ -786,3 +1028,45 @@ const OneQuestion = ({
 };
 
 export default OneQuestion;
+
+{
+  /* <section id="instructors" class="p-5 bg-primary">
+  <div class="container">
+    <h2 class="text-center text-white">Our Instructors</h2>
+    <p class="lead text-center text-white mb-5">
+      Our instructors all have 5+ years working as a web developer in the
+      industry
+    </p>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="card bg-light">
+          <div class="card-body text-center">
+            <img
+              src="https://randomuser.me/api/portraits/men/11.jpg"
+              class="rounded-circle mb-3"
+              alt=""
+            />
+            <h3 class="card-title mb-3">John Doe</h3>
+            <p class="card-text">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda
+              accusamus nobis sed cupiditate iusto? Quibusdam.
+            </p>
+            <a href="#">
+              <i class="bi bi-twitter text-dark mx-1"></i>
+            </a>
+            <a href="#">
+              <i class="bi bi-facebook text-dark mx-1"></i>
+            </a>
+            <a href="#">
+              <i class="bi bi-linkedin text-dark mx-1"></i>
+            </a>
+            <a href="#">
+              <i class="bi bi-instagram text-dark mx-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>; */
+}
