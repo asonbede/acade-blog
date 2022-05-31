@@ -31,7 +31,9 @@
 .hideItem {
   display: none;
 }
-
+.activeLi {
+  background-color: rgb(233, 224, 224);
+}
 /* .controls {
   width: 100%;
   display: flex;

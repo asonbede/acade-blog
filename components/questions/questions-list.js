@@ -53,6 +53,7 @@ function QuestionsList({
   markScript,
   selectValue,
   isLoading,
+  controlLiActive,
 }) {
   const [showQuestionSupport, setshowQuestionSupport] = useState(false);
   const [fullLessQuestValue, setfullLessQuestValue] = useState(false);
@@ -184,7 +185,7 @@ function QuestionsList({
         )} */}
 
         {item.questionIntroText && fullLessQuestValue === item._id && (
-          <>
+          <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow">
             <DisplayEditorContent
               contentFromServer={item.questionIntroText}
               toolbarPresent={false}
@@ -193,11 +194,11 @@ function QuestionsList({
             <span style={{ color: "blue", fontStyle: "italic" }}>
               {item.questionIntroAtach}
             </span>
-            <br />
-          </>
+            {/* <br /> */}
+          </div>
         )}
 
-        <div class="d-flex flex-column fw-bolder border mt-5 p-3">
+        <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow">
           {item.questionIntroText && (
             <a
               onClick={() => questFullLessControlHandler(item._id)}
@@ -228,7 +229,13 @@ function QuestionsList({
         <div class="list-group">
           {item.options.map((optionItem, optionIndex) => (
             <>
-              <label class="d-flex align-items-center list-group-item ms-5">
+              <label
+                class={`d-flex align-items-center list-group-item ms-5 shadow-sm ${
+                  controlLiActive === `${questionIndex}:${optionIndex}`
+                    ? classes.activeLi
+                    : ""
+                }`}
+              >
                 <div
                   key={`${questionIndex}-${optionIndex}key`}
                   class="form-check"
@@ -239,7 +246,12 @@ function QuestionsList({
                     name={questionIndex}
                     value={optionItem.option}
                     id={`${questionIndex}:${optionIndex}`}
-                    onChange={handleRadioButtonChange}
+                    onChange={() =>
+                      handleRadioButtonChange(
+                        event,
+                        `${questionIndex}:${optionIndex}`
+                      )
+                    }
                     // style={{
                     //   marginTop: "16px",
                     // }}

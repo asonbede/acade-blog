@@ -27,6 +27,7 @@ const OneQuestion = ({
   setCurrentArrayHandler,
   setcontrolSubBtn,
   variablesForReseting,
+  controlLiActive,
 }) => {
   const [index, setIndex] = useState(0);
 
@@ -760,6 +761,7 @@ const OneQuestion = ({
                       blogId={blogId}
                       selectValue={selectValue}
                       israndomQues={israndomQues}
+                      controlLiActive={controlLiActive}
                     />
                   </div>
 

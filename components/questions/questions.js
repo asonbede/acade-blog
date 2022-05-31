@@ -29,6 +29,8 @@ function Questions(props) {
   const [currentArray, setcurrentArray] = useState([]);
   const [changerValue, setChangerValue] = useState(false);
   const [isLoading, setisLoading] = useState(true);
+  const [controlLiActive, setcontrolLiActive] = useState();
+
   const [session, loading] = useSession();
   const notificationCtx = useContext(NotificationContext);
   const { questions: items, blogId, questionType } = props;
@@ -205,7 +207,7 @@ function Questions(props) {
   //called on each click of the radio button in the QuestionList components
   //gathers the choice made by the student and the correct choice into an
   //object
-  const handleRadioButtonChange = (event) => {
+  const handleRadioButtonChange = (event, activeLiClass) => {
     const { name, value } = event.target;
     console.log({ name, value });
     console.log({ currentArray }, "quescurrArry");
@@ -216,6 +218,7 @@ function Questions(props) {
       [`correctOptionForQuestion${Number(name) + 1}`]:
         currentArray[name].correctOption,
     });
+    setcontrolLiActive(activeLiClass);
     if (controlSubBtn) {
       setcontrolSubBtn(false);
     }
@@ -462,6 +465,7 @@ For easy type questions
           setCurrentArrayHandler={setCurrentArrayHandler}
           setcontrolSubBtn={setcontrolSubBtn}
           setisLoading={setisLoading}
+          controlLiActive={controlLiActive}
           isLoading={isLoading}
           variablesForReseting={{
             setskippedQuestions,
