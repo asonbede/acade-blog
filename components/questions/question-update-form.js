@@ -285,6 +285,11 @@ function UpdateQuestionForm() {
           questionIntroText: checkEditorText(quesIntroEdiState)
             ? enteredQuestionIntroText.trim()
             : null,
+          authorusername: session.user.name.username,
+          imageProfileUrl: session.user.image.imageUrl
+            ? session.user.image.imageUrl
+            : "/images/posts/default-profile-pic.jpg",
+          author: session.user.name.name,
         },
         questionItem._id
       );

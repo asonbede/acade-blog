@@ -3,7 +3,7 @@ The idea here is to iterate over the questions and check
 the correct ones.
 */
 
-import React from "react";
+import React, { useState } from "react";
 import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 
 import classes from "./questions-list.module.css";
@@ -17,6 +17,7 @@ function QuestionAnswerReviewList(props) {
     questionType,
     selectValue,
   } = props;
+  const [fullLessQuestValue, setfullLessQuestValue] = useState(false);
   console.log({ selectedValuesOfRadioButton, items }, "uuuhh");
 
   const optionsList = ["A", "B", "C", "D", "E"];
@@ -68,7 +69,13 @@ function QuestionAnswerReviewList(props) {
     }
     return "";
   }
-
+  function questFullLessControlHandler(id) {
+    if (fullLessQuestValue) {
+      setfullLessQuestValue(false);
+    } else {
+      setfullLessQuestValue(id);
+    }
+  }
   function renderQuestions(questionIndex, item) {
     if (
       selectedValuesOfRadioButton.hasOwnProperty(
@@ -77,13 +84,27 @@ function QuestionAnswerReviewList(props) {
     ) {
       return (
         <>
-          {item.questionIntroText && (
+          {/* {item.questionIntroText && (
             <DisplayEditorContent
               contentFromServer={item.questionIntroText}
               toolbarPresent={false}
             />
+          )} */}
+
+          {item.questionIntroText && fullLessQuestValue === item._id && (
+            <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow-lg">
+              <DisplayEditorContent
+                contentFromServer={item.questionIntroText}
+                toolbarPresent={false}
+              />
+
+              <span style={{ color: "blue", fontStyle: "italic" }}>
+                {item.questionIntroAtach}
+              </span>
+              {/* <br /> */}
+            </div>
           )}
-          <div style={{ display: "flex" }}>
+          {/* <div style={{ display: "flex" }}>
             {selectValue === "mult-choice-one" ? null : (
               <span style={{ marginRight: "5px", marginTop: "14px" }}>
                 {questionIndex + 1}
@@ -97,6 +118,33 @@ function QuestionAnswerReviewList(props) {
             <span className={questionStatus(questionIndex + 1)}>
               {`---${questionStatus(questionIndex + 1)}`}
             </span>
+          </div> */}
+          <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow">
+            {item.questionIntroText && (
+              <a
+                onClick={() => questFullLessControlHandler(item._id)}
+                class="btn  btn-outline-dark  border-light"
+              >
+                {fullLessQuestValue === item._id
+                  ? "See Less Question ..."
+                  : "See Full Question ..."}
+              </a>
+            )}
+            <div class="d-flex align-items-center fw-bolder">
+              {/* <div class="mt-4 p-5 bg-primary text-white rounded">
+            <h1>Jumbotron Example</h1>
+            <p>Lorem ipsum...</p>
+          </div> */}
+              <span>{questionIndex + 1}.</span>
+
+              <DisplayEditorContent
+                contentFromServer={item.question}
+                toolbarPresent={false}
+              />
+            </div>
+            {item.examType === "none" || item.examType === undefined ? null : (
+              <span>{item.examType}</span>
+            )}
           </div>
         </>
       );
@@ -158,31 +206,23 @@ function QuestionAnswerReviewList(props) {
         studentsChoice === correctOptionValue
       ) {
         return (
-          <div
-            style={{
-              display: "flex",
-            }}
+          <label
+            class={`d-flex align-items-center list-group-item ms-3 shadow`}
           >
-            <input
-              type="radio"
-              name={questionIndex}
-              value={optionItem.option}
-              id={`${questionIndex}:${optionIndex}`}
-              // onChange={handleRadioButtonChange}
-              checked
-              disabled
-              style={{
-                marginTop: "16px",
-              }}
-            />
-            <label
-              htmlFor={`${questionIndex}:${optionIndex}`}
-              style={{
-                marginTop: "14px",
-              }}
-            >
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name={questionIndex}
+                value={optionItem.option}
+                id={`${questionIndex}:${optionIndex}`}
+                // onChange={handleRadioButtonChange}
+                checked
+                disabled
+              />
               {optionsList[optionIndex]}.
-            </label>
+            </div>
+
             <DisplayEditorContent
               contentFromServer={optionItem.option}
               toolbarPresent={false}
@@ -190,38 +230,29 @@ function QuestionAnswerReviewList(props) {
             <span style={{ color: "green", fontSize: "30px" }}>
               <i class="bi bi-check2"></i>
             </span>
-          </div>
+          </label>
         );
       } else if (
         studentsChoice === optionItem.option.trim() &&
         studentsChoice !== correctOptionValue
       ) {
         return (
-          <div
-            style={{
-              display: "flex",
-            }}
+          <label
+            class={`d-flex align-items-center list-group-item ms-3 shadow`}
           >
-            <input
-              type="radio"
-              name={questionIndex}
-              value={optionItem.option}
-              id={`${questionIndex}:${optionIndex}`}
-              // onChange={handleRadioButtonChange}
-              checked
-              disabled
-              style={{
-                marginTop: "16px",
-              }}
-            />
-            <label
-              htmlFor={`${questionIndex}:${optionIndex}`}
-              style={{
-                marginTop: "14px",
-              }}
-            >
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name={questionIndex}
+                value={optionItem.option}
+                id={`${questionIndex}:${optionIndex}`}
+                // onChange={handleRadioButtonChange}
+                checked
+                disabled
+              />
               {optionsList[optionIndex]}.
-            </label>
+            </div>
             <DisplayEditorContent
               contentFromServer={optionItem.option}
               toolbarPresent={false}
@@ -232,36 +263,27 @@ function QuestionAnswerReviewList(props) {
                 <i class="bi bi-x"></i>
               </span>
             </span>
-          </div>
+          </label>
         );
       } else if (
         studentsChoice !== optionItem.option.trim() &&
         optionItem.option.trim() === correctOptionValue
       ) {
         return (
-          <div
-            style={{
-              display: "flex",
-            }}
+          <label
+            class={`d-flex align-items-center list-group-item ms-3 shadow`}
           >
-            <input
-              type="radio"
-              name={questionIndex}
-              value={optionItem.option}
-              id={`${questionIndex}:${optionIndex}`}
-              disabled
-              style={{
-                marginTop: "16px",
-              }}
-            />
-            <label
-              htmlFor={`${questionIndex}:${optionIndex}`}
-              style={{
-                marginTop: "14px",
-              }}
-            >
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name={questionIndex}
+                value={optionItem.option}
+                id={`${questionIndex}:${optionIndex}`}
+                disabled
+              />
               {optionsList[optionIndex]}.
-            </label>
+            </div>
             <DisplayEditorContent
               contentFromServer={optionItem.option}
               toolbarPresent={false}
@@ -269,49 +291,40 @@ function QuestionAnswerReviewList(props) {
             <span style={{ color: "blue", fontSize: "30px" }}>
               <i class="bi bi-check2"></i>
             </span>
-          </div>
+          </label>
         );
       } else {
         return (
-          <div
-            style={{
-              display: "flex",
-            }}
+          <label
+            class={`d-flex align-items-center list-group-item ms-3 shadow`}
           >
-            <input
-              type="radio"
-              name={questionIndex}
-              value={optionItem.option}
-              id={`${questionIndex}:${optionIndex}`}
-              disabled
-              style={{
-                marginTop: "16px",
-              }}
-            />
-            <label
-              htmlFor={`${questionIndex}:${optionIndex}`}
-              style={{
-                marginTop: "14px",
-              }}
-            >
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name={questionIndex}
+                value={optionItem.option}
+                id={`${questionIndex}:${optionIndex}`}
+                disabled
+              />
               {optionsList[optionIndex]}.
-            </label>
+            </div>
             <DisplayEditorContent
               contentFromServer={optionItem.option}
               toolbarPresent={false}
             />
-          </div>
+          </label>
         );
       }
     }
   }
 
   return (
-    <ul className={classes.form}>
+    <div className={classes.form}>
       {items.map((item, questionIndex) => (
-        <li key={item._id}>
+        <div key={item._id}>
           {renderQuestions(questionIndex, item)}
-          <div>
+          <div class="list-group">
             {item.options.map((optionItem, optionIndex) => (
               <>
                 {renderRadioButtons(
@@ -323,16 +336,42 @@ function QuestionAnswerReviewList(props) {
               </>
             ))}
           </div>
-          <div>
-            <p>Explanation</p>
-            <DisplayEditorContent
-              contentFromServer={item.explanation}
-              toolbarPresent={false}
-            />
+
+          <div
+            class="accordion accordion-flush"
+            id={`questions-${questionIndex}`}
+          >
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target={`#questions-${questionIndex}-id`}
+                >
+                  See Explanation
+                </button>
+              </h2>
+              <div
+                id={`questions-${questionIndex}-id`}
+                class="accordion-collapse collapse"
+                data-bs-parent={`#questions-${questionIndex}`}
+              >
+                <div class="accordion-body">
+                  <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow">
+                    <p>Explanation</p>
+                    <DisplayEditorContent
+                      contentFromServer={item.explanation}
+                      toolbarPresent={false}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </li>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 }
 

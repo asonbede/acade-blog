@@ -466,6 +466,7 @@ For easy type questions
           setcontrolSubBtn={setcontrolSubBtn}
           setisLoading={setisLoading}
           controlLiActive={controlLiActive}
+          setcontrolLiActive={setcontrolLiActive}
           isLoading={isLoading}
           variablesForReseting={{
             setskippedQuestions,

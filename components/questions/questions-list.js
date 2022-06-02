@@ -63,6 +63,7 @@ function QuestionsList({
   const [moderated, setmoderated] = useState();
   const [controlLoadMoreVar, setcontrolLoadMoreVar] = useState(false);
   const [showDeleteQuestModal, setshowDeleteQuestModal] = useState(false);
+  //const [isShow, setisShow] = useState(true);
 
   const notificationCtx = useContext(NotificationContext);
   const optionsList = ["A", "B", "C", "D", "E"];
@@ -104,6 +105,7 @@ function QuestionsList({
 
   useEffect(() => {
     setshowDeleteQuestModal(false);
+    // setisShow(true);
   }, []);
 
   const deleteQuestionHandler = async (questionId) => {
@@ -166,6 +168,11 @@ function QuestionsList({
       setfullLessQuestValue(id);
     }
   }
+  const formattedDatePublished = new Date().toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 
   function displayListItem(item, questionIndex) {
     return (
@@ -185,7 +192,7 @@ function QuestionsList({
         )} */}
 
         {item.questionIntroText && fullLessQuestValue === item._id && (
-          <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow">
+          <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow-lg">
             <DisplayEditorContent
               contentFromServer={item.questionIntroText}
               toolbarPresent={false}
@@ -230,11 +237,14 @@ function QuestionsList({
           {item.options.map((optionItem, optionIndex) => (
             <>
               <label
-                class={`d-flex align-items-center list-group-item ms-5 shadow-sm ${
-                  controlLiActive === `${questionIndex}:${optionIndex}`
-                    ? classes.activeLi
-                    : ""
-                }`}
+                class={`d-flex align-items-center list-group-item ms-3 shadow
+                 ${
+                   controlLiActive === `${questionIndex}:${optionIndex}`
+                     ? classes.activeLi
+                     : ""
+                 }
+                
+                `}
               >
                 <div
                   key={`${questionIndex}-${optionIndex}key`}
@@ -252,17 +262,7 @@ function QuestionsList({
                         `${questionIndex}:${optionIndex}`
                       )
                     }
-                    // style={{
-                    //   marginTop: "16px",
-                    // }}
                   />
-                  {/* <label */}
-                  {/* class="form-check-label"
-                    htmlFor={`${questionIndex}:${optionIndex}`}
-                    // style={{ */}
-                  {/* //   marginTop: "14px",
-                    // }}
-                 // > */}
                   {optionsList[optionIndex]}. {/* </label> */}
                 </div>
 
@@ -289,6 +289,26 @@ function QuestionsList({
               Delete
             </Button>
           )}
+          <span
+            style={{
+              backgroundColor: "#03be9f",
+              borderRadius: "4px",
+              color: "white",
+            }}
+          >
+            Published:{"  "}
+            {item.publishedDate ? item.publishedDate : formattedDatePublished}
+          </span>
+          <span
+            style={{
+              backgroundColor: "#03be9f",
+              borderRadius: "4px",
+              color: "white",
+            }}
+          >
+            Updated:{" "}
+            {item.updatedDate ? item.updatedDate : formattedDatePublished}
+          </span>
         </div>
       </div>
     );
@@ -297,28 +317,101 @@ function QuestionsList({
   function questionListHandlerFunc() {
     let firstBatch;
     let secondBatch;
+    let multiplesOfTenArray = [];
+    let nonMultiplesOfTenArray = [];
+    let allListArray = [];
+    let isShow = true;
     const mapResult = items.map((item, questionIndex) =>
       displayListItem(item, questionIndex)
     );
 
-    if (mapResult.length > 10) {
-      firstBatch = mapResult.slice(0, 10);
-      secondBatch = mapResult.slice(10);
-      return (
-        <>
-          {firstBatch}
-          {controlLoadMoreVar && <> {secondBatch} </>}
-          {!isLoading && (
-            <Button onClick={() => setcontrolLoadMoreVar(!controlLoadMoreVar)}>
-              {controlLoadMoreVar
-                ? "...Show less questions"
-                : "Show more questions..."}
-            </Button>
-          )}
-        </>
-      );
+    for (let index = 0; index < mapResult.length; index++) {
+      //const element = mapResult[index];
+      if ((index + 1) % 10 === 0) {
+        multiplesOfTenArray.push(
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target={`#fk${index + 1 - 9}to${index + 1}`}
+              >
+                Question(s) {index + 1 - 9} to {index + 1}
+              </button>
+            </h2>
+            <div
+              id={`fk${index + 1 - 9}to${index + 1}`}
+              class={`accordion-collapse collapse ${isShow ? "show" : ""}`}
+              data-bs-parent="#questions"
+            >
+              <div class="accordion-body">
+                {mapResult.slice(index - 9, index + 1)}
+              </div>
+            </div>
+          </div>
+        );
+
+        // setisShow(false);
+        isShow = false;
+        nonMultiplesOfTenArray = [];
+      } else {
+        nonMultiplesOfTenArray.push(mapResult[index]);
+      }
     }
-    return <>{mapResult}</>;
+
+    const lastItem = (
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target={`#tothe${mapResult.length}`}
+          >
+            Question(s){" "}
+            {multiplesOfTenArray.length === 0
+              ? multiplesOfTenArray.length + 1
+              : multiplesOfTenArray.length * 10 + 1}{" "}
+            to {mapResult.length}
+          </button>
+        </h2>
+        <div
+          id={`tothe${mapResult.length}`}
+          class="accordion-collapse collapse"
+          class={`accordion-collapse collapse ${isShow ? "show" : ""}`}
+          data-bs-parent="#questions"
+        >
+          <div class="accordion-body">{nonMultiplesOfTenArray}</div>
+        </div>
+      </div>
+    );
+    // setisShow(false);
+    isShow = false;
+    // if (mapResult.length > 10) {
+    //   firstBatch = mapResult.slice(0, 10);
+    //   secondBatch = mapResult.slice(10);
+    //   return (
+    //     <>
+    //       {firstBatch}
+    //       {controlLoadMoreVar && <> {secondBatch} </>}
+    //       {!isLoading && (
+    //         <Button onClick={() => setcontrolLoadMoreVar(!controlLoadMoreVar)}>
+    //           {controlLoadMoreVar
+    //             ? "...Show less questions"
+    //             : "Show more questions..."}
+    //         </Button>
+    //       )}
+    //     </>
+    //   );
+    // }
+    return (
+      <>
+        <div class="accordion accordion-flush" id="questions">
+          {[...multiplesOfTenArray, lastItem]}
+        </div>
+      </>
+    );
   }
 
   return (

@@ -66,6 +66,10 @@ async function handler(req, res) {
       moderated,
       subject,
       examType,
+      authorusername,
+      imageProfileUrl,
+      publishedDate,
+      author,
     } = req.body;
 
     if (
@@ -103,6 +107,10 @@ async function handler(req, res) {
       moderated,
       subject,
       examType,
+      authorusername,
+      imageProfileUrl,
+      publishedDate,
+      author,
     };
 
     let result;
@@ -176,6 +184,7 @@ async function handler(req, res) {
       res.status(500).json({ message: "Getting questions failed." });
     }
   }
+
   if (req.method === "DELETE") {
     const { questionId } = req.body;
     console.log({ questionId }, "from deletee");
@@ -210,6 +219,7 @@ async function handler(req, res) {
       moderated,
       subject,
       examType,
+      updatedDate,
     } = req.body;
     if (
       !question ||
@@ -244,6 +254,7 @@ async function handler(req, res) {
       moderated,
       subject,
       examType,
+      updatedDate,
     };
 
     let result;
@@ -275,6 +286,10 @@ async function handler(req, res) {
       questionType,
       moderated,
       subject,
+      authorusername,
+      imageProfileUrl,
+
+      author,
     } = req.body;
 
     if (
@@ -300,6 +315,10 @@ async function handler(req, res) {
       questionType,
       moderated,
       subject,
+      authorusername,
+      imageProfileUrl,
+
+      author,
     };
 
     let result;

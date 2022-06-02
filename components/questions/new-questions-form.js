@@ -23,8 +23,8 @@ import { useRef, useState, useEffect, useContext } from "react";
 import classes from "./new-questions-form.module.css";
 import MyRichEditor from "../rich-text-editor/myrich-text-editor";
 import NotificationContext from "../../store/notification-context";
-import { options, useSession } from "next-auth/client";
-
+//import { options, useSession } from "next-auth/client";
+import { useSession } from "next-auth/client";
 import {
   useField,
   useEditor,
@@ -32,11 +32,11 @@ import {
 } from "../../hooks/input-editor-hooks";
 function NewQuestion(props) {
   const [isInvalid, setIsInvalid] = useState(false);
-  const [session, loading] = useSession();
+  //const [session, loading] = useSession();
   const [linkedValue, setlinkedValue] = useState(0);
   const [filteredOptionsLen, setfilteredOptionsLen] = useState();
   const [enteredCorrectOption, setselectValue] = useState("A");
-
+  const [session, loading] = useSession();
   //initialize function that will enable you to enter input and save state
   const useFieldSubject = useField("text");
   const useFieldExamType = useField("text");
@@ -125,7 +125,13 @@ function NewQuestion(props) {
   function onselectChange(e) {
     setselectValue(e.target.value);
   }
-
+  //Published date
+  const formattedDatePublished = new Date().toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+  //publishedDate;
   //prepares the select element for fixing the correct option  by the examiner
   //The choice available here depends on the number of input options filled.
   function outputSetAswerSelectOptions(params) {
@@ -209,6 +215,12 @@ function NewQuestion(props) {
         questionIntroText: checkEditorText(quesIntroEdiState)
           ? enteredQuestionIntroText.trim()
           : null,
+        authorusername: session.user.name.username,
+        imageProfileUrl: session.user.image.imageUrl
+          ? session.user.image.imageUrl
+          : "/images/posts/default-profile-pic.jpg",
+        author: session.user.name.name,
+        publishedDate: formattedDatePublished,
       },
 
       "mult-choice"

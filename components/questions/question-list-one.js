@@ -28,6 +28,7 @@ const OneQuestion = ({
   setcontrolSubBtn,
   variablesForReseting,
   controlLiActive,
+  setcontrolLiActive,
 }) => {
   const [index, setIndex] = useState(0);
 
@@ -47,6 +48,9 @@ const OneQuestion = ({
   const [necoQueValue, setnecoQueValue] = useState(0);
   const [necoExamArray, setnecoExamArray] = useState([]);
   const [necoBtnControl, setnecoBtnControl] = useState(false);
+  //authorusername, imageProfileUrl, author;
+  const [author, setAuthor] = useState();
+  const [imageProfileUrl, setimageProfileUrl] = useState();
 
   const [rangeQueValue1, setrangeQueValue1] = useState(0);
   const [rangeQueValue2, setrangeQueValue2] = useState(0);
@@ -112,6 +116,22 @@ const OneQuestion = ({
       );
     }
   }, [jambQueValue]);
+
+  useEffect(() => {
+    if (workingArray && workingArray.length !== 0) {
+      setAuthor(
+        workingArray[0].author ? workingArray[0].author : "Asonye Bede Chi"
+      );
+      setimageProfileUrl(
+        workingArray[0].imageProfileUrl
+          ? workingArray[0].imageProfileUrl
+          : "/images/posts/default-profile-pic.jpg"
+      );
+    }
+  }, [workingArray, items]);
+  console.log({ author, imageProfileUrl }, "NOW");
+
+  //authorusername, imageProfileUrl, author;
 
   // useEffect(() => {
   //   setIndex(particularQueValue);
@@ -346,6 +366,7 @@ const OneQuestion = ({
     variablesForReseting.setallQuestions([]);
     variablesForReseting.setselectedValuesOfRadioButton([]);
     variablesForReseting.setscore(null);
+    setcontrolLiActive(null);
   }
 
   //link one object
@@ -749,10 +770,18 @@ const OneQuestion = ({
               <div class="col-11">
                 <div class="card bg-light">
                   <div class="card-header">
-                    <h3 class="card-title mb-3">
-                      <h4>Goodluck from Bede Asonye</h4>
-                    </h3>
-                    <p class="card-text">{setQuestionNum()}</p>
+                    <div class="d-flex align-items-center justify-content-between">
+                      {/* <h4 class="card-title">Goodluck from Bede Asonye</h4> */}
+                      <div className="d-flex flex-column align-items-center">
+                        <img
+                          src={imageProfileUrl}
+                          class="rounded-circle mb-1 img-fluid w-25"
+                          alt="card image"
+                        />
+                        <p className="card-text">Goodluck from {author}</p>
+                      </div>
+                      <p class="card-text">{setQuestionNum()}</p>
+                    </div>
                   </div>
                   <div class="card-body text-center">
                     <QuestionList
