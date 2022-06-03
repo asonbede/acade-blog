@@ -34,6 +34,12 @@ async function sendQuestionData(questionDetails, id) {
   // }
 }
 
+const formattedDateUpdated = new Date().toLocaleDateString("en-US", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
+
 function UpdateQuestionForm() {
   const [isInvalid, setIsInvalid] = useState(false);
   const [linkedValue, setlinkedValue] = useState(0);
@@ -42,6 +48,8 @@ function UpdateQuestionForm() {
   const notificationCtx = useContext(NotificationContext);
   const [isModerated, setisModerated] = useState(false);
   const [checkBoxShow, setcheckBoxShow] = useState(false);
+  const [publishedDate, setpublishedDate] = useState();
+
   const [session, loading] = useSession();
   const router = useRouter();
 
@@ -146,6 +154,11 @@ function UpdateQuestionForm() {
       }
       if (questionItem.correctOption) {
         setselectValue(questionItem.correctOption);
+      }
+      if (questionItem.publishedDate) {
+        setpublishedDate(questionItem.publishedDate);
+      } else {
+        setpublishedDate(formattedDateUpdated);
       }
     }
   }, [questionItem]);
@@ -290,6 +303,8 @@ function UpdateQuestionForm() {
             ? session.user.image.imageUrl
             : "/images/posts/default-profile-pic.jpg",
           author: session.user.name.name,
+          updatedDate: formattedDateUpdated,
+          publishedDate: publishedDate,
         },
         questionItem._id
       );

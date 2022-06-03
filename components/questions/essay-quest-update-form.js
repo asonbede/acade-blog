@@ -4,6 +4,7 @@ import classes from "./new-questions-form.module.css";
 //import Notification from "../ui/notification";
 import NotificationContext from "../../store/notification-context";
 import MyRichEditor from "../rich-text-editor/myrich-text-editor";
+import { useSession } from "next-auth/client";
 import {
   useField,
   useEditor,
@@ -30,13 +31,20 @@ async function sendQuestionData(questionDetails, id) {
   //   throw new Error(data.message || "Something went wrong!");
   // }
 }
+const formattedDateUpdated = new Date().toLocaleDateString("en-US", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
 
 function EssayUpdateQuestionForm() {
   const [isInvalid, setIsInvalid] = useState(false);
   const [isModerated, setisModerated] = useState(false);
   const [checkBoxShow, setcheckBoxShow] = useState(false);
-  const notificationCtx = useContext(NotificationContext);
+  const [publishedDate, setpublishedDate] = useState(false);
 
+  const notificationCtx = useContext(NotificationContext);
+  const [session, loading] = useSession();
   const router = useRouter();
 
   //const useFieldCorrectOption = useField("text");
@@ -115,6 +123,14 @@ function EssayUpdateQuestionForm() {
   //   }
   // }, [post]);
 
+  useEffect(() => {
+    if (questionItem) {
+      if (questionItem.publishedDate) {
+        setpublishedDate(questionItem.publishedDate);
+      }
+    }
+  }, [questionItem]);
+
   async function sendQuestionHandler(event) {
     event.preventDefault();
     notificationCtx.showNotification({
@@ -147,6 +163,13 @@ function EssayUpdateQuestionForm() {
           questionType: "essay-type",
           moderated: isModerated,
           subject: enteredSubject,
+          authorusername: session.user.name.username,
+          imageProfileUrl: session.user.image.imageUrl
+            ? session.user.image.imageUrl
+            : "/images/posts/default-profile-pic.jpg",
+          author: session.user.name.name,
+          updatedDate: formattedDateUpdated,
+          publishedDate: publishedDate ? publishedDate : formattedDateUpdated,
         },
         questionItem._id
       );
@@ -230,7 +253,7 @@ function EssayUpdateQuestionForm() {
       </div>
 
       {/* {isInvalid && <p>Please enter a valid email address and comment!</p>} */}
-      <button className={classes.btn}>Submit</button>
+      <button className="btn btn-primary">Submit</button>
     </form>
   );
 }

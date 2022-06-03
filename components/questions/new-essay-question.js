@@ -22,6 +22,12 @@ import {
 } from "../../hooks/input-editor-hooks";
 
 import { useSession } from "next-auth/client";
+//Published date
+const formattedDatePublished = new Date().toLocaleDateString("en-US", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
 
 function NewEssayQuestion(props) {
   const [isInvalid, setIsInvalid] = useState(false);
@@ -63,6 +69,12 @@ function NewEssayQuestion(props) {
         authorId: session.user.email,
         subject: enteredSubject,
         moderated: false,
+        authorusername: session.user.name.username,
+        imageProfileUrl: session.user.image.imageUrl
+          ? session.user.image.imageUrl
+          : "/images/posts/default-profile-pic.jpg",
+        author: session.user.name.name,
+        publishedDate: formattedDatePublished,
       },
       "essay-type"
     );
@@ -80,6 +92,7 @@ function NewEssayQuestion(props) {
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
+            smallHeight={true}
           />
         </div>
         <div className={classes.control}>
@@ -103,11 +116,12 @@ function NewEssayQuestion(props) {
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
+            smallHeight={true}
           />
         </div>
       </div>
 
-      <button className={classes.btn}>Submit</button>
+      <button className="btn btn-primary">Submit</button>
     </form>
   );
 }

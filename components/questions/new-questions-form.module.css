@@ -1,27 +1,28 @@
 .form {
   margin: 2rem auto;
-  width: 70%;
+  width: 90%;
   border-radius: 6px;
   background-color: #03be9f;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   padding: 1rem;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
 
 .row {
   display: flex;
-  gap: 1rem;
+  /* gap: 1rem; */
   /* flex-wrap: wrap; */
 
   flex-direction: column;
-  width: 100%;
+  width: 90%;
   justify-content: center;
+  margin: 0 auto;
 }
 
 .control {
   margin-bottom: 0.5rem;
-  flex: 1;
-  min-width: 10rem;
+  /* flex: 1; */
+  /* min-width: 10rem; */
   /* margin: 0 auto; */
 }
 
@@ -43,6 +44,6 @@
   background-color: #dcfff9;
 }
 
-.form .btn {
+/* .form .btn {
   background-color: white;
-}
+} */

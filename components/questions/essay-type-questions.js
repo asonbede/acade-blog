@@ -5,6 +5,7 @@ import NotificationContext from "../../store/notification-context";
 import { useRouter } from "next/router";
 import NewEssayQuestion from "./new-essay-question";
 import { useSession, signOut } from "next-auth/client";
+import Button from "../ui/button";
 //import Togglable from "../togglable/togglable";
 async function sendAuthDataModerate(authDetails, setFunc) {
   const response = await fetch("/api/moderating-post", {
@@ -60,6 +61,10 @@ function EssayTypeQuestions({ items, blogId, selectValue }) {
   const [moderated, setmoderated] = useState();
 
   const [session, loading] = useSession();
+  //authorusername, imageProfileUrl, author;
+  const [author, setAuthor] = useState();
+  const [imageProfileUrl, setimageProfileUrl] = useState();
+
   const router = useRouter();
 
   function checkModerateValue(itemsArray) {
@@ -74,6 +79,17 @@ function EssayTypeQuestions({ items, blogId, selectValue }) {
       }
     }
   }
+
+  useEffect(() => {
+    if (items && items.length !== 0) {
+      setAuthor(items[0].author ? items[0].author : "Asonye Bede Chi");
+      setimageProfileUrl(
+        items[0].imageProfileUrl
+          ? items[0].imageProfileUrl
+          : "/images/posts/default-profile-pic.jpg"
+      );
+    }
+  }, [items]);
 
   useEffect(() => {
     if (items) {
@@ -175,20 +191,15 @@ function EssayTypeQuestions({ items, blogId, selectValue }) {
         <div class="card bg-light">
           <div class="card-header">
             <div class="d-flex align-items-center justify-content-between">
-              {/* <h4 class="card-title">Goodluck from Bede Asonye</h4> */}
-              {/* <div className="d-flex flex-column align-items-center">
-            <img
-              src={imageProfileUrl}
-              class="rounded-circle mb-1 img-fluid w-25"
-              alt="card image"
-            />
-            <p className="card-text">Goodluck from {author}</p>
-          </div>
-          <p class="card-text">{setQuestionNum()}</p> */}
-              {/* <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
-  <span class="input-group-text" id="basic-addon2">@example.com</span>
-</div> */}
+              <div className="d-flex flex-column align-items-center">
+                <img
+                  src={imageProfileUrl}
+                  class="rounded-circle mb-1 img-fluid w-25"
+                  alt="card image"
+                />
+                <p className="card-text">Goodluck from {author}</p>
+              </div>
+              <div>Please attempt the questions before checking the answer</div>
             </div>
           </div>
           <div class="card-body text-center">
@@ -261,15 +272,19 @@ function EssayTypeQuestions({ items, blogId, selectValue }) {
                       </div>
                     </div>
                   </div>
-                  <div class="d-flex justify-content-around">
+                  <div class="d-flex justify-content-around flex-column flex-md-row mb-3">
                     {authValue && (
-                      <button onClick={() => handleQuestionUpdateData(item)}>
+                      <button
+                        onClick={() => handleQuestionUpdateData(item)}
+                        class="btn btn-primary mb-2"
+                      >
                         Update
                       </button>
                     )}
                     {authValue && (
                       <button
                         onClick={() => deleteConfirm(item._id.toString())}
+                        class="btn btn-primary mb-2"
                       >
                         Delete
                       </button>
@@ -280,6 +295,7 @@ function EssayTypeQuestions({ items, blogId, selectValue }) {
                         borderRadius: "4px",
                         color: "white",
                       }}
+                      class="mb-2 mt-2"
                     >
                       Published:{"  "}
                       {item.publishedDate
@@ -292,6 +308,7 @@ function EssayTypeQuestions({ items, blogId, selectValue }) {
                         borderRadius: "4px",
                         color: "white",
                       }}
+                      class="mb-2 mt-2"
                     >
                       Updated:{" "}
                       {item.updatedDate

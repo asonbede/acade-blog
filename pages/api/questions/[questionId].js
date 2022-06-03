@@ -132,6 +132,11 @@ async function handler(req, res) {
       authorId,
       moderated,
       subject,
+      authorusername,
+      imageProfileUrl,
+
+      author,
+      publishedDate,
     } = req.body;
 
     if (
@@ -157,6 +162,11 @@ async function handler(req, res) {
       blogId,
       moderated,
       subject,
+      authorusername,
+      imageProfileUrl,
+
+      author,
+      publishedDate,
     };
 
     let result;
@@ -220,6 +230,10 @@ async function handler(req, res) {
       subject,
       examType,
       updatedDate,
+      authorusername,
+      imageProfileUrl,
+      publishedDate,
+      author,
     } = req.body;
     if (
       !question ||
@@ -255,6 +269,10 @@ async function handler(req, res) {
       subject,
       examType,
       updatedDate,
+      authorusername,
+      imageProfileUrl,
+      publishedDate,
+      author,
     };
 
     let result;
@@ -290,6 +308,10 @@ async function handler(req, res) {
       imageProfileUrl,
 
       author,
+      authorusername,
+      imageProfileUrl,
+      publishedDate,
+      updatedDate,
     } = req.body;
 
     if (
@@ -317,8 +339,9 @@ async function handler(req, res) {
       subject,
       authorusername,
       imageProfileUrl,
-
+      publishedDate,
       author,
+      updatedDate,
     };
 
     let result;
