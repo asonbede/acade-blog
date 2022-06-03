@@ -44,6 +44,11 @@ async function sendAuthData(authDetails, setFunc) {
     setFunc(data.message);
   }
 }
+const formattedDatePublished = new Date().toLocaleDateString("en-US", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
 function EssayTypeQuestions({ items, blogId, selectValue }) {
   let authorId;
   console.log({ items, blogId, selectValue, authorId });
@@ -165,13 +170,38 @@ function EssayTypeQuestions({ items, blogId, selectValue }) {
     );
   };
   return (
-    <ul className={classes.form}>
-      {items.map((item, questionIndex) => (
-        <li
-          key={item._id}
-          className={moderatedValue ? classes.showItem : classes.hideItem}
-        >
-          {!moderated && (
+    <div class="row justify-content-center align-items-center">
+      <div class="col-11">
+        <div class="card bg-light">
+          <div class="card-header">
+            <div class="d-flex align-items-center justify-content-between">
+              {/* <h4 class="card-title">Goodluck from Bede Asonye</h4> */}
+              {/* <div className="d-flex flex-column align-items-center">
+            <img
+              src={imageProfileUrl}
+              class="rounded-circle mb-1 img-fluid w-25"
+              alt="card image"
+            />
+            <p className="card-text">Goodluck from {author}</p>
+          </div>
+          <p class="card-text">{setQuestionNum()}</p> */}
+              {/* <div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <span class="input-group-text" id="basic-addon2">@example.com</span>
+</div> */}
+            </div>
+          </div>
+          <div class="card-body text-center">
+            <ul class="list-group">
+              {items.map((item, questionIndex) => (
+                <li
+                  key={item._id}
+                  className={`${
+                    moderatedValue ? classes.showItem : classes.hideItem
+                  }   align-items-center list-group-item  shadow
+`}
+                >
+                  {/* {!moderated && (
             <span style={{ color: "red" }}>
               {" "}
               Moderation in progressing, this may take a while, until this
@@ -181,41 +211,97 @@ function EssayTypeQuestions({ items, blogId, selectValue }) {
               complete. You may continue to work on your post while this process
               is on...
             </span>
-          )}
-          <div style={{ display: "flex" }}>
-            {/* &nbsp;&nbsp;{item.question} */}
-            {selectValue === "mult-choice-one" ||
-            selectValue === "mult-choice-all" ? null : (
-              <span style={{ marginRight: "5px", marginTop: "14px" }}>
-                {questionIndex + 1}
-              </span>
-            )}
+          )} */}
+                  <div style={{ display: "flex" }}>
+                    {/* &nbsp;&nbsp;{item.question} */}
+                    {selectValue === "mult-choice-one" ||
+                    selectValue === "mult-choice-all" ? null : (
+                      <span style={{ marginRight: "5px", marginTop: "14px" }}>
+                        {questionIndex + 1}
+                      </span>
+                    )}
 
-            <DisplayEditorContent
-              contentFromServer={item.question}
-              toolbarPresent={false}
-            />
-          </div>
-          <div>
-            <DisplayEditorContent
-              contentFromServer={item.explanation}
-              toolbarPresent={false}
-            />
-          </div>
+                    <DisplayEditorContent
+                      contentFromServer={item.question}
+                      toolbarPresent={false}
+                    />
+                  </div>
 
-          {authValue && (
-            <button onClick={() => handleQuestionUpdateData(item)}>
-              Update
-            </button>
-          )}
-          {authValue && (
-            <button onClick={() => deleteConfirm(item._id.toString())}>
-              Delete
-            </button>
-          )}
-        </li>
-      ))}
-      {/* <Togglable buttonLabel="create essay question" ref={noteFormRef}>
+                  <div
+                    class="accordion accordion-flush"
+                    id={`questions-${questionIndex}`}
+                  >
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button
+                          class="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target={`#questions-${questionIndex}-id`}
+                        >
+                          See Explanation
+                        </button>
+                      </h2>
+                      <div
+                        id={`questions-${questionIndex}-id`}
+                        class="accordion-collapse collapse"
+                        data-bs-parent={`#questions-${questionIndex}`}
+                      >
+                        <div class="accordion-body">
+                          <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow">
+                            <p>Explanation</p>
+                            <div>
+                              <DisplayEditorContent
+                                contentFromServer={item.explanation}
+                                toolbarPresent={false}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-around">
+                    {authValue && (
+                      <button onClick={() => handleQuestionUpdateData(item)}>
+                        Update
+                      </button>
+                    )}
+                    {authValue && (
+                      <button
+                        onClick={() => deleteConfirm(item._id.toString())}
+                      >
+                        Delete
+                      </button>
+                    )}
+                    <span
+                      style={{
+                        backgroundColor: "#03be9f",
+                        borderRadius: "4px",
+                        color: "white",
+                      }}
+                    >
+                      Published:{"  "}
+                      {item.publishedDate
+                        ? item.publishedDate
+                        : formattedDatePublished}
+                    </span>
+                    <span
+                      style={{
+                        backgroundColor: "#03be9f",
+                        borderRadius: "4px",
+                        color: "white",
+                      }}
+                    >
+                      Updated:{" "}
+                      {item.updatedDate
+                        ? item.updatedDate
+                        : formattedDatePublished}
+                    </span>
+                  </div>
+                </li>
+              ))}
+              {/* <Togglable buttonLabel="create essay question" ref={noteFormRef}>
         <p>Create Essay-Type Questions</p>
         <NewEssayQuestion
           onAddQuestion={addQuestionHandler}
@@ -223,7 +309,13 @@ function EssayTypeQuestions({ items, blogId, selectValue }) {
           addQuestionHandler={addQuestionHandler}
         />
       </Togglable> */}
-    </ul>
+            </ul>
+          </div>
+
+          {/* <div class="card-body text-center"></div> */}
+        </div>
+      </div>
+    </div>
   );
 }
 
