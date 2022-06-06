@@ -7,7 +7,7 @@ import NotificationContext from "../../store/notification-context";
 import Link from "next/dist/client/link";
 import Togglable from "../togglable/togglable";
 import QuestionsListOne from "./question-list-one";
-//import MainQuestionList from "./question-main-list";
+import MainQuestionList from "./question-main-list";
 import EssayTypeQuestions from "./essay-type-questions";
 import NewEssayQuestion from "./new-essay-question";
 import { useSession, signOut } from "next-auth/client";
@@ -33,9 +33,9 @@ function Questions(props) {
 
   const [session, loading] = useSession();
   const notificationCtx = useContext(NotificationContext);
-  const { questions: items, blogId, questionType } = props;
-  console.log({ items }, "fro,m questions");
-  console.log({ blogId }, "in questionsjs");
+  const { questions: items, blogId, questionType, subjects, quesForm } = props;
+  //console.log({ items }, "fro,m questions");
+  //console.log({ blogId }, "in questionsjs");
   const noteFormRef = useRef(null);
 
   //commendation message tittle
@@ -118,57 +118,55 @@ function Questions(props) {
 
   //sort the questions according to the choice made by the user
   useEffect(() => {
-    //"mult-choice-all";mult-choice-all
-    // if (selectValue === "mult-choice-all") {
-    //   console.log("multi-all called");
-    //   const multiAllChoiceResult = items.filter(
-    //     (item) => item.questionType !== "essay-type"
-    //   );
-    //   const result = allQuestIntroText(multiAllChoiceResult);
-    //   setcurrentArray(result);
-
-    //   setisLoading(false);
-    // }
-
-    if (selectValue === "essay-type") {
-      console.log("inside essay type");
-      const arrayessay = items.filter(
-        (item) => item.questionType === "essay-type"
-      );
-      console.log({ arrayessay });
-      setcurrentArray(
-        items.filter((item) => item.questionType === "essay-type")
-      );
-      setisLoading(false);
+    if (quesForm === "rev-ques") {
+      if (selectValue === "essay-type") {
+        console.log("inside essay type");
+        const arrayessay = items.filter(
+          (item) => item.questionType === "essay-type"
+        );
+        console.log({ arrayessay });
+        setcurrentArray(
+          items.filter((item) => item.questionType === "essay-type")
+        );
+        setisLoading(false);
+      } else {
+        setisLoading(false);
+      }
     } else {
+      const multiAllChoiceResult = items.filter((item) =>
+        subjects.includes(item.subject)
+      );
+      const result = allQuestIntroText(multiAllChoiceResult);
+      setcurrentArray(result);
+
       setisLoading(false);
     }
   }, [changerValue, selectValue]);
   // -----------------------------------------------------------------
 
-  // function allQuestIntroText(randomArray) {
-  //   const modifiedQuestions = randomArray.map((item) => {
-  //     if (item.questionIntroText) {
-  //       //get the number of questions that share this questionIntroText
-  //       const linkedValue = item.linkedTo;
-  //       const linkedQuestionArray = randomArray.filter(
-  //         (item) => item.linkedTo === linkedValue
-  //       );
+  function allQuestIntroText(randomArray) {
+    const modifiedQuestions = randomArray.map((item) => {
+      if (item.questionIntroText) {
+        //get the number of questions that share this questionIntroText
+        const linkedValue = item.linkedTo;
+        const linkedQuestionArray = randomArray.filter(
+          (item) => item.linkedTo === linkedValue
+        );
 
-  //       const attachStr =
-  //         linkedQuestionArray.length === 1
-  //           ? `Use the above information to answer question ${linkedValue}`
-  //           : `Use the above information to answer questions ${linkedValue} to ${
-  //               Number(linkedValue) + (linkedQuestionArray.length - 1)
-  //             }`;
-  //       return { ...item, questionIntroAtach: attachStr };
-  //     } else {
-  //       return item;
-  //     }
-  //   });
+        const attachStr =
+          linkedQuestionArray.length === 1
+            ? `Use the above information to answer question ${linkedValue}`
+            : `Use the above information to answer questions ${linkedValue} to ${
+                Number(linkedValue) + (linkedQuestionArray.length - 1)
+              }`;
+        return { ...item, questionIntroAtach: attachStr };
+      } else {
+        return item;
+      }
+    });
 
-  //   return modifiedQuestions;
-  // }
+    return modifiedQuestions;
+  }
   // -----------------------------------------------------------------
 
   console.log({ currentArray }, "checking essay-type11111");
@@ -424,32 +422,35 @@ For easy type questions
   //that is how the user wants to access the questions
   //the user may want to access easy questions or multi-choice question
   // he may want to access the questions all at onece or one at a time
+  function displayExamQues() {
+    return (
+      <MainQuestionList
+        items={currentArray}
+        handleRadioButtonChange={handleRadioButtonChange}
+        blogId={blogId}
+        controlSubBtn={controlSubBtn}
+        markScript={markScript}
+        selectValue={selectValue}
+        controlReviewLink={controlReviewLink}
+        setcontrolReviewLink={setcontrolReviewLink}
+        setcontrolSubBtn={setcontrolSubBtn}
+        isLoading={isLoading}
+        variablesForReseting={{
+          setskippedQuestions,
+          setcorrectQuestions,
+          setinCorrectQuestions,
+          setallQuestions,
+          setselectedValuesOfRadioButton,
+          setscore,
+        }}
+        subjects={subjects}
+        quesForm={quesForm}
+      />
+    );
+  }
+
   function displayQuestions() {
     console.log({ selectValue }, "all choice");
-    // if (selectValue === "mult-choice-all") {
-    //   return (
-    //     <MainQuestionList
-    //       items={currentArray}
-    //       handleRadioButtonChange={handleRadioButtonChange}
-    //       blogId={blogId}
-    //       controlSubBtn={controlSubBtn}
-    //       markScript={markScript}
-    //       selectValue={selectValue}
-    //       controlReviewLink={controlReviewLink}
-    //       setcontrolReviewLink={setcontrolReviewLink}
-    //       setcontrolSubBtn={setcontrolSubBtn}
-    //       isLoading={isLoading}
-    //       variablesForReseting={{
-    //         setskippedQuestions,
-    //         setcorrectQuestions,
-    //         setinCorrectQuestions,
-    //         setallQuestions,
-    //         setselectedValuesOfRadioButton,
-    //         setscore,
-    //       }}
-    //     />
-    //   );
-    // }
     if (selectValue === "mult-choice-one") {
       console.log({ selectValue }, "one choice");
       return (
@@ -541,7 +542,7 @@ For easy type questions
       ) : null}
     </section> */}
       <section id="questions" class="p-1 bg-primary">
-        <div class="container">
+        <div class="container-fluid">
           <h2 class="text-center text-white">Revision Questions</h2>
           <p class="lead text-center text-white mb-1">
             We recommend that you read the topic before answering the questions.
@@ -568,7 +569,14 @@ For easy type questions
           </div>
           <div>
             {/* Displays the user selected component */}
-            {items.length !== 0 && showQuestions && displayQuestions()}
+            {items.length !== 0 &&
+              quesForm === "rev-ques" &&
+              showQuestions &&
+              displayQuestions()}
+            {items.length !== 0 &&
+              !quesForm === "rev-ques" &&
+              showQuestions &&
+              displayExamQues()}
           </div>
           <div>
             {session && selectValue === "essay-type" ? (

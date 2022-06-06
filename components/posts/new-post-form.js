@@ -244,7 +244,7 @@ function NewPostForm() {
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
-            // smallHeight={false}
+            smallHeight={true}
           />
         </div>
 

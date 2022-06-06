@@ -138,12 +138,13 @@ function QuestionReviewSelect(props) {
                     </option>
                     <option value="skipped-questions">Skipped Questions</option>
                   </select>
+
                   <span
-                    class="input-group-text badge  bg-primary"
+                    class="input-group-text badge  bg-primary d-flex align-items-center"
                     id="basic-addon1"
                     // style={{ borderRadius: "50%", width: "17px" }}
                   >
-                    {setQuestionNumber()}
+                    <i> {setQuestionNumber()} </i>
                   </span>
                 </div>
               </div>

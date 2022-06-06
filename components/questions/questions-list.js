@@ -274,20 +274,24 @@ function QuestionsList({
             </>
           ))}
         </div>
-        <div class="d-flex justify-content-around">
+        <div class="d-flex justify-content-around flex-column flex-md-row mb-3">
           {authValue && (
-            <Button
+            <button
               onClick={() => handleQuestionUpdateData(item)}
               // style={{ marginLeft: "10px", display: "inline-block" }}
+              class="btn btn-primary mb-2"
             >
               Update
-            </Button>
+            </button>
           )}
 
           {authValue && (
-            <Button onClick={() => deleteConfirm(item._id.toString())}>
+            <button
+              onClick={() => deleteConfirm(item._id.toString())}
+              class="btn btn-primary mb-2"
+            >
               Delete
-            </Button>
+            </button>
           )}
           <span
             style={{
@@ -295,6 +299,7 @@ function QuestionsList({
               borderRadius: "4px",
               color: "white",
             }}
+            class="mt-2 mb-2"
           >
             Published:{"  "}
             {item.publishedDate ? item.publishedDate : formattedDatePublished}
@@ -305,6 +310,7 @@ function QuestionsList({
               borderRadius: "4px",
               color: "white",
             }}
+            class="mt-2 mb-2"
           >
             Updated:{" "}
             {item.updatedDate ? item.updatedDate : formattedDatePublished}

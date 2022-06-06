@@ -10,7 +10,7 @@ import DisplayEditorContent from "../../rich-text-editor/display-editor-content"
 import classes from "./post-content.module.css";
 import Link from "next/dist/client/link";
 import { useRouter } from "next/router";
-
+import ExamForm from "./exam-form";
 // SyntaxHighlighter.registerLanguage("js", js);
 // SyntaxHighlighter.registerLanguage("css", css);
 //import NotificationContext from "../../store/notification-context";
@@ -118,7 +118,7 @@ function PostContent(props) {
     }
   );
 
-  const linkPath = `/posts/questions/${post.id}`;
+  const linkPath = `/posts/questions/${post.id}/rev-ques`;
   const linkPathForUpdate = `/posts/updates/${post.id}`;
   const linkPathForComment = `/comments/${post.id}`;
 
@@ -130,6 +130,7 @@ function PostContent(props) {
   const [authValue, setauthValue] = useState();
   const [moderatedValue, setmoderatedValue] = useState();
   const [showDeleteModal, setshowDeleteModal] = useState(false);
+  const [examFormIsOpen, setexamFormIsOpen] = useState(false);
 
   let likeNo;
   //const adminArray = [process.env.admin_1, process.env.admin_2];
@@ -154,6 +155,7 @@ function PostContent(props) {
 
   useEffect(() => {
     setshowDeleteModal(false);
+    setexamFormIsOpen(false);
   }, []);
 
   const handleUpdateData = () => {
@@ -296,6 +298,9 @@ function PostContent(props) {
   };
   return (
     <>
+      {examFormIsOpen && (
+        <ExamForm setexamFormIsOpen={setexamFormIsOpen} post={post} />
+      )}
       {showDeleteModal && (
         <Modal
           deletePostHandler={deletePostHandler}
@@ -398,6 +403,7 @@ function PostContent(props) {
               ) : null}
             </div>
           </div>
+
         </article> */}
         <section id="instructors" class="p-5 bg-primary">
           <div class="container">
@@ -447,13 +453,21 @@ function PostContent(props) {
                     </p> */}
 
                     <div class="card-body d-flex justify-content-around align-items-center flex-column  flex-md-row ">
-                      <Link href={linkPath}>
-                        <a class="btn btn-link btn-lg">Review Questions</a>
-                      </Link>
+                      {post.id !== "629a90cdf0d77814603145f7" ? (
+                        <Link href={linkPath}>
+                          <a class="btn btn-link btn-lg">Review Questions</a>
+                        </Link>
+                      ) : (
+                        <button
+                          onClick={() => setexamFormIsOpen(true)}
+                          className="btn btn-primary"
+                        >
+                          Start Exam
+                        </button>
+                      )}
                       <Link href={linkPathForComment}>
                         <a class="btn btn-link btn-lg">Comments</a>
                       </Link>
-
                       {authValue && (
                         <button
                           onClick={handleUpdateData}
@@ -468,7 +482,6 @@ function PostContent(props) {
                       >
                         <span>{likeNo}</span> like
                       </button>
-
                       {authValue && (
                         <button
                           onClick={deleteConfirm}
@@ -521,7 +534,6 @@ function PostContent(props) {
             </div>
           </div>
         </section>
-        ;
       </div>
     </>
   );

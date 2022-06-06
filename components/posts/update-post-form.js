@@ -237,7 +237,6 @@ function UpdatePostForm({ updateId }) {
             <input
               type="text"
               id="image"
-              required
               value={useFieldImage.value}
               onChange={useFieldImage.onChange}
             />
@@ -284,6 +283,7 @@ function UpdatePostForm({ updateId }) {
             toolbarOnFocus={false}
             toolbarPresent={true}
             // smallHeight={false}
+            smallHeight={true}
           />
         </div>
 

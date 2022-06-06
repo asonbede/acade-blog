@@ -5,6 +5,7 @@ import PostMenu from "../post-menu/post-menu";
 import { useRouter } from "next/router";
 import PostContent from "../posts/post-detail/post-content";
 import Button from "../ui/button";
+import ExamForm from "../posts/post-detail/exam-form";
 function FeaturedPosts(props) {
   const [post, setpost] = useState();
   const [gridControl, setgridControl] = useState(true);

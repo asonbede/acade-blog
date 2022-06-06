@@ -14,6 +14,7 @@ import UpdateAuthForm from "../auth/auth-update-form";
 import DeleteAccountForm from "../auth/delete-account-form";
 import ProfileImageUploadform from "./profile-image-upload-form";
 import ReviewTestimonialform from "./review-testimonial";
+// import ExamForm from "../posts/post-detail/exam-form";
 //import PostContent from "../posts/post-detail/post-content";
 function UserProfile(props) {
   const [session, loading] = useSession();
@@ -79,6 +80,7 @@ function UserProfile(props) {
           imageUrl={props.imageUrl}
         />
       )}
+      {/* <ExamForm /> */}
       <FeaturedPosts posts={props.posts} setheroIsOpen={setheroIsOpen} />
       {/* change password */}
       {<ProfileForm onChangePassword={changePasswordHandler} />}
