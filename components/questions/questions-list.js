@@ -54,6 +54,8 @@ function QuestionsList({
   selectValue,
   isLoading,
   controlLiActive,
+  subjects,
+  quesForm,
 }) {
   const [showQuestionSupport, setshowQuestionSupport] = useState(false);
   const [fullLessQuestValue, setfullLessQuestValue] = useState(false);
@@ -320,7 +322,7 @@ function QuestionsList({
     );
   }
 
-  function questionListHandlerFunc() {
+  function questionListHandlerFunc(subject = items[0].subject) {
     let firstBatch;
     let secondBatch;
     let multiplesOfTenArray = [];
@@ -333,36 +335,38 @@ function QuestionsList({
 
     for (let index = 0; index < mapResult.length; index++) {
       //const element = mapResult[index];
-      if ((index + 1) % 10 === 0) {
-        multiplesOfTenArray.push(
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target={`#fk${index + 1 - 9}to${index + 1}`}
+      if (items[index].subject === subject) {
+        if ((index + 1) % 10 === 0) {
+          multiplesOfTenArray.push(
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target={`#fk${index + 1 - 9}to${index + 1}`}
+                >
+                  Question(s) {index + 1 - 9} to {index + 1}
+                </button>
+              </h2>
+              <div
+                id={`fk${index + 1 - 9}to${index + 1}`}
+                class={`accordion-collapse collapse ${isShow ? "show" : ""}`}
+                data-bs-parent="#questions"
               >
-                Question(s) {index + 1 - 9} to {index + 1}
-              </button>
-            </h2>
-            <div
-              id={`fk${index + 1 - 9}to${index + 1}`}
-              class={`accordion-collapse collapse ${isShow ? "show" : ""}`}
-              data-bs-parent="#questions"
-            >
-              <div class="accordion-body">
-                {mapResult.slice(index - 9, index + 1)}
+                <div class="accordion-body">
+                  {mapResult.slice(index - 9, index + 1)}
+                </div>
               </div>
             </div>
-          </div>
-        );
+          );
 
-        // setisShow(false);
-        isShow = false;
-        nonMultiplesOfTenArray = [];
-      } else {
-        nonMultiplesOfTenArray.push(mapResult[index]);
+          // setisShow(false);
+          isShow = false;
+          nonMultiplesOfTenArray = [];
+        } else {
+          nonMultiplesOfTenArray.push(mapResult[index]);
+        }
       }
     }
 
@@ -420,6 +424,43 @@ function QuestionsList({
     );
   }
 
+  function ExamQuestionListHandlerFunc() {
+    const examList = [];
+    for (let index = 0; index < subjects.length; index++) {
+      const element = subjects[index];
+
+      multiplesOfTenArray.push(
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target={`#${element}`}
+            >
+              {element}
+            </button>
+          </h2>
+          <div
+            id={`${element}`}
+            class={`accordion-collapse collapse ${isShow ? "show" : ""}`}
+            data-bs-parent="#allexam"
+          >
+            <div class="accordion-body">{questionListHandlerFunc(element)}</div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        <div class="accordion accordion-flush" id="allexam">
+          {examList}
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       {showDeleteQuestModal && (
@@ -431,18 +472,9 @@ function QuestionsList({
         />
       )}
 
-      <div>
-        {selectValue === "mult-choice-all" ? (
-          <button
-            onClick={() => markScript(items)}
-            disabled={controlSubBtn}
-            title="You must answer at lest one question before this button will respond"
-          >
-            Submit For Marking
-          </button>
-        ) : null}
-        {questionListHandlerFunc()}
-      </div>
+      {quesForm === "rev-ques"
+        ? questionListHandlerFunc()
+        : ExamQuestionListHandlerFunc()}
     </>
   );
 }

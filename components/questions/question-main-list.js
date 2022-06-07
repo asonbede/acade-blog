@@ -22,6 +22,8 @@ const MainQuestionList = ({
   setcontrolSubBtn,
   variablesForReseting,
   isLoading,
+  subjects,
+  quesForm,
 }) => {
   const [itemArray, setitemArray] = useState();
 
@@ -40,7 +42,7 @@ const MainQuestionList = ({
   if (items) {
     return (
       <>
-        {selectValue === "mult-choice-all" && controlReviewLink ? (
+        {/* {!quesForm === "rev-ques" && controlReviewLink ? (
           <button
             onClick={backToQuestionListHandler}
             title="Clicking this button will reset your variables"
@@ -60,10 +62,74 @@ const MainQuestionList = ({
             controlReviewLink={controlReviewLink}
             setcontrolReviewLink={setcontrolReviewLink}
             isLoading={isLoading}
+            subjects={subjects}
+            quesForm={quesForm}
           />
         ) : (
           <QuestionReviewSelect />
-        )}
+        )} */}
+        <section>
+          <div class="row justify-content-center align-items-center">
+            <div class="col-11">
+              <div class="card bg-light">
+                <div class="card-header">
+                  {/* <div class="d-flex align-items-center justify-content-between">
+             
+             <div className="d-flex flex-column align-items-center">
+               <img
+                 src={imageProfileUrl}
+                 class="rounded-circle mb-1 img-fluid w-25"
+                 alt="card image"
+               />
+               <p className="card-text">Goodluck from {author}</p>
+             </div>
+             <p class="card-text">{setQuestionNum()}</p>
+           </div> */}
+                  {!quesForm === "rev-ques" && controlReviewLink ? (
+                    <button
+                      class="btn btn-primary"
+                      onClick={backToQuestionListHandler}
+                      title="Clicking this button will reset your variables"
+                    >
+                      Back To Question
+                    </button>
+                  ) : null}
+                </div>
+                <div class="card-body text-center">
+                  {!controlReviewLink ? (
+                    <QuestionList
+                      items={items}
+                      handleRadioButtonChange={handleRadioButtonChange}
+                      blogId={blogId}
+                      controlSubBtn={controlSubBtn}
+                      markScript={markScript}
+                      selectValue={selectValue}
+                      controlReviewLink={controlReviewLink}
+                      setcontrolReviewLink={setcontrolReviewLink}
+                      isLoading={isLoading}
+                      subjects={subjects}
+                      quesForm={quesForm}
+                    />
+                  ) : (
+                    <QuestionReviewSelect />
+                  )}
+                </div>
+
+                <div class="card-body text-center">
+                  <button
+                    onClick={() => markScript(items)}
+                    disabled={controlSubBtn}
+                    class="btn btn-primary"
+                    title="You must answer at lest one question before this button will respond"
+                  >
+                    Submit For Marking
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        ;
       </>
     );
   }

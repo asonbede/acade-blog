@@ -469,6 +469,8 @@ For easy type questions
           controlLiActive={controlLiActive}
           setcontrolLiActive={setcontrolLiActive}
           isLoading={isLoading}
+          subjects={subjects}
+          quesForm={quesForm}
           variablesForReseting={{
             setskippedQuestions,
             setcorrectQuestions,

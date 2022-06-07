@@ -171,7 +171,7 @@ export async function getServerSideProps(context) {
     return {
       props: {
         items: JSON.parse(JSON.stringify(questionsDoc)),
-        quesForm: questionsBlog[0],
+        quesForm: questionsBlog[1],
         subjects: questionsBlog.slice(1),
       },
       // revalidate: 600,

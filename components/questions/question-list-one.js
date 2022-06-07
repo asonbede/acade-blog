@@ -29,6 +29,8 @@ const OneQuestion = ({
   variablesForReseting,
   controlLiActive,
   setcontrolLiActive,
+  subjects,
+  quesForm,
 }) => {
   const [index, setIndex] = useState(0);
 
@@ -791,6 +793,8 @@ const OneQuestion = ({
                       selectValue={selectValue}
                       israndomQues={israndomQues}
                       controlLiActive={controlLiActive}
+                      subjects={subjects}
+                      quesForm={quesForm}
                     />
                   </div>
 
