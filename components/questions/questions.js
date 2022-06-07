@@ -133,10 +133,18 @@ function Questions(props) {
         setisLoading(false);
       }
     } else {
-      const multiAllChoiceResult = items.filter((item) =>
-        subjects.includes(item.subject)
-      );
-      const result = allQuestIntroText(multiAllChoiceResult);
+      let allChosenArray = [];
+
+      for (let index = 0; index < subjects.length; index++) {
+        const element = subjects[index];
+        const multiAllChoiceResult = items.filter(
+          (item) => item.subject === element
+        );
+        //allChosenArray.push(multiAllChoiceResult);
+        allChosenArray = [...allChosenArray, ...multiAllChoiceResult];
+      }
+
+      const result = allQuestIntroText(allChosenArray);
       setcurrentArray(result);
 
       setisLoading(false);
