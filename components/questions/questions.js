@@ -134,7 +134,7 @@ function Questions(props) {
       }
     } else {
       let allChosenArray = [];
-
+      console.log("inside QUES-YOU");
       for (let index = 0; index < subjects.length; index++) {
         const element = subjects[index];
         const multiAllChoiceResult = items.filter(
@@ -144,6 +144,7 @@ function Questions(props) {
         allChosenArray = [...allChosenArray, ...multiAllChoiceResult];
       }
 
+      console.log({ allChosenArray }, "HHHHHH");
       const result = allQuestIntroText(allChosenArray);
       setcurrentArray(result);
 
@@ -553,12 +554,28 @@ For easy type questions
     </section> */}
       <section id="questions" class="p-1 bg-primary">
         <div class="container-fluid">
-          <h2 class="text-center text-white">Revision Questions</h2>
-          <p class="lead text-center text-white mb-1">
-            We recommend that you read the topic before answering the questions.
-            {/* The questions are intended to consolidate your understanding of the
+          {quesForm === "rev-que" && (
+            <>
+              <h2 class="text-center text-white">Revision Questions</h2>
+              <p class="lead text-center text-white mb-1">
+                We recommend that you read the topic before answering the
+                questions.
+                {/* The questions are intended to consolidate your understanding of the
             topic. */}
-          </p>
+              </p>
+            </>
+          )}
+
+          {quesForm !== "rev-que" && (
+            <>
+              <h2 class="text-center text-white">Examination</h2>
+              <p class="lead text-center text-white mb-1">
+                Study hard before the an exam. Shun exam malpractice
+                {/* The questions are intended to consolidate your understanding of the
+            topic. */}
+              </p>
+            </>
+          )}
           {/* <div class="row justify-content-center">
             <div class="col-10"> */}
           <div class="d-flex justify-content-end">
@@ -584,7 +601,7 @@ For easy type questions
               showQuestions &&
               displayQuestions()}
             {items.length !== 0 &&
-              !quesForm === "rev-ques" &&
+              quesForm !== "rev-ques" &&
               showQuestions &&
               displayExamQues()}
           </div>

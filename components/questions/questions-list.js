@@ -230,7 +230,9 @@ function QuestionsList({
               toolbarPresent={false}
             />
           </div>
-          {item.examType === "none" || item.examType === undefined ? null : (
+          {item.examType === "none" ||
+          item.examType === "main-exam" ||
+          item.examType === undefined ? null : (
             <span>{item.examType}</span>
           )}
         </div>
@@ -429,7 +431,7 @@ function QuestionsList({
     for (let index = 0; index < subjects.length; index++) {
       const element = subjects[index];
 
-      multiplesOfTenArray.push(
+      examList.push(
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button
@@ -443,7 +445,7 @@ function QuestionsList({
           </h2>
           <div
             id={`${element}`}
-            class={`accordion-collapse collapse ${isShow ? "show" : ""}`}
+            class={`accordion-collapse collapse ${index === 0 ? "show" : ""}`}
             data-bs-parent="#allexam"
           >
             <div class="accordion-body">{questionListHandlerFunc(element)}</div>

@@ -95,10 +95,11 @@ function ShowQuestions(props) {
   const router = useRouter();
 
   //const { query } = useRouter();
-  const blogId = router.query.questionsBlog;
+  //const blogId = router.query.questionsBlog;
   const questionType = router.query.questionType;
-  console.log({ questionType, blogId }, "from question route");
-  const { items, subjects, quesForm } = props;
+  //console.log({ questionType, blogId }, "from question route");
+  const { items, subjects, quesForm, blogId } = props;
+  console.log({ items, subjects, quesForm, blogId }, "question-bede");
   return (
     <Questions
       questions={items}
@@ -173,6 +174,7 @@ export async function getServerSideProps(context) {
         items: JSON.parse(JSON.stringify(questionsDoc)),
         quesForm: questionsBlog[1],
         subjects: questionsBlog.slice(1),
+        blogId: questionsBlog[0],
       },
       // revalidate: 600,
     };

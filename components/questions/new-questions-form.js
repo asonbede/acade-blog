@@ -244,6 +244,7 @@ function NewQuestion(props) {
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
+            smallHeight={true}
           />
         </div>
         <div className={classes.control}>
@@ -254,6 +255,7 @@ function NewQuestion(props) {
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
+            smallHeight={true}
           />
         </div>
         <div className={classes.control}>
@@ -264,6 +266,7 @@ function NewQuestion(props) {
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
+            smallHeight={true}
           />
         </div>
         <div className={classes.control}>
@@ -274,6 +277,7 @@ function NewQuestion(props) {
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
+            smallHeight={true}
           />
         </div>
         <div className={classes.control}>
@@ -284,6 +288,7 @@ function NewQuestion(props) {
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
+            smallHeight={true}
           />
         </div>
         <div className={classes.control}>
@@ -294,6 +299,7 @@ function NewQuestion(props) {
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
+            smallHeight={true}
           />
         </div>
         <div className={classes.control}>
@@ -304,6 +310,7 @@ function NewQuestion(props) {
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
+            smallHeight={true}
           />
         </div>
 
@@ -345,6 +352,7 @@ function NewQuestion(props) {
             readOnly={false}
             toolbarOnFocus={false}
             toolbarPresent={true}
+            smallHeight={true}
           />
         </div>
         <div className={classes.control}>

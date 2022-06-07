@@ -1,9 +1,12 @@
 import Image from "next/image";
 
 //import classes from "./title.module.css";
+import { v4 as uuid } from "uuid";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useSession, signOut } from "next-auth/client";
+import NotificationContext from "../../../store/notification-context";
+const examdDate = new Date().toLocaleDateString("en-US");
 function ExamForm(props) {
   //const linkPath = `/posts/questions/${props.post.id}/`;
   const [session, loading] = useSession();
@@ -12,8 +15,12 @@ function ExamForm(props) {
   const [examNo, setExamNo] = useState("");
   const [selectedSubjects, setSelectedSubjects] = useState({});
   const [pathValue, setPathValue] = useState("");
-
+  const notificationCtx = useContext(NotificationContext);
   const router = useRouter();
+  const unique_id = uuid();
+  const small_id = unique_id.slice(0, 10);
+  console.log({ small_id });
+  console.log({ examdDate });
   //router.push(linkPathForUpdate);
   // const router = useRouter();
   //  const handleUpdateData = () => {
@@ -30,13 +37,50 @@ function ExamForm(props) {
 
     if (getSelectedSubjects().length > 2) {
       console.log("Not more than two subJEcts IS aloWed");
+      notificationCtx.showNotification({
+        title: "Error!",
+        message: "You can not chose more than two subjects at a sitting !",
+        status: "error",
+      });
       return;
     }
 
     if (getSelectedSubjects().length < 1) {
+      notificationCtx.showNotification({
+        title: "Error!",
+        message:
+          "No subject chosen!! please chose a subject(s) before submitting form.",
+        status: "error",
+      });
       console.log("no subject selected");
       return;
     }
+
+    //  notificationCtx.showNotification({
+    //    title: "Sending blog...",
+    //    message: "Your blog is currently being stored into a database.",
+    //    status: "pending",
+    //  });
+
+    // notificationCtx.showNotification({
+    //   title: "Success!",
+    //   message: "Your blog was saved!",
+    //   status: "success",
+    // });
+
+    // notificationCtx.showNotification({
+    //   title: "Error!",
+    //   message: error.message || "Something went wrong!",
+    //   status: "error",
+    // });
+    console.log({ examNo });
+
+    notificationCtx.showNotification({
+      title: "Success!",
+      message:
+        "Your form was successfully submitted and your question is being set, please wait!",
+      status: "success",
+    });
 
     router.push(pathValue);
   }
@@ -50,9 +94,9 @@ function ExamForm(props) {
 
   useEffect(() => {
     if (session) {
-      setExamNo("");
+      setExamNo(`${small_id}-${examdDate}-${getSelectedSubjects().join("-")}`);
     }
-  }, [name, username]);
+  }, [name, username, selectedSubjects]);
 
   useEffect(() => {
     if (session) {
@@ -220,3 +264,9 @@ function ExamForm(props) {
 
 export default ExamForm;
 //C:\Users\DEL\Desktop\web-development\acade-blog\public\images\site\home-page
+//npm install uuidv4
+////import uuid v4
+//import { v4 as uuid } from 'uuid';
+//const unique_id = uuid();
+//const small_id = unique_id.slice(0,8)
+// http://localhost:3000/posts/questions/629a90cdf0d77814603145f7/mathematics/chemistry

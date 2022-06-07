@@ -308,8 +308,7 @@ async function handler(req, res) {
       imageProfileUrl,
 
       author,
-      authorusername,
-      imageProfileUrl,
+
       publishedDate,
       updatedDate,
     } = req.body;

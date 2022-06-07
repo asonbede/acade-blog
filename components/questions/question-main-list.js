@@ -73,6 +73,7 @@ const MainQuestionList = ({
             <div class="col-11">
               <div class="card bg-light">
                 <div class="card-header">
+                  Time Allowed: 45 minutes
                   {/* <div class="d-flex align-items-center justify-content-between">
              
              <div className="d-flex flex-column align-items-center">
