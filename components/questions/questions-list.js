@@ -223,7 +223,10 @@ function QuestionsList({
             <h1>Jumbotron Example</h1>
             <p>Lorem ipsum...</p>
           </div> */}
-            <span> {questionIndex + 1}.</span>
+            <span>
+              {" "}
+              {quesForm === "rev-ques" ? questionIndex + 1 : item.numIndex}.
+            </span>
             {/* {(watch = watch + 1)} */}
 
             <DisplayEditorContent
@@ -326,67 +329,71 @@ function QuestionsList({
   }
 
   function questionListHandlerFunc(subject = items[0].subject) {
-    let firstBatch;
-    let secondBatch;
+    //let firstBatch;
+    // let secondBatch;
     let multiplesOfTenArray = [];
     let nonMultiplesOfTenArray = [];
-    let allListArray = [];
+    let lastItemArray = [];
+    //let allListArray = [];
     let isShow = true;
-    const arr = [1, 2, 1];
-    const set = new Set(arr);
+    //const arr = [1, 2, 1];
+    //const set = new Set(arr);
     const subjectLen = items.filter((item) => item.subject === subject).length;
-    const subjectsArray = items.map((item) => item.subject);
-    const setNum = new Set(subjectsArray);
-    console.log({ setNum }, "YUUO");
+    //const subjectsArray = items.map((item) => item.subject);
+    // const setNum = new Set(subjectsArray);
+    // console.log({ setNum }, "YUUO");
 
     const mapResult = items.map((item, questionIndex) =>
       displayListItem(item, questionIndex)
     );
     for (let index = 0; index < mapResult.length; index++) {
       //const element = mapResult[index];
-      if (items[index].subject === subject) {
-        if ((index + 1) % 10 === 0) {
-          multiplesOfTenArray.push(
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target={`#fk${index + 1 - 9}to${index + 1}`}
-                >
-                  Question(s) {index + 1 - 9} to {index + 1}
-                </button>
-              </h2>
-              <div
-                id={`fk${index + 1 - 9}to${index + 1}`}
-                class={`accordion-collapse collapse ${isShow ? "show" : ""}`}
-                data-bs-parent="#questions"
+      if (items[index].subject !== subject) {
+        // console.log(items[index].subject, "work-plEASW");
+        continue;
+      }
+      // console.log(items[index].subject, "work-plEASW22");
+      if ((index + 1) % 10 === 0) {
+        multiplesOfTenArray.push(
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target={`#fk${index + 1 - 9}to${index + 1}`}
               >
-                <div class="accordion-body">
-                  {mapResult.slice(index - 9, index + 1)}
-                </div>
+                Question(s) {index + 1 - 9} to {index + 1}
+              </button>
+            </h2>
+            <div
+              id={`fk${index + 1 - 9}to${index + 1}`}
+              class={`accordion-collapse collapse ${isShow ? "show" : ""}`}
+              data-bs-parent="#questions"
+            >
+              <div class="accordion-body">
+                {mapResult.slice(index - 9, index + 1)}
               </div>
             </div>
-          );
+          </div>
+        );
 
-          // setisShow(false);
-          isShow = false;
-          nonMultiplesOfTenArray = [];
-        } else {
-          nonMultiplesOfTenArray.push(mapResult[index]);
-        }
+        // setisShow(false);
+        isShow = false;
+        nonMultiplesOfTenArray = [];
+      } else {
+        nonMultiplesOfTenArray.push(mapResult[index]);
       }
     }
 
-    const lastItem = (
+    lastItemArray.push(
       <div class="accordion-item">
         <h2 class="accordion-header">
           <button
             class="accordion-button collapsed"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target={`#tothe${mapResult.length}`}
+            data-bs-target={`#tothe${mapResult.length}${subject}`}
           >
             Question(s){" "}
             {multiplesOfTenArray.length === 0
@@ -396,8 +403,7 @@ function QuestionsList({
           </button>
         </h2>
         <div
-          id={`tothe${mapResult.length}`}
-          class="accordion-collapse collapse"
+          id={`tothe${mapResult.length}${subject}`}
           class={`accordion-collapse collapse ${isShow ? "show" : ""}`}
           data-bs-parent="#questions"
         >
@@ -427,16 +433,34 @@ function QuestionsList({
     return (
       <>
         <div class="accordion accordion-flush" id="questions">
-          {[...multiplesOfTenArray, lastItem]}
+          {[...multiplesOfTenArray, ...lastItemArray]}
         </div>
       </>
     );
   }
 
   function ExamQuestionListHandlerFunc() {
+    // let multiplesOfTenArray = [];
+    // let nonMultiplesOfTenArray = [];
+    //let lastItemArray = [];
+    //let allListArray = [];
+    // let isShow = true;
+
+    // const subjectLen = items.filter((item) => item.subject === subject).length;
+
+    const mapResult = items.map((item, questionIndex) =>
+      displayListItem(item, questionIndex)
+    );
     const examList = [];
     for (let index = 0; index < subjects.length; index++) {
       const element = subjects[index];
+      const subjList = [];
+      for (let indexSub = 0; indexSub < mapResult.length; indexSub++) {
+        const elementListItem = mapResult[indexSub];
+        if (items[indexSub].subject === element) {
+          subjList.push(elementListItem);
+        }
+      }
 
       examList.push(
         <div class="accordion-item">
@@ -455,7 +479,7 @@ function QuestionsList({
             class={`accordion-collapse collapse ${index === 0 ? "show" : ""}`}
             data-bs-parent="#allexam"
           >
-            <div class="accordion-body">{questionListHandlerFunc(element)}</div>
+            <div class="accordion-body">{subjList}</div>
           </div>
         </div>
       );
