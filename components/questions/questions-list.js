@@ -223,7 +223,8 @@ function QuestionsList({
             <h1>Jumbotron Example</h1>
             <p>Lorem ipsum...</p>
           </div> */}
-            <span>{questionIndex + 1}.</span>
+            <span> {questionIndex + 1}.</span>
+            {/* {(watch = watch + 1)} */}
 
             <DisplayEditorContent
               contentFromServer={item.question}
@@ -331,10 +332,16 @@ function QuestionsList({
     let nonMultiplesOfTenArray = [];
     let allListArray = [];
     let isShow = true;
+    const arr = [1, 2, 1];
+    const set = new Set(arr);
+    const subjectLen = items.filter((item) => item.subject === subject).length;
+    const subjectsArray = items.map((item) => item.subject);
+    const setNum = new Set(subjectsArray);
+    console.log({ setNum }, "YUUO");
+
     const mapResult = items.map((item, questionIndex) =>
       displayListItem(item, questionIndex)
     );
-
     for (let index = 0; index < mapResult.length; index++) {
       //const element = mapResult[index];
       if (items[index].subject === subject) {
@@ -385,7 +392,7 @@ function QuestionsList({
             {multiplesOfTenArray.length === 0
               ? multiplesOfTenArray.length + 1
               : multiplesOfTenArray.length * 10 + 1}{" "}
-            to {mapResult.length}
+            to {subjectLen}
           </button>
         </h2>
         <div

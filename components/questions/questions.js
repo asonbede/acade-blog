@@ -140,8 +140,12 @@ function Questions(props) {
         const multiAllChoiceResult = items.filter(
           (item) => item.subject === element
         );
+        const addNumArray = multiAllChoiceResult.map((item, index) => ({
+          ...item,
+          numIndex: index + 1,
+        }));
         //allChosenArray.push(multiAllChoiceResult);
-        allChosenArray = [...allChosenArray, ...multiAllChoiceResult];
+        allChosenArray = [...allChosenArray, ...addNumArray];
       }
 
       console.log({ allChosenArray }, "HHHHHH");
