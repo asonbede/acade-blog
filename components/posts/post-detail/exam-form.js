@@ -35,7 +35,7 @@ function ExamForm(props) {
   function handleSubmit(event) {
     event.preventDefault();
 
-    if (getSelectedSubjects().length > 2) {
+    if (getSelectedSubjects().length > 4) {
       console.log("Not more than two subJEcts IS aloWed");
       notificationCtx.showNotification({
         title: "Error!",

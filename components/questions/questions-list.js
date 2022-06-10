@@ -476,7 +476,7 @@ function QuestionsList({
           </h2>
           <div
             id={`${element}`}
-            class={`accordion-collapse collapse ${index === 0 ? "show" : ""}`}
+            class={`accordion-collapse collapse`}
             data-bs-parent="#allexam"
           >
             <div class="accordion-body">{subjList}</div>

@@ -73,19 +73,19 @@ const MainQuestionList = ({
             <div class="col-11">
               <div class="card bg-light">
                 <div class="card-header">
-                  Time Allowed: 45 minutes
-                  {/* <div class="d-flex align-items-center justify-content-between">
-             
-             <div className="d-flex flex-column align-items-center">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <h4 class="display-5"> Examination</h4>
+                    <span> Time Allowed: 45 minutes</span>
+
+                    {/* <div className="d-flex flex-column align-items-center">
                <img
                  src={imageProfileUrl}
                  class="rounded-circle mb-1 img-fluid w-25"
-                 alt="card image"
-               />
+                 
                <p className="card-text">Goodluck from {author}</p>
              </div>
-             <p class="card-text">{setQuestionNum()}</p>
-           </div> */}
+             <p class="card-text">{setQuestionNum()}</p> */}
+                  </div>
                   {!quesForm === "rev-ques" && controlReviewLink ? (
                     <button
                       class="btn btn-primary"
@@ -115,7 +115,10 @@ const MainQuestionList = ({
                     <QuestionReviewSelect />
                   )}
                 </div>
-
+                {/* index={index}
+                selectValue={selectValue}
+                controlReviewLink={controlReviewLink}
+                backToQuestionListHandler={backToQuestionListHandler} */}
                 <div class="card-body text-center">
                   <button
                     onClick={() => markScript(items)}
