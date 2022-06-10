@@ -1054,6 +1054,8 @@ const OneQuestion = ({
             selectValue={selectValue}
             controlReviewLink={controlReviewLink}
             backToQuestionListHandler={backToQuestionListHandler}
+            subjects={subjects}
+            quesForm={quesForm}
           />
         )}
       </>

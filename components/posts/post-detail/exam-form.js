@@ -94,7 +94,7 @@ function ExamForm(props) {
 
   useEffect(() => {
     if (session) {
-      setExamNo(`${small_id}-${examdDate}-${getSelectedSubjects().join("-")}`);
+      setExamNo("...................");
     }
   }, [name, username, selectedSubjects]);
 

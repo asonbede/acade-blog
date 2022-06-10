@@ -16,6 +16,9 @@ function QuestionAnswerReviewList(props) {
     skippedQuestions,
     questionType,
     selectValue,
+    getSubjectMark,
+    subjects,
+    quesForm,
   } = props;
   const [fullLessQuestValue, setfullLessQuestValue] = useState(false);
   console.log({ selectedValuesOfRadioButton, items }, "uuuhh");
@@ -76,35 +79,36 @@ function QuestionAnswerReviewList(props) {
       setfullLessQuestValue(id);
     }
   }
-  function renderQuestions(questionIndex, item) {
-    if (
-      selectedValuesOfRadioButton.hasOwnProperty(
-        `studentChoiceForQuestion${questionIndex + 1}`
-      )
-    ) {
-      return (
-        <>
-          {/* {item.questionIntroText && (
+  function renderQuestions(questionIndex, item, subject) {
+    if (item.subject === subject) {
+      if (
+        selectedValuesOfRadioButton.hasOwnProperty(
+          `studentChoiceForQuestion${questionIndex + 1}`
+        )
+      ) {
+        return (
+          <>
+            {/* {item.questionIntroText && (
             <DisplayEditorContent
               contentFromServer={item.questionIntroText}
               toolbarPresent={false}
             />
           )} */}
 
-          {item.questionIntroText && fullLessQuestValue === item._id && (
-            <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow-lg">
-              <DisplayEditorContent
-                contentFromServer={item.questionIntroText}
-                toolbarPresent={false}
-              />
+            {item.questionIntroText && fullLessQuestValue === item._id && (
+              <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow-lg">
+                <DisplayEditorContent
+                  contentFromServer={item.questionIntroText}
+                  toolbarPresent={false}
+                />
 
-              <span style={{ color: "blue", fontStyle: "italic" }}>
-                {item.questionIntroAtach}
-              </span>
-              {/* <br /> */}
-            </div>
-          )}
-          {/* <div style={{ display: "flex" }}>
+                <span style={{ color: "blue", fontStyle: "italic" }}>
+                  {item.questionIntroAtach}
+                </span>
+                {/* <br /> */}
+              </div>
+            )}
+            {/* <div style={{ display: "flex" }}>
             {selectValue === "mult-choice-one" ? null : (
               <span style={{ marginRight: "5px", marginTop: "14px" }}>
                 {questionIndex + 1}
@@ -118,36 +122,43 @@ function QuestionAnswerReviewList(props) {
             <span className={questionStatus(questionIndex + 1)}>
               {`---${questionStatus(questionIndex + 1)}`}
             </span>
+             getSubjectMark={getSubjectMark}
+                subjects={subjects}
+                quesForm={quesForm}
           </div> */}
-          <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow">
-            {item.questionIntroText && (
-              <a
-                onClick={() => questFullLessControlHandler(item._id)}
-                class="btn  btn-outline-dark  border-light"
-              >
-                {fullLessQuestValue === item._id
-                  ? "See Less Question ..."
-                  : "See Full Question ..."}
-              </a>
-            )}
-            <div class="d-flex align-items-center fw-bolder">
-              {/* <div class="mt-4 p-5 bg-primary text-white rounded">
+            <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow">
+              {item.questionIntroText && (
+                <a
+                  onClick={() => questFullLessControlHandler(item._id)}
+                  class="btn  btn-outline-dark  border-light"
+                >
+                  {fullLessQuestValue === item._id
+                    ? "See Less Question ..."
+                    : "See Full Question ..."}
+                </a>
+              )}
+              <div class="d-flex align-items-center fw-bolder">
+                {/* <div class="mt-4 p-5 bg-primary text-white rounded">
             <h1>Jumbotron Example</h1>
             <p>Lorem ipsum...</p>
           </div> */}
-              <span>{questionIndex + 1}.</span>
+                <span>
+                  {quesForm === "rev-ques" ? questionIndex + 1 : item.numIndex}.
+                </span>
 
-              <DisplayEditorContent
-                contentFromServer={item.question}
-                toolbarPresent={false}
-              />
+                <DisplayEditorContent
+                  contentFromServer={item.question}
+                  toolbarPresent={false}
+                />
+              </div>
+              {item.examType === "none" ||
+              item.examType === undefined ? null : (
+                <span>{item.examType}</span>
+              )}
             </div>
-            {item.examType === "none" || item.examType === undefined ? null : (
-              <span>{item.examType}</span>
-            )}
-          </div>
-        </>
-      );
+          </>
+        );
+      }
     }
     return null;
   }
@@ -319,59 +330,92 @@ function QuestionAnswerReviewList(props) {
     }
   }
 
-  return (
-    <div className={classes.form}>
-      {items.map((item, questionIndex) => (
-        <div key={item._id}>
-          {renderQuestions(questionIndex, item)}
-          <div class="list-group">
-            {item.options.map((optionItem, optionIndex) => (
-              <>
-                {renderRadioButtons(
-                  optionItem,
-                  questionIndex,
-                  optionIndex,
-                  item.originalIndex
-                )}
-              </>
-            ))}
-          </div>
+  function revQuestionList(subject = items[0]) {
+    return (
+      <div className={classes.form}>
+        {items.map((item, questionIndex) => (
+          <div key={item._id}>
+            {renderQuestions(questionIndex, item, subject)}
+            <div class="list-group">
+              {item.options.map((optionItem, optionIndex) => (
+                <>
+                  {item.subject === subject &&
+                    renderRadioButtons(
+                      optionItem,
+                      questionIndex,
+                      optionIndex,
+                      item.originalIndex,
+                      subject
+                    )}
+                </>
+              ))}
+            </div>
 
-          <div
-            class="accordion accordion-flush"
-            id={`questions-${questionIndex}`}
-          >
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target={`#questions-${questionIndex}-id`}
-                >
-                  See Explanation
-                </button>
-              </h2>
+            {item.subject === subject && (
               <div
-                id={`questions-${questionIndex}-id`}
-                class="accordion-collapse collapse"
-                data-bs-parent={`#questions-${questionIndex}`}
+                class="accordion accordion-flush"
+                id={`questions-${questionIndex}`}
               >
-                <div class="accordion-body">
-                  <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow">
-                    <p>Explanation</p>
-                    <DisplayEditorContent
-                      contentFromServer={item.explanation}
-                      toolbarPresent={false}
-                    />
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target={`#questions-${questionIndex}-id`}
+                    >
+                      See Explanation
+                    </button>
+                  </h2>
+                  <div
+                    id={`questions-${questionIndex}-id`}
+                    class="accordion-collapse collapse"
+                    data-bs-parent={`#questions-${questionIndex}`}
+                  >
+                    <div class="accordion-body">
+                      <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow">
+                        <p>Explanation</p>
+                        <DisplayEditorContent
+                          contentFromServer={item.explanation}
+                          toolbarPresent={false}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
+        ))}
+      </div>
+    );
+  }
+
+  function examQuestionList(params) {
+    const allExamList = [];
+    for (let index = 0; index < subjects.length; index++) {
+      const element = subjects[index];
+      const scoreNum = getSubjectMark()[element].score;
+      const subjectLen = getSubjectMark()[element].len;
+      const subjectWork = (
+        <div>
+          <h4>{element}</h4>
+          <span>
+            score: {scoreNum}/{subjectLen}
+          </span>
+          {revQuestionList(element)}
         </div>
-      ))}
-    </div>
+      );
+      allExamList.push(subjectWork);
+    }
+    return allExamList;
+  }
+
+  return (
+    <>
+      {quesForm === "rev-ques" && revQuestionList()}
+      {quesForm !== "rev-ques" && examQuestionList()}
+    </>
   );
 }
 

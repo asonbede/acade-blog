@@ -24,6 +24,9 @@ const MainQuestionList = ({
   isLoading,
   subjects,
   quesForm,
+
+  controlLiActive,
+  setcontrolLiActive,
 }) => {
   const [itemArray, setitemArray] = useState();
 
@@ -37,6 +40,8 @@ const MainQuestionList = ({
     variablesForReseting.setallQuestions([]);
     variablesForReseting.setselectedValuesOfRadioButton([]);
     variablesForReseting.setscore(null);
+
+    setcontrolLiActive(null);
   }
   console.log({ items }, "ques-main-list");
   if (items) {
@@ -110,15 +115,19 @@ const MainQuestionList = ({
                       isLoading={isLoading}
                       subjects={subjects}
                       quesForm={quesForm}
+                      controlLiActive={controlLiActive}
                     />
                   ) : (
-                    <QuestionReviewSelect />
+                    <QuestionReviewSelect
+                      selectValue={selectValue}
+                      controlReviewLink={controlReviewLink}
+                      backToQuestionListHandler={backToQuestionListHandler}
+                      subjects={subjects}
+                      quesForm={quesForm}
+                    />
                   )}
                 </div>
-                {/* index={index}
-                selectValue={selectValue}
-                controlReviewLink={controlReviewLink}
-                backToQuestionListHandler={backToQuestionListHandler} */}
+
                 <div class="card-body text-center">
                   <button
                     onClick={() => markScript(items)}

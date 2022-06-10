@@ -458,6 +458,8 @@ For easy type questions
         }}
         subjects={subjects}
         quesForm={quesForm}
+        controlLiActive={controlLiActive}
+        setcontrolLiActive={setcontrolLiActive}
       />
     );
   }

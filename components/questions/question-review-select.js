@@ -16,7 +16,8 @@ function QuestionReviewSelect(props) {
   const controlReviewLink = props.controlReviewLink;
   const backToQuestionListHandler = props.backToQuestionListHandler;
   const notificationCtx = useContext(NotificationContext);
-
+  const subjects = props.subjects;
+  const quesForm = props.quesForm;
   const reviewQuestionObj = notificationCtx.reviewQuestion;
   const {
     selectedValuesOfRadioButton,
@@ -34,6 +35,23 @@ function QuestionReviewSelect(props) {
   console.log({ inCorrectQuestions }, "jjbbiiii");
   function handleChange(event) {
     setselectedReview(event.target.value);
+  }
+  function getSubjectMark() {
+    let correctObj = {};
+    for (let index = 0; index < subjects.length; index++) {
+      const element = subjects[index];
+      const correctList = correctQuestions.filter(
+        (item) => item.subject === element
+      );
+      const totalSubject = currentArray.filter(
+        (item) => item.subject === element
+      );
+      correctObj = {
+        ...correctObj,
+        [element]: { score: correctList.length, len: totalSubject.length },
+      };
+    }
+    return correctObj;
   }
 
   function setQuestionNumber() {
@@ -148,7 +166,7 @@ function QuestionReviewSelect(props) {
                   </span>
                 </div>
               </div>
-              <span>{`Score: ${score}/${currentArray.length}`}</span>
+              <span>{`Total Score: ${score}/${currentArray.length}`}</span>
             </div>
           </div>
           <div class="card-body text-center">
@@ -161,6 +179,9 @@ function QuestionReviewSelect(props) {
                 inCorrectQuestions={inCorrectQuestions}
                 skippedQuestions={skippedQuestions}
                 selectValue={selectValue}
+                getSubjectMark={getSubjectMark}
+                subjects={subjects}
+                quesForm={quesForm}
               />
             ) : null}
             {selectedReview === "correct-questions" ? (
@@ -169,6 +190,9 @@ function QuestionReviewSelect(props) {
                 items={correctQuestions}
                 questionType="correct-questions"
                 selectValue={selectValue}
+                getSubjectMark={getSubjectMark}
+                subjects={subjects}
+                quesForm={quesForm}
               />
             ) : null}
             {selectedReview === "incorrect-questions" ? (
@@ -177,6 +201,9 @@ function QuestionReviewSelect(props) {
                 items={inCorrectQuestions}
                 questionType="incorrect-questions"
                 selectValue={selectValue}
+                getSubjectMark={getSubjectMark}
+                subjects={subjects}
+                quesForm={quesForm}
               />
             ) : null}
             {selectedReview === "skipped-questions" ? (
@@ -185,9 +212,12 @@ function QuestionReviewSelect(props) {
                 items={skippedQuestions}
                 questionType="skipped-questions"
                 selectValue={selectValue}
+                getSubjectMark={getSubjectMark}
+                subjects={subjects}
+                quesForm={quesForm}
               />
             ) : null}
-            {selectValue === "mult-choice-one" && controlReviewLink ? (
+            {controlReviewLink ? (
               <button
                 onClick={backToQuestionListHandler}
                 class="btn  btn-primary mt-2"
@@ -197,7 +227,9 @@ function QuestionReviewSelect(props) {
             ) : null}
           </div>
 
-          {/* <div class="card-body text-center"></div> */}
+          {/* <div class="card-body text-center">
+          selectValue === "essay-type"
+          </div> */}
         </div>
       </div>
     </div>
