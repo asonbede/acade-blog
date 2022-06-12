@@ -244,7 +244,7 @@ function Questions(props) {
     notificationCtx.showNotification({
       title: "questions is being marked...",
       message: "Your question is currently being assessed, please wait",
-      ststus: "pending",
+      status: "success",
     });
     //}
 

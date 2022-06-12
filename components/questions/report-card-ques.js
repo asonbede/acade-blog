@@ -105,6 +105,10 @@ function ExamForm({ subjects, getSubjectMark }) {
     }
   }, []);
 
+  function capFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   //   useEffect(() => {
   //     if (session) {
   //       setPathValue(
@@ -151,8 +155,9 @@ function ExamForm({ subjects, getSubjectMark }) {
           <img
             // className={classes["post-image"]}
             src={session.user.image.imageUrl}
-            class="rounded-circle mb-3 mr-3 img-fluid w-50"
+            class="rounded-circle mb-3 mr-3 img-fluid"
             alt="card image"
+            style={{ witd: "10%" }}
           />
           <div>
             <h5 class="display-5 ">Asonditeck</h5>
@@ -219,15 +224,28 @@ function ExamForm({ subjects, getSubjectMark }) {
                     subject(s) and score
                   </legend>
                   <ol class="list-group list-group-numbered">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">SUBJECT</div>
+                      </div>
+                      <span class="badge bg-primary rounded-pill">SCORE</span>
+                    </li>
                     {subjects.map((subject) => (
-                      <li class="list-group-item d-flex justify-content-between align-items-start">
-                        <div class="ms-2 me-auto">
-                          <div class="fw-bold">{subject}</div>
-                        </div>
-                        <span class="badge bg-primary rounded-pill">
-                          {getSubjectMark()[`${subject}`].score}
-                        </span>
-                      </li>
+                      <>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                          <div class="ms-2 me-auto">
+                            <div class="fw-bold">{capFirstLetter(subject)}</div>
+                          </div>
+                          <span class="badge bg-primary rounded-pill">
+                            {Math.round(
+                              (getSubjectMark()[`${subject}`].score /
+                                getSubjectMark()[`${subject}`].len) *
+                                100
+                            )}
+                            %
+                          </span>
+                        </li>
+                      </>
                     ))}
                   </ol>
                 </fieldset>
