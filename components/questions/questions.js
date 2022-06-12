@@ -240,13 +240,13 @@ function Questions(props) {
   //itetrate through the question array and the data collected
   //by the  selectedValuesOfRadioButton
   function markScript(itemsValue) {
-    if (!selectValue === "mult-choice-one") {
-      notificationCtx.showNotification({
-        title: "questions is being marked...",
-        message: "Your question is currently being assessed, please wait",
-        ststus: "pending",
-      });
-    }
+    // if (!selectValue === "mult-choice-one") {
+    notificationCtx.showNotification({
+      title: "questions is being marked...",
+      message: "Your question is currently being assessed, please wait",
+      ststus: "pending",
+    });
+    //}
 
     console.log({ currentArray }, "clickedMarkscript");
     const unanweredQuestionsList = [];

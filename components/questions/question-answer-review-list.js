@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import DisplayEditorContent from "../rich-text-editor/display-editor-content";
 
 import classes from "./questions-list.module.css";
+import ReportCard from "./report-card-ques";
 function QuestionAnswerReviewList(props) {
   const {
     selectedValuesOfRadioButton,
@@ -79,36 +80,35 @@ function QuestionAnswerReviewList(props) {
       setfullLessQuestValue(id);
     }
   }
-  function renderQuestions(questionIndex, item, subject) {
-    if (item.subject === subject) {
-      if (
-        selectedValuesOfRadioButton.hasOwnProperty(
-          `studentChoiceForQuestion${questionIndex + 1}`
-        )
-      ) {
-        return (
-          <>
-            {/* {item.questionIntroText && (
+  function renderQuestions(questionIndex, item) {
+    if (
+      selectedValuesOfRadioButton.hasOwnProperty(
+        `studentChoiceForQuestion${questionIndex + 1}`
+      )
+    ) {
+      return (
+        <>
+          {/* {item.questionIntroText && (
             <DisplayEditorContent
               contentFromServer={item.questionIntroText}
               toolbarPresent={false}
             />
           )} */}
 
-            {item.questionIntroText && fullLessQuestValue === item._id && (
-              <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow-lg">
-                <DisplayEditorContent
-                  contentFromServer={item.questionIntroText}
-                  toolbarPresent={false}
-                />
+          {item.questionIntroText && fullLessQuestValue === item._id && (
+            <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow-lg">
+              <DisplayEditorContent
+                contentFromServer={item.questionIntroText}
+                toolbarPresent={false}
+              />
 
-                <span style={{ color: "blue", fontStyle: "italic" }}>
-                  {item.questionIntroAtach}
-                </span>
-                {/* <br /> */}
-              </div>
-            )}
-            {/* <div style={{ display: "flex" }}>
+              <span style={{ color: "blue", fontStyle: "italic" }}>
+                {item.questionIntroAtach}
+              </span>
+              {/* <br /> */}
+            </div>
+          )}
+          {/* <div style={{ display: "flex" }}>
             {selectValue === "mult-choice-one" ? null : (
               <span style={{ marginRight: "5px", marginTop: "14px" }}>
                 {questionIndex + 1}
@@ -126,40 +126,39 @@ function QuestionAnswerReviewList(props) {
                 subjects={subjects}
                 quesForm={quesForm}
           </div> */}
-            <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow">
-              {item.questionIntroText && (
-                <a
-                  onClick={() => questFullLessControlHandler(item._id)}
-                  class="btn  btn-outline-dark  border-light"
-                >
-                  {fullLessQuestValue === item._id
-                    ? "See Less Question ..."
-                    : "See Full Question ..."}
-                </a>
-              )}
-              <div class="d-flex align-items-center fw-bolder">
-                {/* <div class="mt-4 p-5 bg-primary text-white rounded">
+          <div class="d-flex flex-column fw-bolder border mt-5 p-3 shadow">
+            {item.questionIntroText && (
+              <a
+                onClick={() => questFullLessControlHandler(item._id)}
+                class="btn  btn-outline-dark  border-light"
+              >
+                {fullLessQuestValue === item._id
+                  ? "See Less Question ..."
+                  : "See Full Question ..."}
+              </a>
+            )}
+            <div class="d-flex align-items-center fw-bolder">
+              {/* <div class="mt-4 p-5 bg-primary text-white rounded">
             <h1>Jumbotron Example</h1>
             <p>Lorem ipsum...</p>
           </div> */}
-                <span>
-                  {quesForm === "rev-ques" ? questionIndex + 1 : item.numIndex}.
-                </span>
+              <span>
+                {quesForm === "rev-ques" ? questionIndex + 1 : item.numIndex}.
+              </span>
 
-                <DisplayEditorContent
-                  contentFromServer={item.question}
-                  toolbarPresent={false}
-                />
-              </div>
-              {item.examType === "none" ||
-              item.examType === undefined ? null : (
-                <span>{item.examType}</span>
-              )}
+              <DisplayEditorContent
+                contentFromServer={item.question}
+                toolbarPresent={false}
+              />
             </div>
-          </>
-        );
-      }
+            {item.examType === "none" || item.examType === undefined ? null : (
+              <span>{item.examType}</span>
+            )}
+          </div>
+        </>
+      );
     }
+
     return null;
   }
 
@@ -335,7 +334,7 @@ function QuestionAnswerReviewList(props) {
       <div className={classes.form}>
         {items.map((item, questionIndex) => (
           <div key={item._id}>
-            {renderQuestions(questionIndex, item, subject)}
+            {item.subject === subject && renderQuestions(questionIndex, item)}
             <div class="list-group">
               {item.options.map((optionItem, optionIndex) => (
                 <>
@@ -398,12 +397,37 @@ function QuestionAnswerReviewList(props) {
       const scoreNum = getSubjectMark()[element].score;
       const subjectLen = getSubjectMark()[element].len;
       const subjectWork = (
-        <div>
-          <h4>{element}</h4>
-          <span>
-            score: {scoreNum}/{subjectLen}
-          </span>
-          {revQuestionList(element)}
+        <div
+          class="accordion accordion-flush"
+          id={`questions-${element}exam-func`}
+        >
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target={`#questions-${element}-id-ele`}
+              >
+                {element}
+              </button>
+            </h2>
+            <div
+              id={`questions-${element}-id-ele`}
+              class="accordion-collapse collapse"
+              data-bs-parent={`#questions-${element}exam-func`}
+            >
+              <div class="accordion-body">
+                <div>
+                  <h4>{element}</h4>
+                  <span>
+                    score: {scoreNum}/{subjectLen}
+                  </span>
+                  {revQuestionList(element)}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       );
       allExamList.push(subjectWork);
@@ -415,6 +439,9 @@ function QuestionAnswerReviewList(props) {
     <>
       {quesForm === "rev-ques" && revQuestionList()}
       {quesForm !== "rev-ques" && examQuestionList()}
+      {quesForm !== "rev-ques" && (
+        <ReportCard subjects={subjects} getSubjectMark={getSubjectMark} />
+      )}
     </>
   );
 }

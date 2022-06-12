@@ -83,6 +83,7 @@ function ExamForm(props) {
     });
 
     router.push(pathValue);
+    //props.setexamFormIsOpen(false);
   }
   useEffect(() => {
     if (session) {
