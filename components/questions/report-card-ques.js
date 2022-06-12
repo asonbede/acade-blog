@@ -140,116 +140,141 @@ function ExamForm({ subjects, getSubjectMark }) {
   //   }
 
   return (
-    <section
-      style={{
-        position: "absolute",
-        top: "5%",
-        left: "10%",
-        zIndex: "10",
-        width: "70%",
-        borderRadius: "5px",
-      }}
-    >
-      <div class="row text-center justify-content-center align-items-center bg-warning">
-        <div class="d-flex">
-          <img
-            // className={classes["post-image"]}
-            src={session.user.image.imageUrl}
-            class="rounded-circle mb-3 mr-3 img-fluid"
-            alt="card image"
-            style={{ witd: "10%" }}
-          />
-          <div>
-            <h5 class="display-5 ">Asonditeck</h5>
-            <p class="lead">Report Card.</p>
-          </div>
-        </div>
-
-        <div class="col-12">
-          <div class="card m-3">
-            <div class="card-body text-center">
-              <form>
-                <fieldset class="border p-2">
-                  <legend class="float-none w-auto p-2">Personal Info:</legend>
-                  <div class="mb-3">
-                    <label htmlFor="inputUsername" class="form-label">
-                      Username
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputUsername"
-                      aria-describedby="emailHelp"
-                      value={username}
+    <div class="accordion accordion-flush" id="report-card">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#report-card-butt"
+          >
+            See Report Card
+          </button>
+        </h2>
+        <div
+          id="report-card-butt"
+          class="accordion-collapse collapse"
+          data-bs-parent="#report-card"
+        >
+          <div class="accordion-body">
+            <div class="fw-bolder border mt-5 p-3 shadow">
+              <section
+                style={{
+                  // position: "absolute",
+                  // top: "5%",
+                  // left: "10%",
+                  zIndex: "10",
+                  width: "70%",
+                  borderRadius: "5px",
+                }}
+              >
+                <div class="row text-center justify-content-center align-items-center bg-warning">
+                  <div class="d-flex">
+                    <img
+                      // className={classes["post-image"]}
+                      src={session.user.image.imageUrl}
+                      class="rounded-circle mb-3 mr-3 img-fluid"
+                      alt="card image"
+                      style={{ witd: "10%" }}
                     />
-                  </div>
-                  <div class="mb-3">
-                    <label htmlFor="inputName" class="form-label">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputName"
-                      value={name}
-                    />
-                  </div>
-                  <div class="mb-3">
-                    <label htmlFor="inputExamNo" class="form-label">
-                      Exam Number
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputExamNo"
-                      value={examNo}
-                    />
+                    <div>
+                      <h5 class="display-5 ">Asonditeck</h5>
+                      <p class="lead">Report Card.</p>
+                    </div>
                   </div>
 
-                  <div class="mb-3">
-                    <label htmlFor="inputDate" class="form-label">
-                      Date
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputDate"
-                      value={examDate}
-                    />
-                  </div>
-                </fieldset>
+                  <div class="col-12">
+                    <div class="card m-3">
+                      <div class="card-body text-center">
+                        <form>
+                          <fieldset class="border p-2">
+                            <legend class="float-none w-auto p-2">
+                              Personal Info:
+                            </legend>
+                            <div class="mb-3">
+                              <label htmlFor="inputUsername" class="form-label">
+                                Username
+                              </label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="inputUsername"
+                                aria-describedby="emailHelp"
+                                value={username}
+                              />
+                            </div>
+                            <div class="mb-3">
+                              <label htmlFor="inputName" class="form-label">
+                                Name
+                              </label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="inputName"
+                                value={name}
+                              />
+                            </div>
+                            <div class="mb-3">
+                              <label htmlFor="inputExamNo" class="form-label">
+                                Exam Number
+                              </label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="inputExamNo"
+                                value={examNo}
+                              />
+                            </div>
 
-                <fieldset class="border border-2 p-2">
-                  <legend class="float-none w-auto p-2">
-                    subject(s) and score
-                  </legend>
-                  <ol class="list-group list-group-numbered">
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <div class="fw-bold">SUBJECT</div>
-                      </div>
-                      <span class="badge bg-primary rounded-pill">SCORE</span>
-                    </li>
-                    {subjects.map((subject) => (
-                      <>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                          <div class="ms-2 me-auto">
-                            <div class="fw-bold">{capFirstLetter(subject)}</div>
-                          </div>
-                          <span class="badge bg-primary rounded-pill">
-                            {Math.round(
-                              (getSubjectMark()[`${subject}`].score /
-                                getSubjectMark()[`${subject}`].len) *
-                                100
-                            )}
-                            %
-                          </span>
-                        </li>
-                      </>
-                    ))}
-                  </ol>
-                </fieldset>
-                {/* <div className="d-flex">
+                            <div class="mb-3">
+                              <label htmlFor="inputDate" class="form-label">
+                                Date
+                              </label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="inputDate"
+                                value={examDate}
+                              />
+                            </div>
+                          </fieldset>
+
+                          <fieldset class="border border-2 p-2">
+                            <legend class="float-none w-auto p-2">
+                              subject(s) and score
+                            </legend>
+                            <ol class="list-group list-group-numbered">
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                  <div class="fw-bold">SUBJECT</div>
+                                </div>
+                                <span class="badge bg-primary rounded-pill">
+                                  SCORE
+                                </span>
+                              </li>
+                              {subjects.map((subject) => (
+                                <>
+                                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                      <div class="fw-bold">
+                                        {capFirstLetter(subject)}
+                                      </div>
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">
+                                      {Math.round(
+                                        (getSubjectMark()[`${subject}`].score /
+                                          getSubjectMark()[`${subject}`].len) *
+                                          100
+                                      )}
+                                      %
+                                    </span>
+                                  </li>
+                                </>
+                              ))}
+                            </ol>
+                          </fieldset>
+                          {/* <div className="d-flex">
                   <button type="submit" class="btn btn-primary me-2">
                     Submit
                   </button>
@@ -262,12 +287,17 @@ function ExamForm({ subjects, getSubjectMark }) {
                     close
                   </button>
                 </div> */}
-              </form>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 
